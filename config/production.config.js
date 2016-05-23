@@ -1,5 +1,5 @@
 
-var BASE_URL = 'https://developer-stg.api.autodesk.com';
+var BASE_URL = 'https://developer-stg.api.autodesk.com'
 var OAUTH_VERSION = 'v1'
 var OSS_VERSION = 'v1'
 
@@ -12,9 +12,9 @@ module.exports = {
   },
 
   serverConfig: {
+    redirectUrl: 'https://autodesk-forge.herokuapp.com/api/auth/callback',
     authenticationUrl: '/authentication/' + OAUTH_VERSION + '/authorize',
     accessTokenUrl: '/authentication/' + OAUTH_VERSION + '/gettoken',
-    redirectUrl: 'https://forge.herokuapp.com/api/auth/callback',
     baseUrl: BASE_URL,
     port: 3000,
 
