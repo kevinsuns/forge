@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2343a0a1-e1a0-4f3f-a09f-9a0360fa41ed" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/js/bundle.min.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webpack/webpack.config.development.js" afterPath="$PROJECT_DIR$/webpack/webpack.config.development.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webpack/webpack.config.production.js" afterPath="$PROJECT_DIR$/webpack/webpack.config.production.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/routes/endpoints/auth.js" afterPath="$PROJECT_DIR$/src/server/routes/endpoints/auth.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/heroku.config.sh" afterPath="$PROJECT_DIR$/heroku.config.sh" />
     </list>
     <ignored path="forge.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,14 +37,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/client/index.js">
+      <file leaf-file-name="auth.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/server/routes/endpoints/auth.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="3165">
-              <caret line="23" column="39" selection-start-line="23" selection-start-column="39" selection-end-line="23" selection-end-column="39" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.28649387" vertical-offset="105" max-vertical-offset="885">
+              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -61,11 +57,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="development.config.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config/development.config.js">
+      <file leaf-file-name="token.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/server/routes/endpoints/token.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="540">
-              <caret line="30" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="705">
+              <caret line="39" column="20" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -75,7 +71,7 @@
         <entry file="file://$PROJECT_DIR$/src/server/server.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="107" max-vertical-offset="840">
-              <caret line="32" column="23" selection-start-line="32" selection-start-column="23" selection-end-line="32" selection-end-column="23" />
+              <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -123,10 +119,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dist/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5500705" vertical-offset="0" max-vertical-offset="709">
+            <state vertical-scroll-proportion="-16.25" vertical-offset="0" max-vertical-offset="660">
               <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
               <folding />
             </state>
@@ -144,12 +140,12 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/config/production.config.js" />
         <option value="$PROJECT_DIR$/src/server/server.js" />
-        <option value="$PROJECT_DIR$/src/server/routes/endpoints/auth.js" />
         <option value="$PROJECT_DIR$/src/client/index.js" />
-        <option value="$PROJECT_DIR$/heroku.config.sh" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/webpack/webpack.config.development.js" />
         <option value="$PROJECT_DIR$/webpack/webpack.config.production.js" />
+        <option value="$PROJECT_DIR$/heroku.config.sh" />
+        <option value="$PROJECT_DIR$/src/server/routes/endpoints/auth.js" />
       </list>
     </option>
   </component>
@@ -446,7 +442,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="3165">
           <caret line="23" column="39" selection-start-line="23" selection-start-column="39" selection-end-line="23" selection-end-column="39" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -464,7 +460,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="228" max-vertical-offset="945">
           <caret line="32" column="24" selection-start-line="32" selection-start-column="17" selection-end-line="32" selection-end-column="24" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -543,30 +539,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/routes/endpoints/auth.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="885">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/routes/endpoints/token.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="228" max-vertical-offset="945">
-          <caret line="32" column="24" selection-start-line="32" selection-start-column="17" selection-end-line="32" selection-end-column="24" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/client/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="3165">
           <caret line="23" column="39" selection-start-line="23" selection-start-column="39" selection-end-line="23" selection-end-column="39" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -592,24 +570,6 @@
         <state vertical-scroll-proportion="-17.666666" vertical-offset="281" max-vertical-offset="990">
           <caret line="47" column="19" selection-start-line="47" selection-start-column="19" selection-end-line="47" selection-end-column="19" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/heroku.config.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.0" vertical-offset="0" max-vertical-offset="165">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/server.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="107" max-vertical-offset="840">
-          <caret line="32" column="23" selection-start-line="32" selection-start-column="23" selection-end-line="32" selection-end-column="23" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -639,8 +599,42 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dist/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5500705" vertical-offset="0" max-vertical-offset="709">
+        <state vertical-scroll-proportion="-16.25" vertical-offset="0" max-vertical-offset="660">
           <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/heroku.config.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.0" vertical-offset="0" max-vertical-offset="165">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/routes/endpoints/token.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="705">
+          <caret line="39" column="20" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="107" max-vertical-offset="840">
+          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/routes/endpoints/auth.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.28649387" vertical-offset="105" max-vertical-offset="885">
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
           <folding />
         </state>
       </provider>

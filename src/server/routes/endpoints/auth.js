@@ -18,7 +18,7 @@ module.exports = function() {
   /////////////////////////////////////////////////////////////////////////////
   //
   /////////////////////////////////////////////////////////////////////////////
-  router.post('/authenticate', function (req, res) {
+  router.post('/', function (req, res) {
 
     var authURL = oauth2.getAuthorizeUrl({
       redirect_uri: config.redirectUrl,
@@ -31,7 +31,7 @@ module.exports = function() {
   /////////////////////////////////////////////////////////////////////////////
   //
   /////////////////////////////////////////////////////////////////////////////
-  router.get('/autodesk/callback', function (req, res) {
+  router.get('/callback', function (req, res) {
 
     oauth2.getOAuthAccessToken(
       req.query.code, {
