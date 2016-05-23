@@ -33,7 +33,7 @@ class App {
   authenticate() {
 
     $.ajax({
-      url: '/api/authenticate',
+      url: '/api/auth',
       type: 'POST',
       contentType: 'application/json',
       dataType: 'json',
