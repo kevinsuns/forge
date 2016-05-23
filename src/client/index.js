@@ -37,35 +37,48 @@ class App {
       type: 'POST',
       contentType: 'application/json',
       dataType: 'json',
+      data: null,
       success: (url) => {
 
-        console.log(url)
         // iframes are not allowed
         this.PopupCenter(url, "Autodesk Login", 800, 400);
       },
-      error: () => {
+      error: (err) => {
 
+        console.log(err)
       }
     });
   }
 
   // http://stackoverflow.com/questions/4068373/center-a-popup-window-on-screen
   PopupCenter(url, title, w, h) {
-    // Fixes dual-screen position                         Most browsers      Firefox
-    var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
-    var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
 
-    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
-    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+    // Fixes dual-screen position
+    var dualScreenLeft = (window.screenLeft !== undefined ?
+      window.screenLeft : screen.left)
+
+    var dualScreenTop = (window.screenTop !== undefined ?
+      window.screenTop : screen.top)
+
+    var element = document.documentElement;
+
+    var width = window.innerWidth ? window.innerWidth :
+      (element.clientWidth ? element.clientWidth : screen.width)
+
+    var height = window.innerHeight ? window.innerHeight :
+      (element.clientHeight ? element.clientHeight : screen.height)
 
     var left = ((width / 2) - (w / 2)) + dualScreenLeft;
     var top = ((height / 2) - (h / 2)) + dualScreenTop;
-    var newWindow = window.open(url, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
 
-    // Puts focus on the newWindow
-    if (window.focus) {
-      newWindow.focus();
-    }
+    var newWindow = window.open(url, title,
+      'scrollbars=yes,' +
+      'width=' + w + ',' +
+      'height=' + h + ',' +
+      'top=' + top + ',' +
+      'left=' + left);
+
+    newWindow.focus();
   }
 
   //////////////////////////////////////////////////////////////////////////

@@ -20,12 +20,14 @@ module.exports = function() {
   /////////////////////////////////////////////////////////////////////////////
   router.post('/', function (req, res) {
 
+    console.log('AUTHHHHH')
+
     var authURL = oauth2.getAuthorizeUrl({
       redirect_uri: config.redirectUrl,
       scope: config.scope
     });
 
-    res.send(authURL + '&response_type=code');
+    res.json(authURL + '&response_type=code');
   });
 
   /////////////////////////////////////////////////////////////////////////////
