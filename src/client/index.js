@@ -21,7 +21,7 @@ class App {
   getToken () {
 
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", '/api/token', false);
+    xhr.open("GET", '/api/token/2legged', false);
     xhr.send(null);
 
     var response = JSON.parse(xhr.responseText);

@@ -5,10 +5,6 @@ var express = require('express');
 
 module.exports = function() {
 
-  var lmv = new Lmv(config);
-
-  lmv.initialize();
-
   var router = express.Router();
 
   var oauth2 = new OAuth2(

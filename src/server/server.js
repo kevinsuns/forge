@@ -15,32 +15,36 @@
 // DOES NOT WARRANT THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 /////////////////////////////////////////////////////////////////////////////////
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var favicon = require('serve-favicon');
-var express = require('express');
-var config = require('c0nfig');
+var TokenAPI = require('./routes/endpoints/token')
+var AuthAPI = require('./routes/endpoints/auth')
+var cookieParser = require('cookie-parser')
+var session = require('express-session')
+var bodyParser = require('body-parser')
+var favicon = require('serve-favicon')
+var express = require('express')
+var config = require('c0nfig')
 
-var app = express();
+var app = express()
 
-app.use('/', express.static(__dirname + '/../../dist/'));
-app.use(favicon(__dirname + '/../../dist/img/favicon.ico'));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(cookieParser());
+app.use('/', express.static(__dirname + '/../../dist/'))
+app.use(favicon(__dirname + '/../../dist/img/favicon.ico'))
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+app.use(cookieParser())
 
 app.use(session({
     secret: 'peperonipizza',
     saveUninitialized: true,
     resave: true
-}));
+}))
 
-app.use('/api/token', require('./routes/api/token')());
+app.use('/api/token', TokenAPI())
+app.use('/api/auth', AuthAPI())
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3000)
 
 var server = app.listen(app.get('port'), function() {
 
-    console.log('Server listening on: ');
-    console.log(server.address());
-});
+    console.log('Server listening on: ')
+    console.log(server.address())
+})
