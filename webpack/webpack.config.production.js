@@ -9,7 +9,7 @@ module.exports = {
 
   output: {
     path: path.join(__dirname, '../dist'),
-    filename: "js/[name].min.js"
+    filename: "[name].js"
   },
 
   plugins: [
