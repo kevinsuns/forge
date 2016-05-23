@@ -1,0 +1,59 @@
+{
+  "name": "ADN-Viewer-Boilerplate",
+  "description": "A basic node.js server/client boiler plate for View&Data API",
+  "version": "1.0.0",
+  "dependencies": {
+    "babel-core": "^6.5.2",
+    "babel-loader": "^6.2.2",
+    "babel-polyfill": "^6.5.0",
+    "babel-preset-es2015": "^6.5.0",
+    "babel-preset-react": "^6.0.15",
+    "babel-preset-react-hmre": "^1.1.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "body-parser": "^1.15.0",
+    "bootstrap": "^3.3.6",
+    "c0nfig": "^0.2.2",
+    "cookie-parser": "^1.4.1",
+    "css-loader": "^0.23.1",
+    "exports-loader": "^0.6.3",
+    "expose-loader": "^0.7.1",
+    "express": "^4.12.4",
+    "express-session": "^1.13.0",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.8.5",
+    "font-awesome": "^4.5.0",
+    "font-awesome-webpack": "0.0.4",
+    "html-webpack-plugin": "^2.9.0",
+    "imports-loader": "^0.6.5",
+    "jquery": "^2.2.0",
+    "raw-loader": "^0.5.1",
+    "serve-favicon": "^2.3.0",
+    "style-loader": "^0.13.0",
+    "underscore": "^1.8.3",
+    "url-loader": "^0.5.7",
+    "view-and-data": "1.0.7",
+    "webpack": "^1.12.13",
+    "webpack-combine-loaders": "^2.0.0",
+    "webpack-dev-middleware": "^1.5.1",
+    "webpack-dev-server": "^1.14.1",
+    "webpack-hot-middleware": "^2.9.1"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "contributors": [
+    "Philippe Leefsma <philippe.leefsma@autodesk.com>"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "postinstall": "npm run build-prod",
+    "start": "node ./bin/run.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-dev": "webpack --config ./webpack/webpack.config.development.js",
+    "build-prod": "webpack --config ./webpack/webpack.config.production.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Developer-Autodesk/view.and.data.api-boilerplate.git"
+  }
+}
