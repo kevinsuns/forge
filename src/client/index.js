@@ -15,6 +15,7 @@
 // DOES NOT WARRANT THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 //////////////////////////////////////////////////////////////////////////
+var config = require('c0nfig').clientConfig
 
 class App {
 
@@ -36,11 +37,11 @@ class App {
       type: 'POST',
       contentType: 'application/json',
       dataType: 'json',
-      success: function (url) {
+      success: (url) => {
         // iframes are not allowed
         this.PopupCenter(url, "Autodesk Login", 800, 400);
       },
-      error: function () {
+      error: () => {
 
       }
     });
@@ -71,10 +72,10 @@ class App {
   //////////////////////////////////////////////////////////////////////////
   initialize () {
 
-    var urn = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLXZpZXdlci1nYWxsZXJ5L2FhN2QtOWNlZC1mZDg0LTNhZDQtMDdmYy5kd2Z4';
+    var urn = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLWdhbGxlcnktdHJ4LXN0Zy81NDgyLWI1MDctOTUyOS05MzdlLWUyZjMuZHdm';
 
     var options = {
-      env: 'AutodeskProduction',
+      env: config.env,
       getAccessToken: this.getToken,
       refreshToken: this.getToken,
       urn: Autodesk.Viewing.Private.getParameterByName('urn') || urn
@@ -140,7 +141,7 @@ class App {
         model.getViewablePath(viewablePath),
         options);
 
-    }, function (err) {
+    }, (err) => {
 
       this.logError(err);
     });

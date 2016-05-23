@@ -49,7 +49,7 @@ module.exports = function() {
     ///////////////////////////////////////////////////////////////////////////
     router.get('/3legged', function (req, res) {
 
-      res.end(req.session.oauthcode);
+      res.send(req.session.token);
     });
 
     return router;

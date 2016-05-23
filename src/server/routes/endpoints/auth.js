@@ -42,7 +42,7 @@ module.exports = function() {
 
         console.log(results);
 
-        req.session.oauthcode = access_token;
+        req.session.token = access_token;
         req.session.cookie.maxAge = parseInt(results.expires_in) * 60; // same as access_token
 
         res.end('<script>window.opener.location.reload(false);window.close();</script>');
