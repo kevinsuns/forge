@@ -38,6 +38,8 @@ class App {
       contentType: 'application/json',
       dataType: 'json',
       success: (url) => {
+
+        console.log(url)
         // iframes are not allowed
         this.PopupCenter(url, "Autodesk Login", 800, 400);
       },
