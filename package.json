@@ -48,7 +48,7 @@
   "license": "MIT",
   "scripts": {
     "postinstall": "npm run build-prod",
-    "start": "node ./bin/run.js",
+    "start": "node ./src/server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-dev": "webpack --config ./webpack/webpack.config.development.js",
     "build-prod": "webpack --config ./webpack/webpack.config.production.js"
