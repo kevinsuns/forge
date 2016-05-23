@@ -1,6 +1,5 @@
 var path = require('path');
 var webpack = require('webpack');
-var htmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
 
@@ -42,31 +41,14 @@ module.exports = {
       _ : "underscore",
       jQuery: "jquery",
       $: "jquery"
-    }),
-
-    new htmlWebpackPlugin({
-      viewer3D: '/libs/lmv/viewer3D.min.js',
-      template: './layout/index.ejs',
-      bundle: '/js/bundle.min.js',
-      title: 'LMV React',
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeRedundantAttributes: true,
-        removeScriptTypeAttributes: true,
-        removeStyleLinkTypeAttributes: true
-      },
-      inject: false
     })
   ],
 
   resolve: {
     extensions: ['', '.js', '.jsx', '.json'],
     root: [
-      path.resolve('./src/shared'),
-      path.resolve('./src/shared/utils'),
-      path.resolve('./src/shared/redux'),
-      path.resolve('./src/shared/Components')
+      path.resolve('./src/client'),
+      path.resolve('./src/client/extensions')
     ]
   },
 
@@ -78,7 +60,7 @@ module.exports = {
         exclude: /node_modules/,
         query: {
           cacheDirectory: true,
-          presets: ['es2015', 'stage-0', 'react']
+          presets: ['es2015', 'stage-0']
         }
       },
       {
