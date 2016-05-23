@@ -80,6 +80,11 @@ class App {
       urn: Autodesk.Viewing.Private.getParameterByName('urn') || urn
     };
 
+    $('#authBtn').click(() => {
+
+      this.authenticate();
+    })
+
     Autodesk.Viewing.Initializer(options, () => {
 
       this.initializeViewer('viewer', 'urn:' + options.urn);

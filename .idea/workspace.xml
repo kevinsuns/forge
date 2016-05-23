@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2343a0a1-e1a0-4f3f-a09f-9a0360fa41ed" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/routes/endpoints/auth.js" afterPath="$PROJECT_DIR$/src/server/routes/endpoints/auth.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/heroku.config.sh" afterPath="$PROJECT_DIR$/heroku.config.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/index.js" afterPath="$PROJECT_DIR$/src/client/index.js" />
     </list>
     <ignored path="forge.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,21 +26,30 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="production.config.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config/production.config.js">
+      <file leaf-file-name="auth.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/server/routes/endpoints/auth.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="540">
-              <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="885">
+              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+              <folding>
+                <marker date="1464029918000" expanded="true" signature="147:1483" placeholder="{...}" />
+                <marker date="1464029918000" expanded="true" signature="377:539" placeholder="//..." />
+                <marker date="1464029918000" expanded="true" signature="579:750" placeholder="{...}" />
+                <marker date="1464029918000" expanded="true" signature="623:696" placeholder="{...}" />
+                <marker date="1464029918000" expanded="true" signature="756:918" placeholder="//..." />
+                <marker date="1464029918000" expanded="true" signature="965:1461" placeholder="{...}" />
+                <marker date="1464029918000" expanded="true" signature="1022:1118" placeholder="{&quot;grant_type&quot;: 'authorization_code'...}" />
+                <marker date="1464029918000" expanded="true" signature="1177:1450" placeholder="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="auth.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/server/routes/endpoints/auth.js">
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/client/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.28649387" vertical-offset="105" max-vertical-offset="885">
-              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.28649387" vertical-offset="645" max-vertical-offset="3000">
+              <caret line="73" column="68" selection-start-line="73" selection-start-column="68" selection-end-line="73" selection-end-column="68" />
               <folding />
             </state>
           </provider>
@@ -62,7 +70,16 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="705">
               <caret line="39" column="20" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="20" />
-              <folding />
+              <folding>
+                <marker date="1464025460000" expanded="false" signature="0:926" placeholder="//..." />
+                <marker date="1464025460000" expanded="true" signature="1058:1884" placeholder="{...}" />
+                <marker date="1464025460000" expanded="true" signature="1169:1331" placeholder="//..." />
+                <marker date="1464025460000" expanded="true" signature="1379:1596" placeholder="{...}" />
+                <marker date="1464025460000" expanded="true" signature="1435:1477" placeholder="{...}" />
+                <marker date="1464025460000" expanded="true" signature="1502:1588" placeholder="{...}" />
+                <marker date="1464025460000" expanded="true" signature="1604:1766" placeholder="//..." />
+                <marker date="1464025460000" expanded="true" signature="1814:1860" placeholder="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -73,7 +90,9 @@
             <state vertical-scroll-proportion="0.0" vertical-offset="107" max-vertical-offset="840">
               <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
               <folding>
-                <element signature="n#!!doc" expanded="true" />
+                <marker date="1464027501000" expanded="true" signature="0:926" placeholder="//..." />
+                <marker date="1464027501000" expanded="true" signature="1514:1592" placeholder="{&quot;secret&quot;: 'peperonipizza'...}" />
+                <marker date="1464027501000" expanded="true" signature="1758:1837" placeholder="{...}" />
               </folding>
             </state>
           </provider>
@@ -94,7 +113,24 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="317" max-vertical-offset="1200">
               <caret line="43" column="45" selection-start-line="43" selection-start-column="45" selection-end-line="43" selection-end-column="45" />
-              <folding />
+              <folding>
+                <marker date="1464029029000" expanded="true" signature="78:1466" placeholder="{&quot;devtool&quot;: 'eval-source-map'...}" />
+                <marker date="1464029029000" expanded="true" signature="121:216" placeholder="{...}" />
+                <marker date="1464029029000" expanded="true" signature="136:212" placeholder="[...]" />
+                <marker date="1464029029000" expanded="true" signature="229:325" placeholder="{&quot;filename&quot;: &quot;[name].js&quot;...}" />
+                <marker date="1464029029000" expanded="true" signature="339:726" placeholder="[...]" />
+                <marker date="1464029029000" expanded="true" signature="562:635" placeholder="{&quot;_&quot;: &quot;underscore&quot;...}" />
+                <marker date="1464029029000" expanded="true" signature="668:721" placeholder="{&quot;process.env.NODE_ENV&quot;: '&quot;development&quot;'...}" />
+                <marker date="1464029029000" expanded="true" signature="740:891" placeholder="{...}" />
+                <marker date="1464029029000" expanded="true" signature="798:887" placeholder="[...]" />
+                <marker date="1464029029000" expanded="true" signature="904:1464" placeholder="{...}" />
+                <marker date="1464029029000" expanded="true" signature="920:1460" placeholder="[...]" />
+                <marker date="1464029029000" expanded="true" signature="928:1120" placeholder="{&quot;test&quot;: /\.jsx?$/...}" />
+                <marker date="1464029029000" expanded="true" signature="1028:1112" placeholder="{&quot;cacheDirectory&quot;: true...}" />
+                <marker date="1464029029000" expanded="true" signature="1128:1203" placeholder="{&quot;test&quot;: /\.css$/...}" />
+                <marker date="1464029029000" expanded="true" signature="1211:1347" placeholder="{&quot;test&quot;: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/...}" />
+                <marker date="1464029029000" expanded="true" signature="1355:1454" placeholder="{&quot;test&quot;: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -104,7 +140,27 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1275">
               <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-              <folding />
+              <folding>
+                <marker date="1464029029000" expanded="true" signature="80:1567" placeholder="{...}" />
+                <marker date="1464029029000" expanded="true" signature="92:133" placeholder="{&quot;bundle&quot;: './src/client/index.js'...}" />
+                <marker date="1464029029000" expanded="true" signature="146:220" placeholder="{&quot;filename&quot;: &quot;[name].js&quot;...}" />
+                <marker date="1464029029000" expanded="true" signature="234:828" placeholder="[...]" />
+                <marker date="1464029029000" expanded="true" signature="406:439" placeholder="{&quot;minChunkSize&quot;: 51200...}" />
+                <marker date="1464029029000" expanded="true" signature="483:631" placeholder="{&quot;minimize&quot;: true...}" />
+                <marker date="1464029029000" expanded="true" signature="499:532" placeholder="{&quot;comments&quot;: false...}" />
+                <marker date="1464029029000" expanded="true" signature="550:583" placeholder="{&quot;warnings&quot;: false...}" />
+                <marker date="1464029029000" expanded="true" signature="664:716" placeholder="{&quot;process.env.NODE_ENV&quot;: '&quot;production&quot;'...}" />
+                <marker date="1464029029000" expanded="true" signature="750:823" placeholder="{&quot;_&quot;: &quot;underscore&quot;...}" />
+                <marker date="1464029029000" expanded="true" signature="842:993" placeholder="{...}" />
+                <marker date="1464029029000" expanded="true" signature="900:989" placeholder="[...]" />
+                <marker date="1464029029000" expanded="true" signature="1006:1565" placeholder="{...}" />
+                <marker date="1464029029000" expanded="true" signature="1021:1561" placeholder="[...]" />
+                <marker date="1464029029000" expanded="true" signature="1029:1221" placeholder="{&quot;test&quot;: /\.jsx?$/...}" />
+                <marker date="1464029029000" expanded="true" signature="1129:1213" placeholder="{&quot;cacheDirectory&quot;: true...}" />
+                <marker date="1464029029000" expanded="true" signature="1229:1304" placeholder="{&quot;test&quot;: /\.css$/...}" />
+                <marker date="1464029029000" expanded="true" signature="1312:1448" placeholder="{&quot;test&quot;: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/...}" />
+                <marker date="1464029029000" expanded="true" signature="1456:1555" placeholder="{&quot;test&quot;: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -140,12 +196,12 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/config/production.config.js" />
         <option value="$PROJECT_DIR$/src/server/server.js" />
-        <option value="$PROJECT_DIR$/src/client/index.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/webpack/webpack.config.development.js" />
         <option value="$PROJECT_DIR$/webpack/webpack.config.production.js" />
         <option value="$PROJECT_DIR$/heroku.config.sh" />
         <option value="$PROJECT_DIR$/src/server/routes/endpoints/auth.js" />
+        <option value="$PROJECT_DIR$/src/client/index.js" />
       </list>
     </option>
   </component>
@@ -313,6 +369,12 @@
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="recentsLimit" value="5" />
     <property name="restartRequiresConfirmation" value="true" />
+    <property name="JavaScriptLanguageLevel" value="ES6" />
+    <property name="JavaScriptPreferStrict" value="false" />
+    <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
+    <property name="options.lastSelected" value="Settings.JavaScript" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -386,6 +448,8 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26145172" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290653" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -393,9 +457,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32950193" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
@@ -441,9 +503,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="3165">
           <caret line="23" column="39" selection-start-line="23" selection-start-column="39" selection-end-line="23" selection-end-column="39" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -459,9 +519,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="228" max-vertical-offset="945">
           <caret line="32" column="24" selection-start-line="32" selection-start-column="17" selection-end-line="32" selection-end-column="24" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -478,7 +536,9 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="363" max-vertical-offset="840">
           <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <marker date="1464027501000" expanded="true" signature="0:926" placeholder="//..." />
+            <marker date="1464027501000" expanded="true" signature="1514:1592" placeholder="{&quot;secret&quot;: 'peperonipizza'...}" />
+            <marker date="1464027501000" expanded="true" signature="1758:1837" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -539,16 +599,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="3165">
-          <caret line="23" column="39" selection-start-line="23" selection-start-column="39" selection-end-line="23" selection-end-column="39" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/config/development.config.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="540">
@@ -577,7 +627,24 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="317" max-vertical-offset="1200">
           <caret line="43" column="45" selection-start-line="43" selection-start-column="45" selection-end-line="43" selection-end-column="45" />
-          <folding />
+          <folding>
+            <marker date="1464029029000" expanded="true" signature="78:1466" placeholder="{&quot;devtool&quot;: 'eval-source-map'...}" />
+            <marker date="1464029029000" expanded="true" signature="121:216" placeholder="{...}" />
+            <marker date="1464029029000" expanded="true" signature="136:212" placeholder="[...]" />
+            <marker date="1464029029000" expanded="true" signature="229:325" placeholder="{&quot;filename&quot;: &quot;[name].js&quot;...}" />
+            <marker date="1464029029000" expanded="true" signature="339:726" placeholder="[...]" />
+            <marker date="1464029029000" expanded="true" signature="562:635" placeholder="{&quot;_&quot;: &quot;underscore&quot;...}" />
+            <marker date="1464029029000" expanded="true" signature="668:721" placeholder="{&quot;process.env.NODE_ENV&quot;: '&quot;development&quot;'...}" />
+            <marker date="1464029029000" expanded="true" signature="740:891" placeholder="{...}" />
+            <marker date="1464029029000" expanded="true" signature="798:887" placeholder="[...]" />
+            <marker date="1464029029000" expanded="true" signature="904:1464" placeholder="{...}" />
+            <marker date="1464029029000" expanded="true" signature="920:1460" placeholder="[...]" />
+            <marker date="1464029029000" expanded="true" signature="928:1120" placeholder="{&quot;test&quot;: /\.jsx?$/...}" />
+            <marker date="1464029029000" expanded="true" signature="1028:1112" placeholder="{&quot;cacheDirectory&quot;: true...}" />
+            <marker date="1464029029000" expanded="true" signature="1128:1203" placeholder="{&quot;test&quot;: /\.css$/...}" />
+            <marker date="1464029029000" expanded="true" signature="1211:1347" placeholder="{&quot;test&quot;: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/...}" />
+            <marker date="1464029029000" expanded="true" signature="1355:1454" placeholder="{&quot;test&quot;: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -585,7 +652,27 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1275">
           <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1464029029000" expanded="true" signature="80:1567" placeholder="{...}" />
+            <marker date="1464029029000" expanded="true" signature="92:133" placeholder="{&quot;bundle&quot;: './src/client/index.js'...}" />
+            <marker date="1464029029000" expanded="true" signature="146:220" placeholder="{&quot;filename&quot;: &quot;[name].js&quot;...}" />
+            <marker date="1464029029000" expanded="true" signature="234:828" placeholder="[...]" />
+            <marker date="1464029029000" expanded="true" signature="406:439" placeholder="{&quot;minChunkSize&quot;: 51200...}" />
+            <marker date="1464029029000" expanded="true" signature="483:631" placeholder="{&quot;minimize&quot;: true...}" />
+            <marker date="1464029029000" expanded="true" signature="499:532" placeholder="{&quot;comments&quot;: false...}" />
+            <marker date="1464029029000" expanded="true" signature="550:583" placeholder="{&quot;warnings&quot;: false...}" />
+            <marker date="1464029029000" expanded="true" signature="664:716" placeholder="{&quot;process.env.NODE_ENV&quot;: '&quot;production&quot;'...}" />
+            <marker date="1464029029000" expanded="true" signature="750:823" placeholder="{&quot;_&quot;: &quot;underscore&quot;...}" />
+            <marker date="1464029029000" expanded="true" signature="842:993" placeholder="{...}" />
+            <marker date="1464029029000" expanded="true" signature="900:989" placeholder="[...]" />
+            <marker date="1464029029000" expanded="true" signature="1006:1565" placeholder="{...}" />
+            <marker date="1464029029000" expanded="true" signature="1021:1561" placeholder="[...]" />
+            <marker date="1464029029000" expanded="true" signature="1029:1221" placeholder="{&quot;test&quot;: /\.jsx?$/...}" />
+            <marker date="1464029029000" expanded="true" signature="1129:1213" placeholder="{&quot;cacheDirectory&quot;: true...}" />
+            <marker date="1464029029000" expanded="true" signature="1229:1304" placeholder="{&quot;test&quot;: /\.css$/...}" />
+            <marker date="1464029029000" expanded="true" signature="1312:1448" placeholder="{&quot;test&quot;: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/...}" />
+            <marker date="1464029029000" expanded="true" signature="1456:1555" placeholder="{&quot;test&quot;: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -605,19 +692,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/heroku.config.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.0" vertical-offset="0" max-vertical-offset="165">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/server/routes/endpoints/token.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="705">
           <caret line="39" column="20" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="20" />
-          <folding />
+          <folding>
+            <marker date="1464025460000" expanded="false" signature="0:926" placeholder="//..." />
+            <marker date="1464025460000" expanded="true" signature="1058:1884" placeholder="{...}" />
+            <marker date="1464025460000" expanded="true" signature="1169:1331" placeholder="//..." />
+            <marker date="1464025460000" expanded="true" signature="1379:1596" placeholder="{...}" />
+            <marker date="1464025460000" expanded="true" signature="1435:1477" placeholder="{...}" />
+            <marker date="1464025460000" expanded="true" signature="1502:1588" placeholder="{...}" />
+            <marker date="1464025460000" expanded="true" signature="1604:1766" placeholder="//..." />
+            <marker date="1464025460000" expanded="true" signature="1814:1860" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -626,15 +714,42 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="107" max-vertical-offset="840">
           <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <marker date="1464027501000" expanded="true" signature="0:926" placeholder="//..." />
+            <marker date="1464027501000" expanded="true" signature="1514:1592" placeholder="{&quot;secret&quot;: 'peperonipizza'...}" />
+            <marker date="1464027501000" expanded="true" signature="1758:1837" placeholder="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/server/routes/endpoints/auth.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.28649387" vertical-offset="105" max-vertical-offset="885">
+        <state vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="885">
           <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding>
+            <marker date="1464029918000" expanded="true" signature="147:1483" placeholder="{...}" />
+            <marker date="1464029918000" expanded="true" signature="377:539" placeholder="//..." />
+            <marker date="1464029918000" expanded="true" signature="579:750" placeholder="{...}" />
+            <marker date="1464029918000" expanded="true" signature="623:696" placeholder="{...}" />
+            <marker date="1464029918000" expanded="true" signature="756:918" placeholder="//..." />
+            <marker date="1464029918000" expanded="true" signature="965:1461" placeholder="{...}" />
+            <marker date="1464029918000" expanded="true" signature="1022:1118" placeholder="{&quot;grant_type&quot;: 'authorization_code'...}" />
+            <marker date="1464029918000" expanded="true" signature="1177:1450" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/heroku.config.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.0" vertical-offset="0" max-vertical-offset="165">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.28649387" vertical-offset="645" max-vertical-offset="3000">
+          <caret line="73" column="68" selection-start-line="73" selection-start-column="68" selection-end-line="73" selection-end-column="68" />
           <folding />
         </state>
       </provider>
