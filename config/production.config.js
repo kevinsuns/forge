@@ -1,5 +1,6 @@
 
 var BASE_URL = 'https://developer-stg.api.autodesk.com'
+var DM_PROJECT_VERSION = 'v1'
 var OAUTH_VERSION = 'v1'
 var OSS_VERSION = 'v1'
 
