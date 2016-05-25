@@ -50,6 +50,8 @@ class App {
       data: null,
       success: (url) => {
 
+        console.log(url)
+
         // iframes are not allowed
         this.PopupCenter(url, "Autodesk Login", 800, 400);
       },
