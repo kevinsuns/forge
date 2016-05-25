@@ -42,10 +42,17 @@ module.exports = function() {
       },
       function (e, access_token, refresh_token, results) {
 
-        req.session.token = access_token;
-        req.session.cookie.maxAge = parseInt(results.expires_in) * 60; // same as access_token
+        try {
+          req.session.token = access_token;
+          req.session.cookie.maxAge = parseInt(results.expires_in) * 60; // same as access_token
 
-        res.end('<script>window.opener.location.reload(false);window.close();</script>');
+          res.end('<script>window.opener.location.reload(false);window.close();</script>');
+        }
+        catch(ex){
+
+          res.status(500)
+          res.end(ex)
+        }
       }
     );
   });
