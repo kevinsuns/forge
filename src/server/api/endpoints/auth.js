@@ -19,7 +19,7 @@ module.exports = function() {
   //
   //
   /////////////////////////////////////////////////////////////////////////////
-  router.post('/', function (req, res) {
+  router.post('/login', function (req, res) {
 
     var authURL = oauth2.getAuthorizeUrl({
       redirect_uri: config.redirectUrl,

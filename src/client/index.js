@@ -40,10 +40,10 @@ class App {
   //
   //
   //////////////////////////////////////////////////////////////////////////
-  authenticate() {
+  login() {
 
     $.ajax({
-      url: '/api/auth',
+      url: '/api/auth/login',
       type: 'POST',
       contentType: 'application/json',
       dataType: 'json',
@@ -52,6 +52,29 @@ class App {
 
         // iframes are not allowed
         this.PopupCenter(url, "Autodesk Login", 800, 400);
+      },
+      error: (err) => {
+
+        console.log(err)
+      }
+    });
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+  //
+  //
+  //////////////////////////////////////////////////////////////////////////
+  logout() {
+
+    $.ajax({
+      url: '/api/auth/logout',
+      type: 'POST',
+      contentType: 'application/json',
+      dataType: 'json',
+      data: null,
+      success: (res) => {
+
+        console.log(res)
       },
       error: (err) => {
 
