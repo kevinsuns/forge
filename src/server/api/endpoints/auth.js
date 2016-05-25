@@ -25,7 +25,7 @@ module.exports = function() {
       redirect_uri: config.redirectUrl,
       scope: config.scope
     });
-    
+
     router.get('/callback', function (req, res) {
 
       oauth2.getOAuthAccessToken(
