@@ -65,17 +65,17 @@ export default class A360API {
   }
 
   ///////////////////////////////////////////////////////////////////
-  // GET /hubs/:hubId/projects/:projectId/root
+  // GET /hubs/:hubId/projects/:projectId
   //
   ///////////////////////////////////////////////////////////////////
-  getRootFolder(hubId, projectId) {
+  getProject(hubId, projectId) {
 
     return new Promise(async(resolve, reject) => {
 
       try {
 
         let res = await fetch(
-          `${this.apiUrl}/hubs/${hubId}/projects/${projectId}/root`)
+          `${this.apiUrl}/hubs/${hubId}/projects/${projectId}`)
 
         let json = await res.json()
 

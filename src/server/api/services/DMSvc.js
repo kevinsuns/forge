@@ -44,6 +44,7 @@ module.exports = function(config) {
         catch(ex){
 
           console.log(body)
+          console.log(url)
           return reject(ex);
         }
       })
@@ -64,10 +65,10 @@ module.exports = function(config) {
     return get(url, token);
   }
 
-  _self.getRootFolder = function (token, hubId, projectId) {
+  _self.getProject = function (token, hubId, projectId) {
 
     var url = util.format(
-      config.endPoints.rootFolder,
+      config.endPoints.project,
       hubId, projectId);
 
     return get(url, token);

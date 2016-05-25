@@ -25,6 +25,16 @@ export default class CustomTreePanel extends ToolPanelBase {
 
     this.TabManager = new TabManager(
       '#' + this.tabsContainerId);
+
+    this.on('open', () => {
+
+      this.loadData()
+    })
+
+    this.on('close', () => {
+
+      this.TabManager.clear()
+    })
   }
 
   /////////////////////////////////////////////////////////////
@@ -180,19 +190,17 @@ class CustomTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
       case 'projects':
 
-        this.api.getRootFolder(node.hubId, node.id).then((root) => {
+        this.api.getProject(node.hubId, node.id).then((project) => {
 
-          console.log(root)
+          var rootId = project.relationships.rootFolder.data.id
 
-          this.api.getFolderContent(node.id, root.id).then((folderItems) => {
-
-            console.log(folderItems)
+          this.api.getFolderContent(node.id, rootId).then((folderItems) => {
 
             folderItems.forEach((folderItem) => {
 
               var child = {
                 name: folderItem.attributes.displayName,
-                group: folderItem === 'folders',
+                group: folderItem.type === 'folders',
                 type: folderItem.type,
                 projectId: node.id,
                 id: folderItem.id
@@ -213,7 +221,7 @@ class CustomTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
               var child = {
                 name: folderItem.attributes.displayName,
-                group: folderItem === 'folders',
+                group: folderItem.type === 'folders',
                 projectId: node.projectId,
                 type: folderItem.type,
                 id: folderItem.id

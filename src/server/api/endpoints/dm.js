@@ -8,7 +8,7 @@ module.exports = function() {
 
   var dmSvc = new DMSvc(config)
 
-  var token = 'IRIS9Vgh9h7OlLw32hTd6B0Xh8hR';
+  var token = 'cc3Jl3FfyFUqLGRPFWVEXGJPAZBJ';
 
   /////////////////////////////////////////////////////////////////////////////
   //
@@ -54,13 +54,13 @@ module.exports = function() {
   //
   //
   /////////////////////////////////////////////////////////////////////////////
-  router.get('/hubs/:hubId/projects/:projectId/root', function (req, res) {
+  router.get('/hubs/:hubId/projects/:projectId', function (req, res) {
 
     var hubId = req.params.hubId;
 
     var projectId = req.params.projectId;
 
-    dmSvc.getRootFolder(token, hubId, projectId).then(function(response){
+    dmSvc.getProject(token, hubId, projectId).then(function(response){
 
       res.json(response)
 

@@ -2,9 +2,9 @@
 .model-transformer {
     top: 10px;
     right: 10px;
-    width: 450px;
-    height: 350px;
-    resize: auto;
+    width: 242px;
+    height: 275px;
+    resize: none;
 }
 
 .model-transformer .container {
@@ -28,7 +28,8 @@
 }
 
 .model-transformer .input.numeric {
-    width: 84px;
+    width: 65px;
+    border-radius: 4px;
 }
 
 .model-transformer .v-spacer {
@@ -43,4 +44,8 @@
 
 .model-transformer .text-span {
     color: white;
+}
+
+.model-transformer .btn-apply {
+    width: calc(100% - 26px);
 }

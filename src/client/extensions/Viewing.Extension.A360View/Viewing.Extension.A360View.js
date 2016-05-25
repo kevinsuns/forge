@@ -33,11 +33,20 @@ class A360ViewExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   async load() {
 
-    var rootNode = await ViewerToolkit.buildModelTree(
-      this._viewer.model);
+    this.control = ViewerToolkit.createButton(
+      'a360-view-control',
+      'glyphicon glyphicon-retweet',
+      'A360 View', ()=>{
+
+        this.panel.toggleVisibility();
+      });
+
+    this._options.parentControl.addControl(
+      this.control);
 
     this.panel = new Panel(
-      this._viewer.container, null, rootNode);
+      this._viewer.container,
+      this.control.container);
 
     this.onNodeDblClikedHandler = (node) => {
 
@@ -49,10 +58,6 @@ class A360ViewExtension extends ExtensionBase {
       this.onNodeDblClikedHandler(node)
     })
 
-    this.panel.setVisible(true)
-
-    this.panel.loadData()
-
     console.log('Viewing.Extension.A360View loaded');
 
     return true;
@@ -63,6 +68,9 @@ class A360ViewExtension extends ExtensionBase {
   //
   /////////////////////////////////////////////////////////////////
   unload() {
+
+    this._options.parentControl.removeControl(
+      this.control);
 
     console.log('Viewing.Extension.A360View unloaded');
 

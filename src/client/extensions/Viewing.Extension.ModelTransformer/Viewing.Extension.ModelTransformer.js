@@ -34,9 +34,9 @@ class ModelTransformerExtension extends ExtensionBase {
   async load() {
 
     this.control = ViewerToolkit.createButton(
-      'state-manager-control',
+      'model-transformer-control',
       'glyphicon glyphicon-retweet',
-      'Manage States', ()=>{
+      'Transform Models', ()=>{
 
         this.panel.toggleVisibility();
       });
@@ -45,7 +45,22 @@ class ModelTransformerExtension extends ExtensionBase {
       this.control);
 
     this.panel = new Panel(
-      this._viewer.container, this.control.container);
+      this._viewer.container,
+      this.control.container);
+
+    this.panel.on('model.transform', async(data)=>{
+
+      await this.transformModel(
+        data.model,
+        data.transform)
+
+      this._viewer.impl.sceneUpdated(true);
+    })
+
+    this.panel.on('model.selected', (model)=>{
+
+      this.fitModelToView(model)
+    })
 
     console.log('Viewing.Extension.ModelTransformer loaded');
 
@@ -64,6 +79,77 @@ class ModelTransformerExtension extends ExtensionBase {
     console.log('Viewing.Extension.ModelTransfomer unloaded');
 
     return true;
+  }
+
+  /////////////////////////////////////////////////////////////////
+  // Applies transform to specific model
+  //
+  /////////////////////////////////////////////////////////////////
+  transformModel(model, transform) {
+
+    console.log(transform)
+
+    var viewer = this._viewer
+
+    function _transformFragProxy(fragId){
+
+      var fragProxy = viewer.impl.getFragmentProxy(
+        model,
+        fragId);
+
+      fragProxy.getAnimTransform();
+
+      fragProxy.position = transform.translation;
+
+      fragProxy.scale = transform.scale;
+
+      //Not a standard three.js quaternion
+      fragProxy.quaternion._x = transform.rotation.x;
+      fragProxy.quaternion._y = transform.rotation.y;
+      fragProxy.quaternion._z = transform.rotation.z;
+      fragProxy.quaternion._w = transform.rotation.w;
+
+      fragProxy.updateAnimTransform();
+    }
+
+    return new Promise(async(resolve, reject)=>{
+
+      var fragCount = model.getFragmentList().
+        fragments.fragId2dbId.length;
+
+      //fragIds range from 0 to fragCount-1
+      for(var fragId=0; fragId<fragCount; ++fragId){
+
+        _transformFragProxy(fragId);
+      }
+
+      return resolve();
+    });
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+  //
+  //
+  //////////////////////////////////////////////////////////////////////////
+  fitModelToView (model) {
+
+    var instanceTree = model.getData().instanceTree;
+
+    if(instanceTree){
+
+      var rootId = instanceTree.getRootId();
+
+      this._viewer.fitToView([rootId]);
+    }
+  }
+
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
+  addModel (model) {
+
+    this.panel.dropdown.addItem(model, true)
   }
 }
 

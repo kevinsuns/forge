@@ -103,20 +103,6 @@ class App {
     $('#loginBtn').click((e) => {
 
       this.authenticate()
-      //
-      //this.viewer.loadExtension('Viewing.Extension.A360View')
-      //
-      //this.a360Extension =
-      //  this.viewer.loadedExtensions['Viewing.Extension.A360View']
-      //
-      //this.a360Extension.on('load.model', (data)=> {
-      //
-      //  console.log(data)
-      //
-      //  var urn = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLWJ1Y2tldC1ucG0tZGV2L3Rlc3QuZHdm'
-      //
-      //  this.loadFromUrn(urn)
-      //})
     })
 
     var options = {
@@ -147,6 +133,24 @@ class App {
         'Viewing.Extension.ModelTransformer', {
           parentControl: ctrlGroup
         })
+
+      this.modelTransformer =
+        this.viewer.loadedExtensions['Viewing.Extension.ModelTransformer']
+
+      this.viewer.loadExtension(
+        'Viewing.Extension.A360View', {
+        parentControl: ctrlGroup
+      })
+
+      this.a360View =
+        this.viewer.loadedExtensions['Viewing.Extension.A360View']
+
+      this.a360View.on('load.model', (data)=> {
+
+        console.log(data)
+
+        this.importModel(data)
+      })
     });
   }
 
@@ -154,7 +158,9 @@ class App {
   //
   //
   //////////////////////////////////////////////////////////////////////////
-  loadFromUrn (urn) {
+  importModel (data) {
+
+    var urn = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLWJ1Y2tldC1ucG0tZGV2L3Rlc3QuZHdm'
 
     Autodesk.Viewing.Document.load('urn:' + urn, async(LMVDocument) => {
 
@@ -182,6 +188,10 @@ class App {
           geometryItems3d[0])
 
         let model = await this.loadModel(path)
+
+        model.name = data.name
+
+        this.modelTransformer.addModel(model)
 
         // fits model to view - need to wait for instance tree
         // but no event gets fired

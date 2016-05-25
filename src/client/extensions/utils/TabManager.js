@@ -99,6 +99,16 @@ export default class TabManager extends EventsEmitter {
       }
     });
   }
+
+  ///////////////////////////////////////////////////////////////////
+  //
+  //
+  ///////////////////////////////////////////////////////////////////
+  clear() {
+
+    $(`#${this.tabsHeaderId} > li`).remove();
+    $(`#${this.containerId} > div`).remove();
+  }
 }
 
 var css = `
@@ -172,6 +182,8 @@ var css = `
   .tabs a.active{
     background-color: #E8E8E8;
     border-bottom:1px solid #E8E8E8;
+    color: #000;
+    text-decoration: none;
   }
 `;
 
