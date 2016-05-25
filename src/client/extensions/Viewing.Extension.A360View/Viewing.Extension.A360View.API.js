@@ -16,17 +16,22 @@ export default class A360API {
 
       try {
 
-        let res = await fetch(
-          `${this.apiUrl}/hubs`)
+        //let res = await fetch(
+        //  `${this.apiUrl}/hubs`)
+        //
+        //let hubs = await res.json()
+        //
+        //if(res.status!== 200){
+        //
+        //  return reject(json)
+        //}
+        //
+        //return resolve(hubs)
 
-        let hubs = await res.json()
+        $.get(`${this.apiUrl}/hubs`, (hubs)=> {
 
-        if(res.status!== 200){
-
-          return reject(json)
-        }
-
-        return resolve(hubs)
+          return resolve(hubs)
+        })
       }
       catch(ex) {
 

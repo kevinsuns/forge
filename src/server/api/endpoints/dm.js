@@ -8,7 +8,7 @@ module.exports = function() {
 
   var dmSvc = new DMSvc(config)
 
-  var hardcodedToken = 'EEUbBdmmuEUzxTKFyMkkoLlkPwWE';
+  var hardcodedToken = 'NkbDd4acTXANaNK2LpwVFl5iSdhB';
 
   /////////////////////////////////////////////////////////////////////////////
   //
