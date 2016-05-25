@@ -120,8 +120,6 @@ class App {
 
       this.viewer.initialize()
 
-      this.viewer.loadModel('/container/0.svf')
-
       var viewerToolbar = this.viewer.getToolbar(true);
 
       var ctrlGroup = new Autodesk.Viewing.UI.ControlGroup(
