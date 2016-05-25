@@ -104,8 +104,16 @@ class App {
     var left = ((width / 2) - (w / 2)) + dualScreenLeft;
     var top = ((height / 2) - (h / 2)) + dualScreenTop;
 
+    window.open("","huh","width=320,height=210,scrollbars=no,=no,screenx=0,screeny=0,");
+
     var newWindow = window.open(url, title,
-      'scrollbars=yes,' +
+      'scrollbars=no,' +
+      'toolbar=no,' +
+      'location=no,' +
+      'titlebar=no,' +
+      'directories=no,' +
+      'status=no,' +
+      'menubar=no,' +
       'width=' + w + ',' +
       'height=' + h + ',' +
       'top=' + top + ',' +
