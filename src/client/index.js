@@ -15,7 +15,13 @@
 // DOES NOT WARRANT THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 //////////////////////////////////////////////////////////////////////////
-var config = require('c0nfig').clientConfig
+import 'babel-polyfill'
+import 'Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer'
+import 'Viewing.Extension.A360View/Viewing.Extension.A360View'
+import {clientConfig as config} from 'c0nfig'
+import Toolkit from 'Toolkit'
+import 'bootstrap-webpack'
+import './styles/app.css'
 
 class App {
 
@@ -30,6 +36,10 @@ class App {
     return response.access_token;
   }
 
+  //////////////////////////////////////////////////////////////////////////
+  //
+  //
+  //////////////////////////////////////////////////////////////////////////
   authenticate() {
 
     $.ajax({
@@ -78,7 +88,10 @@ class App {
       'top=' + top + ',' +
       'left=' + left);
 
-    newWindow.focus();
+    if(newWindow) {
+
+      newWindow.focus();
+    }
   }
 
   //////////////////////////////////////////////////////////////////////////
@@ -87,79 +100,162 @@ class App {
   //////////////////////////////////////////////////////////////////////////
   initialize () {
 
-    var urn = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLWdhbGxlcnktdHJ4LXN0Zy81NDgyLWI1MDctOTUyOS05MzdlLWUyZjMuZHdm';
+    $('#loginBtn').click((e) => {
+
+      this.authenticate()
+      //
+      //this.viewer.loadExtension('Viewing.Extension.A360View')
+      //
+      //this.a360Extension =
+      //  this.viewer.loadedExtensions['Viewing.Extension.A360View']
+      //
+      //this.a360Extension.on('load.model', (data)=> {
+      //
+      //  console.log(data)
+      //
+      //  var urn = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLWJ1Y2tldC1ucG0tZGV2L3Rlc3QuZHdm'
+      //
+      //  this.loadFromUrn(urn)
+      //})
+    })
 
     var options = {
       env: config.env,
-      getAccessToken: this.getToken,
       refreshToken: this.getToken,
-      urn: Autodesk.Viewing.Private.getParameterByName('urn') || urn
+      getAccessToken: this.getToken
     };
-
-    $('#authBtn').click(() => {
-
-      this.authenticate();
-    })
 
     Autodesk.Viewing.Initializer(options, () => {
 
-      this.initializeViewer('viewer', 'urn:' + options.urn);
+      var viewerContainer = document.getElementById('viewer')
+
+      this.viewer = new Autodesk.Viewing.Private.GuiViewer3D(
+        viewerContainer)
+
+      this.viewer.initialize()
+
+      this.viewer.loadModel('/container/0.svf')
+
+      var viewerToolbar = this.viewer.getToolbar(true);
+
+      var ctrlGroup = new Autodesk.Viewing.UI.ControlGroup(
+        'forge-dm-aggregator');
+
+      viewerToolbar.addControl(ctrlGroup);
+
+      this.viewer.loadExtension(
+        'Viewing.Extension.ModelTransformer', {
+          parentControl: ctrlGroup
+        })
     });
   }
 
   //////////////////////////////////////////////////////////////////////////
-  // Initialize viewer and load model
+  //
   //
   //////////////////////////////////////////////////////////////////////////
-  initializeViewer (containerId, urn) {
+  loadFromUrn (urn) {
 
-    Autodesk.Viewing.Document.load(urn, (model) => {
+    Autodesk.Viewing.Document.load('urn:' + urn, async(LMVDocument) => {
 
-      var rootItem = model.getRootItem();
+      var rootItem = LMVDocument.getRootItem();
 
       // Grab all 3D items
       var geometryItems3d = Autodesk.Viewing.Document.getSubItemsWithProperties(
-        rootItem,
-        { 'type': 'geometry', 'role': '3d' },
+        rootItem, { 'type': 'geometry', 'role': '3d' },
         true);
 
-      // Grab all 2D items
-      var geometryItems2d = Autodesk.Viewing.Document.getSubItemsWithProperties(
-        rootItem,
-        { 'type': 'geometry', 'role': '2d' },
-        true);
+      // Pick the first 3D item
+      if (geometryItems3d.length) {
 
-      var domContainer = document.getElementById(containerId);
+        if(!this.viewer) {
 
-      //UI-less Version: viewer without any Autodesk buttons and commands
-      //viewer = new Autodesk.Viewing.Viewer3D(domContainer);
+          var viewerContainer = document.getElementById('viewer')
 
-      //GUI Version: viewer with controls
-      this.viewer = new Autodesk.Viewing.Private.GuiViewer3D(domContainer);
+          this.viewer = new Autodesk.Viewing.Private.GuiViewer3D(
+            viewerContainer)
 
-      this.viewer.initialize();
-
-      this.viewer.setLightPreset(8);
-
-      var options = {
-        globalOffset: {
-          x: 0, y: 0, z: 0
+          this.viewer.initialize()
         }
+
+        var path = LMVDocument.getViewablePath(
+          geometryItems3d[0])
+
+        let model = await this.loadModel(path)
+
+        // fits model to view - need to wait for instance tree
+        // but no event gets fired
+
+        let fitToView = ()=>{
+
+          var instanceTree = model.getData().instanceTree;
+
+          if(instanceTree){
+
+            this.fitModelToView(model)
+          }
+          else {
+
+            setTimeout(()=>{
+              fitToView()
+            }, 500)
+          }
+        }
+
+        fitToView()
+      }
+    })
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+  // Log viewer errors with more explicit message
+  //
+  //////////////////////////////////////////////////////////////////////////
+  loadModel(path, opts) {
+
+    return new Promise(async(resolve, reject)=> {
+
+      let _onGeometryLoaded = (event)=> {
+
+        this.viewer.removeEventListener(
+          Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
+          _onGeometryLoaded);
+
+        return resolve(event.model);
       }
 
-      // Pick the first 3D item ortherwise first 2D item
-      var viewablePath = (geometryItems3d.length ?
-        geometryItems3d[ 0 ] :
-        geometryItems2d[ 0 ]);
+      this.viewer.addEventListener(
+        Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
+        _onGeometryLoaded);
 
-      this.viewer.loadModel(
-        model.getViewablePath(viewablePath),
-        options);
+      this.viewer.loadModel(path, opts, ()=> {},
+        (errorCode, errorMessage, statusCode, statusText)=> {
 
-    }, (err) => {
+          this.viewer.removeEventListener(
+            Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
+            _onGeometryLoaded);
 
-      this.logError(err);
+          return reject({
+            errorCode: errorCode,
+            errorMessage: errorMessage,
+            statusCode: statusCode,
+            statusText: statusText
+          });
+        });
     });
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+  //
+  //
+  //////////////////////////////////////////////////////////////////////////
+  fitModelToView (model) {
+
+    var instanceTree = model.getData().instanceTree;
+
+    var rootId = instanceTree.getRootId();
+
+    this.viewer.fitToView([rootId]);
   }
 
   //////////////////////////////////////////////////////////////////////////
@@ -217,10 +313,9 @@ class App {
   }
 }
 
-(function bootstrapApp(){
+$(document).ready(() => {
 
   var app = new App()
 
   app.initialize()
-
-})()
+})

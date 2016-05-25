@@ -1,7 +1,7 @@
 
-var config = require('c0nfig').serverConfig;
-var OAuth2 = require('oauth').OAuth2;
-var express = require('express');
+var config = require('c0nfig').serverConfig
+var OAuth2 = require('oauth').OAuth2
+var express = require('express')
 
 module.exports = function() {
 
@@ -17,10 +17,9 @@ module.exports = function() {
 
   /////////////////////////////////////////////////////////////////////////////
   //
+  //
   /////////////////////////////////////////////////////////////////////////////
   router.post('/', function (req, res) {
-
-    console.log('AUTHHHHH')
 
     var authURL = oauth2.getAuthorizeUrl({
       redirect_uri: config.redirectUrl,
@@ -31,6 +30,7 @@ module.exports = function() {
   });
 
   /////////////////////////////////////////////////////////////////////////////
+  //
   //
   /////////////////////////////////////////////////////////////////////////////
   router.get('/callback', function (req, res) {
@@ -50,6 +50,16 @@ module.exports = function() {
         res.end('<script>window.opener.location.reload(false);window.close();</script>');
       }
     );
+  });
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////////////////
+  router.post('/logout', function (req, res) {
+
+    req.session.destroy();
+    res.end('logged out');
   });
 
   return router;

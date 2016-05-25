@@ -48,7 +48,8 @@ module.exports = {
     extensions: ['', '.js', '.jsx', '.json'],
     root: [
       path.resolve('./src/client'),
-      path.resolve('./src/client/extensions')
+      path.resolve('./src/client/extensions'),
+      path.resolve('./src/client/extensions/utils')
     ]
   },
 

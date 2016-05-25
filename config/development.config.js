@@ -1,5 +1,6 @@
 
 var BASE_URL = 'https://developer-stg.api.autodesk.com'
+var DM_PROJECT_VERSION = 'v1'
 var OAUTH_VERSION = 'v1'
 var OSS_VERSION = 'v1'
 
@@ -12,6 +13,7 @@ module.exports = {
     },
 
     serverConfig: {
+
         redirectUrl: 'https://autodesk-forge.herokuapp.com/api/auth/callback',
         authenticationUrl: '/authentication/' + OAUTH_VERSION + '/authorize',
         accessTokenUrl: '/authentication/' + OAUTH_VERSION + '/gettoken',
@@ -19,12 +21,13 @@ module.exports = {
         port: 3000,
 
         scope: [
-            'data:create',
             'data:read',
+            'data:create',
             'data:write',
             'bucket:read',
             'bucket:create'
         ],
+
         credentials: {
             ConsumerKey: process.env.LMV_STG_CONSUMERKEY,
             ConsumerSecret: process.env.LMV_STG_CONSUMERSECRET
@@ -41,7 +44,14 @@ module.exports = {
             register:         BASE_URL + '/viewingservice/' + OSS_VERSION + '/register',
             thumbnail:        BASE_URL + '/viewingservice/' + OSS_VERSION + '/thumbnails/%s',
             viewable:         BASE_URL + '/viewingservice/' + OSS_VERSION + '/%s',
-            items:            BASE_URL + '/viewingservice/' + OSS_VERSION + '/items/%s'
+            items:            BASE_URL + '/viewingservice/' + OSS_VERSION + '/items/%s',
+
+            hubs:            BASE_URL + '/project/'        + DM_PROJECT_VERSION + '/hubs',
+            projects:        BASE_URL + '/project/'        + DM_PROJECT_VERSION + '/hubs/%s/projects',
+            rootFolder:      BASE_URL + '/project/'        + DM_PROJECT_VERSION + '/hubs/%s/projects/%s/rootFolder',
+            folderContent:   BASE_URL + '/data/'           + DM_PROJECT_VERSION + '/projects/%s/folders/%s/contents',
+            itemVersions:    BASE_URL + '/data/'           + DM_PROJECT_VERSION + '/projects/%s/items/%s/versions',
+            thumbnail:       BASE_URL + '/viewingservice/' + DM_PROJECT_VERSION + '/thumbnails/%s'
         }
     }
 }
