@@ -35,8 +35,6 @@ module.exports = function() {
   /////////////////////////////////////////////////////////////////////////////
   router.get('/callback', function (req, res) {
 
-    res.end('<script>window.opener.location.reload(false);window.close();</script>');
-
     oauth2.getOAuthAccessToken(
       req.query.code, {
         'grant_type': 'authorization_code',
@@ -46,11 +44,15 @@ module.exports = function() {
 
         try {
 
-          if(results){
+          req.session.token = access_token;
 
-            req.session.token = access_token;
-            req.session.cookie.maxAge = parseInt(results.expires_in) * 60; // same as access_token
+          if(results) {
+
+            // same as access_token
+            req.session.cookie.maxAge = parseInt(results.expires_in) * 60;
           }
+
+          res.end('<script>window.opener.location.reload(false);window.close();</script>');
         }
         catch(ex){
 
@@ -59,6 +61,7 @@ module.exports = function() {
         }
       }
     );
+    
   });
 
   /////////////////////////////////////////////////////////////////////////////
