@@ -50,8 +50,6 @@ class App {
       data: null,
       success: (url) => {
 
-        console.log(url)
-
         // iframes are not allowed
         this.PopupCenter(url, "Autodesk Login", 800, 400);
       },
@@ -132,17 +130,17 @@ class App {
       viewerToolbar.addControl(ctrlGroup);
 
       this.viewer.loadExtension(
+        'Viewing.Extension.A360View', {
+          parentControl: ctrlGroup
+        })
+
+      this.viewer.loadExtension(
         'Viewing.Extension.ModelTransformer', {
           parentControl: ctrlGroup
         })
 
       this.modelTransformer =
         this.viewer.loadedExtensions['Viewing.Extension.ModelTransformer']
-
-      this.viewer.loadExtension(
-        'Viewing.Extension.A360View', {
-        parentControl: ctrlGroup
-      })
 
       this.a360View =
         this.viewer.loadedExtensions['Viewing.Extension.A360View']

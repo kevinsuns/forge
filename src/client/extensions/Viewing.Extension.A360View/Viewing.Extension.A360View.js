@@ -35,7 +35,7 @@ class A360ViewExtension extends ExtensionBase {
 
     this.control = ViewerToolkit.createButton(
       'a360-view-control',
-      'glyphicon glyphicon-retweet',
+      'glyphicon glyphicon-list',
       'A360 View', ()=>{
 
         this.panel.toggleVisibility();

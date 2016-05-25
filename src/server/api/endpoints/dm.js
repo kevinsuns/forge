@@ -8,13 +8,15 @@ module.exports = function() {
 
   var dmSvc = new DMSvc(config)
 
-  var token = 'cc3Jl3FfyFUqLGRPFWVEXGJPAZBJ';
+  var hardcodedToken = 'EEUbBdmmuEUzxTKFyMkkoLlkPwWE';
 
   /////////////////////////////////////////////////////////////////////////////
   //
   //
   /////////////////////////////////////////////////////////////////////////////
   router.get('/hubs', function (req, res) {
+
+    var token = req.session.token || hardcodedToken
 
     dmSvc.getHubs(token).then(function(response){
 
@@ -35,7 +37,9 @@ module.exports = function() {
   /////////////////////////////////////////////////////////////////////////////
   router.get('/hubs/:hubId/projects', function (req, res) {
 
-    var hubId =  req.params.hubId;
+    var token = req.session.token || hardcodedToken
+
+    var hubId =  req.params.hubId
 
     dmSvc.getProjects(token, hubId).then(function(response){
 
@@ -56,9 +60,11 @@ module.exports = function() {
   /////////////////////////////////////////////////////////////////////////////
   router.get('/hubs/:hubId/projects/:projectId', function (req, res) {
 
-    var hubId = req.params.hubId;
+    var token = req.session.token || hardcodedToken
 
-    var projectId = req.params.projectId;
+    var hubId = req.params.hubId
+
+    var projectId = req.params.projectId
 
     dmSvc.getProject(token, hubId, projectId).then(function(response){
 
@@ -79,9 +85,11 @@ module.exports = function() {
   /////////////////////////////////////////////////////////////////////////////
   router.get('/projects/:projectId/folders/:folderId', function (req, res) {
 
-    var projectId = req.params.projectId;
+    var token = req.session.token || hardcodedToken
 
-    var folderId = req.params.folderId;
+    var projectId = req.params.projectId
+
+    var folderId = req.params.folderId
 
     dmSvc.getFolderContent(token, projectId, folderId).then(function(response){
 
@@ -102,9 +110,11 @@ module.exports = function() {
   /////////////////////////////////////////////////////////////////////////////
   router.get('/projects/:projectId/items/:itemId/versions', function (req, res) {
 
-    var projectId = req.params.projectId;
+    var token = req.session.token || hardcodedToken
 
-    var itemId = req.params.itemId;
+    var projectId = req.params.projectId
+
+    var itemId = req.params.itemId
 
     dmSvc.getItemVersions(token, projectId, itemId).then(function(response){
 

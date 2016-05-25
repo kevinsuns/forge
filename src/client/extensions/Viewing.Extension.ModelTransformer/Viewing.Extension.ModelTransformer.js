@@ -35,7 +35,7 @@ class ModelTransformerExtension extends ExtensionBase {
 
     this.control = ViewerToolkit.createButton(
       'model-transformer-control',
-      'glyphicon glyphicon-retweet',
+      'glyphicon glyphicon-cog',
       'Transform Models', ()=>{
 
         this.panel.toggleVisibility();
