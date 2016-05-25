@@ -28,9 +28,11 @@ export default class A360API {
         //
         //return resolve(hubs)
 
-        $.get(`${this.apiUrl}/hubs`, (hubs)=> {
+        var url = `${this.apiUrl}/hubs`
 
-          return resolve(hubs)
+        $.get(url, (res)=> {
+
+          return resolve(res)
         })
       }
       catch(ex) {
@@ -50,17 +52,12 @@ export default class A360API {
 
       try {
 
-        let res = await fetch(
-          `${this.apiUrl}/hubs/${hubId}/projects`)
+        var url = `${this.apiUrl}/hubs/${hubId}/projects`
 
-        let json = await res.json()
+        $.get(url, (res)=> {
 
-        if(res.status!== 200){
-
-          return reject(json)
-        }
-
-        return resolve(json)
+          return resolve(res)
+        })
       }
       catch(ex) {
 
@@ -79,17 +76,12 @@ export default class A360API {
 
       try {
 
-        let res = await fetch(
-          `${this.apiUrl}/hubs/${hubId}/projects/${projectId}`)
+        var url = `${this.apiUrl}/hubs/${hubId}/projects/${projectId}`
 
-        let json = await res.json()
+        $.get(url, (res)=> {
 
-        if(res.status!== 200){
-
-          return reject(json)
-        }
-
-        return resolve(json)
+          return resolve(res)
+        })
       }
       catch(ex) {
 
@@ -108,17 +100,12 @@ export default class A360API {
 
       try {
 
-        let res = await fetch(
-          `${this.apiUrl}/projects/${projectId}/folders/${folderId}`)
+        var url = `${this.apiUrl}/projects/${projectId}/folders/${folderId}`
 
-        let json = await res.json()
+        $.get(url, (res)=> {
 
-        if(res.status!== 200){
-
-          return reject(json)
-        }
-
-        return resolve(json)
+          return resolve(res)
+        })
       }
       catch(ex) {
 
