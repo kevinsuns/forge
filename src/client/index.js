@@ -125,7 +125,12 @@ class App {
 
     $('#loginBtn').click((e) => {
 
-      this.authenticate()
+      this.login()
+    })
+
+    $('#logoutBtn').click((e) => {
+
+      this.logout()
     })
 
     var options = {
