@@ -13,6 +13,7 @@ module.exports = {
   },
 
   serverConfig: {
+
     redirectUrl: 'https://autodesk-forge.herokuapp.com/api/auth/callback',
     authenticationUrl: '/authentication/' + OAUTH_VERSION + '/authorize',
     accessTokenUrl: '/authentication/' + OAUTH_VERSION + '/gettoken',
@@ -47,7 +48,7 @@ module.exports = {
 
       hubs:            BASE_URL + '/project/'        + DM_PROJECT_VERSION + '/hubs',
       projects:        BASE_URL + '/project/'        + DM_PROJECT_VERSION + '/hubs/%s/projects',
-      rootFolder:      BASE_URL + '/project/'        + DM_PROJECT_VERSION + '/hubs/%s/projects/%s/rootFolder',
+      project:         BASE_URL + '/project/'        + DM_PROJECT_VERSION + '/hubs/%s/projects/%s',
       folderContent:   BASE_URL + '/data/'           + DM_PROJECT_VERSION + '/projects/%s/folders/%s/contents',
       itemVersions:    BASE_URL + '/data/'           + DM_PROJECT_VERSION + '/projects/%s/items/%s/versions',
       thumbnail:       BASE_URL + '/viewingservice/' + DM_PROJECT_VERSION + '/thumbnails/%s'
