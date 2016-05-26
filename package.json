@@ -1,6 +1,6 @@
 {
-  "name": "ADN-Viewer-Boilerplate",
-  "description": "A basic node.js server/client boiler plate for View&Data API",
+  "name": "ADN-Forge-demo",
+  "description": "Forge demo",
   "version": "1.0.0",
   "dependencies": {
     "babel-core": "^6.5.2",
@@ -56,7 +56,7 @@
   "license": "MIT",
   "scripts": {
     "postinstall": "npm run build-prod",
-    "start": "node ./src/server/server.js",
+    "start": "node bin/run.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-dev": "webpack --config ./webpack/webpack.config.development.js",
     "build-prod": "webpack --config ./webpack/webpack.config.production.js"

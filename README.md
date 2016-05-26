@@ -4,6 +4,11 @@
 ## Description
 Forge demo
 
+## Deployment
+    npm install
+    node bin/run.js
+    http://localhost:3000
+
 ## License
 
 [MIT License](http://opensource.org/licenses/MIT).

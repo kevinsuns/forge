@@ -50,7 +50,7 @@ export default class SocketSvc extends BaseSvc {
     var _thisSvc = this;
 
     _thisSvc._connections[socket.id] = socket;
-    
+
     socket.emit('connection.data', {
       sessionId: socket.handshake.session.uid,
       socketId: socket.id
