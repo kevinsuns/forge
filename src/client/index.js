@@ -19,6 +19,7 @@ import 'babel-polyfill'
 import 'Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer'
 import 'Viewing.Extension.A360View/Viewing.Extension.A360View'
 import {clientConfig as config} from 'c0nfig'
+import ioClient from 'socket.io-client'
 import Toolkit from 'Toolkit'
 import 'bootstrap-webpack'
 import './styles/app.css'
@@ -153,6 +154,19 @@ class App {
         viewerContainer)
 
       this.viewer.initialize()
+
+      this.socket = ioClient.connect(
+        `${config.host}:${config.port}`, {
+          reconnect: true
+        });
+
+      this.socket.on('connect', ()=> {
+        console.log('client socket connected');
+      });
+
+      this.socket.on('connection.data', (data)=> {
+        console.log(data);
+      });
 
       var viewerToolbar = this.viewer.getToolbar(true);
 

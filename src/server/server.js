@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 // Copyright (c) Autodesk, Inc. All rights reserved
-// Written by Philippe Leefsma 2014 - ADN/Developer Technical Services
+// Written by Philippe Leefsma 2016 - ADN/Developer Technical Services
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -15,21 +15,25 @@
 // DOES NOT WARRANT THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 /////////////////////////////////////////////////////////////////////////////////
-var TokenAPI = require('./api/endpoints/token')
-var AuthAPI = require('./api/endpoints/auth')
-var DMAPI = require('./api/endpoints/dm')
-var cookieParser = require('cookie-parser')
-var session = require('express-session')
-var bodyParser = require('body-parser')
-var favicon = require('serve-favicon')
-var express = require('express')
-var config = require('c0nfig')
+import {serverConfig as config} from 'c0nfig'
+import TokenAPI from './api/endpoints/token'
+import AuthAPI from './api/endpoints/auth'
+import DMAPI from './api/endpoints/dm'
+import cookieParser from 'cookie-parser'
+import Session from 'express-session'
+import bodyParser from 'body-parser'
+import favicon from 'serve-favicon'
+import express from 'express'
 
 //Webpack hot reloading stuff
-var webpackConfig = require('../../webpack/webpack.config.development')
-var webpackDevMiddleware = require( 'webpack-dev-middleware')
-var webpackHotMiddleware = require( 'webpack-hot-middleware')
-var webpack = require('webpack')
+import webpackConfig from '../../webpack/webpack.config.development';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
+import webpack from 'webpack';
+
+//Services
+import SocketSvc from './api/services/SocketSvc';
+import DMSvc from './api/services/DMSvc';
 
 /////////////////////////////////////////////////////////////////////
 //
@@ -47,6 +51,10 @@ function setWebpackHotReloading(app) {
     app.use(webpackHotMiddleware(compiler));
 }
 
+/////////////////////////////////////////////////////////////////////
+//
+//
+/////////////////////////////////////////////////////////////////////
 var app = express()
 
 if(process.env.NODE_ENV == 'development')
@@ -58,19 +66,40 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cookieParser())
 
-app.use(session({
+var session = Session({
     secret: 'peperonipizza',
     saveUninitialized: true,
     resave: true
-}))
+})
 
+app.use(session)
+
+/////////////////////////////////////////////////////////////////////
+// Routes
+//
+/////////////////////////////////////////////////////////////////////
 app.use('/api/token', TokenAPI())
 app.use('/api/auth', AuthAPI())
 app.use('/api/dm', DMAPI())
 
+/////////////////////////////////////////////////////////////////////
+// server
+//
+/////////////////////////////////////////////////////////////////////
 app.set('port', process.env.PORT || 3000)
 
 var server = app.listen(app.get('port'), function() {
+
+    var socketSvc = new SocketSvc({
+        config: {
+            server,
+            session
+        }
+    });
+
+    var dmSvc = new DMSvc({
+        config: config
+    })
 
     console.log('Server listening on: ')
     console.log(server.address())

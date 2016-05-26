@@ -1,14 +1,11 @@
-var config = require('c0nfig').serverConfig
-var DMSvc = require('../services/DMSvc')
-var express = require('express')
+import ServiceManager from '../services/SvcManager'
+import express from 'express'
 
 module.exports = function() {
 
   var router = express.Router()
 
-  var dmSvc = new DMSvc(config)
-
-  var hardcodedToken = 'NkbDd4acTXANaNK2LpwVFl5iSdhB';
+  var hardcodedToken = 'sc7v0FwqA14JTpYxmrpJqqtoSSx5';
 
   /////////////////////////////////////////////////////////////////////////////
   //
@@ -17,6 +14,9 @@ module.exports = function() {
   router.get('/hubs', function (req, res) {
 
     var token = req.session.token || hardcodedToken
+
+    var dmSvc = ServiceManager.getService(
+      'DMSvc');
 
     dmSvc.getHubs(token).then(function(response){
 
@@ -40,6 +40,9 @@ module.exports = function() {
     var token = req.session.token || hardcodedToken
 
     var hubId =  req.params.hubId
+
+    var dmSvc = ServiceManager.getService(
+      'DMSvc');
 
     dmSvc.getProjects(token, hubId).then(function(response){
 
@@ -66,6 +69,9 @@ module.exports = function() {
 
     var projectId = req.params.projectId
 
+    var dmSvc = ServiceManager.getService(
+      'DMSvc');
+
     dmSvc.getProject(token, hubId, projectId).then(function(response){
 
       res.json(response)
@@ -91,6 +97,9 @@ module.exports = function() {
 
     var folderId = req.params.folderId
 
+    var dmSvc = ServiceManager.getService(
+      'DMSvc');
+
     dmSvc.getFolderContent(token, projectId, folderId).then(function(response){
 
       res.json(response)
@@ -115,6 +124,9 @@ module.exports = function() {
     var projectId = req.params.projectId
 
     var itemId = req.params.itemId
+
+    var dmSvc = ServiceManager.getService(
+      'DMSvc');
 
     dmSvc.getItemVersions(token, projectId, itemId).then(function(response){
 
