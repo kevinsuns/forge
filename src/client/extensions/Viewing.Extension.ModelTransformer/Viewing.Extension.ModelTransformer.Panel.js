@@ -3,15 +3,16 @@
 //
 //
 /////////////////////////////////////////////////////////////////////
+import TransformTool from './Viewing.Extension.ModelTransformer.Tool'
 import './Viewing.Extension.ModelTransformer.css'
 import ToolPanelBase from 'ToolPanelBase'
 import Dropdown from 'Dropdown'
 
 export default class ModelTransformerPanel extends ToolPanelBase {
 
-  constructor(container, btnElement) {
+  constructor(viewer, btnElement) {
 
-    super(container, 'Transform Models', {
+    super(viewer.container, 'Transform Models', {
       buttonElement: btnElement,
       shadow: true
     });
@@ -27,26 +28,103 @@ export default class ModelTransformerPanel extends ToolPanelBase {
       }
     });
 
-    this.dropdown.on('item.selected', (item) => {
+    this.dropdown.on('item.selected', (model) => {
 
-      this.currentModel = item
+      this.currentModel = model
 
-      this.emit('model.selected', item)
+      if(model) {
+
+        this.setTransform(model.transform)
+
+        this.emit('model.selected', model)
+      }
     })
 
     $(`#${this.container.id}-apply-btn`).click(() => {
 
-      this.emit('model.transform', {
+      this.tool.clearSelection()
 
-        model: this.currentModel,
+      if (this.currentModel) {
 
-        transform: {
-          translation: this.getTranslation(),
-          rotation: this.getRotation(),
-          scale: this.getScale()
+        this.emit('model.transform', {
+
+          model: this.currentModel,
+
+          transform: {
+            translation: this.getTranslation(),
+            quaternion: this.getQuaternion(),
+            scale: this.getScale()
+          }
+        })
+      }
+    })
+
+    $(`#${this.container.id}-delete-btn`).click(() => {
+
+      this.emit('model.delete', {
+
+        model: this.currentModel
+      })
+
+      this.dropdown.removeCurrentItem(
+        'Select Model ...')
+    })
+
+    this.viewer = viewer
+
+    this.tool = new TransformTool(viewer)
+
+    this.viewer.toolController.registerTool(this.tool)
+
+    this.tool.on('transform.TxChange', (data)=>{
+
+      this.setTranslation(
+        data.model.transform.translation)
+    })
+
+    this.on('open', () => {
+
+      this.viewer.toolController.activateTool(
+        this.tool.getName())
+    })
+
+    this.on('close', () => {
+
+      this.viewer.toolController.deactivateTool(
+        this.tool.getName())
+    })
+
+    $('.model-transformer .scale').on(
+      'change keyup input paste', ()=>{
+
+        if(this.currentModel){
+
+          this.currentModel.transform.scale =
+            this.getScale()
         }
       })
+
+    $('.model-transformer .trans').on(
+      'change keyup input paste', ()=>{
+
+        if(this.currentModel){
+
+          this.currentModel.transform.translation =
+            this.getTranslation()
+        }
     })
+
+    $('.model-transformer .rot').on(
+      'change keyup input paste', ()=>{
+
+        if(this.currentModel){
+
+          this.currentModel.transform.rotation =
+            this.getRotation()
+        }
+    })
+
+    $('.model-transformer .dockingPanelTitle').prepend('<img/>')
   }
 
   /////////////////////////////////////////////////////////////
@@ -129,15 +207,47 @@ export default class ModelTransformerPanel extends ToolPanelBase {
 
         </div>
 
-          <button class="btn btn-info btn-apply"
+        <div style="margin-top:8px;">
+
+          <button class="btn btn-info"
                   id="${id}-apply-btn">
-            <span class="glyphicon glyphicon-remove btn-span"
+            <span class="glyphicon glyphicon-ok btn-span"
                   aria-hidden="true">
             </span>
              Apply Transform
           </button>
 
+          <hr class="v-spacer-large">
+
+          <button class="btn btn-danger"
+                  id="${id}-delete-btn">
+            <span class="glyphicon glyphicon-remove btn-span"
+                  aria-hidden="true">
+            </span>
+             Delete Model
+          </button>
+        </div>
+
       </div>`;
+  }
+
+  /////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////
+  setTransform (transform) {
+
+    $(`#${this.container.id}-Sx`).val(transform.scale.x)
+    $(`#${this.container.id}-Sy`).val(transform.scale.y)
+    $(`#${this.container.id}-Sz`).val(transform.scale.z)
+
+    $(`#${this.container.id}-Tx`).val(transform.translation.x)
+    $(`#${this.container.id}-Ty`).val(transform.translation.y)
+    $(`#${this.container.id}-Tz`).val(transform.translation.z)
+
+    $(`#${this.container.id}-Rx`).val(transform.rotation.x)
+    $(`#${this.container.id}-Ry`).val(transform.rotation.y)
+    $(`#${this.container.id}-Rz`).val(transform.rotation.z)
   }
 
   /////////////////////////////////////////////////////////////
@@ -180,10 +290,17 @@ export default class ModelTransformerPanel extends ToolPanelBase {
     y = isNaN(y) ? 0.0 : y;
     z = isNaN(z) ? 0.0 : z;
 
+    return new THREE.Vector3(x, y, z);
+  }
+
+  getQuaternion() {
+
+    var rotation = this.getRotation()
+
     var euler = new THREE.Euler(
-      x * Math.PI/180,
-      y * Math.PI/180,
-      z * Math.PI/180,
+      rotation.x * Math.PI/180,
+      rotation.y * Math.PI/180,
+      rotation.z * Math.PI/180,
       'XYZ');
 
     var q = new THREE.Quaternion();
@@ -191,5 +308,16 @@ export default class ModelTransformerPanel extends ToolPanelBase {
     q.setFromEuler(euler);
 
     return q;
+  }
+
+  /////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////
+  setTranslation(translation){
+
+    $(`#${this.container.id}-Tx`).val(translation.x.toFixed(2));
+    $(`#${this.container.id}-Ty`).val(translation.y.toFixed(2));
+    $(`#${this.container.id}-Tz`).val(translation.z.toFixed(2));
   }
 }

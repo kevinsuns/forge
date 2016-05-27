@@ -1,7 +1,8 @@
 
-var config = require('c0nfig').serverConfig
-var OAuth2 = require('oauth').OAuth2
-var express = require('express')
+import ServiceManager from '../services/SvcManager'
+import { serverConfig as config } from 'c0nfig'
+import { OAuth2 } from 'oauth'
+import express from 'express'
 
 module.exports = function() {
 
@@ -14,6 +15,17 @@ module.exports = function() {
     config.authenticationUrl,
     config.accessTokenUrl,
     null);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Register socketId from client
+  //
+  /////////////////////////////////////////////////////////////////////////////
+  router.post('/register', function (req, res) {
+
+    req.session.socketId = req.body.socketId
+
+    res.json('success');
+  });
 
   /////////////////////////////////////////////////////////////////////////////
   //
@@ -44,12 +56,22 @@ module.exports = function() {
 
         try {
 
-          req.session.token = access_token;
-
           if(results) {
 
-            // same as access_token
-            req.session.cookie.maxAge = parseInt(results.expires_in) * 60;
+            req.session.token = access_token;
+
+            req.session.cookie.maxAge =
+              parseInt(results.expires_in) * 60;
+
+            var socketSvc = ServiceManager.getService(
+              'SocketSvc');
+
+            if(req.session.socketId){
+
+              socketSvc.broadcast(
+                'callback', 'done',
+                req.session.socketId)
+            }
           }
 
           res.end('<script>window.opener.location.reload(false);window.close();</script>');
@@ -74,4 +96,20 @@ module.exports = function() {
   });
 
   return router;
+}
+
+
+function guid(format = 'xxxxxxxxxx') {
+
+  var d = new Date().getTime();
+
+  var guid = format.replace(
+    /[xy]/g,
+    function (c) {
+      var r = (d + Math.random() * 16) % 16 | 0;
+      d = Math.floor(d / 16);
+      return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
+    });
+
+  return guid;
 }

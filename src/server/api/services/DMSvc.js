@@ -115,7 +115,8 @@ function get(url, token) {
 
         if(typeof body === 'string'){
 
-          console.log('error: ' + body)
+          console.log('error: ' + url)
+          console.log('body: ' + body)
           return reject(body);
         }
 

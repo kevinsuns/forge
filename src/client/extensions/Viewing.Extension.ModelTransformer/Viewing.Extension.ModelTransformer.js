@@ -35,7 +35,7 @@ class ModelTransformerExtension extends ExtensionBase {
 
     this.control = ViewerToolkit.createButton(
       'model-transformer-control',
-      'glyphicon glyphicon-cog',
+      'adsk-button-icon model-transformer-icon',
       'Transform Models', ()=>{
 
         this.panel.toggleVisibility();
@@ -45,14 +45,22 @@ class ModelTransformerExtension extends ExtensionBase {
       this.control);
 
     this.panel = new Panel(
-      this._viewer.container,
+      this._viewer,
       this.control.container);
 
-    this.panel.on('model.transform', async(data)=>{
+    this.panel.on('model.transform', (data)=>{
 
-      await this.transformModel(
+      this.transformModel(
         data.model,
         data.transform)
+
+      this._viewer.impl.sceneUpdated(true);
+    })
+
+    this.panel.on('model.delete', (data)=>{
+
+      this.deleteModel(
+        data.model)
 
       this._viewer.impl.sceneUpdated(true);
     })
@@ -87,8 +95,6 @@ class ModelTransformerExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   transformModel(model, transform) {
 
-    console.log(transform)
-
     var viewer = this._viewer
 
     function _transformFragProxy(fragId){
@@ -104,27 +110,24 @@ class ModelTransformerExtension extends ExtensionBase {
       fragProxy.scale = transform.scale;
 
       //Not a standard three.js quaternion
-      fragProxy.quaternion._x = transform.rotation.x;
-      fragProxy.quaternion._y = transform.rotation.y;
-      fragProxy.quaternion._z = transform.rotation.z;
-      fragProxy.quaternion._w = transform.rotation.w;
+      fragProxy.quaternion._x = transform.quaternion.x;
+      fragProxy.quaternion._y = transform.quaternion.y;
+      fragProxy.quaternion._z = transform.quaternion.z;
+      fragProxy.quaternion._w = transform.quaternion.w;
 
       fragProxy.updateAnimTransform();
     }
 
-    return new Promise(async(resolve, reject)=>{
+    var fragCount = model.getFragmentList().
+      fragments.fragId2dbId.length;
 
-      var fragCount = model.getFragmentList().
-        fragments.fragId2dbId.length;
+    //fragIds range from 0 to fragCount-1
+    for(var fragId=0; fragId<fragCount; ++fragId){
 
-      //fragIds range from 0 to fragCount-1
-      for(var fragId=0; fragId<fragCount; ++fragId){
+      _transformFragProxy(fragId);
+    }
 
-        _transformFragProxy(fragId);
-      }
-
-      return resolve();
-    });
+    model.transform = transform
   }
 
   //////////////////////////////////////////////////////////////////////////
@@ -149,7 +152,28 @@ class ModelTransformerExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   addModel (model) {
 
+    model.transform = {
+      scale: {
+        x:1.0, y:1.0, z:1.0
+      },
+      translation: {
+        x:0.0, y:0.0, z:0.0
+      },
+      rotation: {
+        x:0.0, y:0.0, z:0.0
+      }
+    }
+
     this.panel.dropdown.addItem(model, true)
+  }
+
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
+  deleteModel (model) {
+
+    this._viewer.impl.unloadModel(model);
   }
 }
 

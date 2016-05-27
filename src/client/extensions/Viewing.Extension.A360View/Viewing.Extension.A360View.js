@@ -35,18 +35,21 @@ class A360ViewExtension extends ExtensionBase {
 
     this.control = ViewerToolkit.createButton(
       'a360-view-control',
-      'glyphicon glyphicon-list',
+      'adsk-button-icon a360-icon',
       'A360 View', ()=>{
 
-        this.panel.toggleVisibility();
-      });
+        this.panel.toggleVisibility()
+      })
 
     this._options.parentControl.addControl(
-      this.control);
+      this.control)
 
     this.panel = new Panel(
       this._viewer.container,
-      this.control.container);
+      this.control.container)
+
+    this.panel.setVisible(
+      this._options.showPanel)
 
     this.onNodeDblClikedHandler = (node) => {
 
@@ -58,9 +61,9 @@ class A360ViewExtension extends ExtensionBase {
       this.onNodeDblClikedHandler(node)
     })
 
-    console.log('Viewing.Extension.A360View loaded');
+    console.log('Viewing.Extension.A360View loaded')
 
-    return true;
+    return true
   }
 
   /////////////////////////////////////////////////////////////////

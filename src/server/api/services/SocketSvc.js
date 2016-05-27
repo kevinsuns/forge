@@ -16,6 +16,8 @@ export default class SocketSvc extends BaseSvc {
 
     this._connections = {};
 
+    this._sessions = {};
+
     this.handleConnection =
       this.handleConnection.bind(this);
 
@@ -47,12 +49,13 @@ export default class SocketSvc extends BaseSvc {
   ///////////////////////////////////////////////////////////////////
   handleConnection(socket) {
 
+    //socket.handshake.session
+
     var _thisSvc = this;
 
     _thisSvc._connections[socket.id] = socket;
 
     socket.emit('connection.data', {
-      sessionId: socket.handshake.session.uid,
       socketId: socket.id
     });
 
@@ -89,18 +92,36 @@ export default class SocketSvc extends BaseSvc {
   }
 
   ///////////////////////////////////////////////////////////////////
-  //
+  // filter: array of socketIds to broadcast
+  // If null, broadcast to every connected socket
   //
   ///////////////////////////////////////////////////////////////////
-  broadcast(msgId, msg, filter) {
+  broadcast(msgId, msg, filter = null) {
 
     var _thisSvc = this;
 
-    for(var socketId in _thisSvc._connections){
+    if(filter) {
 
-      var socket = _thisSvc._connections[socketId];
+      filter = Array.isArray(filter) ? filter : [filter]
 
-      socket.emit(msgId, msg);
+      filter.forEach((socketId) => {
+
+        if(_thisSvc._connections[socketId]){
+
+          var socket = _thisSvc._connections[socketId];
+
+          socket.emit(msgId, msg);
+        }
+      })
+    }
+    else {
+
+      for(var socketId in _thisSvc._connections){
+
+        var socket = _thisSvc._connections[socketId];
+
+        socket.emit(msgId, msg);
+      }
     }
   }
 }

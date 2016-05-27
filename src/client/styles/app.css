@@ -18,3 +18,13 @@ body{
     height: 65px;
     padding-top: 0;
 }
+
+.navbar-default {
+    border-color: #F5C70A;
+    border-bottom-width: 3px;
+}
+
+.forge-logo {
+    position: relative;
+    top: 2px;
+}

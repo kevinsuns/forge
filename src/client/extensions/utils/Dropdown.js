@@ -27,23 +27,25 @@ export default class Dropdown extends EventsEmitter {
   /////////////////////////////////////////////////////////////
   constructor(opts) {
 
-    super();
+    super()
 
-    this.dropdownId = guid();
+    this.dropdownId = guid()
 
-    this.buttonId = guid();
+    this.buttonId = guid()
 
-    this.labelId = guid();
+    this.labelId = guid()
 
-    this.listId = guid();
+    this.listId = guid()
 
-    this.title = opts.title || 'Select Item: ';
+    this.currentItem = null
+
+    this.title = opts.title || 'Select Item: '
 
     var html = `
       <div id="${this.dropdownId}" class="dropdown lmv-dropdown">
       <button id="${this.buttonId}" class="btn dropdown-toggle"
         type="button" 
-        data-toggle="dropdown">
+        data-toggle="dropdown" disabled>
         <div class="label-container">
           <label id="${this.labelId}" class="label">${this.title}</label>
           <span class="caret"></span>
@@ -77,10 +79,12 @@ export default class Dropdown extends EventsEmitter {
   /////////////////////////////////////////////////////////////
   addItem(item, setActive = false) {
 
-    var itemId = guid();
+    $('#' + this.buttonId).prop('disabled', false);
+
+    item.id = guid();
 
     var itemHtml = `
-      <li id="${itemId}">
+      <li id="${item.id}">
         <a href="">${item.name}</a>
       </li>`;
 
@@ -93,6 +97,8 @@ export default class Dropdown extends EventsEmitter {
         event.preventDefault();
       }
 
+      this.currentItem = item
+
       var eventResult = this.emit(
         'item.selected',
         item);
@@ -104,7 +110,7 @@ export default class Dropdown extends EventsEmitter {
         this.title + ': ' + item.name);
     };
 
-    $('#' + itemId).click((e)=>{
+    $('#' + item.id).click((e)=>{
       onClick(e);
     });
 
@@ -130,6 +136,29 @@ export default class Dropdown extends EventsEmitter {
 
       this.addItem(item);
     });
+  }
+
+  /////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////
+  removeCurrentItem(prompt) {
+
+    if(this.currentItem){
+
+      $('#' + this.currentItem.id).remove()
+
+      if($('#' + this.listId + ' > li').length === 0){
+
+        $('#' + this.buttonId).prop('disabled', true)
+      }
+
+      this.currentItem = null
+    }
+
+    $('#' + this.labelId).text(prompt)
+
+    this.emit('item.selected', null)
   }
 
   /////////////////////////////////////////////////////////////

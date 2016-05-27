@@ -41,6 +41,28 @@ class App {
   //
   //
   //////////////////////////////////////////////////////////////////////////
+  register (socketId) {
+
+    $.ajax({
+      url: '/api/auth/register',
+      type: 'POST',
+      contentType: 'application/json',
+      dataType: 'json',
+      data: JSON.stringify({ socketId: socketId }),
+      success: (url) => {
+
+      },
+      error: (err) => {
+
+        console.log(err)
+      }
+    });
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+  //
+  //
+  //////////////////////////////////////////////////////////////////////////
   login() {
 
     $.ajax({
@@ -52,7 +74,12 @@ class App {
       success: (url) => {
 
         // iframes are not allowed
-        this.PopupCenter(url, "Autodesk Login", 800, 400);
+        this.popup = this.PopupCenter(url, "Autodesk Login", 800, 400);
+
+        if(this.popup){
+
+          this.popup.focus()
+        }
       },
       error: (err) => {
 
@@ -105,7 +132,7 @@ class App {
     var left = ((width / 2) - (w / 2)) + dualScreenLeft;
     var top = ((height / 2) - (h / 2)) + dualScreenTop;
 
-    var newWindow = window.open(url, title,
+    return window.open(url, title,
       'scrollbars=no,' +
       'toolbar=no,' +
       'location=no,' +
@@ -117,11 +144,6 @@ class App {
       'height=' + h + ',' +
       'top=' + top + ',' +
       'left=' + left);
-
-    if(newWindow) {
-
-      newWindow.focus();
-    }
   }
 
   //////////////////////////////////////////////////////////////////////////
@@ -155,48 +177,56 @@ class App {
 
       this.viewer.initialize()
 
+      this.importModel ({name: 'default'})
+
+      $('#loader').remove()
+
       this.socket = ioClient.connect(
         `${config.host}:${config.port}`, {
           reconnect: true
         });
 
       this.socket.on('connect', ()=> {
+
         console.log('client socket connected');
       });
 
       this.socket.on('connection.data', (data)=> {
-        console.log(data);
+
+        this.register(data.socketId)
+      });
+
+      this.socket.on('callback', (msg)=> {
+
+        if(this.popup) {
+
+          this.popup.close()
+          this.popup = null
+
+          this.viewer.loadExtension(
+            'Viewing.Extension.A360View', {
+              parentControl: this.ctrlGroup,
+              showPanel: true
+            })
+
+          this.a360View =
+            this.viewer.loadedExtensions['Viewing.Extension.A360View']
+
+          this.a360View.on('load.model', (data)=> {
+
+            console.log(data)
+
+            this.importModel(data)
+          })
+        }
       });
 
       var viewerToolbar = this.viewer.getToolbar(true);
 
-      var ctrlGroup = new Autodesk.Viewing.UI.ControlGroup(
+      this.ctrlGroup = new Autodesk.Viewing.UI.ControlGroup(
         'forge-dm-aggregator');
 
-      viewerToolbar.addControl(ctrlGroup);
-
-      this.viewer.loadExtension(
-        'Viewing.Extension.A360View', {
-          parentControl: ctrlGroup
-        })
-
-      this.viewer.loadExtension(
-        'Viewing.Extension.ModelTransformer', {
-          parentControl: ctrlGroup
-        })
-
-      this.modelTransformer =
-        this.viewer.loadedExtensions['Viewing.Extension.ModelTransformer']
-
-      this.a360View =
-        this.viewer.loadedExtensions['Viewing.Extension.A360View']
-
-      this.a360View.on('load.model', (data)=> {
-
-        console.log(data)
-
-        this.importModel(data)
-      })
+      viewerToolbar.addControl(this.ctrlGroup);
     });
   }
 
@@ -236,6 +266,14 @@ class App {
         let model = await this.loadModel(path)
 
         model.name = data.name
+
+        this.viewer.loadExtension(
+          'Viewing.Extension.ModelTransformer', {
+            parentControl: this.ctrlGroup
+          })
+
+        this.modelTransformer =
+          this.viewer.loadedExtensions['Viewing.Extension.ModelTransformer']
 
         this.modelTransformer.addModel(model)
 

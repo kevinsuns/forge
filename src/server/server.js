@@ -57,19 +57,22 @@ function setWebpackHotReloading(app) {
 /////////////////////////////////////////////////////////////////////
 var app = express()
 
-if(process.env.NODE_ENV == 'development')
+if(process.env.WEBPACK == 'hot')
     setWebpackHotReloading(app);
 
 app.use('/', express.static(__dirname + '/../../dist/'))
-app.use(favicon(__dirname + '/../../dist/img/favicon.ico'))
+app.use(favicon(__dirname + '/../../dist/img/forge.png'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cookieParser())
 
+var store = new Session.MemoryStore;
+
 var session = Session({
     secret: 'peperonipizza',
     saveUninitialized: true,
-    resave: true
+    resave: true,
+    store: store
 })
 
 app.use(session)

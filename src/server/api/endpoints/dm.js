@@ -5,7 +5,7 @@ module.exports = function() {
 
   var router = express.Router()
 
-  var hardcodedToken = 'sc7v0FwqA14JTpYxmrpJqqtoSSx5';
+  var hardcodedToken = 'cxNIKhBXw1iCgdPBFfALiQDhfAaH';
 
   /////////////////////////////////////////////////////////////////////////////
   //
@@ -17,6 +17,8 @@ module.exports = function() {
 
     var dmSvc = ServiceManager.getService(
       'DMSvc');
+
+    console.log(token)
 
     dmSvc.getHubs(token).then(function(response){
 

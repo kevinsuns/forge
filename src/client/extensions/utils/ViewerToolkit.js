@@ -71,7 +71,7 @@ export default class ViewerToolkit {
 
     var button = new Autodesk.Viewing.UI.Button(id);
 
-    button.icon.style.fontSize = "24px";
+    button.icon.style.fontSize = '24px';
 
     button.icon.className = className;
 
