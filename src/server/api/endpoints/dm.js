@@ -1,146 +1,181 @@
 import ServiceManager from '../services/SvcManager'
 import express from 'express'
+import request from 'request'
 
 module.exports = function() {
 
   var router = express.Router()
 
-  var hardcodedToken = 'cxNIKhBXw1iCgdPBFfALiQDhfAaH';
+  var hardcodedToken = 'PfRBxF6rVEIlv0zYhbgPtygTnZPz'; //used for debug
 
   /////////////////////////////////////////////////////////////////////////////
   //
   //
   /////////////////////////////////////////////////////////////////////////////
-  router.get('/hubs', function (req, res) {
+  router.get('/user', async (req, res) => {
 
-    var token = req.session.token || hardcodedToken
+    try {
 
-    var dmSvc = ServiceManager.getService(
-      'DMSvc');
+      var token = req.session.token || hardcodedToken
 
-    console.log(token)
+      var dmSvc = ServiceManager.getService('DMSvc');
 
-    dmSvc.getHubs(token).then(function(response){
+      var response = await dmSvc.getUser(token)
+
+      console.log('USER: ' + response)
 
       res.json(response)
+    }
+    catch (ex) {
 
-    }, function(err){
-
-      console.log(err)
+      console.log(ex)
 
       res.status(500)
-      res.json(err)
-    })
+      res.json(ex)
+    }
   });
 
   /////////////////////////////////////////////////////////////////////////////
   //
   //
   /////////////////////////////////////////////////////////////////////////////
-  router.get('/hubs/:hubId/projects', function (req, res) {
+  router.get('/hubs', async (req, res) => {
 
-    var token = req.session.token || hardcodedToken
+    try {
 
-    var hubId =  req.params.hubId
+      var token = req.session.token || hardcodedToken
 
-    var dmSvc = ServiceManager.getService(
-      'DMSvc');
+      var dmSvc = ServiceManager.getService('DMSvc');
 
-    dmSvc.getProjects(token, hubId).then(function(response){
+      var response = await dmSvc.getHubs(token)
 
       res.json(response)
+    }
+    catch (ex) {
 
-    }, function(err){
-
-      console.log(err)
+      console.log(ex)
 
       res.status(500)
-      res.json(err)
-    })
+      res.json(ex)
+    }
   });
 
   /////////////////////////////////////////////////////////////////////////////
   //
   //
   /////////////////////////////////////////////////////////////////////////////
-  router.get('/hubs/:hubId/projects/:projectId', function (req, res) {
+  router.get('/hubs/:hubId/projects', async (req, res) => {
 
-    var token = req.session.token || hardcodedToken
+    try {
 
-    var hubId = req.params.hubId
+      var token = req.session.token || hardcodedToken
 
-    var projectId = req.params.projectId
+      var hubId =  req.params.hubId
 
-    var dmSvc = ServiceManager.getService(
-      'DMSvc');
+      var dmSvc = ServiceManager.getService('DMSvc');
 
-    dmSvc.getProject(token, hubId, projectId).then(function(response){
+      var response = await dmSvc.getProjects(
+        token, hubId)
 
       res.json(response)
+    }
+    catch (ex) {
 
-    }, function(err){
-
-      console.log(err)
+      console.log(ex)
 
       res.status(500)
-      res.json(err)
-    })
+      res.json(ex)
+    }
   });
 
   /////////////////////////////////////////////////////////////////////////////
   //
   //
   /////////////////////////////////////////////////////////////////////////////
-  router.get('/projects/:projectId/folders/:folderId', function (req, res) {
+  router.get('/hubs/:hubId/projects/:projectId', async (req, res) => {
 
-    var token = req.session.token || hardcodedToken
+    try {
 
-    var projectId = req.params.projectId
+      var token = req.session.token || hardcodedToken
 
-    var folderId = req.params.folderId
+      var hubId =  req.params.hubId
 
-    var dmSvc = ServiceManager.getService(
-      'DMSvc');
+      var projectId = req.params.projectId
 
-    dmSvc.getFolderContent(token, projectId, folderId).then(function(response){
+      var dmSvc = ServiceManager.getService('DMSvc');
+
+      var response = await dmSvc.getProject(
+        token, hubId, projectId)
 
       res.json(response)
+    }
+    catch (ex) {
 
-    }, function(err){
-
-      console.log(err)
+      console.log(ex)
 
       res.status(500)
-      res.json(err)
-    })
+      res.json(ex)
+    }
   });
 
   /////////////////////////////////////////////////////////////////////////////
   //
   //
   /////////////////////////////////////////////////////////////////////////////
-  router.get('/projects/:projectId/items/:itemId/versions', function (req, res) {
+  router.get('/projects/:projectId/folders/:folderId', async (req, res) => {
 
-    var token = req.session.token || hardcodedToken
+    try {
 
-    var projectId = req.params.projectId
+      var token = req.session.token || hardcodedToken
 
-    var itemId = req.params.itemId
+      var projectId = req.params.projectId
 
-    var dmSvc = ServiceManager.getService(
-      'DMSvc');
+      var folderId = req.params.folderId
 
-    dmSvc.getItemVersions(token, projectId, itemId).then(function(response){
+      var dmSvc = ServiceManager.getService('DMSvc');
+
+      var response = await dmSvc.getFolderContent(
+        token, projectId, folderId)
 
       res.json(response)
+    }
+    catch (ex) {
 
-    }, function(err){
-
-      console.log(err)
+      console.log(ex)
 
       res.status(500)
-      res.json(err)
-    })
+      res.json(ex)
+    }
+  });
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////////////////
+  router.get('/projects/:projectId/items/:itemId/versions', async (req, res) => {
+
+    try {
+
+      var token = req.session.token || hardcodedToken
+
+      var projectId = req.params.projectId
+
+      var itemId = req.params.itemId
+
+      var dmSvc = ServiceManager.getService('DMSvc');
+
+      var response = await dmSvc.getItemVersions(
+        token, projectId, itemId)
+
+      res.json(response)
+    }
+    catch (ex) {
+
+      console.log(ex)
+
+      res.status(500)
+      res.json(ex)
+    }
   });
 
   return router;

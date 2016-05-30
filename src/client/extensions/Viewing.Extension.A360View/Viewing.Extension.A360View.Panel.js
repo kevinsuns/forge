@@ -36,7 +36,8 @@ export default class CustomTreePanel extends ToolPanelBase {
       this.TabManager.clear()
     })
 
-    $('.a360 .dockingPanelTitle').prepend('<img/>')
+    $(`#${this.container.id}`).find(
+      '.dockingPanelTitle').prepend('<img/>')
   }
 
   /////////////////////////////////////////////////////////////

@@ -8,8 +8,8 @@ module.exports = {
 
   clientConfig: {
     env: 'AutodeskStaging',
-    host: 'https://autodesk-forge.herokuapp.com',
-    port: 443
+    host: 'localhost',
+    port: 3000
   },
 
   serverConfig: {
@@ -51,7 +51,8 @@ module.exports = {
       project:         BASE_URL + '/project/'        + DM_PROJECT_VERSION + '/hubs/%s/projects/%s',
       folderContent:   BASE_URL + '/data/'           + DM_PROJECT_VERSION + '/projects/%s/folders/%s/contents',
       itemVersions:    BASE_URL + '/data/'           + DM_PROJECT_VERSION + '/projects/%s/items/%s/versions',
-      thumbnail:       BASE_URL + '/viewingservice/' + DM_PROJECT_VERSION + '/thumbnails/%s'
+      thumbnail:       BASE_URL + '/viewingservice/' + DM_PROJECT_VERSION + '/thumbnails/%s',
+      user:            BASE_URL + '/userprofile/'    + DM_PROJECT_VERSION + '/users/@me'
     }
   }
 }

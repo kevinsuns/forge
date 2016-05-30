@@ -28,6 +28,17 @@ export default class DMSvc extends BaseSvc {
   //
   //
   /////////////////////////////////////////////////////////////////
+  getUser (token) {
+
+    console.log(this._config.endPoints.user)
+
+    return get(this._config.endPoints.user, token);
+  }
+
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
   getHubs (token) {
 
     return get(this._config.endPoints.hubs, token);
@@ -98,8 +109,7 @@ function get(url, token) {
       url: url,
       method: "GET",
       headers: {
-        'Authorization': 'Bearer ' + token,
-        'Content-Type': 'application/json'
+        'Authorization': 'Bearer ' + token
       }
     }, function (err, response, body) {
 
@@ -113,13 +123,6 @@ function get(url, token) {
           return reject(err);
         }
 
-        if(typeof body === 'string'){
-
-          console.log('error: ' + url)
-          console.log('body: ' + body)
-          return reject(body);
-        }
-
         body = JSON.parse(trim(body));
 
         if (body.errors) {
@@ -130,12 +133,13 @@ function get(url, token) {
           return reject(body.errors);
         }
 
-        return resolve(body.data);
+        return resolve(body.data || body);
       }
       catch(ex){
 
         console.log(body)
         console.log(url)
+
         return reject(ex);
       }
     })

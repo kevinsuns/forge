@@ -26,10 +26,14 @@ import './styles/app.css'
 
 class App {
 
-  getToken () {
+  //////////////////////////////////////////////////////////////////////////
+  //
+  //
+  //////////////////////////////////////////////////////////////////////////
+  getToken (url) {
 
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", '/api/token/2legged', false);
+    xhr.open("GET", url, false);
     xhr.send(null);
 
     var response = JSON.parse(xhr.responseText);
@@ -64,6 +68,12 @@ class App {
   //
   //////////////////////////////////////////////////////////////////////////
   login() {
+
+    //this.viewer.loadExtension(
+    //  'Viewing.Extension.A360View', {
+    //    parentControl: this.ctrlGroup,
+    //    showPanel: false
+    //  })
 
     $.ajax({
       url: '/api/auth/login',
@@ -111,7 +121,10 @@ class App {
     });
   }
 
+  //////////////////////////////////////////////////////////////////////////
   // http://stackoverflow.com/questions/4068373/center-a-popup-window-on-screen
+  //
+  //////////////////////////////////////////////////////////////////////////
   PopupCenter(url, title, w, h) {
 
     // Fixes dual-screen position
@@ -157,16 +170,18 @@ class App {
       this.login()
     })
 
-    $('#logoutBtn').click((e) => {
-
-      this.logout()
-    })
-
     var options = {
+
       env: config.env,
-      refreshToken: this.getToken,
-      getAccessToken: this.getToken
-    };
+
+      refreshToken: () => {
+        return this.getToken('/api/token/2legged')
+      },
+
+      getAccessToken: () => {
+        return this.getToken('/api/token/2legged')
+      }
+    }
 
     Autodesk.Viewing.Initializer(options, () => {
 
@@ -177,7 +192,7 @@ class App {
 
       this.viewer.initialize()
 
-      this.importModel ({name: 'default'})
+      //this.importModel ({name: 'default'})
 
       $('#loader').remove()
 
@@ -202,6 +217,14 @@ class App {
 
           this.popup.close()
           this.popup = null
+
+          $.get('/api/dm/user', (user) => {
+
+            var username = user.firstName + ' ' + user.lastName
+
+            $('#loginText').text(username)
+            $('#loginItem').addClass('active')
+          })
 
           this.viewer.loadExtension(
             'Viewing.Extension.A360View', {
@@ -273,7 +296,8 @@ class App {
           })
 
         this.modelTransformer =
-          this.viewer.loadedExtensions['Viewing.Extension.ModelTransformer']
+          this.viewer.loadedExtensions[
+            'Viewing.Extension.ModelTransformer']
 
         this.modelTransformer.addModel(model)
 
@@ -381,15 +405,18 @@ class App {
         break;
 
       case 6: //Autodesk.Viewing.ErrorCode.NETWORK_SERVER_ERROR
-        console.log('A server error was returned when accessing a network resource (HTTP 5xx).');
+        console.log('A server error was returned when accessing ' +
+          'a network resource (HTTP 5xx).');
         break;
 
       case 7: //Autodesk.Viewing.ErrorCode.NETWORK_UNHANDLED_RESPONSE_CODE
-        console.log('An unhandled response code was returned when accessing a network resource (HTTP everything else).');
+        console.log('An unhandled response code was returned ' +
+          'when accessing a network resource (HTTP everything else).');
         break;
 
       case 8: //Autodesk.Viewing.ErrorCode.BROWSER_WEBGL_NOT_SUPPORTED
-        console.log('Browser error: WebGL is not supported by the current browser.');
+        console.log('Browser error: WebGL is not ' +
+          'supported by the current browser.');
         break;
 
       case 9: //Autodesk.Viewing.ErrorCode.BAD_DATA_NO_VIEWABLE_CONTENT

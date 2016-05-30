@@ -124,7 +124,8 @@ export default class ModelTransformerPanel extends ToolPanelBase {
         }
     })
 
-    $('.model-transformer .dockingPanelTitle').prepend('<img/>')
+    $(`#${this.container.id}`).find(
+      '.dockingPanelTitle').prepend('<img/>')
   }
 
   /////////////////////////////////////////////////////////////
