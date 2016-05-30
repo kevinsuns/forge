@@ -73,6 +73,16 @@ class App {
     //    parentControl: this.ctrlGroup,
     //    showPanel: false
     //  })
+    //
+    //this.a360View =
+    //  this.viewer.loadedExtensions['Viewing.Extension.A360View']
+    //
+    //this.a360View.on('item.dblClick', (data)=> {
+    //
+    //  this.importModelFromItem(data)
+    //})
+    //
+    //return
 
     $.ajax({
       url: '/api/auth/login',
@@ -234,11 +244,9 @@ class App {
           this.a360View =
             this.viewer.loadedExtensions['Viewing.Extension.A360View']
 
-          this.a360View.on('load.model', (data)=> {
+          this.a360View.on('item.dblClick', (item)=> {
 
-            console.log(data)
-
-            this.importModel(data)
+            this.importModelFromItem(item)
           })
         }
       });
@@ -256,11 +264,21 @@ class App {
   //
   //
   //////////////////////////////////////////////////////////////////////////
-  importModel (data) {
+  importModelFromItem (item) {
 
-    var urn = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLWJ1Y2tldC1ucG0tZGV2L3Rlc3QuZHdm'
+    console.log(item)
 
-    Autodesk.Viewing.Document.load('urn:' + urn, async(LMVDocument) => {
+    //var urn = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLWJ1Y2tldC1ucG0tZGV2L3Rlc3QuZHdm'
+
+    var tokenResponse = this.getToken('/api/token/3legged')
+
+    var urn = item.versions[0].relationships.derivatives.data.id
+
+    Autodesk.Viewing.Private.refreshToken(tokenResponse.access_token)
+
+    console.log(urn)
+
+    Autodesk.Viewing.Document.load('urn: ' + urn, async(LMVDocument) => {
 
       var rootItem = LMVDocument.getRootItem();
 
@@ -285,7 +303,9 @@ class App {
         var path = LMVDocument.getViewablePath(
           geometryItems3d[0])
 
-        let model = await this.loadModel(path)
+        let model = await this.loadModel(path, {
+          sessionId: LMVDocument.acmSessionId
+        })
 
         model.name = data.name
 
@@ -321,7 +341,17 @@ class App {
 
         fitToView()
       }
+    }, (err) => {
+
+      this.logError(err)
+
+    }, {
+
+      'oauth2AccessToken': tokenResponse.access_token,
+      'x-ads-acm-namespace': 'WIPDMSTG', // STG for staging,
+      'x-ads-acm-check-groups': 'true'
     })
+
   }
 
   //////////////////////////////////////////////////////////////////////////
@@ -345,20 +375,22 @@ class App {
         Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
         _onGeometryLoaded);
 
-      this.viewer.loadModel(path, opts, ()=> {},
-        (errorCode, errorMessage, statusCode, statusText)=> {
+      this.viewer.load(path, null, null, null, opts.sessionId);
 
-          this.viewer.removeEventListener(
-            Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
-            _onGeometryLoaded);
-
-          return reject({
-            errorCode: errorCode,
-            errorMessage: errorMessage,
-            statusCode: statusCode,
-            statusText: statusText
-          });
-        });
+      //this.viewer.loadModel(path, opts, ()=> {},
+      //  (errorCode, errorMessage, statusCode, statusText)=> {
+      //
+      //    this.viewer.removeEventListener(
+      //      Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
+      //      _onGeometryLoaded);
+      //
+      //    return reject({
+      //      errorCode: errorCode,
+      //      errorMessage: errorMessage,
+      //      statusCode: statusCode,
+      //      statusText: statusText
+      //    });
+      //  });
     });
   }
 

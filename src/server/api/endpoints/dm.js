@@ -1,12 +1,12 @@
+
 import ServiceManager from '../services/SvcManager'
+import { serverConfig as config } from 'c0nfig'
 import express from 'express'
 import request from 'request'
 
 module.exports = function() {
 
   var router = express.Router()
-
-  var hardcodedToken = 'PfRBxF6rVEIlv0zYhbgPtygTnZPz'; //used for debug
 
   /////////////////////////////////////////////////////////////////////////////
   //
@@ -16,7 +16,7 @@ module.exports = function() {
 
     try {
 
-      var token = req.session.token || hardcodedToken
+      var token = req.session.token || config.hardcodedToken
 
       var dmSvc = ServiceManager.getService('DMSvc');
 
@@ -43,7 +43,7 @@ module.exports = function() {
 
     try {
 
-      var token = req.session.token || hardcodedToken
+      var token = req.session.token || config.hardcodedToken
 
       var dmSvc = ServiceManager.getService('DMSvc');
 
@@ -68,7 +68,7 @@ module.exports = function() {
 
     try {
 
-      var token = req.session.token || hardcodedToken
+      var token = req.session.token || config.hardcodedToken
 
       var hubId =  req.params.hubId
 
@@ -96,7 +96,7 @@ module.exports = function() {
 
     try {
 
-      var token = req.session.token || hardcodedToken
+      var token = req.session.token || config.hardcodedToken
 
       var hubId =  req.params.hubId
 
@@ -126,7 +126,7 @@ module.exports = function() {
 
     try {
 
-      var token = req.session.token || hardcodedToken
+      var token = req.session.token || config.hardcodedToken
 
       var projectId = req.params.projectId
 
@@ -156,7 +156,7 @@ module.exports = function() {
 
     try {
 
-      var token = req.session.token || hardcodedToken
+      var token = req.session.token || config.hardcodedToken
 
       var projectId = req.params.projectId
 

@@ -113,5 +113,29 @@ export default class A360API {
       }
     });
   }
+
+  ///////////////////////////////////////////////////////////////////
+  // GET /projects/:projectId/items/:itemId/versions
+  //
+  ///////////////////////////////////////////////////////////////////
+  getItemVersions(projectId, itemId) {
+
+    return new Promise(async(resolve, reject) => {
+
+      try {
+
+        var url = `${this.apiUrl}/projects/${projectId}/items/${itemId}/versions`
+
+        $.get(url, (res)=> {
+
+          return resolve(res)
+        })
+      }
+      catch(ex) {
+
+        return reject(ex)
+      }
+    });
+  }
 }
 

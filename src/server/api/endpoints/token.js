@@ -15,17 +15,18 @@
 // DOES NOT WARRANT THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 /////////////////////////////////////////////////////////////////////////////////
-var Lmv = require('view-and-data');
-var express = require('express');
-var config = require('c0nfig');
+import { serverConfig as config } from 'c0nfig'
+import Lmv from 'view-and-data'
+import express from 'express'
+
 
 module.exports = function() {
 
-    var lmv = new Lmv(config.serverConfig);
+    var lmv = new Lmv(config)
 
-    lmv.initialize();
+    lmv.initialize()
 
-    var router = express.Router();
+    var router = express.Router()
 
     ///////////////////////////////////////////////////////////////////////////
     //
@@ -49,7 +50,9 @@ module.exports = function() {
     ///////////////////////////////////////////////////////////////////////////
     router.get('/3legged', function (req, res) {
 
-      res.send(req.session.token);
+      res.json({
+        access_token: req.session.token || config.hardcodedToken
+      })
     });
 
     return router;

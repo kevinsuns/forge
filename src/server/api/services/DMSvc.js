@@ -90,7 +90,7 @@ export default class DMSvc extends BaseSvc {
   getItemVersions (token, projectId, itemId) {
 
     var url = util.format(
-      this._this._config.endPoints.itemVersions,
+      this._config.endPoints.itemVersions,
       projectId, itemId);
 
     return get(url, token);

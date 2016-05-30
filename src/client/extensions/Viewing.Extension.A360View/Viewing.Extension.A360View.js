@@ -86,7 +86,10 @@ class A360ViewExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   onNodeDblCliked (node) {
 
-    this.emit('load.model', node)
+    if(node.type === 'items'){
+
+      this.emit('item.dblClick', node)
+    }
   }
 }
 

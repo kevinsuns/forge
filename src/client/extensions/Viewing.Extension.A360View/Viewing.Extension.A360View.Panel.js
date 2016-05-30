@@ -157,10 +157,7 @@ class CustomTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
   /////////////////////////////////////////////////////////////
   onTreeNodeDoubleClick (tree, node, event) {
 
-    if(node.type === 'items'){
-
-      this.emit('node.dblClick', node)
-    }
+    this.emit('node.dblClick', node)
   }
 
   /////////////////////////////////////////////////////////////
@@ -203,10 +200,10 @@ class CustomTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
               var child = {
                 name: folderItem.attributes.displayName,
-                group: folderItem.type === 'folders',
                 type: folderItem.type,
                 projectId: node.id,
-                id: folderItem.id
+                id: folderItem.id,
+                group: true
               }
 
               callback(child)
@@ -224,10 +221,10 @@ class CustomTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
               var child = {
                 name: folderItem.attributes.displayName,
-                group: folderItem.type === 'folders',
                 projectId: node.projectId,
                 type: folderItem.type,
-                id: folderItem.id
+                id: folderItem.id,
+                group: true
               }
 
               callback(child)
@@ -238,7 +235,10 @@ class CustomTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
       case 'items':
 
-        //no children for an item ...
+        this.api.getItemVersions(node.projectId, node.id).then((itemVersions) => {
+
+          node.versions = itemVersions
+        })
 
       default:
         break
