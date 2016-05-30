@@ -20,7 +20,6 @@ import 'Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer'
 import 'Viewing.Extension.A360View/Viewing.Extension.A360View'
 import {clientConfig as config} from 'c0nfig'
 import ioClient from 'socket.io-client'
-import Toolkit from 'Toolkit'
 import 'bootstrap-webpack'
 import './styles/app.css'
 
