@@ -47,6 +47,16 @@ module.exports = function() {
   /////////////////////////////////////////////////////////////////////////////
   router.get('/callback', function (req, res) {
 
+    var socketSvc = ServiceManager.getService(
+      'SocketSvc');
+
+    if(req.session.socketId){
+
+      socketSvc.broadcast(
+        'callback', 'done',
+        req.session.socketId)
+    }
+
     oauth2.getOAuthAccessToken(
       req.query.code, {
         'grant_type': 'authorization_code',
@@ -62,16 +72,7 @@ module.exports = function() {
             req.session.cookie.maxAge =
               parseInt(results.expires_in) * 60;
           }
-          var socketSvc = ServiceManager.getService(
-            'SocketSvc');
 
-          if(req.session.socketId){
-
-            socketSvc.broadcast(
-              'callback', 'done',
-              req.session.socketId)
-          }
-          
           res.end('<script>window.opener.location.reload(false);window.close();</script>');
         }
         catch(ex){
