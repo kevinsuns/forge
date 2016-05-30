@@ -8,8 +8,8 @@ module.exports = {
 
   clientConfig: {
     env: 'AutodeskStaging',
-    host: 'localhost',
-    port: 3000
+    host: 'https://autodesk-forge.herokuapp.com',
+    port: 443
   },
 
   serverConfig: {
