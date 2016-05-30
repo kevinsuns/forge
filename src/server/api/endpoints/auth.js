@@ -56,24 +56,22 @@ module.exports = function() {
 
         try {
 
+          req.session.token = access_token;
+
           if(results) {
-
-            req.session.token = access_token;
-
             req.session.cookie.maxAge =
               parseInt(results.expires_in) * 60;
-
-            var socketSvc = ServiceManager.getService(
-              'SocketSvc');
-
-            if(req.session.socketId){
-
-              socketSvc.broadcast(
-                'callback', 'done',
-                req.session.socketId)
-            }
           }
+          var socketSvc = ServiceManager.getService(
+            'SocketSvc');
 
+          if(req.session.socketId){
+
+            socketSvc.broadcast(
+              'callback', 'done',
+              req.session.socketId)
+          }
+          
           res.end('<script>window.opener.location.reload(false);window.close();</script>');
         }
         catch(ex){
