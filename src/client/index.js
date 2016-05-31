@@ -285,6 +285,8 @@ class App {
 
     Autodesk.Viewing.Document.load('urn:' + urn, async(LMVDocument) => {
 
+      console.log(LMVDocument)
+      
       var rootItem = LMVDocument.getRootItem();
 
       // Grab all 3D items
