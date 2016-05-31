@@ -137,27 +137,20 @@ export default class TransformTool extends EventsEmitter {
       console.log('Model: ' + this._model.name)
 
       var rootId = this._model.getData().instanceTree.getRootId()
+      
+      var fragIdsArray = []
 
-      if(selection.dbIdArray.indexOf(rootId) < 0){
+      var fragCount = this._model.getFragmentList().
+        fragments.fragId2dbId.length;
 
-        //this._viewer.select([rootId])
+      //fragIds range from 0 to fragCount-1
+      for(var fragId=0; fragId<fragCount; ++fragId){
+
+        fragIdsArray.push(fragId);
       }
-      else {
 
-        var fragIdsArray = []
-
-        var fragCount = this._model.getFragmentList().
-          fragments.fragId2dbId.length;
-
-        //fragIds range from 0 to fragCount-1
-        for(var fragId=0; fragId<fragCount; ++fragId){
-
-          fragIdsArray.push(fragId);
-        }
-
-        this.initializeSelection(
-          this._hitPoint, fragIdsArray)
-      }
+      this.initializeSelection(
+        this._hitPoint, fragIdsArray)
     }
     else if(this._model) {
 
