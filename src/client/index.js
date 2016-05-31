@@ -273,6 +273,7 @@ class App {
       return
     }
 
+    //hardcoded URN for testing
     //var urn = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLWJ1Y2tldC1ucG0tZGV2L3Rlc3QuZHdm'
 
     var token = this.getToken('/api/token/3legged')
@@ -281,8 +282,8 @@ class App {
 
     Autodesk.Viewing.Private.refreshToken(token)
 
-    console.log(urn)
-    console.log(token)
+    console.log('URN: ' + urn)
+    console.log('Token: ' + token)
 
     Autodesk.Viewing.Document.load('urn:' + urn, async(LMVDocument) => {
 

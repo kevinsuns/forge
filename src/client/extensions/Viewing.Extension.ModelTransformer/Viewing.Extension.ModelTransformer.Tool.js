@@ -126,6 +126,8 @@ export default class TransformTool extends EventsEmitter {
   ///////////////////////////////////////////////////////////////////////////
   onAggregateSelectionChanged(event) {
 
+    console.log(event)
+
     if(event.selections && event.selections.length) {
 
       var selection = event.selections[0]
