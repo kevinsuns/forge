@@ -283,7 +283,7 @@ class App {
 
     console.log(urn)
 
-    Autodesk.Viewing.Document.load('urn: ' + urn, async(LMVDocument) => {
+    Autodesk.Viewing.Document.load('urn:' + urn, async(LMVDocument) => {
 
       var rootItem = LMVDocument.getRootItem();
 
