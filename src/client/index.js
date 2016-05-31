@@ -202,7 +202,7 @@ class App {
       this.viewer.initialize()
 
       $('#loader').remove()
-      $('.viewer > .spinner').remove()
+      $('.spinner').remove()
 
       this.socket = ioClient.connect(
         `${config.host}:${config.port}`, {
@@ -282,7 +282,7 @@ class App {
     Autodesk.Viewing.Private.refreshToken(token)
 
     console.log(urn)
-    console.log(tokenResponse.access_token)
+    console.log(token)
 
     Autodesk.Viewing.Document.load('urn:' + urn, async(LMVDocument) => {
 
