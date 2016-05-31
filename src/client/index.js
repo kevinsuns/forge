@@ -275,12 +275,11 @@ class App {
 
     //var urn = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLWJ1Y2tldC1ucG0tZGV2L3Rlc3QuZHdm'
 
-    var tokenResponse = this.getToken('/api/token/3legged')
+    var token = this.getToken('/api/token/3legged')
 
     var urn = item.versions[0].relationships.derivatives.data.id
 
-    Autodesk.Viewing.Private.refreshToken(
-      tokenResponse.access_token)
+    Autodesk.Viewing.Private.refreshToken(token)
 
     console.log(urn)
     console.log(tokenResponse.access_token)
@@ -356,8 +355,7 @@ class App {
 
     }, {
 
-      'origin': '*',
-      'oauth2AccessToken': tokenResponse.access_token,
+      'oauth2AccessToken': token,
       'x-ads-acm-namespace': 'WIPDMSTG', // STG for staging,
       'x-ads-acm-check-groups': 'true'
     })
