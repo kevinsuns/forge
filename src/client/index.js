@@ -201,9 +201,8 @@ class App {
 
       this.viewer.initialize()
 
-      //this.importModel ({name: 'default'})
-
       $('#loader').remove()
+      $('.viewer > .spinner').remove()
 
       this.socket = ioClient.connect(
         `${config.host}:${config.port}`, {
@@ -268,11 +267,17 @@ class App {
 
     console.log(item)
 
-    //var urn = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLWJ1Y2tldC1ucG0tZGV2L3Rlc3QuZHdm'
+    if (!item.versions || !item.versions.length) {
+
+      console.log('No item version available...')
+      return
+    }
+
+    var urn = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLWJ1Y2tldC1ucG0tZGV2L3Rlc3QuZHdm'
 
     var tokenResponse = this.getToken('/api/token/3legged')
 
-    var urn = item.versions[0].relationships.derivatives.data.id
+    //var urn = item.versions[0].relationships.derivatives.data.id
 
     Autodesk.Viewing.Private.refreshToken(tokenResponse.access_token)
 
@@ -347,6 +352,7 @@ class App {
 
     }, {
 
+      'origin': '*',
       'oauth2AccessToken': tokenResponse.access_token,
       'x-ads-acm-namespace': 'WIPDMSTG', // STG for staging,
       'x-ads-acm-check-groups': 'true'
