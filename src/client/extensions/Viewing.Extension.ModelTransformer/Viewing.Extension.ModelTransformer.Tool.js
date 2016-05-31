@@ -130,7 +130,7 @@ export default class TransformTool extends EventsEmitter {
 
     if(event.selections && event.selections.length) {
 
-      var selection = event.selections[0]
+      var selection = event.selections[event.selections.length - 1]
 
       this._model = selection.model
 
