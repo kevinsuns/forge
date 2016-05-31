@@ -140,7 +140,7 @@ export default class TransformTool extends EventsEmitter {
 
       if(selection.dbIdArray.indexOf(rootId) < 0){
 
-        this._viewer.select([rootId])
+        //this._viewer.select([rootId])
       }
       else {
 
