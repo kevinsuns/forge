@@ -134,6 +134,8 @@ export default class TransformTool extends EventsEmitter {
 
       this._model = selection.model
 
+      console.log('Model: ' + this._model.name)
+
       var rootId = this._model.getData().instanceTree.getRootId()
 
       if(selection.dbIdArray.indexOf(rootId) < 0){
