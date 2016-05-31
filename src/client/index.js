@@ -273,20 +273,22 @@ class App {
       return
     }
 
-    var urn = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLWJ1Y2tldC1ucG0tZGV2L3Rlc3QuZHdm'
+    //var urn = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLWJ1Y2tldC1ucG0tZGV2L3Rlc3QuZHdm'
 
     var tokenResponse = this.getToken('/api/token/3legged')
 
-    //var urn = item.versions[0].relationships.derivatives.data.id
+    var urn = item.versions[0].relationships.derivatives.data.id
 
-    Autodesk.Viewing.Private.refreshToken(tokenResponse.access_token)
+    Autodesk.Viewing.Private.refreshToken(
+      tokenResponse.access_token)
 
     console.log(urn)
+    console.log(tokenResponse.access_token)
 
     Autodesk.Viewing.Document.load('urn:' + urn, async(LMVDocument) => {
 
       console.log(LMVDocument)
-      
+
       var rootItem = LMVDocument.getRootItem();
 
       // Grab all 3D items
