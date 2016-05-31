@@ -315,7 +315,7 @@ class App {
           sessionId: LMVDocument.acmSessionId
         })
 
-        model.name = data.name
+        model.name = item.name
 
         this.viewer.loadExtension(
           'Viewing.Extension.ModelTransformer', {
