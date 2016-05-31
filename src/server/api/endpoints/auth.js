@@ -57,11 +57,12 @@ module.exports = function() {
         try {
 
           req.session.token = access_token;
+          req.session.cookie.expires = false;
 
-          if(results) {
-            req.session.cookie.maxAge =
-              parseInt(results.expires_in) * 60;
-          }
+          //if(results) {
+          //  req.session.cookie.maxAge =
+          //    parseInt(results.expires_in) * 60;
+          //}
 
           var socketSvc = ServiceManager.getService(
             'SocketSvc');
