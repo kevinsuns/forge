@@ -68,21 +68,21 @@ class App {
   //////////////////////////////////////////////////////////////////////////
   login() {
 
-    this.viewer.loadExtension(
-      'Viewing.Extension.A360View', {
-        parentControl: this.ctrlGroup,
-        showPanel: false
-      })
-
-    this.a360View =
-      this.viewer.loadedExtensions['Viewing.Extension.A360View']
-
-    this.a360View.on('item.dblClick', (data)=> {
-
-      this.importModelFromItem(data)
-    })
-
-    return
+    //this.viewer.loadExtension(
+    //  'Viewing.Extension.A360View', {
+    //    parentControl: this.ctrlGroup,
+    //    showPanel: false
+    //  })
+    //
+    //this.a360View =
+    //  this.viewer.loadedExtensions['Viewing.Extension.A360View']
+    //
+    //this.a360View.on('item.dblClick', (data)=> {
+    //
+    //  this.importModelFromItem(data)
+    //})
+    //
+    //return
 
     $.ajax({
       url: '/api/auth/login',
