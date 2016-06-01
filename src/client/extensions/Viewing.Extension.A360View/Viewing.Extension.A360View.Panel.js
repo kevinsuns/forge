@@ -152,6 +152,8 @@ export default class CustomTreePanel extends ToolPanelBase {
 
     clearInterval(this.loadIntervalId)
 
+    this.loadIntervalId = 0
+
     $(`#${this.container.id}`).find(
       '.dockingPanelTitle').text('A360 View')
 

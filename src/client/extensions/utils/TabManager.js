@@ -13,20 +13,21 @@ export default class TabManager extends EventsEmitter {
   ///////////////////////////////////////////////////////////////////
   constructor(container) {
 
-    super();
+    super()
 
-    this.class = this.guid();
-    this.containerId = this.guid();
-    this.tabsHeaderId = this.guid();
+    this.nbTabs = 0
+    this.class = this.guid()
+    this.containerId = this.guid()
+    this.tabsHeaderId = this.guid()
 
     var html = `
       <div id="${this.containerId}" class="c${this.class} tabs">
         <ul id="${this.tabsHeaderId}">
         </ul>
       </div>
-    `;
+    `
 
-    $(container).append(html);
+    $(container).append(html)
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -35,6 +36,12 @@ export default class TabManager extends EventsEmitter {
   ///////////////////////////////////////////////////////////////////
   addTab(tabInfo) {
 
+    this.nbTabs++
+
+    $('#' + this.tabsHeaderId).css({
+      width: this.nbTabs * 250 + 'px'
+    })
+
     var tabHeaderId = this.guid();
 
     var tabId = this.guid();
@@ -42,7 +49,9 @@ export default class TabManager extends EventsEmitter {
     var tabHtml = `
 
       <li>
-        <a id="${tabHeaderId}" target="${tabId}" class="tab-link">${tabInfo.name}</a>
+        <a id="${tabHeaderId}" target="${tabId}"
+           class="tab-link">${tabInfo.name}
+        </a>
       </li>
     `;
 

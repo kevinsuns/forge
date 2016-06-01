@@ -36,7 +36,10 @@ export default class ModelTransformerPanel extends ToolPanelBase {
 
         this.setTransform(model.transform)
 
-        this.emit('model.selected', model)
+        this.emit('model.selected', {
+          fitToView: true,
+          model
+        })
       }
     })
 
@@ -87,6 +90,11 @@ export default class ModelTransformerPanel extends ToolPanelBase {
       this.dropdown.setCurrentItem(model)
 
       this.setTransform(model.transform)
+
+      this.emit('model.selected', {
+        fitToView: false,
+        model
+      })
     })
 
     this.on('open', () => {
