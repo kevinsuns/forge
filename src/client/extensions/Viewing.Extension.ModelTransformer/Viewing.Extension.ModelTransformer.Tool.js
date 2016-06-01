@@ -134,10 +134,12 @@ export default class TransformTool extends EventsEmitter {
 
       this._model = selection.model
 
+      this.emit('transform.modelSelected',
+        this._model
+      );
+
       console.log('Model: ' + this._model.name)
 
-      var rootId = this._model.getData().instanceTree.getRootId()
-      
       var fragIdsArray = []
 
       var fragCount = this._model.getFragmentList().
@@ -160,6 +162,8 @@ export default class TransformTool extends EventsEmitter {
 
   initializeSelection (hitPoint, fragIdsArray) {
 
+    this._selectedFragProxyMap = {};
+
     this._model.offset = {
       x: hitPoint.x - this._model.transform.translation.x,
       y: hitPoint.y - this._model.transform.translation.y,
@@ -181,7 +185,7 @@ export default class TransformTool extends EventsEmitter {
     fragIdsArray.forEach((fragId)=> {
 
       var fragProxy = this._viewer.impl.getFragmentProxy(
-        this._viewer.model,
+        this._model,
         fragId);
 
       fragProxy.getAnimTransform();
@@ -193,7 +197,7 @@ export default class TransformTool extends EventsEmitter {
         z: hitPoint.z - fragProxy.position.z
       };
 
-      this._selectedFragProxyMap[ fragId ] = fragProxy;
+      this._selectedFragProxyMap[fragId] = fragProxy;
     })
   }
 

@@ -42,7 +42,7 @@
 .a360 .tree-container {
     overflow-y: auto;
     overflow-x: hidden;
-    height: calc(100% - 13px);
+    height: 100%;
 }
 
 .a360 .tabs-container {
@@ -50,7 +50,7 @@
 }
 
 .a360 .tabs div {
-    max-height: 569px;
+    height: 100%;
 }
 
 .a360-icon {

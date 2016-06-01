@@ -81,10 +81,10 @@ export default class Dropdown extends EventsEmitter {
 
     $('#' + this.buttonId).prop('disabled', false);
 
-    item.id = guid();
+    var itemId = item.id || guid();
 
     var itemHtml = `
-      <li id="${item.id}">
+      <li id="${itemId}">
         <a href="">${item.name}</a>
       </li>`;
 
@@ -110,13 +110,23 @@ export default class Dropdown extends EventsEmitter {
         this.title + ': ' + item.name);
     };
 
-    $('#' + item.id).click((e)=>{
+    $('#' + itemId).click((e)=>{
       onClick(e);
     });
 
     if(setActive){
       onClick();
     }
+  }
+
+  /////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////
+  setCurrentItem(item) {
+
+    $('#' + this.labelId).text(
+      this.title + ': ' + item.name);
   }
 
   /////////////////////////////////////////////////////////////

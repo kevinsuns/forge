@@ -68,21 +68,21 @@ class App {
   //////////////////////////////////////////////////////////////////////////
   login() {
 
-    //this.viewer.loadExtension(
-    //  'Viewing.Extension.A360View', {
-    //    parentControl: this.ctrlGroup,
-    //    showPanel: false
-    //  })
-    //
-    //this.a360View =
-    //  this.viewer.loadedExtensions['Viewing.Extension.A360View']
-    //
-    //this.a360View.on('item.dblClick', (data)=> {
-    //
-    //  this.importModelFromItem(data)
-    //})
-    //
-    //return
+    this.viewer.loadExtension(
+      'Viewing.Extension.A360View', {
+        parentControl: this.ctrlGroup,
+        showPanel: false
+      })
+
+    this.a360View =
+      this.viewer.loadedExtensions['Viewing.Extension.A360View']
+
+    this.a360View.on('item.dblClick', (data)=> {
+
+      this.importModelFromItem(data)
+    })
+
+    return
 
     $.ajax({
       url: '/api/auth/login',
@@ -265,6 +265,7 @@ class App {
   //////////////////////////////////////////////////////////////////////////
   importModelFromItem (item) {
 
+    console.log('Selected Item:')
     console.log(item)
 
     if (!item.versions || !item.versions.length) {
@@ -273,12 +274,17 @@ class App {
       return
     }
 
-    //hardcoded URN for testing
-    //var urn = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLWJ1Y2tldC1ucG0tZGV2L3Rlc3QuZHdm'
+    this.a360View.panel.startLoad(
+      'Loading ' + item.name + ' ...')
 
     var token = this.getToken('/api/token/3legged')
 
-    var urn = item.versions[0].relationships.derivatives.data.id
+    //pick the last version by default
+    var version = item.versions[item.versions.length-1]
+
+    //hardcoded URN for testing
+    //var urn = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLWJ1Y2tldC1ucG0tZGV2L3Rlc3QuZHdm'
+    var urn = version.relationships.derivatives.data.id
 
     Autodesk.Viewing.Private.refreshToken(token)
 
@@ -286,8 +292,6 @@ class App {
     console.log('Token: ' + token)
 
     Autodesk.Viewing.Document.load('urn:' + urn, async(LMVDocument) => {
-
-      console.log(LMVDocument)
 
       var rootItem = LMVDocument.getRootItem();
 
@@ -313,7 +317,7 @@ class App {
           geometryItems3d[0])
 
         let model = await this.loadModel(path, {
-          sessionId: LMVDocument.acmSessionId
+          acmSessionId: LMVDocument.acmSessionId
         })
 
         model.name = item.name
@@ -360,7 +364,6 @@ class App {
       'x-ads-acm-namespace': 'WIPDMSTG', // STG for staging,
       'x-ads-acm-check-groups': 'true'
     })
-
   }
 
   //////////////////////////////////////////////////////////////////////////
@@ -377,6 +380,8 @@ class App {
           Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
           _onGeometryLoaded);
 
+        this.a360View.panel.stopLoad()
+
         return resolve(event.model);
       }
 
@@ -384,22 +389,25 @@ class App {
         Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
         _onGeometryLoaded);
 
-      this.viewer.load(path, null, null, null, opts.sessionId);
+      var _onSuccess = () => {}
 
-      //this.viewer.loadModel(path, opts, ()=> {},
-      //  (errorCode, errorMessage, statusCode, statusText)=> {
-      //
-      //    this.viewer.removeEventListener(
-      //      Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
-      //      _onGeometryLoaded);
-      //
-      //    return reject({
-      //      errorCode: errorCode,
-      //      errorMessage: errorMessage,
-      //      statusCode: statusCode,
-      //      statusText: statusText
-      //    });
-      //  });
+      var _onError = (errorCode, errorMessage,
+                      statusCode, statusText) => {
+
+        this.viewer.removeEventListener(
+          Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
+          _onGeometryLoaded);
+
+        return reject({
+          errorCode: errorCode,
+          errorMessage: errorMessage,
+          statusCode: statusCode,
+          statusText: statusText
+        });
+      }
+
+      this.viewer.loadModel(
+        path, opts, _onSuccess, _onError)
     });
   }
 
@@ -474,6 +482,10 @@ class App {
   }
 }
 
+//////////////////////////////////////////////////////////////////////////
+// Bootstrapping
+//
+//////////////////////////////////////////////////////////////////////////
 $(document).ready(() => {
 
   var app = new App()

@@ -112,6 +112,53 @@ export default class CustomTreePanel extends ToolPanelBase {
       this.emit('node.dblClick', node)
     })
   }
+
+  /////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////
+  startLoad (title) {
+
+    $(`#${this.container.id}`).find(
+      '.dockingPanelTitle').text(title)
+
+    $(`#${this.container.id}`).find(
+      '.dockingPanelTitle').prepend(
+      '<img/>')
+
+    var angle = 0
+
+    if(!this.loadIntervalId){
+
+      this.loadIntervalId = setInterval( () => {
+
+        angle += 30
+        angle %= 360
+
+        $(`#${this.container.id}`).find(
+          '.dockingPanelTitle img').css({
+            transform: `rotateY(${angle}deg)`
+          })
+      }, 100)
+    }
+
+  }
+
+  /////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////
+  stopLoad () {
+
+    clearInterval(this.loadIntervalId)
+
+    $(`#${this.container.id}`).find(
+      '.dockingPanelTitle').text('A360 View')
+
+    $(`#${this.container.id}`).find(
+      '.dockingPanelTitle').prepend(
+      '<img/>')
+  }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

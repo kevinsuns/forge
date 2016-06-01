@@ -16,6 +16,8 @@ class ModelTransformerExtension extends ExtensionBase {
   constructor(viewer, options) {
 
     super(viewer, options);
+
+    this.firstModelLoaded = null
   }
 
   /////////////////////////////////////////////////////////////////
@@ -49,6 +51,8 @@ class ModelTransformerExtension extends ExtensionBase {
       this.control.container);
 
     this.panel.on('model.transform', (data)=>{
+
+      data.model.transform = data.transform
 
       this.transformModel(
         data.model,
@@ -97,6 +101,16 @@ class ModelTransformerExtension extends ExtensionBase {
 
     var viewer = this._viewer
 
+    var euler = new THREE.Euler(
+      transform.rotation.x * Math.PI/180,
+      transform.rotation.y * Math.PI/180,
+      transform.rotation.z * Math.PI/180,
+      'XYZ');
+
+    var quaternion = new THREE.Quaternion();
+
+    quaternion.setFromEuler(euler);
+
     function _transformFragProxy(fragId){
 
       var fragProxy = viewer.impl.getFragmentProxy(
@@ -110,10 +124,10 @@ class ModelTransformerExtension extends ExtensionBase {
       fragProxy.scale = transform.scale;
 
       //Not a standard three.js quaternion
-      fragProxy.quaternion._x = transform.quaternion.x;
-      fragProxy.quaternion._y = transform.quaternion.y;
-      fragProxy.quaternion._z = transform.quaternion.z;
-      fragProxy.quaternion._w = transform.quaternion.w;
+      fragProxy.quaternion._x = quaternion.x;
+      fragProxy.quaternion._y = quaternion.y;
+      fragProxy.quaternion._z = quaternion.z;
+      fragProxy.quaternion._w = quaternion.w;
 
       fragProxy.updateAnimTransform();
     }
@@ -126,8 +140,6 @@ class ModelTransformerExtension extends ExtensionBase {
 
       _transformFragProxy(fragId);
     }
-
-    model.transform = transform
   }
 
   //////////////////////////////////////////////////////////////////////////
@@ -152,19 +164,59 @@ class ModelTransformerExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   addModel (model) {
 
-    model.transform = {
+    model.id = ExtensionBase.guid()
+
+    if(!this.firstModelLoaded) {
+
+      this.firstModelLoaded = model.name
+    }
+
+    var transform = this.buildModelTransform(
+      model.name)
+
+    this.transformModel(
+      model, transform)
+
+    model.transform = transform
+
+    this.panel.dropdown.addItem(
+      model, true)
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+  //
+  //
+  //////////////////////////////////////////////////////////////////////////
+  buildModelTransform (modelName) {
+
+    var rotation = { x:0.0, y:0.0, z:0.0 }
+
+    if(this.firstModelLoaded.endsWith('.rvt')){
+
+      if(!modelName.endsWith('.rvt')){
+
+        rotation = { x:90.0, y:0.0, z:0.0 }
+      }
+    }
+    else {
+
+      if(modelName.endsWith('.rvt')){
+
+        rotation = { x:-90.0, y:0.0, z:0.0 }
+      }
+    }
+
+    var transform = {
       scale: {
         x:1.0, y:1.0, z:1.0
       },
       translation: {
         x:0.0, y:0.0, z:0.0
       },
-      rotation: {
-        x:0.0, y:0.0, z:0.0
-      }
+      rotation: rotation
     }
 
-    this.panel.dropdown.addItem(model, true)
+    return transform
   }
 
   /////////////////////////////////////////////////////////////////

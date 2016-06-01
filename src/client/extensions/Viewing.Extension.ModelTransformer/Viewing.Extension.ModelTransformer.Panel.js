@@ -52,7 +52,7 @@ export default class ModelTransformerPanel extends ToolPanelBase {
 
           transform: {
             translation: this.getTranslation(),
-            quaternion: this.getQuaternion(),
+            rotation: this.getRotation(),
             scale: this.getScale()
           }
         })
@@ -80,6 +80,13 @@ export default class ModelTransformerPanel extends ToolPanelBase {
 
       this.setTranslation(
         data.model.transform.translation)
+    })
+
+    this.tool.on('transform.modelSelected', (model)=>{
+
+      this.dropdown.setCurrentItem(model)
+
+      this.setTransform(model.transform)
     })
 
     this.on('open', () => {
@@ -238,17 +245,17 @@ export default class ModelTransformerPanel extends ToolPanelBase {
   /////////////////////////////////////////////////////////////
   setTransform (transform) {
 
-    $(`#${this.container.id}-Sx`).val(transform.scale.x)
-    $(`#${this.container.id}-Sy`).val(transform.scale.y)
-    $(`#${this.container.id}-Sz`).val(transform.scale.z)
-
-    $(`#${this.container.id}-Tx`).val(transform.translation.x)
-    $(`#${this.container.id}-Ty`).val(transform.translation.y)
-    $(`#${this.container.id}-Tz`).val(transform.translation.z)
+    $(`#${this.container.id}-Tx`).val(transform.translation.x.toFixed(2))
+    $(`#${this.container.id}-Ty`).val(transform.translation.y.toFixed(2))
+    $(`#${this.container.id}-Tz`).val(transform.translation.z.toFixed(2))
 
     $(`#${this.container.id}-Rx`).val(transform.rotation.x)
     $(`#${this.container.id}-Ry`).val(transform.rotation.y)
     $(`#${this.container.id}-Rz`).val(transform.rotation.z)
+
+    $(`#${this.container.id}-Sx`).val(transform.scale.x)
+    $(`#${this.container.id}-Sy`).val(transform.scale.y)
+    $(`#${this.container.id}-Sz`).val(transform.scale.z)
   }
 
   /////////////////////////////////////////////////////////////
@@ -292,23 +299,6 @@ export default class ModelTransformerPanel extends ToolPanelBase {
     z = isNaN(z) ? 0.0 : z;
 
     return new THREE.Vector3(x, y, z);
-  }
-
-  getQuaternion() {
-
-    var rotation = this.getRotation()
-
-    var euler = new THREE.Euler(
-      rotation.x * Math.PI/180,
-      rotation.y * Math.PI/180,
-      rotation.z * Math.PI/180,
-      'XYZ');
-
-    var q = new THREE.Quaternion();
-
-    q.setFromEuler(euler);
-
-    return q;
   }
 
   /////////////////////////////////////////////////////////////
