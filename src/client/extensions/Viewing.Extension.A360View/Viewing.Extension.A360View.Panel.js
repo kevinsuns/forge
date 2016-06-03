@@ -15,13 +15,13 @@ export default class CustomTreePanel extends ToolPanelBase {
     super(container, 'A360 View', {
       buttonElement: btnElement,
       shadow: true
-    });
+    })
 
     this.api = new A360API({
       apiUrl: '/api/dm'
-    });
+    })
 
-    $(this.container).addClass('a360');
+    $(this.container).addClass('a360')
 
     this.TabManager = new TabManager(
       '#' + this.tabsContainerId);

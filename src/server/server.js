@@ -16,9 +16,8 @@
 // UNINTERRUPTED OR ERROR FREE.
 /////////////////////////////////////////////////////////////////////////////////
 import {serverConfig as config} from 'c0nfig'
-import TokenAPI from './api/endpoints/token'
-import AuthAPI from './api/endpoints/auth'
-import DMAPI from './api/endpoints/dm'
+
+//Server stuff
 import cookieParser from 'cookie-parser'
 import Session from 'express-session'
 import bodyParser from 'body-parser'
@@ -31,7 +30,14 @@ import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpack from 'webpack';
 
+//Endpoints
+import DerivativeAPI from './api/endpoints/derivative'
+import TokenAPI from './api/endpoints/token'
+import AuthAPI from './api/endpoints/auth'
+import DMAPI from './api/endpoints/dm'
+
 //Services
+import DerivativeSvc from './api/services/DerivativeSvc';
 import SocketSvc from './api/services/SocketSvc';
 import DMSvc from './api/services/DMSvc';
 
@@ -81,6 +87,7 @@ app.use(session)
 // Routes
 //
 /////////////////////////////////////////////////////////////////////
+app.use('/api/derivative', DerivativeAPI())
 app.use('/api/token', TokenAPI())
 app.use('/api/auth', AuthAPI())
 app.use('/api/dm', DMAPI())
@@ -101,6 +108,10 @@ var server = app.listen(app.get('port'), function() {
     });
 
     var dmSvc = new DMSvc({
+        config: config
+    })
+
+    var derivativeSvc = new DerivativeSvc({
         config: config
     })
 

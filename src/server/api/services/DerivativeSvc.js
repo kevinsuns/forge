@@ -4,7 +4,7 @@ import request from 'request'
 import trim from 'trim'
 import util from 'util'
 
-export default class DMSvc extends BaseSvc {
+export default class DerivativeSvc extends BaseSvc {
 
   /////////////////////////////////////////////////////////////////
   //
@@ -21,127 +21,170 @@ export default class DMSvc extends BaseSvc {
   /////////////////////////////////////////////////////////////////
   name() {
 
-    return 'DMSvc';
+    return 'DerivativeSvc';
   }
 
   /////////////////////////////////////////////////////////////////
   //
   //
   /////////////////////////////////////////////////////////////////
-  getUser (token) {
+  get jobBuilder() {
 
-    return get(this._config.endPoints.user, token);
+    return {
+
+      svf: (opts = {}) => {
+
+        return {
+          destination: {
+            region: opts.region || 'us'
+          },
+          formats: [{
+            type: 'svf',
+            views: opts.views || ['2d', '3d']
+          }]
+        }
+      },
+
+      obj: (opts) => {
+
+        return {
+          destination: {
+            region: opts.region || 'us'
+          },
+          formats: [{
+            type: 'obj',
+            advanced: {
+              modelGuid: opts.guid,
+              objectIds: opts.objectIds
+            }
+          }]
+        }
+
+      }
+    }
   }
 
   /////////////////////////////////////////////////////////////////
   //
   //
   /////////////////////////////////////////////////////////////////
-  getHubs (token) {
+  postJob (token, urn, output) {
 
-    return get(this._config.endPoints.hubs, token);
+    return requestAsync({
+      url: this._config.endPoints.job,
+      method: "POST",
+      token: token,
+      json: true,
+      body: {
+        input: {
+          urn: urn
+      },
+      output: output
+      }
+    });
   }
 
   /////////////////////////////////////////////////////////////////
   //
   //
   /////////////////////////////////////////////////////////////////
-  getProjects (token, hubId) {
+  getMetadata (token, urn) {
 
     var url = util.format(
-      this._config.endPoints.projects,
-      hubId);
+      this._config.endPoints.metadata,
+      urn);
 
-    return get(url, token);
+    return requestAsync({
+      url: url,
+      token: token
+    });
   }
 
   /////////////////////////////////////////////////////////////////
   //
   //
   /////////////////////////////////////////////////////////////////
-  getProject (token, hubId, projectId) {
+  getHierarchy (token, urn, guid) {
 
     var url = util.format(
-      this._config.endPoints.project,
-      hubId, projectId);
+      this._config.endPoints.hierarchy,
+      urn, guid);
 
-    return get(url, token);
+    return requestAsync({
+      url: url,
+      token: token
+    });
   }
 
   /////////////////////////////////////////////////////////////////
   //
   //
   /////////////////////////////////////////////////////////////////
-  getFolderContent (token, projectId, folderId) {
+  getManifest (token, urn) {
 
     var url = util.format(
-      this._config.endPoints.folderContent,
-      projectId, folderId);
+      this._config.endPoints.manifest,
+      urn);
 
-    return get(url, token);
+    return requestAsync({
+      url: url,
+      token: token
+    });
   }
 
   /////////////////////////////////////////////////////////////////
   //
   //
   /////////////////////////////////////////////////////////////////
-  getItemVersions (token, projectId, itemId) {
+  download (token, urn, derivativeURN) {
 
     var url = util.format(
-      this._config.endPoints.itemVersions,
-      projectId, itemId);
+      this._config.endPoints.download,
+      urn, encodeURIComponent(derivativeURN));
 
-    return get(url, token);
+    console.log(url)
+
+    return requestAsync({
+      url: url,
+      token: token
+    });
   }
-
-  //getThumbnail: function (thumbnailUrn, env, token, onsuccess){
-  //  console.log('Requesting ' + config.baseURL(env) + config.thumbail(thumbnailUrn));
-  //  request({
-  //    url: config.baseURL(env) + config.thumbail(thumbnailUrn),
-  //    method: "GET",
-  //    headers: {
-  //      'Authorization': 'Bearer ' + token,
-  //      'x-ads-acm-namespace': 'WIPDMSTG',
-  //      'x-ads-acm-check-groups': true
-  //    },
-  //    encoding: null
-  //  }, function (error, response, body) {
-  //    onsuccess(new Buffer(body, 'base64'));
-  //  });
-  //}
 }
 
 /////////////////////////////////////////////////////////////////
 // Utils
 //
 /////////////////////////////////////////////////////////////////
-function get(url, token) {
+function requestAsync(params) {
 
   return new Promise( function(resolve, reject) {
 
     request({
-      url: url,
-      method: "GET",
+      url: params.url,
+      method: params.method || 'GET',
       headers: {
-        'Authorization': 'Bearer ' + token
-      }
+        'Authorization': 'Bearer ' + params.token,
+        'Content-Type': 'application/json; charset=utf-8',
+        'x-ads-acm-namespace': 'WIPDMSTG',
+        'x-ads-acm-check-groups': true
+      },
+      json: true,
+      body: params.body
     }, function (err, response, body) {
 
       try {
 
         if (err) {
 
-          console.log('error: ' + url)
+          console.log('error: ' + params.url)
           console.log(err)
 
           return reject(err);
         }
 
-        body = JSON.parse(trim(body));
-
         if (body.errors) {
 
-          console.log('body error: ' + url)
+          console.log('body error: ' + params.url)
           console.log(body.errors)
 
           return reject(body.errors);
@@ -151,8 +194,8 @@ function get(url, token) {
       }
       catch(ex){
 
+        console.log(params.url)
         console.log(body)
-        console.log(url)
 
         return reject(ex);
       }

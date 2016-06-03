@@ -23,7 +23,8 @@
     padding-top: 5px;
 }
 
-.a360 .dockingPanelTitle img {
+.a360 .dockingPanelTitle img,
+.a360 .dockingPanelTitle img:before {
     width: 24px;
     height: 24px;
     margin-right: 10px;
@@ -46,10 +47,6 @@
 }
 
 .a360 .tabs-container {
-    height: 100%;
-}
-
-.a360 .tabs div {
     height: 100%;
 }
 

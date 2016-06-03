@@ -2,7 +2,6 @@
 import ServiceManager from '../services/SvcManager'
 import { serverConfig as config } from 'c0nfig'
 import express from 'express'
-import request from 'request'
 
 module.exports = function() {
 
@@ -70,7 +69,7 @@ module.exports = function() {
 
       var token = req.session.token || config.hardcodedToken
 
-      var hubId =  req.params.hubId
+      var hubId = req.params.hubId
 
       var dmSvc = ServiceManager.getService('DMSvc');
 
@@ -98,7 +97,7 @@ module.exports = function() {
 
       var token = req.session.token || config.hardcodedToken
 
-      var hubId =  req.params.hubId
+      var hubId = req.params.hubId
 
       var projectId = req.params.projectId
 

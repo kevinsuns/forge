@@ -17,6 +17,7 @@
 //////////////////////////////////////////////////////////////////////////
 import 'babel-polyfill'
 import 'Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer'
+import 'Viewing.Extension.Derivative/Viewing.Extension.Derivative'
 import 'Viewing.Extension.A360View/Viewing.Extension.A360View'
 import {clientConfig as config} from 'c0nfig'
 import ioClient from 'socket.io-client'
@@ -38,6 +39,17 @@ class App {
     var response = JSON.parse(xhr.responseText);
 
     return response.access_token;
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+  // http://mzl.la/1X2wN6L
+  //
+  //////////////////////////////////////////////////////////////////////////
+  b64EncodeUnicode(str) {
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+      (match, p1) => {
+        return String.fromCharCode('0x' + p1);
+      }));
   }
 
   //////////////////////////////////////////////////////////////////////////
@@ -68,21 +80,37 @@ class App {
   //////////////////////////////////////////////////////////////////////////
   login() {
 
-    //this.viewer.loadExtension(
-    //  'Viewing.Extension.A360View', {
-    //    parentControl: this.ctrlGroup,
-    //    showPanel: false
-    //  })
+    //var viewerContainer = document.getElementById('viewer')
     //
-    //this.a360View =
-    //  this.viewer.loadedExtensions['Viewing.Extension.A360View']
+    //this.viewer = new Autodesk.Viewing.Private.GuiViewer3D(
+    //  viewerContainer)
     //
-    //this.a360View.on('item.dblClick', (data)=> {
+    //this.viewer.initialize()
     //
-    //  this.importModelFromItem(data)
-    //})
+    //this.viewer.loadModel('/models/engine/0.svf')
+    //
+    //setTimeout(() => {
+    //  this.viewer.loadExtension(
+    //    'Viewing.Extension.Derivative')
+    //}, 2000)
     //
     //return
+
+    this.viewer.loadExtension(
+      'Viewing.Extension.A360View', {
+        parentControl: this.ctrlGroup,
+        showPanel: false
+      })
+
+    this.a360View =
+      this.viewer.loadedExtensions['Viewing.Extension.A360View']
+
+    this.a360View.on('item.dblClick', (data)=> {
+
+      this.importModelFromItem(data)
+    })
+
+    return
 
     $.ajax({
       url: '/api/auth/login',
@@ -184,11 +212,11 @@ class App {
       env: config.env,
 
       refreshToken: () => {
-        return this.getToken('/api/token/2legged')
+        return this.getToken('/api/token/3legged')
       },
 
       getAccessToken: () => {
-        return this.getToken('/api/token/2legged')
+        return this.getToken('/api/token/3legged')
       }
     }
 
@@ -286,8 +314,6 @@ class App {
     //var urn = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLWJ1Y2tldC1ucG0tZGV2L3Rlc3QuZHdm'
     var urn = version.relationships.derivatives.data.id
 
-    Autodesk.Viewing.Private.refreshToken(token)
-
     console.log('URN: ' + urn)
     console.log('Token: ' + token)
 
@@ -320,7 +346,21 @@ class App {
           acmSessionId: LMVDocument.acmSessionId
         })
 
+        this.a360View.panel.stopLoad()
+
+        // store for easy use by extensions
+        model.urn = urn
         model.name = item.name
+        model.storageUrn = this.b64EncodeUnicode(
+          version.relationships.storage.data.id)
+
+        this.viewer.loadExtension(
+          'Viewing.Extension.Derivative')
+
+        this.derivative = this.viewer.loadedExtensions[
+          'Viewing.Extension.Derivative']
+
+        this.derivative.postJob(model.storageUrn)
 
         this.viewer.loadExtension(
           'Viewing.Extension.ModelTransformer', {
@@ -379,8 +419,6 @@ class App {
         this.viewer.removeEventListener(
           Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
           _onGeometryLoaded);
-
-        this.a360View.panel.stopLoad()
 
         return resolve(event.model);
       }
