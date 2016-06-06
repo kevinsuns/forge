@@ -80,37 +80,21 @@ class App {
   //////////////////////////////////////////////////////////////////////////
   login() {
 
-    //var viewerContainer = document.getElementById('viewer')
+    //this.viewer.loadExtension(
+    //  'Viewing.Extension.A360View', {
+    //    parentControl: this.ctrlGroup,
+    //    showPanel: false
+    //  })
     //
-    //this.viewer = new Autodesk.Viewing.Private.GuiViewer3D(
-    //  viewerContainer)
+    //this.a360View =
+    //  this.viewer.loadedExtensions['Viewing.Extension.A360View']
     //
-    //this.viewer.initialize()
+    //this.a360View.on('item.dblClick', (data)=> {
     //
-    //this.viewer.loadModel('/models/engine/0.svf')
-    //
-    //setTimeout(() => {
-    //  this.viewer.loadExtension(
-    //    'Viewing.Extension.Derivative')
-    //}, 2000)
+    //  this.importModelFromItem(data)
+    //})
     //
     //return
-
-    this.viewer.loadExtension(
-      'Viewing.Extension.A360View', {
-        parentControl: this.ctrlGroup,
-        showPanel: false
-      })
-
-    this.a360View =
-      this.viewer.loadedExtensions['Viewing.Extension.A360View']
-
-    this.a360View.on('item.dblClick', (data)=> {
-
-      this.importModelFromItem(data)
-    })
-
-    return
 
     $.ajax({
       url: '/api/auth/login',
@@ -354,22 +338,34 @@ class App {
         model.storageUrn = this.b64EncodeUnicode(
           version.relationships.storage.data.id)
 
-        this.viewer.loadExtension(
-          'Viewing.Extension.Derivative')
+        if(!this.viewer.loadedExtensions['Viewing.Extension.Derivative']) {
 
-        this.derivative = this.viewer.loadedExtensions[
-          'Viewing.Extension.Derivative']
+          this.viewer.loadExtension(
+            'Viewing.Extension.Derivative')
+
+          this.derivative = this.viewer.loadedExtensions[
+            'Viewing.Extension.Derivative' ]
+        }
 
         this.derivative.postJob(model.storageUrn)
 
-        this.viewer.loadExtension(
-          'Viewing.Extension.ModelTransformer', {
-            parentControl: this.ctrlGroup
-          })
+        if(!this.viewer.loadedExtensions['Viewing.Extension.ModelTransformer']) {
 
-        this.modelTransformer =
-          this.viewer.loadedExtensions[
-            'Viewing.Extension.ModelTransformer']
+          this.viewer.loadExtension(
+            'Viewing.Extension.ModelTransformer', {
+              parentControl: this.ctrlGroup
+            })
+
+          this.modelTransformer =
+            this.viewer.loadedExtensions[
+              'Viewing.Extension.ModelTransformer']
+
+          this.modelTransformer.on('model.delete', (deletedModel) => {
+
+            this.derivative.deleteManifest(
+              deletedModel.storageUrn)
+          })
+        }
 
         this.modelTransformer.addModel(model)
 

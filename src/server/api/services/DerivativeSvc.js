@@ -12,7 +12,7 @@ export default class DerivativeSvc extends BaseSvc {
   /////////////////////////////////////////////////////////////////
   constructor(opts) {
 
-    super(opts);
+    super(opts)
   }
 
   /////////////////////////////////////////////////////////////////
@@ -21,7 +21,7 @@ export default class DerivativeSvc extends BaseSvc {
   /////////////////////////////////////////////////////////////////
   name() {
 
-    return 'DerivativeSvc';
+    return 'DerivativeSvc'
   }
 
   /////////////////////////////////////////////////////////////////
@@ -81,7 +81,7 @@ export default class DerivativeSvc extends BaseSvc {
       },
       output: output
       }
-    });
+    })
   }
 
   /////////////////////////////////////////////////////////////////
@@ -92,12 +92,13 @@ export default class DerivativeSvc extends BaseSvc {
 
     var url = util.format(
       this._config.endPoints.metadata,
-      urn);
+      urn)
 
     return requestAsync({
       url: url,
-      token: token
-    });
+      token: token,
+      json: true
+    })
   }
 
   /////////////////////////////////////////////////////////////////
@@ -108,12 +109,13 @@ export default class DerivativeSvc extends BaseSvc {
 
     var url = util.format(
       this._config.endPoints.hierarchy,
-      urn, guid);
+      urn, guid)
 
     return requestAsync({
       url: url,
-      token: token
-    });
+      token: token,
+      json: true
+    })
   }
 
   /////////////////////////////////////////////////////////////////
@@ -124,12 +126,31 @@ export default class DerivativeSvc extends BaseSvc {
 
     var url = util.format(
       this._config.endPoints.manifest,
-      urn);
+      urn)
 
     return requestAsync({
       url: url,
-      token: token
-    });
+      token: token,
+      json: true
+    })
+  }
+
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
+  deleteManifest (token, urn) {
+
+    var url = util.format(
+      this._config.endPoints.manifest,
+      urn)
+
+    return requestAsync({
+      url: url,
+      token: token,
+      method: 'DELETE',
+      json: false
+    })
   }
 
   /////////////////////////////////////////////////////////////////
@@ -140,14 +161,13 @@ export default class DerivativeSvc extends BaseSvc {
 
     var url = util.format(
       this._config.endPoints.download,
-      urn, encodeURIComponent(derivativeURN));
-
-    console.log(url)
+      urn, encodeURIComponent(derivativeURN))
 
     return requestAsync({
       url: url,
-      token: token
-    });
+      token: token,
+      json: true
+    })
   }
 }
 
@@ -163,12 +183,9 @@ function requestAsync(params) {
       url: params.url,
       method: params.method || 'GET',
       headers: {
-        'Authorization': 'Bearer ' + params.token,
-        'Content-Type': 'application/json; charset=utf-8',
-        'x-ads-acm-namespace': 'WIPDMSTG',
-        'x-ads-acm-check-groups': true
+        'Authorization': 'Bearer ' + params.token
       },
-      json: true,
+      json: params.json,
       body: params.body
     }, function (err, response, body) {
 
@@ -179,7 +196,7 @@ function requestAsync(params) {
           console.log('error: ' + params.url)
           console.log(err)
 
-          return reject(err);
+          return reject(err)
         }
 
         if (body.errors) {
@@ -187,17 +204,17 @@ function requestAsync(params) {
           console.log('body error: ' + params.url)
           console.log(body.errors)
 
-          return reject(body.errors);
+          return reject(body.errors)
         }
 
-        return resolve(body.data || body);
+        return resolve(body.data || body)
       }
       catch(ex){
 
         console.log(params.url)
         console.log(body)
 
-        return reject(ex);
+        return reject(ex)
       }
     })
   })

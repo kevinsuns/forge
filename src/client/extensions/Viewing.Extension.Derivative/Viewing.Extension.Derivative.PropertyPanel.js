@@ -98,17 +98,38 @@ export default class DerivativePropertyPanel extends
       name = name.split(':')[0]
       name = name.split('.')[0]
 
-      var fileProp = {
+      var objDerivativeProperty = {
+
         name: 'OBJ',
         nameId: guid(),
         value: `Download ${name}.obj ...`,
         category: 'Derivatives',
         dataType: 'derivative',
-        href: 'img/forge.png',
-        filename: `${name}.obj`
+        filename: `${name}.obj`,
+
+        urn: this.viewer.model.storageUrn,
+        guid: this.viewer.model.guid,
+        objectIds: [this.nodeId],
+        outputType: 'obj'
       }
 
-      this.addMetaProperty(fileProp)
+      this.addMetaProperty(objDerivativeProperty)
+
+      this.api.getDerivativeURN(
+        objDerivativeProperty,
+        this.onDerivativeProgress(
+          objDerivativeProperty)).then((result) => {
+
+          // will check that result when property clicked
+          // to see if we need to trigger the job
+          // or if the derivative is pending or available
+
+          objDerivativeProperty.status =
+            result.status
+
+          objDerivativeProperty.derivativeURN =
+            result.derivativeURN
+        })
     }
   }
 
@@ -174,7 +195,7 @@ export default class DerivativePropertyPanel extends
         break;
     }
 
-    // Make the property name and value highlightable.
+    // Make the property highlightable
     return [name, value];
   }
 
@@ -185,43 +206,67 @@ export default class DerivativePropertyPanel extends
   async onPropertyClick (property, event) {
 
     if(!property.dataType)
-      return;
+      return
 
     switch(property.dataType){
 
       case 'text':
         //nothing to do for text
-        break;
+        break
 
       // opens link in new tab
       case 'link':
-        window.open(property.href, '_blank');
-        break;
+        window.open(property.href, '_blank')
+        break
 
       // download image or file
       case 'img':
       case 'file':
-        downloadURI(property.href, property.filename);
-        break;
+        downloadURI(property.href, property.filename)
+        break
 
       case 'derivative':
 
-        var derivativeURN = await this.api.getObjDerivativeURN (
-          this.viewer.model.storageUrn,
-          this.viewer.model.guid,
-          [this.nodeId])
+        if(property.status === 'not found') {
 
-        var url = this.api.buildDownloadUrl(
-          this.viewer.model.storageUrn,
-          derivativeURN,
-          property.filename)
+          var job = await this.api.postJob(property)
+        }
 
-        downloadURI(url, property.filename);
+        var result = await this.api.getDerivativeURN(
+          property,
+          this.onDerivativeProgress(property))
+
+        if(result.status === 'success'){
+
+          var url = this.api.buildDownloadUrl(
+            this.viewer.model.storageUrn,
+            result.derivativeURN,
+            property.filename)
+
+          downloadURI(url, property.filename)
+        }
 
         break;
 
       default :
-        break;
+        break
+    }
+  }
+
+  /////////////////////////////////////////////////////////////////
+  // onDerivativeProgress
+  //
+  /////////////////////////////////////////////////////////////////
+  onDerivativeProgress (property) {
+
+    return (progress) => {
+
+      console.log('Progress: ' + progress)
+
+      property.progress = progress
+
+      $('#' + property.nameId).text(
+        property.name + ': ' + progress)
     }
   }
 }

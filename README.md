@@ -1,8 +1,8 @@
 
-# Forge demo
+# Forge APIs Sample
 
 ## Description
-Forge demo
+Forge APIs Sample
 
 ## Deployment
     npm install

@@ -66,11 +66,20 @@ class DerivativeExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   postJob(urn) {
 
-    this.api.postSVFJob(urn).then((job) => {
+    console.log('Job: ' + urn)
 
-      if(job.result === 'success' || job.result === 'created' ){
+    this.api.postJob({urn: urn, outputType: 'svf'}).then(async(job) => {
 
-        this.api.getMetadata(this._viewer.model.urn).then(
+      if(job.result === 'success' || job.result === 'created') {
+
+        await this.api.waitJob(urn, (progress) => {
+
+          console.log('Job Progress: ' + progress)
+        })
+
+        console.log('Job Progress: 100%')
+
+        this.api.getMetadata(urn).then(
           (response) => {
 
             if(response.metadata && response.metadata.length) {
@@ -78,11 +87,22 @@ class DerivativeExtension extends ExtensionBase {
               //Pick firt metadata for now ...
               var metadataElement = response.metadata[0]
 
+              console.log('Model GUID: ' + metadataElement.guid)
+
               this._viewer.model.guid = metadataElement.guid
             }
-          })
+        })
       }
     })
+  }
+
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
+  deleteManifest(urn) {
+
+    this.api.deleteManifest(urn)
   }
 }
 

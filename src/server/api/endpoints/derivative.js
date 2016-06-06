@@ -24,7 +24,7 @@ module.exports = function() {
 
       var output = null
 
-      switch(payload.type) {
+      switch(payload.outputType) {
 
         case 'obj':
           output = derivativeSvc.jobBuilder.obj({
@@ -123,6 +123,33 @@ module.exports = function() {
         'DerivativeSvc');
 
       var response = await derivativeSvc.getManifest(
+        token, urn)
+
+      res.json(response)
+    }
+    catch (ex) {
+
+      res.status(500)
+      res.json(ex)
+    }
+  })
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////////////////
+  router.delete('/manifest/:urn', async (req, res) => {
+
+    try {
+
+      var token = req.session.token || config.hardcodedToken
+
+      var urn = req.params.urn
+
+      var derivativeSvc = ServiceManager.getService(
+        'DerivativeSvc');
+
+      var response = await derivativeSvc.deleteManifest(
         token, urn)
 
       res.json(response)

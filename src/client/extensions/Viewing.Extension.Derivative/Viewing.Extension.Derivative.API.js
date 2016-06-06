@@ -10,7 +10,7 @@ export default class DerivativeAPI {
   //
   //
   ///////////////////////////////////////////////////////////////////
-  postSVFJob(urn) {
+  postJob(params) {
 
     return new Promise(async(resolve, reject) => {
 
@@ -19,38 +19,10 @@ export default class DerivativeAPI {
         var url = `${this.apiUrl}/job`
 
         var payload = {
-          urn: urn,
-          type: 'svf'
-        }
-
-        var response = await post(url, payload)
-
-        return resolve(response)
-      }
-      catch(ex) {
-
-        return reject(ex)
-      }
-    })
-  }
-
-  ///////////////////////////////////////////////////////////////////
-  //
-  //
-  ///////////////////////////////////////////////////////////////////
-  postObjJob(urn, opts) {
-
-    return new Promise(async(resolve, reject) => {
-
-      try {
-
-        var url = `${this.apiUrl}/job`
-
-        var payload = {
-          urn: urn,
-          type: 'obj',
-          guid: opts.guid,
-          objectIds: opts.objectIds
+          outputType: params.outputType,
+          objectIds: params.objectIds,
+          guid: params.guid,
+          urn: params.urn
         }
 
         var response = await post(url, payload)
@@ -116,65 +88,145 @@ export default class DerivativeAPI {
   //
   //
   ///////////////////////////////////////////////////////////////////
-  getObjDerivativeURN (urn, guid, objectIds) {
+  waitJob (urn, onProgress) {
 
     return new Promise(async(resolve, reject) => {
 
       try {
 
-        var job = await this.postObjJob(urn, {
-          objectIds: Array.isArray(objectIds) ? objectIds : [objectIds],
-          guid: guid
-        })
-
-        console.log('Job:')
-        console.log(job)
-
-        if(!(job.result === 'success' ||
-             job.Result === 'created')) {
-
-          return reject(job)
-        }
-
-        var manifest = null
-
         while(true) {
 
-          manifest = await this.getManifest(urn)
+          var manifest = await this.getManifest(urn)
 
-          if(manifest.status === 'inprogress'){
-
-            var progress = manifest.progress.split(' ')[0]
-            console.log('Progress: ' + progress)
-          }
-
-          if(manifest.status === 'error'){
+          if(manifest.status === 'error') {
 
             return reject(manifest)
           }
 
-          if(manifest.progress === 'complete'){
+          if(manifest.status === 'success' &&
+             manifest.progress === 'complete') {
 
-            break
+            return resolve(manifest)
           }
+
+          var progress = manifest.progress.split(' ')[0]
+
+          onProgress ? onProgress(progress) : ''
 
           await sleep(1000)
         }
+      }
+      catch(ex) {
 
-        manifest.derivatives.forEach((derivative) => {
+        return reject(ex)
+      }
+    })
+  }
 
-          if (derivative.outputType === 'obj') {
+  ///////////////////////////////////////////////////////////////////
+  //
+  //
+  ///////////////////////////////////////////////////////////////////
+  deleteManifest (urn) {
 
-            derivative.children.forEach((childDerivative) => {
+    return new Promise(async(resolve, reject) => {
 
-              //console.log(childDerivative)
+      try {
 
-              var derivativeURN = 'urn:adsk.viewing:fs.file:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6d2lwLmRtLnN0Zy9iYzZiNjVkMi1hYmRhLTQzOTgtODQ0Yi00NmIzODY5OGJiZDQuZHdm/output/geometry/ce0265a9-f04c-420d-b66a-6764924313cb.obj'
+        var url = `${this.apiUrl}/manifest/${urn}`
 
-              return resolve(derivativeURN)
-            })
+        $.ajax({
+          url: url,
+          type: 'DELETE',
+          success: (response) => {
+
+            return resolve(response)
+          },
+          error: (err) => {
+
+            return reject(err)
           }
         })
+      }
+      catch(ex) {
+
+        return reject(ex)
+      }
+    })
+  }
+
+  ///////////////////////////////////////////////////////////////////
+  //
+  //
+  ///////////////////////////////////////////////////////////////////
+  getDerivativeURN (params, onProgress = null) {
+
+    return new Promise(async(resolve, reject) => {
+
+      try {
+
+        while(true) {
+
+          var manifest = await this.getManifest(
+            params.urn)
+
+          if(manifest.status === 'error') {
+
+            return reject(manifest)
+          }
+
+          if(!manifest.derivatives) {
+
+            return reject(manifest)
+          }
+
+          var derivativeResult = await findDerivative(
+            manifest, params)
+
+          console.log(derivativeResult)
+
+          if(derivativeResult.target &&
+             derivativeResult.target.status === 'success') {
+
+            onProgress ? onProgress('complete') : ''
+
+            return resolve({
+              status: 'success',
+              derivativeURN: derivativeResult.target.urn
+            })
+          }
+
+          // if no parent -> no derivative of this type
+          // OR
+          // if parent complete and no target -> derivative not requested
+
+          if(!derivativeResult.parent) {
+
+            onProgress ? onProgress('0%') : ''
+
+            return resolve({
+              status: 'not found'
+            })
+          }
+
+          if(derivativeResult.parent.status === 'success') {
+
+            if(!derivativeResult.target) {
+
+              onProgress ? onProgress('0%') : ''
+
+              return resolve({
+                status: 'not found'
+              })
+            }
+          }
+
+          var progress = manifest.progress.split(' ')[0]
+
+          onProgress ? onProgress(progress) : ''
+
+          await sleep(1000)
+        }
       }
       catch(ex) {
 
@@ -194,6 +246,50 @@ export default class DerivativeAPI {
       `derivativeURN=${encodeURIComponent(derivativeURN)}&` +
       `filename=${encodeURIComponent(filename)}`
   }
+}
+
+///////////////////////////////////////////////////////////////
+//
+//
+///////////////////////////////////////////////////////////////
+function findDerivative(manifest, params) {
+
+  return new Promise(async(resolve, reject) => {
+
+    try {
+
+      var parentDerivative = null
+
+      manifest.derivatives.forEach((derivative) => {
+
+        if (derivative.outputType === params.outputType) {
+
+          parentDerivative = derivative
+
+          if (derivative.children) {
+
+            derivative.children.forEach((childDerivative) => {
+
+              //TODO match objectId when API is fixed
+
+              return resolve({
+                parent: parentDerivative,
+                target: childDerivative
+              })
+            })
+          }
+        }
+      })
+
+      return resolve({
+        parent: parentDerivative
+      })
+    }
+    catch(ex){
+
+      return reject(ex)
+    }
+  })
 }
 
 ///////////////////////////////////////////////////////////////

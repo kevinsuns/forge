@@ -1,6 +1,6 @@
 {
-  "name": "ADN-Forge-demo",
-  "description": "Forge demo",
+  "name": "Forge",
+  "description": "Forge APIs Sample",
   "version": "1.0.0",
   "dependencies": {
     "babel-core": "^6.5.2",

@@ -248,6 +248,8 @@ class ModelTransformerExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   deleteModel (model) {
 
+    this.emit('model.delete', model)
+
     this._viewer.impl.unloadModel(model)
   }
 }
