@@ -175,13 +175,13 @@ module.exports = function() {
 
       var filename = req.query.filename
 
-      var derivativeURN = req.query.derivativeURN
+      var derivativeUrn = req.query.derivativeUrn
 
       var derivativeSvc = ServiceManager.getService(
         'DerivativeSvc');
 
       var response = await derivativeSvc.download(
-        token, urn, derivativeURN)
+        token, urn, derivativeUrn)
 
       res.set('Content-Type', 'application/obj');
 

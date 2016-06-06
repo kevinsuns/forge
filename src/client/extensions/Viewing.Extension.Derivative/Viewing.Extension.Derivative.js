@@ -5,6 +5,7 @@
 /////////////////////////////////////////////////////////////////////
 import DerivativePropertyPanel from './Viewing.Extension.Derivative.PropertyPanel'
 import DerivativeAPI from './Viewing.Extension.Derivative.API'
+import JobPanel from './Viewing.Extension.Derivative.JobPanel'
 import ExtensionBase from 'ExtensionBase'
 
 class DerivativeExtension extends ExtensionBase {
@@ -64,36 +65,47 @@ class DerivativeExtension extends ExtensionBase {
   //
   //
   /////////////////////////////////////////////////////////////////
-  postJob(urn) {
+  async postJob(model) {
 
-    console.log('Job: ' + urn)
+    var storageUrn = model.storageUrn
 
-    this.api.postJob({urn: urn, outputType: 'svf'}).then(async(job) => {
+    console.log('Job: ' + storageUrn)
 
-      if(job.result === 'success' || job.result === 'created') {
+    var jobPanel = new JobPanel(
+      this._viewer.container,
+      model)
 
-        await this.api.waitJob(urn, (progress) => {
-
-          console.log('Job Progress: ' + progress)
-        })
-
-        console.log('Job Progress: 100%')
-
-        this.api.getMetadata(urn).then(
-          (response) => {
-
-            if(response.metadata && response.metadata.length) {
-
-              //Pick firt metadata for now ...
-              var metadataElement = response.metadata[0]
-
-              console.log('Model GUID: ' + metadataElement.guid)
-
-              this._viewer.model.guid = metadataElement.guid
-            }
-        })
-      }
+    var job = await this.api.postJob({
+      urn: storageUrn,
+      outputType: 'svf'
     })
+
+    if(job.result === 'success' || job.result === 'created') {
+
+      await this.api.waitJob(storageUrn, (progress) => {
+
+        jobPanel.updateProgress(progress)
+      })
+
+      jobPanel.done()
+
+      var metadataResult = await this.api.getMetadata(storageUrn)
+
+      if(metadataResult.metadata &&
+         metadataResult.metadata.length) {
+
+        //Pick firt metadata for now ...
+        var metadataElement = metadataResult.metadata[0]
+
+        console.log('Model GUID: ' + metadataElement.guid)
+
+        model.guid = metadataElement.guid
+      }
+    }
+    else {
+
+      jobPanel.jobFailed(job)
+    }
   }
 
   /////////////////////////////////////////////////////////////////

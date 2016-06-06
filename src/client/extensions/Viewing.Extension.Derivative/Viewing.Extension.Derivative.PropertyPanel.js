@@ -127,8 +127,8 @@ export default class DerivativePropertyPanel extends
           objDerivativeProperty.status =
             result.status
 
-          objDerivativeProperty.derivativeURN =
-            result.derivativeURN
+          objDerivativeProperty.derivativeUrn =
+            result.derivativeUrn
         })
     }
   }
@@ -240,7 +240,7 @@ export default class DerivativePropertyPanel extends
 
           var url = this.api.buildDownloadUrl(
             this.viewer.model.storageUrn,
-            result.derivativeURN,
+            result.derivativeUrn,
             property.filename)
 
           downloadURI(url, property.filename)

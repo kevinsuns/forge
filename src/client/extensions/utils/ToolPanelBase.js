@@ -3,10 +3,13 @@
 //
 /////////////////////////////////////////////////////////////////
 
-const defaultOptions = {
-  shadow: true,
-  movable: true,
-  closable: true
+function getDefaultOptions () {
+
+  return {
+    shadow: true,
+    movable: true,
+    closable: true
+  }
 }
 
 export default class ToolPanelBase extends
@@ -40,7 +43,7 @@ export default class ToolPanelBase extends
     super(container,
       ToolPanelBase.guid(),
       title,
-      Object.assign(defaultOptions, options));
+      Object.assign(getDefaultOptions(), options))
 
     this._dialogResult = 'CANCEL';
 

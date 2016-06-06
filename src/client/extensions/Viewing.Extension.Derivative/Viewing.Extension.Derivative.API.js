@@ -98,12 +98,12 @@ export default class DerivativeAPI {
 
           var manifest = await this.getManifest(urn)
 
-          if(manifest.status === 'error') {
+          if(manifest.status === 'failed') {
 
             return reject(manifest)
           }
 
-          if(manifest.status === 'success' &&
+          if(manifest.status   === 'success' &&
              manifest.progress === 'complete') {
 
             return resolve(manifest)
@@ -192,7 +192,7 @@ export default class DerivativeAPI {
 
             return resolve({
               status: 'success',
-              derivativeURN: derivativeResult.target.urn
+              derivativeUrn: derivativeResult.target.urn
             })
           }
 
@@ -239,11 +239,11 @@ export default class DerivativeAPI {
   //
   //
   ///////////////////////////////////////////////////////////////////
-  buildDownloadUrl(urn, derivativeURN, filename) {
+  buildDownloadUrl(urn, derivativeUrn, filename) {
 
     return `${this.apiUrl}/download?` +
       `urn=${urn}&` +
-      `derivativeURN=${encodeURIComponent(derivativeURN)}&` +
+      `derivativeUrn=${encodeURIComponent(derivativeUrn)}&` +
       `filename=${encodeURIComponent(filename)}`
   }
 }

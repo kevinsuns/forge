@@ -13,11 +13,10 @@ export default class ModelTransformerPanel extends ToolPanelBase {
   constructor(viewer, btnElement) {
 
     super(viewer.container, 'Transform Models', {
-      buttonElement: btnElement,
-      shadow: true
-    });
+      buttonElement: btnElement
+    })
 
-    $(this.container).addClass('model-transformer');
+    $(this.container).addClass('model-transformer')
 
     this.dropdown = new Dropdown({
       container: '#' + this.dropdownContainerId,
@@ -26,7 +25,7 @@ export default class ModelTransformerPanel extends ToolPanelBase {
       pos: {
         top: 0, left: 0
       }
-    });
+    })
 
     this.dropdown.on('item.selected', (model) => {
 
@@ -64,13 +63,16 @@ export default class ModelTransformerPanel extends ToolPanelBase {
 
     $(`#${this.container.id}-delete-btn`).click(() => {
 
-      this.emit('model.delete', {
+      if(this.currentModel) {
 
-        model: this.currentModel
-      })
+        this.emit('model.delete', {
 
-      this.dropdown.removeCurrentItem(
-        'Select Model ...')
+          model: this.currentModel
+        })
+
+        this.dropdown.removeCurrentItem(
+          'Select Model ...')
+      }
     })
 
     this.viewer = viewer
@@ -132,7 +134,7 @@ export default class ModelTransformerPanel extends ToolPanelBase {
     $('.model-transformer .rot').on(
       'change keyup input paste', ()=>{
 
-        if(this.currentModel){
+        if(this.currentModel) {
 
           this.currentModel.transform.rotation =
             this.getRotation()

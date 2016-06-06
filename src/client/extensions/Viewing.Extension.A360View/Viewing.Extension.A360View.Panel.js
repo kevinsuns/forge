@@ -8,13 +8,12 @@ import './Viewing.Extension.A360View.css'
 import ToolPanelBase from 'ToolPanelBase'
 import TabManager from 'TabManager'
 
-export default class CustomTreePanel extends ToolPanelBase {
+export default class A360Panel extends ToolPanelBase {
 
   constructor(container, btnElement, rootNode) {
 
     super(container, 'A360 View', {
-      buttonElement: btnElement,
-      shadow: true
+      buttonElement: btnElement
     })
 
     this.api = new A360API({
@@ -92,7 +91,7 @@ export default class CustomTreePanel extends ToolPanelBase {
 
     var treeContainer = $(`#${containerId}`)[0];
 
-    var delegate = new CustomTreeDelegate(this.api);
+    var delegate = new A360TreeDelegate(this.api);
 
     var rootNode = {
       name: hub.attributes.name,
@@ -141,7 +140,6 @@ export default class CustomTreePanel extends ToolPanelBase {
           })
       }, 100)
     }
-
   }
 
   /////////////////////////////////////////////////////////////
@@ -167,7 +165,7 @@ export default class CustomTreePanel extends ToolPanelBase {
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
-class CustomTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
+class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
   /////////////////////////////////////////////////////////////
   //

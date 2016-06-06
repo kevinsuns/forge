@@ -3,7 +3,7 @@
 // by Philippe Leefsma, April 2016
 //
 /////////////////////////////////////////////////////////////////////
-import Panel from './Viewing.Extension.A360View.Panel'
+import A360Panel from './Viewing.Extension.A360View.Panel'
 import ViewerToolkit from 'ViewerToolkit'
 import ExtensionBase from 'ExtensionBase'
 
@@ -44,7 +44,7 @@ class A360ViewExtension extends ExtensionBase {
     this._options.parentControl.addControl(
       this.control)
 
-    this.panel = new Panel(
+    this.panel = new A360Panel(
       this._viewer.container,
       this.control.container)
 

@@ -347,7 +347,7 @@ class App {
             'Viewing.Extension.Derivative' ]
         }
 
-        this.derivative.postJob(model.storageUrn)
+        this.derivative.postJob(model)
 
         if(!this.viewer.loadedExtensions['Viewing.Extension.ModelTransformer']) {
 
