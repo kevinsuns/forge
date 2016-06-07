@@ -27,7 +27,7 @@ module.exports = function() {
       switch(payload.outputType) {
 
         case 'obj':
-          output = derivativeSvc.jobBuilder.obj({
+          output = derivativeSvc.jobOutputBuilder.obj({
             guid: payload.guid,
             objectIds: payload.objectIds
           })
@@ -35,12 +35,22 @@ module.exports = function() {
 
         case 'svf':
         default:
-          output = derivativeSvc.jobBuilder.svf()
+          output = derivativeSvc.jobOutputBuilder.svf()
           break
       }
 
+
+      var input = {
+        urn: payload.urn
+      }
+
+      if(payload.fileExtType === 'versions:autodesk.a360:CompositeDesign') {
+          input.rootFilename = payload.rootFilename
+          input.compressedUrn = true
+      }
+
       var response = await derivativeSvc.postJob(
-        token, payload.urn, output)
+        token, input, output)
 
       res.json(response)
     }

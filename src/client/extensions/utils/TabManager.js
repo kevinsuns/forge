@@ -123,6 +123,8 @@ export default class TabManager extends EventsEmitter {
 
     $(`#${this.tabsHeaderId} > li`).remove();
     $(`#${this.containerId} > div`).remove();
+
+    this.nbTabs = 0
   }
 }
 

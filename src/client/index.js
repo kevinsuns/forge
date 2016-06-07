@@ -42,17 +42,6 @@ class App {
   }
 
   //////////////////////////////////////////////////////////////////////////
-  // http://mzl.la/1X2wN6L
-  //
-  //////////////////////////////////////////////////////////////////////////
-  b64EncodeUnicode(str) {
-    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
-      (match, p1) => {
-        return String.fromCharCode('0x' + p1);
-      }));
-  }
-
-  //////////////////////////////////////////////////////////////////////////
   //
   //
   //////////////////////////////////////////////////////////////////////////
@@ -80,21 +69,7 @@ class App {
   //////////////////////////////////////////////////////////////////////////
   login() {
 
-    //this.viewer.loadExtension(
-    //  'Viewing.Extension.A360View', {
-    //    parentControl: this.ctrlGroup,
-    //    showPanel: false
-    //  })
-    //
-    //this.a360View =
-    //  this.viewer.loadedExtensions['Viewing.Extension.A360View']
-    //
-    //this.a360View.on('item.dblClick', (data)=> {
-    //
-    //  this.importModelFromItem(data)
-    //})
-    //
-    //return
+    //this.initializeViewer(); return
 
     $.ajax({
       url: '/api/auth/login',
@@ -222,51 +197,60 @@ class App {
         $('#loginItem').addClass('active')
       })
 
-      var options = {
+      this.initializeViewer()
+    })
+  }
 
-        env: config.env,
+  //////////////////////////////////////////////////////////////////////////
+  //
+  //
+  //////////////////////////////////////////////////////////////////////////
+  initializeViewer () {
 
-        refreshToken: () => {
-          return this.getToken('/api/token/2legged')
-        },
+    var options = {
 
-        getAccessToken: () => {
-          return this.getToken('/api/token/2legged')
-        }
+      env: config.env,
+
+      refreshToken: () => {
+        return this.getToken('/api/token/3legged')
+      },
+
+      getAccessToken: () => {
+        return this.getToken('/api/token/3legged')
       }
+    }
 
-      Autodesk.Viewing.Initializer(options, () => {
+    Autodesk.Viewing.Initializer(options, () => {
 
-        var viewerContainer = document.getElementById('viewer')
+      var viewerContainer = document.getElementById('viewer')
 
-        this.viewer = new Autodesk.Viewing.Private.GuiViewer3D(
-          viewerContainer)
+      this.viewer = new Autodesk.Viewing.Private.GuiViewer3D(
+        viewerContainer)
 
-        this.viewer.initialize()
+      this.viewer.initialize()
 
-        $('#loader').remove()
-        $('.spinner').remove()
+      $('#loader').remove()
+      $('.spinner').remove()
 
-        var viewerToolbar = this.viewer.getToolbar(true);
+      var viewerToolbar = this.viewer.getToolbar(true);
 
-        this.ctrlGroup = new Autodesk.Viewing.UI.ControlGroup(
-          'forge');
+      this.ctrlGroup = new Autodesk.Viewing.UI.ControlGroup(
+        'forge');
 
-        viewerToolbar.addControl(this.ctrlGroup);
+      viewerToolbar.addControl(this.ctrlGroup);
 
-        this.viewer.loadExtension(
-          'Viewing.Extension.A360View', {
-            parentControl: this.ctrlGroup,
-            showPanel: true
-          })
-
-        this.a360View =
-          this.viewer.loadedExtensions['Viewing.Extension.A360View']
-
-        this.a360View.on('item.dblClick', (item)=> {
-
-          this.importModelFromItem(item)
+      this.viewer.loadExtension(
+        'Viewing.Extension.A360View', {
+          parentControl: this.ctrlGroup,
+          showPanel: true
         })
+
+      this.a360View =
+        this.viewer.loadedExtensions[ 'Viewing.Extension.A360View' ]
+
+      this.a360View.on('item.dblClick', (item)=> {
+
+        this.importModelFromItem(item)
       })
     })
   }
@@ -292,25 +276,27 @@ class App {
     //pick the last version by default
     var version = item.versions[item.versions.length-1]
 
-    var storageUrn = this.b64EncodeUnicode(
+    var storageUrn = window.btoa(
       version.relationships.storage.data.id)
 
     var urn = version.relationships.derivatives.data.id
 
     console.log('URN: ' + urn)
+    console.log('Storage URN: ' + storageUrn)
     console.log('Token: ' + this.getToken('/api/token/3legged'))
 
-    Autodesk.Viewing.Document.load('urn:' + urn, async(LMVDocument) => {
+    Autodesk.Viewing.Document.load('urn:' + storageUrn, async(LMVDocument) => {
 
       var rootItem = LMVDocument.getRootItem();
 
-      // Grab all 3D items
       var geometryItems3d = Autodesk.Viewing.Document.getSubItemsWithProperties(
-        rootItem, { 'type': 'geometry', 'role': '3d' },
-        true);
+        rootItem, { 'type': 'geometry', 'role': '3d' }, true);
+
+      var geometryItems2d = Autodesk.Viewing.Document.getSubItemsWithProperties(
+        rootItem, { 'type': 'geometry', 'role': '2d' }, true);
 
       // Pick the first 3D item
-      if (geometryItems3d.length) {
+      if (geometryItems3d.length || geometryItems2d.length) {
 
         if(!this.viewer) {
 
@@ -322,8 +308,12 @@ class App {
           this.viewer.initialize()
         }
 
+        var viewable = geometryItems3d.length ?
+          geometryItems3d[0] :
+          geometryItems2d[0]
+
         var path = LMVDocument.getViewablePath(
-          geometryItems3d[0])
+          viewable)
 
         let model = await this.loadModel(path, {
           acmSessionId: LMVDocument.acmSessionId
@@ -332,7 +322,7 @@ class App {
         this.a360View.panel.stopLoad()
 
         // store for easy use by extensions
-        //model.urn = urn
+
         model.name = item.name
         model.storageUrn = storageUrn
 
@@ -345,7 +335,16 @@ class App {
             'Viewing.Extension.Derivative' ]
         }
 
-        this.derivative.postJob(model)
+        this.derivative.postJob(version).then((job) => {
+
+          // first child is application/autodesk-svf
+
+          var guid = viewable.children[0].guid
+
+          console.log('Design GUID: ' + guid)
+
+          model.guid = guid
+        })
 
         if(!this.viewer.loadedExtensions['Viewing.Extension.ModelTransformer']) {
 
@@ -392,12 +391,12 @@ class App {
 
       this.logError(err)
 
-    }, {
+    }/*,{
 
       'oauth2AccessToken': this.getToken('/api/token/3legged'),
       'x-ads-acm-namespace': 'WIPDMSTG',
       'x-ads-acm-check-groups': 'true'
-    })
+    }*/)
   }
 
   //////////////////////////////////////////////////////////////////////////

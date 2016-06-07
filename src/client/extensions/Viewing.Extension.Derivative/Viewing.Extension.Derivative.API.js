@@ -10,20 +10,13 @@ export default class DerivativeAPI {
   //
   //
   ///////////////////////////////////////////////////////////////////
-  postJob(params) {
+  postJob(payload) {
 
     return new Promise(async(resolve, reject) => {
 
       try {
 
         var url = `${this.apiUrl}/job`
-
-        var payload = {
-          outputType: params.outputType,
-          objectIds: params.objectIds,
-          guid: params.guid,
-          urn: params.urn
-        }
 
         var response = await post(url, payload)
 
@@ -183,7 +176,7 @@ export default class DerivativeAPI {
           var derivativeResult = await findDerivative(
             manifest, params)
 
-          console.log(derivativeResult)
+          //console.log(derivativeResult)
 
           if(derivativeResult.target &&
              derivativeResult.target.status === 'success') {
@@ -270,12 +263,16 @@ function findDerivative(manifest, params) {
 
             derivative.children.forEach((childDerivative) => {
 
-              //TODO match objectId when API is fixed
+              // match objectId
+              if(_.isEqual(
+                  childDerivative.objectIds,
+                  params.objectIds)) {
 
-              return resolve({
-                parent: parentDerivative,
-                target: childDerivative
-              })
+                return resolve({
+                  parent: parentDerivative,
+                  target: childDerivative
+                })
+              }
             })
           }
         }

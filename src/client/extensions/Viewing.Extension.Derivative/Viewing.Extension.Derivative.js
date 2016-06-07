@@ -65,47 +65,52 @@ class DerivativeExtension extends ExtensionBase {
   //
   //
   /////////////////////////////////////////////////////////////////
-  async postJob(model) {
+  postJob(version) {
 
-    var storageUrn = model.storageUrn
+    return new Promise(async(resolve, reject) => {
 
-    console.log('Job: ' + storageUrn)
+      var storageUrn = window.btoa(
+        version.relationships.storage.data.id)
 
-    var jobPanel = new JobPanel(
-      this._viewer.container,
-      model)
+      console.log('Job: ' + storageUrn)
 
-    var job = await this.api.postJob({
-      urn: storageUrn,
-      outputType: 'svf'
-    })
+      var jobPanel = new JobPanel(
+        this._viewer.container,
+        version)
 
-    if(job.result === 'success' || job.result === 'created') {
+      try {
 
-      await this.api.waitJob(storageUrn, (progress) => {
+        var job = await this.api.postJob({
+          fileExtType: version.attributes && version.attributes.extension ?
+            version.attributes.extension.type : null,
+          rootFilename: version.attributes ? version.attributes.name : null,
+          outputType: 'svf',
+          urn: storageUrn
+        })
 
-        jobPanel.updateProgress(progress)
-      })
+        if (job.result === 'success' || job.result === 'created') {
 
-      jobPanel.done()
+          await this.api.waitJob(storageUrn, (progress) => {
 
-      var metadataResult = await this.api.getMetadata(storageUrn)
+            jobPanel.updateProgress(progress)
+          })
 
-      if(metadataResult.metadata &&
-         metadataResult.metadata.length) {
+          jobPanel.done()
 
-        //Pick firt metadata for now ...
-        var metadataElement = metadataResult.metadata[0]
+          return resolve(job)
+        }
+        else {
 
-        console.log('Model GUID: ' + metadataElement.guid)
-
-        model.guid = metadataElement.guid
+          jobPanel.jobFailed(job)
+          return reject(job)
+        }
       }
-    }
-    else {
+      catch(ex) {
 
-      jobPanel.jobFailed(job)
-    }
+        jobPanel.jobFailed(ex)
+        return reject(ex)
+      }
+    })
   }
 
   /////////////////////////////////////////////////////////////////

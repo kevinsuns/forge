@@ -28,7 +28,7 @@ export default class DerivativeSvc extends BaseSvc {
   //
   //
   /////////////////////////////////////////////////////////////////
-  get jobBuilder() {
+  get jobOutputBuilder() {
 
     return {
 
@@ -64,11 +64,11 @@ export default class DerivativeSvc extends BaseSvc {
     }
   }
 
-  /////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
   //
   //
   /////////////////////////////////////////////////////////////////
-  postJob (token, urn, output) {
+  postJob (token, input, output) {
 
     return requestAsync({
       url: this._config.endPoints.job,
@@ -76,10 +76,8 @@ export default class DerivativeSvc extends BaseSvc {
       token: token,
       json: true,
       body: {
-        input: {
-          urn: urn
-      },
-      output: output
+        input,
+        output
       }
     })
   }

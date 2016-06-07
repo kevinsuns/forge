@@ -126,8 +126,6 @@ export default class TransformTool extends EventsEmitter {
   ///////////////////////////////////////////////////////////////////////////
   onAggregateSelectionChanged(event) {
 
-    console.log(event)
-
     if(event.selections && event.selections.length) {
 
       var selection = event.selections[event.selections.length - 1]
@@ -137,8 +135,6 @@ export default class TransformTool extends EventsEmitter {
       this.emit('transform.modelSelected',
         this._model
       );
-
-      console.log('Model: ' + this._model.name)
 
       var fragIdsArray = []
 

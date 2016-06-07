@@ -8,14 +8,14 @@ import ToolPanelBase from 'ToolPanelBase'
 
 export default class JobPanel extends ToolPanelBase {
 
-  constructor(container, model) {
+  constructor(container, version) {
 
     super(container, 'Processing Derivatives ...', {
       movable: false,
       closable: false
     })
 
-    this.model = model
+    this.version = version
 
     $(this.container).addClass('derivative')
     $(this.container).addClass('job')
@@ -23,8 +23,8 @@ export default class JobPanel extends ToolPanelBase {
     $(`#${this.container.id}`).find(
       '.dockingPanelTitle').prepend('<img/>')
 
-    $(`#${this.container.id}-model-name`).text(
-      'Model: ' + model.name)
+    $(`#${this.container.id}-name`).text(
+      'Design: ' + version.attributes.displayName)
 
     var angle = 0
 
@@ -52,7 +52,7 @@ export default class JobPanel extends ToolPanelBase {
 
       <div class="container">
 
-        <div id=${id}-model-name>
+        <div id=${id}-name>
         </div>
 
         <div id=${id}-job-progress>
@@ -68,8 +68,6 @@ export default class JobPanel extends ToolPanelBase {
   /////////////////////////////////////////////////////////////
   updateProgress (progress) {
 
-    console.log('Job Progress: ' + progress)
-
     $(`#${this.container.id}-job-progress`).text(
       'Job Progress: ' + progress)
   }
@@ -82,6 +80,9 @@ export default class JobPanel extends ToolPanelBase {
 
     console.log('Job Failed! ')
     console.log(job)
+
+    $(`#${this.container.id}-job-progress`).text(
+      'Job failed :(')
 
     clearInterval(this.intervalId)
 

@@ -141,6 +141,14 @@ export default class ModelTransformerPanel extends ToolPanelBase {
         }
     })
 
+    $(`#${this.container.id}-Sx`).on('change keyup', () => {
+
+      var scale = $(`#${this.container.id}-Sx`).val()
+
+      $(`#${this.container.id}-Sy`).val(scale)
+      $(`#${this.container.id}-Sz`).val(scale)
+    })
+
     $(`#${this.container.id}`).find(
       '.dockingPanelTitle').prepend('<img/>')
   }
