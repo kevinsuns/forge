@@ -289,17 +289,14 @@ class App {
     this.a360View.panel.startLoad(
       'Loading ' + item.name + ' ...')
 
-    var token = this.getToken('/api/token/3legged')
-
     //pick the last version by default
     var version = item.versions[item.versions.length-1]
 
-    //hardcoded URN for testing
-    //var urn = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YWRuLWJ1Y2tldC1ucG0tZGV2L3Rlc3QuZHdm'
-    var urn = version.relationships.derivatives.data.id
+    var urn = this.b64EncodeUnicode(
+      version.relationships.storage.data.id)
 
     console.log('URN: ' + urn)
-    console.log('Token: ' + token)
+    console.log('Token: ' + this.getToken('/api/token/3legged'))
 
     Autodesk.Viewing.Document.load('urn:' + urn, async(LMVDocument) => {
 
@@ -333,10 +330,9 @@ class App {
         this.a360View.panel.stopLoad()
 
         // store for easy use by extensions
-        model.urn = urn
+        //model.urn = urn
         model.name = item.name
-        model.storageUrn = this.b64EncodeUnicode(
-          version.relationships.storage.data.id)
+        model.storageUrn = urn
 
         if(!this.viewer.loadedExtensions['Viewing.Extension.Derivative']) {
 
@@ -393,12 +389,6 @@ class App {
     }, (err) => {
 
       this.logError(err)
-
-    }, {
-
-      'oauth2AccessToken': token,
-      'x-ads-acm-namespace': 'WIPDMSTG', // STG for staging,
-      'x-ads-acm-check-groups': 'true'
     })
   }
 
