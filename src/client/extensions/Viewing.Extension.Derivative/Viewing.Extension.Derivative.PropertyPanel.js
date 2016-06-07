@@ -228,10 +228,14 @@ export default class DerivativePropertyPanel extends
 
       case 'derivative':
 
+        // if derivative not found -> trigger the job
+
         if(property.status === 'not found') {
 
           var job = await this.api.postJob(property)
         }
+
+        // wait till derivative urn is available
 
         var result = await this.api.getDerivativeURN(
           property,
@@ -261,8 +265,6 @@ export default class DerivativePropertyPanel extends
   onDerivativeProgress (property) {
 
     return (progress) => {
-
-      console.log('Progress: ' + progress)
 
       property.progress = progress
 
