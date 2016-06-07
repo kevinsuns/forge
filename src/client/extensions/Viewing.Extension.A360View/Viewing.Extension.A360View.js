@@ -34,7 +34,7 @@ class A360ViewExtension extends ExtensionBase {
   async load() {
 
     this.control = ViewerToolkit.createButton(
-      'a360-view-control',
+      'toolbar-a360-view',
       'adsk-button-icon a360-icon',
       'A360 View', ()=>{
 

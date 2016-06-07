@@ -19,7 +19,7 @@ module.exports = {
 
     serverConfig: {
 
-        hardcodedToken: 'il2DPuitkBTTRv0uoFbOXINbWP7o', //used for debug
+        hardcodedToken: 'E1pwDsRGuOxMYIBjO48MF7JPXI7O', //used for debug
 
         redirectUrl: 'https://autodesk-forge.herokuapp.com/api/auth/callback',
         authenticationUrl: '/authentication/' + OAUTH_VERSION + '/authorize',
@@ -55,13 +55,13 @@ module.exports = {
             viewable:         BASE_URL + '/viewingservice/' + OSS_VERSION + '/%s',
             items:            BASE_URL + '/viewingservice/' + OSS_VERSION + '/items/%s',
 
+            user:            BASE_URL + '/userprofile/'    + DM_VERSION + '/users/@me',
+
             hubs:            BASE_URL + '/project/'        + DM_VERSION + '/hubs',
             projects:        BASE_URL + '/project/'        + DM_VERSION + '/hubs/%s/projects',
             project:         BASE_URL + '/project/'        + DM_VERSION + '/hubs/%s/projects/%s',
             folderContent:   BASE_URL + '/data/'           + DM_VERSION + '/projects/%s/folders/%s/contents',
             itemVersions:    BASE_URL + '/data/'           + DM_VERSION + '/projects/%s/items/%s/versions',
-            thumbnail:       BASE_URL + '/viewingservice/' + DM_VERSION + '/thumbnails/%s',
-            user:            BASE_URL + '/userprofile/'    + DM_VERSION + '/users/@me',
 
             job:             BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/job',
             manifest:        BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/manifest',

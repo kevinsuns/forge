@@ -17,7 +17,7 @@ module.exports = function() {
 
       var token = req.session.token || config.hardcodedToken
 
-      var dmSvc = ServiceManager.getService('DMSvc');
+      var dmSvc = ServiceManager.getService('DMSvc')
 
       var response = await dmSvc.getUser(token)
 
@@ -32,7 +32,7 @@ module.exports = function() {
       res.status(500)
       res.json(ex)
     }
-  });
+  })
 
   /////////////////////////////////////////////////////////////////////////////
   //
@@ -44,7 +44,7 @@ module.exports = function() {
 
       var token = req.session.token || config.hardcodedToken
 
-      var dmSvc = ServiceManager.getService('DMSvc');
+      var dmSvc = ServiceManager.getService('DMSvc')
 
       var response = await dmSvc.getHubs(token)
 
@@ -57,7 +57,7 @@ module.exports = function() {
       res.status(500)
       res.json(ex)
     }
-  });
+  })
 
   /////////////////////////////////////////////////////////////////////////////
   //
@@ -71,7 +71,7 @@ module.exports = function() {
 
       var hubId = req.params.hubId
 
-      var dmSvc = ServiceManager.getService('DMSvc');
+      var dmSvc = ServiceManager.getService('DMSvc')
 
       var response = await dmSvc.getProjects(
         token, hubId)
@@ -85,7 +85,7 @@ module.exports = function() {
       res.status(500)
       res.json(ex)
     }
-  });
+  })
 
   /////////////////////////////////////////////////////////////////////////////
   //
@@ -101,7 +101,7 @@ module.exports = function() {
 
       var projectId = req.params.projectId
 
-      var dmSvc = ServiceManager.getService('DMSvc');
+      var dmSvc = ServiceManager.getService('DMSvc')
 
       var response = await dmSvc.getProject(
         token, hubId, projectId)
@@ -115,7 +115,7 @@ module.exports = function() {
       res.status(500)
       res.json(ex)
     }
-  });
+  })
 
   /////////////////////////////////////////////////////////////////////////////
   //
@@ -131,7 +131,7 @@ module.exports = function() {
 
       var folderId = req.params.folderId
 
-      var dmSvc = ServiceManager.getService('DMSvc');
+      var dmSvc = ServiceManager.getService('DMSvc')
 
       var response = await dmSvc.getFolderContent(
         token, projectId, folderId)
@@ -145,7 +145,7 @@ module.exports = function() {
       res.status(500)
       res.json(ex)
     }
-  });
+  })
 
   /////////////////////////////////////////////////////////////////////////////
   //
@@ -161,7 +161,7 @@ module.exports = function() {
 
       var itemId = req.params.itemId
 
-      var dmSvc = ServiceManager.getService('DMSvc');
+      var dmSvc = ServiceManager.getService('DMSvc')
 
       var response = await dmSvc.getItemVersions(
         token, projectId, itemId)
@@ -175,7 +175,7 @@ module.exports = function() {
       res.status(500)
       res.json(ex)
     }
-  });
-
-  return router;
+  })
+  
+  return router
 }

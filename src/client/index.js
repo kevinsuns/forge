@@ -227,11 +227,11 @@ class App {
         env: config.env,
 
         refreshToken: () => {
-          return this.getToken('/api/token/3legged')
+          return this.getToken('/api/token/2legged')
         },
 
         getAccessToken: () => {
-          return this.getToken('/api/token/3legged')
+          return this.getToken('/api/token/2legged')
         }
       }
 
@@ -250,7 +250,7 @@ class App {
         var viewerToolbar = this.viewer.getToolbar(true);
 
         this.ctrlGroup = new Autodesk.Viewing.UI.ControlGroup(
-          'forge-dm-aggregator');
+          'forge');
 
         viewerToolbar.addControl(this.ctrlGroup);
 
@@ -292,8 +292,10 @@ class App {
     //pick the last version by default
     var version = item.versions[item.versions.length-1]
 
-    var urn = this.b64EncodeUnicode(
+    var storageUrn = this.b64EncodeUnicode(
       version.relationships.storage.data.id)
+
+    var urn = version.relationships.derivatives.data.id
 
     console.log('URN: ' + urn)
     console.log('Token: ' + this.getToken('/api/token/3legged'))
@@ -332,7 +334,7 @@ class App {
         // store for easy use by extensions
         //model.urn = urn
         model.name = item.name
-        model.storageUrn = urn
+        model.storageUrn = storageUrn
 
         if(!this.viewer.loadedExtensions['Viewing.Extension.Derivative']) {
 
@@ -389,6 +391,12 @@ class App {
     }, (err) => {
 
       this.logError(err)
+
+    }, {
+
+      'oauth2AccessToken': this.getToken('/api/token/3legged'),
+      'x-ads-acm-namespace': 'WIPDMSTG',
+      'x-ads-acm-check-groups': 'true'
     })
   }
 

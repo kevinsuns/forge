@@ -36,7 +36,7 @@ class ModelTransformerExtension extends ExtensionBase {
   async load() {
 
     this.control = ViewerToolkit.createButton(
-      'model-transformer-control',
+      'toolbar-model-transformer',
       'adsk-button-icon model-transformer-icon',
       'Transform Models', ()=>{
 
