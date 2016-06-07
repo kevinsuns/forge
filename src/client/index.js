@@ -253,20 +253,20 @@ class App {
           'forge-dm-aggregator');
 
         viewerToolbar.addControl(this.ctrlGroup);
-      });
 
-      this.viewer.loadExtension(
-        'Viewing.Extension.A360View', {
-          parentControl: this.ctrlGroup,
-          showPanel: true
+        this.viewer.loadExtension(
+          'Viewing.Extension.A360View', {
+            parentControl: this.ctrlGroup,
+            showPanel: true
+          })
+
+        this.a360View =
+          this.viewer.loadedExtensions['Viewing.Extension.A360View']
+
+        this.a360View.on('item.dblClick', (item)=> {
+
+          this.importModelFromItem(item)
         })
-
-      this.a360View =
-        this.viewer.loadedExtensions['Viewing.Extension.A360View']
-
-      this.a360View.on('item.dblClick', (item)=> {
-
-        this.importModelFromItem(item)
       })
     })
   }
