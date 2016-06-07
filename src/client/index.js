@@ -191,84 +191,84 @@ class App {
       this.login()
     })
 
-    var options = {
-
-      env: config.env,
-
-      refreshToken: () => {
-        return this.getToken('/api/token/3legged')
-      },
-
-      getAccessToken: () => {
-        return this.getToken('/api/token/3legged')
-      }
-    }
-
-    Autodesk.Viewing.Initializer(options, () => {
-
-      var viewerContainer = document.getElementById('viewer')
-
-      this.viewer = new Autodesk.Viewing.Private.GuiViewer3D(
-        viewerContainer)
-
-      this.viewer.initialize()
-
-      $('#loader').remove()
-      $('.spinner').remove()
-
-      this.socket = ioClient.connect(
-        `${config.host}:${config.port}`, {
-          reconnect: true
-        });
-
-      this.socket.on('connect', ()=> {
-
-        console.log('client socket connected');
+    this.socket = ioClient.connect(
+      `${config.host}:${config.port}`, {
+        reconnect: true
       });
 
-      this.socket.on('connection.data', (data)=> {
+    this.socket.on('connect', ()=> {
 
-        this.register(data.socketId)
-      });
-
-      this.socket.on('callback', (msg)=> {
-
-        if(this.popup) {
-
-          this.popup.close()
-          this.popup = null
-
-          $.get('/api/dm/user', (user) => {
-
-            var username = user.firstName + ' ' + user.lastName
-
-            $('#loginText').text(username)
-            $('#loginItem').addClass('active')
-          })
-
-          this.viewer.loadExtension(
-            'Viewing.Extension.A360View', {
-              parentControl: this.ctrlGroup,
-              showPanel: true
-            })
-
-          this.a360View =
-            this.viewer.loadedExtensions['Viewing.Extension.A360View']
-
-          this.a360View.on('item.dblClick', (item)=> {
-
-            this.importModelFromItem(item)
-          })
-        }
-      });
-
-      var viewerToolbar = this.viewer.getToolbar(true);
-
-      this.ctrlGroup = new Autodesk.Viewing.UI.ControlGroup(
-        'forge-dm-aggregator');
-
-      viewerToolbar.addControl(this.ctrlGroup);
+      console.log('client socket connected');
     });
+
+    this.socket.on('connection.data', (data)=> {
+
+      this.register(data.socketId)
+    });
+
+    this.socket.on('callback', (msg)=> {
+
+      if(this.popup) {
+
+        this.popup.close()
+        this.popup = null
+      }
+
+      $.get('/api/dm/user', (user) => {
+
+        var username = user.firstName + ' ' + user.lastName
+
+        $('#loginText').text(username)
+        $('#loginItem').addClass('active')
+      })
+
+      var options = {
+
+        env: config.env,
+
+        refreshToken: () => {
+          return this.getToken('/api/token/3legged')
+        },
+
+        getAccessToken: () => {
+          return this.getToken('/api/token/3legged')
+        }
+      }
+
+      Autodesk.Viewing.Initializer(options, () => {
+
+        var viewerContainer = document.getElementById('viewer')
+
+        this.viewer = new Autodesk.Viewing.Private.GuiViewer3D(
+          viewerContainer)
+
+        this.viewer.initialize()
+
+        $('#loader').remove()
+        $('.spinner').remove()
+
+        var viewerToolbar = this.viewer.getToolbar(true);
+
+        this.ctrlGroup = new Autodesk.Viewing.UI.ControlGroup(
+          'forge-dm-aggregator');
+
+        viewerToolbar.addControl(this.ctrlGroup);
+      });
+
+      this.viewer.loadExtension(
+        'Viewing.Extension.A360View', {
+          parentControl: this.ctrlGroup,
+          showPanel: true
+        })
+
+      this.a360View =
+        this.viewer.loadedExtensions['Viewing.Extension.A360View']
+
+      this.a360View.on('item.dblClick', (item)=> {
+
+        this.importModelFromItem(item)
+      })
+    })
   }
 
   //////////////////////////////////////////////////////////////////////////
