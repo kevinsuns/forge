@@ -90,7 +90,8 @@ export default class DerivativePropertyPanel extends
 
       var labelProp = properties.filter((prop)=> {
 
-        return prop.displayName === 'label'
+        return prop.displayName === 'label' ||
+               prop.displayName === 'Name'
       })
 
       var name = labelProp[0].displayValue
