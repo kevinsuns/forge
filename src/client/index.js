@@ -296,17 +296,17 @@ class App {
     var storageUrn = window.btoa(
       version.relationships.storage.data.id)
 
-    // !IMPORTANT: remove padding '='
-    storageUrn = this.replaceAll(storageUrn, '=', '')
-
     var urn = version.relationships.derivatives.data.id
 
     console.log('URN: ' + urn)
     console.log('Storage URN: ' + storageUrn)
     //console.log('Token: ' + this.getToken('/api/token/3legged'))
 
-    Autodesk.Viewing.Document.load('urn:' + urn, async(LMVDocument) => {
+    Autodesk.Viewing.Document.load('urn:' + storageUrn, async(LMVDocument) => {
 
+      // !IMPORTANT: remove padding '='
+      storageUrn = this.replaceAll(storageUrn, '=', '')
+      
       var rootItem = LMVDocument.getRootItem();
 
       var geometryItems3d = Autodesk.Viewing.Document.getSubItemsWithProperties(
@@ -413,12 +413,12 @@ class App {
 
       this.logError(err)
 
-    } ,{
+    } /*,{
 
       'oauth2AccessToken': this.getToken('/api/token/3legged'),
       'x-ads-acm-namespace': 'WIPDMSTG',
       'x-ads-acm-check-groups': 'true'
-    })
+    }*/)
   }
 
   //////////////////////////////////////////////////////////////////////////
