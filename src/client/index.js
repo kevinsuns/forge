@@ -300,7 +300,7 @@ class App {
 
     console.log('URN: ' + urn)
     console.log('Storage URN: ' + storageUrn)
-    console.log('Token: ' + this.getToken('/api/token/3legged'))
+    //console.log('Token: ' + this.getToken('/api/token/3legged'))
 
     Autodesk.Viewing.Document.load('urn:' + storageUrn, async(LMVDocument) => {
 
