@@ -354,13 +354,19 @@ class App {
             acmSessionId: LMVDocument.acmSessionId
           })
 
-          // first child is application/autodesk-svf
-          var guid = viewable.children[ 0 ].guid
+          var metadata = await this.derivative.getMetadata(
+            storageUrn)
 
-          console.log('Design GUID: ' + guid)
+          // assume first metadata, since we loaded first viewable
+          if(metadata.metadata && metadata.metadata.length) {
 
-          model.guid = guid
+            var guid = metadata.metadata[0].guid
 
+            console.log('Design GUID: ' + guid)
+
+            model.guid = guid
+          }
+          
           this.a360View.panel.stopLoad()
 
           // store for easy use by extensions
