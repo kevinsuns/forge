@@ -6,7 +6,7 @@ import express from 'express'
 
 module.exports = function() {
 
-  var router = express.Router();
+  var router = express.Router()
 
   var oauth2 = new OAuth2(
     config.credentials.ConsumerKey,
@@ -14,7 +14,9 @@ module.exports = function() {
     config.baseUrl,
     config.authenticationUrl,
     config.accessTokenUrl,
-    null);
+    null)
+  
+  var data = {}
 
   /////////////////////////////////////////////////////////////////////////////
   // Register socketId from client
@@ -24,8 +26,8 @@ module.exports = function() {
 
     req.session.socketId = req.body.socketId
 
-    res.json('success');
-  });
+    res.json('success')
+  })
 
   /////////////////////////////////////////////////////////////////////////////
   //
@@ -36,10 +38,19 @@ module.exports = function() {
     var authURL = oauth2.getAuthorizeUrl({
       redirect_uri: config.redirectUrl,
       scope: config.scope
-    });
+    })
 
-    res.json(authURL + '&response_type=code');
-  });
+    res.json(authURL + '&response_type=code')
+  })
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////////////////
+  router.get('/data', function (req, res) {
+
+    res.json(data)
+  })
 
   /////////////////////////////////////////////////////////////////////////////
   //
@@ -56,16 +67,22 @@ module.exports = function() {
 
         try {
 
-          req.session.token = access_token;
-          req.session.cookie.expires = false;
+          data = {
+            access_token,
+            refresh_token,
+            results
+          }
+          
+          req.session.token = access_token
+          req.session.cookie.expires = false
 
           //if(results) {
           //  req.session.cookie.maxAge =
-          //    parseInt(results.expires_in) * 60;
+          //    parseInt(results.expires_in) * 60
           //}
 
           var socketSvc = ServiceManager.getService(
-            'SocketSvc');
+            'SocketSvc')
 
           if(req.session.socketId){
 
@@ -74,7 +91,7 @@ module.exports = function() {
               req.session.socketId)
           }
 
-          res.end('<script>window.opener.location.reload(false);window.close();</script>');
+          res.end('<script>window.opener.location.reload(false)window.close()</script>')
         }
         catch(ex){
 
@@ -82,8 +99,8 @@ module.exports = function() {
           res.end(ex)
         }
       }
-    );
-  });
+    )
+  })
 
   /////////////////////////////////////////////////////////////////////////////
   //
@@ -91,25 +108,9 @@ module.exports = function() {
   /////////////////////////////////////////////////////////////////////////////
   router.post('/logout', function (req, res) {
 
-    req.session.destroy();
-    res.json('logged out');
-  });
+    req.session.destroy()
+    res.json('logged out')
+  })
 
-  return router;
-}
-
-
-function guid(format = 'xxxxxxxxxx') {
-
-  var d = new Date().getTime();
-
-  var guid = format.replace(
-    /[xy]/g,
-    function (c) {
-      var r = (d + Math.random() * 16) % 16 | 0;
-      d = Math.floor(d / 16);
-      return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
-    });
-
-  return guid;
+  return router
 }

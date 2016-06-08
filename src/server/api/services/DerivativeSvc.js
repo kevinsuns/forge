@@ -230,7 +230,7 @@ function requestAsync(params) {
       },
       json: params.json,
       body: params.body
-    }, function (err, response, body) {
+    },  (err, response, body) => {
 
       try {
 

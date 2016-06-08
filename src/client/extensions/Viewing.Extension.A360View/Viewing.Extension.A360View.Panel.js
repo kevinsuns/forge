@@ -3,27 +3,24 @@
 // by Philippe Leefsma, Feb 2016
 //
 /////////////////////////////////////////////////////////////////////
-import A360API from './Viewing.Extension.A360View.API'
 import './Viewing.Extension.A360View.css'
 import ToolPanelBase from 'ToolPanelBase'
 import TabManager from 'TabManager'
 
 export default class A360Panel extends ToolPanelBase {
 
-  constructor(container, btnElement, rootNode) {
+  constructor(extension, container, btnElement) {
 
     super(container, 'A360 View', {
       buttonElement: btnElement
     })
 
-    this.api = new A360API({
-      apiUrl: '/api/dm'
-    })
+    this.extension = extension
 
     $(this.container).addClass('a360')
 
     this.TabManager = new TabManager(
-      '#' + this.tabsContainerId);
+      '#' + this.tabsContainerId)
 
     this.on('open', () => {
 
@@ -63,7 +60,7 @@ export default class A360Panel extends ToolPanelBase {
         <div id="${this.tabsContainerId}" class="tabs-container">
         </div>
 
-      </div>`;
+      </div>`
   }
 
   /////////////////////////////////////////////////////////////
@@ -72,9 +69,7 @@ export default class A360Panel extends ToolPanelBase {
   /////////////////////////////////////////////////////////////
   async loadData() {
 
-    const hubs = await this.api.getHubs()
-
-    var active = true
+    const hubs = await this.extension.api.getHubs()
 
     hubs.forEach((hub) => {
 
@@ -82,13 +77,11 @@ export default class A360Panel extends ToolPanelBase {
 
       this.TabManager.addTab({
         name: 'Hub: ' + hub.attributes.name,
-        active: active,
+        active: true,
         html: `<div id=${treeContainerId} class="tree-container"> </div>`
-      });
+      })
 
       this.loadTree(treeContainerId, hub)
-
-      active = false
     })
   }
 
@@ -98,9 +91,9 @@ export default class A360Panel extends ToolPanelBase {
   /////////////////////////////////////////////////////////////
   async loadTree(containerId, hub) {
 
-    var treeContainer = $(`#${containerId}`)[0];
+    var treeContainer = $(`#${containerId}`)[0]
 
-    var delegate = new A360TreeDelegate(this.api);
+    var delegate = new A360TreeDelegate(this.extension)
 
     var rootNode = {
       name: hub.attributes.name,
@@ -113,12 +106,7 @@ export default class A360Panel extends ToolPanelBase {
       delegate, rootNode, treeContainer, {
         excludeRoot: false,
         localize: true
-      });
-
-    delegate.on('node.dblClick', (node) => {
-
-      this.emit('node.dblClick', node)
-    })
+      })
   }
 
   /////////////////////////////////////////////////////////////
@@ -193,13 +181,13 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
   //
   //
   /////////////////////////////////////////////////////////////
-  constructor(api) {
+  constructor(extension) {
 
     super()
 
     this._events = {}
 
-    this.api = api
+    this.extension = extension
   }
 
   /////////////////////////////////////////////////////////////
@@ -208,7 +196,7 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
   /////////////////////////////////////////////////////////////
   getTreeNodeId(node) {
 
-    return node.id;
+    return node.id
   }
 
   /////////////////////////////////////////////////////////////
@@ -217,7 +205,7 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
   /////////////////////////////////////////////////////////////
   isTreeNodeGroup (node) {
 
-    return node.group;
+    return node.group
   }
 
   /////////////////////////////////////////////////////////////
@@ -226,7 +214,16 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
   /////////////////////////////////////////////////////////////
   onTreeNodeDoubleClick (tree, node, event) {
 
-    this.emit('node.dblClick', node)
+    this.extension.emit('node.dblClick', node)
+  }
+
+  /////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////
+  getTreeNodeLabel = function (node) {
+
+    return node.name
   }
 
   /////////////////////////////////////////////////////////////
@@ -235,25 +232,32 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
   /////////////////////////////////////////////////////////////
   createTreeNode (node, parent, options) {
 
-    console.log(node.type)
+    this.extension.api.getItemVersions(
+      node.projectId, node.id).then((itemVersions) => {
 
-    switch(node.type){
+        node.versions = itemVersions
 
+        // node ready for further processing,
+        // by derivative for example
+        this.extension.emit('node.added', node)
+      })
 
-    }
+    parent.classList.add(node.type)
 
-    var label = document.createElement('label');
+    var label = document.createElement('label')
 
-    parent.appendChild(label);
+    label.classList.add(node.type)
 
-    var text = this.getTreeNodeLabel(node);
+    parent.appendChild(label)
+
+    var text = this.getTreeNodeLabel(node)
 
     if (options && options.localize) {
-      label.setAttribute('data-i18n', text);
-      text = Autodesk.Viewing.i18n.translate(text);
+      label.setAttribute('data-i18n', text)
+      text = Autodesk.Viewing.i18n.translate(text)
     }
 
-    label.textContent = text;
+    label.textContent = text
   }
 
   /////////////////////////////////////////////////////////////
@@ -266,7 +270,7 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
       case 'hubs':
 
-        this.api.getProjects(node.id).then((projects) => {
+        this.extension.api.getProjects(node.id).then((projects) => {
 
           projects.forEach( (project) => {
 
@@ -286,32 +290,35 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
       case 'projects':
 
-        this.api.getProject(node.hubId, node.id).then((project) => {
+        this.extension.api.getProject(
+          node.hubId, node.id).then((project) => {
 
-          var rootId = project.relationships.rootFolder.data.id
+            var rootId = project.relationships.rootFolder.data.id
 
-          this.api.getFolderContent(node.id, rootId).then((folderItems) => {
+            this.extension.api.getFolderContent(
+              node.id, rootId).then((folderItems) => {
 
-            folderItems.forEach((folderItem) => {
+                folderItems.forEach((folderItem) => {
 
-              var child = {
-                name: folderItem.attributes.displayName,
-                type: folderItem.type,
-                projectId: node.id,
-                id: folderItem.id,
-                group: true
-              }
+                  var child = {
+                    name: folderItem.attributes.displayName,
+                    type: folderItem.type,
+                    projectId: node.id,
+                    id: folderItem.id,
+                    group: true
+                  }
 
-              callback(child)
+                  callback(child)
+                })
             })
           })
-        })
 
         break
 
       case 'folders':
 
-          this.api.getFolderContent(node.projectId, node.id).then((folderItems) => {
+        this.extension.api.getFolderContent(
+          node.projectId, node.id).then((folderItems) => {
 
             folderItems.forEach((folderItem) => {
 
@@ -330,60 +337,8 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
         break
 
       case 'items':
-
-        this.api.getItemVersions(node.projectId, node.id).then((itemVersions) => {
-
-          node.versions = itemVersions
-        })
-
       default:
         break
     }
-  }
-
-  ///////////////////////////////////////////////////////////////////
-  //
-  //
-  ///////////////////////////////////////////////////////////////////
-  on(event, fct) {
-
-    this._events[event] = this._events[event]	|| [];
-    this._events[event].push(fct);
-    return fct;
-  }
-
-  ///////////////////////////////////////////////////////////////////
-  //
-  //
-  ///////////////////////////////////////////////////////////////////
-  off(event, fct) {
-
-    if(event in this._events === false)
-      return;
-
-    this._events[event].splice(
-      this._events[event].indexOf(fct), 1);
-  }
-
-  ///////////////////////////////////////////////////////////////////
-  //
-  //
-  ///////////////////////////////////////////////////////////////////
-  emit(event /* , args... */) {
-
-    if(this._events[event] === undefined)
-      return;
-
-    var tmpArray = this._events[event].slice();
-
-    for(var i = 0; i < tmpArray.length; ++i) {
-      var result	= tmpArray[i].apply(this,
-        Array.prototype.slice.call(arguments, 1));
-
-      if(result !== undefined )
-        return result;
-    }
-
-    return undefined;
   }
 }

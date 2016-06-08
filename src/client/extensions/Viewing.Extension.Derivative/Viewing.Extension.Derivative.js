@@ -142,6 +142,25 @@ class DerivativeExtension extends ExtensionBase {
 
     this.api.deleteManifest(urn)
   }
+
+  /////////////////////////////////////////////////////////////////
+  // Item node from Dm TreeView
+  //
+  /////////////////////////////////////////////////////////////////
+  onItemNode(node) {
+
+    // pick last item version
+    if(node.versions && node.versions.length) {
+
+      var version = node.versions[node.versions.length -1]
+
+      var storageUrn = window.btoa(
+        version.relationships.storage.data.id)
+
+      storageUrn = storageUrn.replace(
+        new RegExp('=', 'g'), '');
+    }
+  }
 }
 
 Autodesk.Viewing.theExtensionManager.registerExtension(

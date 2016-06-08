@@ -11,7 +11,7 @@ export default class JobPanel extends ToolPanelBase {
   constructor(container, version) {
 
     super(container, 'Processing Derivatives ...', {
-      movable: false,
+      movable: true,
       closable: false
     })
 

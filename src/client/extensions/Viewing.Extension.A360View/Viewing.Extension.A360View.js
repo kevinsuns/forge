@@ -4,6 +4,7 @@
 //
 /////////////////////////////////////////////////////////////////////
 import A360Panel from './Viewing.Extension.A360View.Panel'
+import A360API from './Viewing.Extension.A360View.API'
 import ViewerToolkit from 'ViewerToolkit'
 import ExtensionBase from 'ExtensionBase'
 
@@ -16,6 +17,10 @@ class A360ViewExtension extends ExtensionBase {
   constructor(viewer, options) {
 
     super(viewer, options);
+
+    this.api = new A360API({
+      apiUrl: '/api/dm'
+    })
   }
 
   /////////////////////////////////////////////////////////////////
@@ -45,21 +50,12 @@ class A360ViewExtension extends ExtensionBase {
       this.control)
 
     this.panel = new A360Panel(
+      this,
       this._viewer.container,
       this.control.container)
 
     this.panel.setVisible(
       this._options.showPanel)
-
-    this.onNodeDblClikedHandler = (node) => {
-
-      this.onNodeDblCliked(node)
-    }
-
-    this.panel.on('node.dblClick', (node) => {
-
-      this.onNodeDblClikedHandler(node)
-    })
 
     console.log('Viewing.Extension.A360View loaded')
 
@@ -78,18 +74,6 @@ class A360ViewExtension extends ExtensionBase {
     console.log('Viewing.Extension.A360View unloaded');
 
     return true;
-  }
-
-  /////////////////////////////////////////////////////////////////
-  //
-  //
-  /////////////////////////////////////////////////////////////////
-  onNodeDblCliked (node) {
-
-    if(node.type === 'items'){
-
-      this.emit('item.dblClick', node)
-    }
   }
 }
 

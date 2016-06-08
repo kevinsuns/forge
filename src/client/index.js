@@ -45,14 +45,6 @@ class App {
   //
   //
   //////////////////////////////////////////////////////////////////////////
-  replaceAll (str, search, replacement) {
-    return str.replace(new RegExp(search, 'g'), replacement);
-  }
-
-  //////////////////////////////////////////////////////////////////////////
-  //
-  //
-  //////////////////////////////////////////////////////////////////////////
   register (socketId) {
 
     $.ajax({
@@ -119,7 +111,12 @@ class App {
         $('#loginText').text('Sign In')
         $('#loginItem').removeClass('active')
 
-        console.log(res)
+        this.loggedIn = false
+
+        if(this.viewer) {
+          this.viewer.finish()
+          $(this.viewer.container).remove()
+        }
       },
       error: (err) => {
 
@@ -243,8 +240,8 @@ class App {
 
       this.viewer.initialize()
 
-      $('#loader').remove()
-      $('.spinner').remove()
+      // removes all the loaders when no model
+      $('#loader, .spinner').remove()
 
       var viewerToolbar = this.viewer.getToolbar(true);
 
@@ -252,6 +249,14 @@ class App {
         'forge');
 
       viewerToolbar.addControl(this.ctrlGroup);
+
+      // Derivative Extension
+
+      this.viewer.loadExtension(
+        'Viewing.Extension.Derivative')
+
+      this.derivative = this.viewer.loadedExtensions[
+        'Viewing.Extension.Derivative']
 
       // A360 View Extension
 
@@ -262,20 +267,23 @@ class App {
         })
 
       this.a360View =
-        this.viewer.loadedExtensions[ 'Viewing.Extension.A360View' ]
+        this.viewer.loadedExtensions['Viewing.Extension.A360View']
 
-      this.a360View.on('item.dblClick', (item)=> {
+      this.a360View.on('node.dblClick', (node)=> {
 
-        this.importModelFromItem(item)
+        if(node.type === 'items') {
+
+          this.importModelFromItem(node)
+        }
       })
 
-      // Derivative Extension
+      this.a360View.on('node.added', (node)=> {
 
-      this.viewer.loadExtension(
-        'Viewing.Extension.Derivative')
+        if(node.type === 'items') {
 
-      this.derivative = this.viewer.loadedExtensions[
-        'Viewing.Extension.Derivative' ]
+          this.derivative.onItemNode(node)
+        }
+      })
     })
   }
 
@@ -308,8 +316,10 @@ class App {
       var storageUrn = window.btoa(
         version.relationships.storage.data.id)
 
-      // !IMPORTANT: remove padding '='
-      storageUrn = this.replaceAll(storageUrn, '=', '')
+      // !IMPORTANT: remove all padding '=' chars
+      // not accepted by the adsk services
+
+      storageUrn = storageUrn.replace(new RegExp('=', 'g'), '');
 
       var urn = version.relationships.derivatives.data.id
 
@@ -366,7 +376,7 @@ class App {
 
             model.guid = guid
           }
-          
+
           this.a360View.panel.stopLoad()
 
           // store for easy use by extensions
