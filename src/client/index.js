@@ -293,7 +293,7 @@ class App {
       if (!item.versions || !item.versions.length) {
 
         this.a360View.panel.showError(
-          'No version available (Please wait)...')
+          'No version available (Please wait) ...')
 
         console.log('No item version available...')
         return
@@ -308,10 +308,10 @@ class App {
       var storageUrn = window.btoa(
         version.relationships.storage.data.id)
 
-      var urn = version.relationships.derivatives.data.id
-
       // !IMPORTANT: remove padding '='
       storageUrn = this.replaceAll(storageUrn, '=', '')
+
+      var urn = version.relationships.derivatives.data.id
 
       console.log('A360 URN: ' + urn)
       console.log('Storage URN: ' + storageUrn)

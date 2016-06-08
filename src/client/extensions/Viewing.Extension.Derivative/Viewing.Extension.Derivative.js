@@ -110,6 +110,9 @@ class DerivativeExtension extends ExtensionBase {
       var storageUrn = window.btoa(
         version.relationships.storage.data.id)
 
+      storageUrn = storageUrn.replace(
+        new RegExp('=', 'g'), '');
+      
       console.log('Job: ' + storageUrn)
 
       var jobPanel = new JobPanel(
