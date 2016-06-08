@@ -109,6 +109,9 @@ class App {
   //////////////////////////////////////////////////////////////////////////
   logout() {
 
+    $('#loginText').text('Sign In')
+    $('#loginItem').removeClass('active')
+
     $.ajax({
       url: '/api/auth/logout',
       type: 'POST',
@@ -116,9 +119,6 @@ class App {
       dataType: 'json',
       data: null,
       success: (res) => {
-
-        $('#loginText').text('Sign In')
-        $('#loginItem').removeClass('active')
 
         this.loggedIn = false
 
