@@ -112,7 +112,7 @@ class DerivativeExtension extends ExtensionBase {
 
       storageUrn = storageUrn.replace(
         new RegExp('=', 'g'), '');
-      
+
       console.log('Job: ' + storageUrn)
 
       var jobPanel = new JobPanel(
@@ -133,7 +133,7 @@ class DerivativeExtension extends ExtensionBase {
 
           await this.api.waitJob(storageUrn, (progress) => {
 
-            jobPanel.updateProgress(progress)
+            return jobPanel.updateProgress(progress)
           })
 
           jobPanel.done()

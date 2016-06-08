@@ -70,6 +70,8 @@ export default class JobPanel extends ToolPanelBase {
 
     $(`#${this.container.id}-job-progress`).text(
       'Job Progress: ' + progress)
+
+    return this._isVisible
   }
 
   /////////////////////////////////////////////////////////////
@@ -104,5 +106,16 @@ export default class JobPanel extends ToolPanelBase {
     setTimeout(() => {
       this.setVisible(false)
     }, 5000)
+  }
+
+  /////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////
+  onTitleDoubleClick(event) {
+
+    clearInterval(this.intervalId)
+
+    this.setVisible(false)
   }
 }

@@ -104,7 +104,12 @@ export default class DerivativeAPI {
 
           var progress = manifest.progress.split(' ')[0]
 
-          onProgress ? onProgress(progress) : ''
+          var loop = onProgress ? onProgress(progress) : true
+
+          if(!loop) {
+
+            return reject('cancelled')
+          }
 
           await sleep(1000)
         }
