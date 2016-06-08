@@ -93,6 +93,8 @@ export default class ModelTransformerPanel extends ToolPanelBase {
 
       this.setTransform(model.transform)
 
+      this.currentModel = model
+
       this.emit('model.selected', {
         fitToView: false,
         model
