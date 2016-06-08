@@ -23,8 +23,13 @@
     padding-top: 5px;
 }
 
+.a360 .dockingPanelTitle div {
+    margin-top: 4px;
+}
+
 .a360 .dockingPanelTitle img,
 .a360 .dockingPanelTitle img:before {
+    float: left;
     width: 24px;
     height: 24px;
     margin-right: 10px;

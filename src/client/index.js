@@ -280,6 +280,9 @@ class App {
 
     if (!item.versions || !item.versions.length) {
 
+      this.a360View.panel.showError(
+        'No version available (Please wait)...')
+
       console.log('No item version available...')
       return
     }
@@ -302,7 +305,7 @@ class App {
     console.log('Storage URN: ' + storageUrn)
     //console.log('Token: ' + this.getToken('/api/token/3legged'))
 
-    Autodesk.Viewing.Document.load('urn:' + storageUrn, async(LMVDocument) => {
+    Autodesk.Viewing.Document.load('urn:' + urn, async(LMVDocument) => {
 
       var rootItem = LMVDocument.getRootItem();
 
@@ -406,14 +409,16 @@ class App {
       }
     }, (err) => {
 
+      this.a360View.panel.showError(err)
+
       this.logError(err)
 
-    } /*,{
+    } ,{
 
       'oauth2AccessToken': this.getToken('/api/token/3legged'),
       'x-ads-acm-namespace': 'WIPDMSTG',
       'x-ads-acm-check-groups': 'true'
-    }*/)
+    })
   }
 
   //////////////////////////////////////////////////////////////////////////

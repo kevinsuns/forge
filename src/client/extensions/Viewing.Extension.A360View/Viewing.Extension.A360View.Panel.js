@@ -35,6 +35,15 @@ export default class A360Panel extends ToolPanelBase {
       this.TabManager.clear()
     })
 
+    this.titleId = ToolPanelBase.guid()
+
+    $(`#${this.container.id}`).find(
+      '.dockingPanelTitle').text('')
+
+    $(`#${this.container.id}`).find(
+      '.dockingPanelTitle').prepend(
+        `<div id="${this.titleId}">A360 View</div>`)
+
     $(`#${this.container.id}`).find(
       '.dockingPanelTitle').prepend('<img/>')
   }
@@ -118,12 +127,7 @@ export default class A360Panel extends ToolPanelBase {
   /////////////////////////////////////////////////////////////
   startLoad (title) {
 
-    $(`#${this.container.id}`).find(
-      '.dockingPanelTitle').text(title)
-
-    $(`#${this.container.id}`).find(
-      '.dockingPanelTitle').prepend(
-      '<img/>')
+    $(`#${this.titleId}`).text(title)
 
     var angle = 0
 
@@ -153,11 +157,29 @@ export default class A360Panel extends ToolPanelBase {
     this.loadIntervalId = 0
 
     $(`#${this.container.id}`).find(
-      '.dockingPanelTitle').text('A360 View')
+      '.dockingPanelTitle img').css({
+        transform: `rotateY(0deg)`
+      })
+
+    $(`#${this.titleId}`).text('A360 View')
+  }
+
+  /////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////
+  showError (error) {
+
+    clearInterval(this.loadIntervalId)
+
+    this.loadIntervalId = 0
 
     $(`#${this.container.id}`).find(
-      '.dockingPanelTitle').prepend(
-      '<img/>')
+      '.dockingPanelTitle img').css({
+        transform: `rotateY(0deg)`
+      })
+
+    $(`#${this.titleId}`).text(error)
   }
 }
 
