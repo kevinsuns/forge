@@ -15,8 +15,6 @@ module.exports = function() {
     config.authenticationUrl,
     config.accessTokenUrl,
     null)
-  
-  var data = {}
 
   /////////////////////////////////////////////////////////////////////////////
   // Register socketId from client
@@ -44,16 +42,15 @@ module.exports = function() {
   })
 
   /////////////////////////////////////////////////////////////////////////////
+  // Reply looks as follow:
   //
-  //
-  /////////////////////////////////////////////////////////////////////////////
-  router.get('/data', function (req, res) {
-
-    res.json(data)
-  })
-
-  /////////////////////////////////////////////////////////////////////////////
-  //
+  //  access_token: "fk7dd21P4FAhJWl6MptumGkXIuei",
+  //  refresh_token: "TSJpg3xSXxUEAtevo3lIPEmjQUxXbcqNT9AZHRKYM3",
+  //  results: {
+  //    token_type: "Bearer",
+  //    expires_in: 86399,
+  //    access_token: "fk7dd21P4FAhJWl6MptumGkXIuei"
+  //  }
   //
   /////////////////////////////////////////////////////////////////////////////
   router.get('/callback', function (req, res) {
@@ -67,19 +64,8 @@ module.exports = function() {
 
         try {
 
-          data = {
-            access_token,
-            refresh_token,
-            results
-          }
-          
           req.session.token = access_token
           req.session.cookie.expires = false
-
-          //if(results) {
-          //  req.session.cookie.maxAge =
-          //    parseInt(results.expires_in) * 60
-          //}
 
           var socketSvc = ServiceManager.getService(
             'SocketSvc')

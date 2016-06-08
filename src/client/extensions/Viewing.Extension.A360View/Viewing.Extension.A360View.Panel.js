@@ -232,16 +232,6 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
   /////////////////////////////////////////////////////////////
   createTreeNode (node, parent, options) {
 
-    this.extension.api.getItemVersions(
-      node.projectId, node.id).then((itemVersions) => {
-
-        node.versions = itemVersions
-
-        // node ready for further processing,
-        // by derivative for example
-        this.extension.emit('node.added', node)
-      })
-
     parent.classList.add(node.type)
 
     var label = document.createElement('label')
@@ -337,6 +327,29 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
         break
 
       case 'items':
+
+        this.extension.api.getItemVersions(
+          node.projectId, node.id).then((itemVersions) => {
+
+            node.versions = itemVersions
+
+            // node ready for further processing,
+            // by derivative for example
+            var children = this.extension.emit(
+              'node.added', node)
+
+            if(children) {
+
+              children = Array.isArray(children) ?
+                children : [children]
+
+              children.forEach((child) => {
+
+                callback(child)
+              })
+            }
+          })
+
       default:
         break
     }

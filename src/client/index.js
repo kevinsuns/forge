@@ -32,44 +32,53 @@ class App {
   //////////////////////////////////////////////////////////////////////////
   getToken (url) {
 
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", url, false);
-    xhr.send(null);
+    var xhr = new XMLHttpRequest()
+    xhr.open("GET", url, false)
+    xhr.send(null)
 
-    var response = JSON.parse(xhr.responseText);
+    var response = JSON.parse(xhr.responseText)
 
-    return response.access_token;
+    return response.access_token
   }
 
   //////////////////////////////////////////////////////////////////////////
   //
   //
   //////////////////////////////////////////////////////////////////////////
-  register (socketId) {
+  register () {
 
-    $.ajax({
-      url: '/api/auth/register',
-      type: 'POST',
-      contentType: 'application/json',
-      dataType: 'json',
-      data: JSON.stringify({ socketId: socketId }),
-      success: (url) => {
+    return new Promise((resolve, reject) => {
 
-      },
-      error: (err) => {
+      $.ajax({
+        url: '/api/auth/register',
+        type: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify({
+          socketId: this.socket.id
+        }),
+        success: (response) => {
 
-        console.log(err)
-      }
-    });
+          return resolve(response)
+        },
+        error: (err) => {
+
+          console.log(err)
+          return reject(err)
+        }
+      })
+    })
   }
 
   //////////////////////////////////////////////////////////////////////////
   //
   //
   //////////////////////////////////////////////////////////////////////////
-  login() {
+  async login() {
 
-    //this.initializeViewer(); return
+    //this.initializeViewer() return
+
+    await this.register()
 
     $.ajax({
       url: '/api/auth/login',
@@ -80,7 +89,7 @@ class App {
       success: (url) => {
 
         // iframes are not allowed
-        this.popup = this.PopupCenter(url, "Autodesk Login", 800, 400);
+        this.popup = this.PopupCenter(url, "Autodesk Login", 800, 400)
 
         if(this.popup){
 
@@ -91,7 +100,7 @@ class App {
 
         console.log(err)
       }
-    });
+    })
   }
 
   //////////////////////////////////////////////////////////////////////////
@@ -122,7 +131,7 @@ class App {
 
         console.log(err)
       }
-    });
+    })
   }
 
   //////////////////////////////////////////////////////////////////////////
@@ -138,7 +147,7 @@ class App {
     var dualScreenTop = (window.screenTop !== undefined ?
       window.screenTop : screen.top)
 
-    var element = document.documentElement;
+    var element = document.documentElement
 
     var width = window.innerWidth ? window.innerWidth :
       (element.clientWidth ? element.clientWidth : screen.width)
@@ -146,8 +155,8 @@ class App {
     var height = window.innerHeight ? window.innerHeight :
       (element.clientHeight ? element.clientHeight : screen.height)
 
-    var left = ((width / 2) - (w / 2)) + dualScreenLeft;
-    var top = ((height / 2) - (h / 2)) + dualScreenTop;
+    var left = ((width / 2) - (w / 2)) + dualScreenLeft
+    var top = ((height / 2) - (h / 2)) + dualScreenTop
 
     return window.open(url, title,
       'scrollbars=no,' +
@@ -160,7 +169,7 @@ class App {
       'width=' + w + ',' +
       'height=' + h + ',' +
       'top=' + top + ',' +
-      'left=' + left);
+      'left=' + left)
   }
 
   //////////////////////////////////////////////////////////////////////////
@@ -179,17 +188,17 @@ class App {
     this.socket = ioClient.connect(
       `${config.host}:${config.port}`, {
         reconnect: true
-      });
+      })
 
     this.socket.on('connect', ()=> {
 
-      console.log('client socket connected');
-    });
+      console.log('client socket connected')
+    })
 
     this.socket.on('connection.data', (data)=> {
 
-      this.register(data.socketId)
-    });
+      this.socket.id = data.socketId
+    })
 
     this.socket.on('callback', (msg)=> {
 
@@ -243,12 +252,12 @@ class App {
       // removes all the loaders when no model
       $('#loader, .spinner').remove()
 
-      var viewerToolbar = this.viewer.getToolbar(true);
+      var viewerToolbar = this.viewer.getToolbar(true)
 
       this.ctrlGroup = new Autodesk.Viewing.UI.ControlGroup(
-        'forge');
+        'forge')
 
-      viewerToolbar.addControl(this.ctrlGroup);
+      viewerToolbar.addControl(this.ctrlGroup)
 
       // Derivative Extension
 
@@ -319,7 +328,7 @@ class App {
       // !IMPORTANT: remove all padding '=' chars
       // not accepted by the adsk services
 
-      storageUrn = storageUrn.replace(new RegExp('=', 'g'), '');
+      storageUrn = storageUrn.replace(new RegExp('=', 'g'), '')
 
       var urn = version.relationships.derivatives.data.id
 
@@ -332,13 +341,13 @@ class App {
       Autodesk.Viewing.Document.load(
         'urn:' + storageUrn, async(LMVDocument) => {
 
-        var rootItem = LMVDocument.getRootItem();
+        var rootItem = LMVDocument.getRootItem()
 
         var geometryItems3d = Autodesk.Viewing.Document.getSubItemsWithProperties(
-          rootItem, { 'type': 'geometry', 'role': '3d' }, true);
+          rootItem, { 'type': 'geometry', 'role': '3d' }, true)
 
         var geometryItems2d = Autodesk.Viewing.Document.getSubItemsWithProperties(
-          rootItem, { 'type': 'geometry', 'role': '2d' }, true);
+          rootItem, { 'type': 'geometry', 'role': '2d' }, true)
 
         // Pick the first 3D item
         if (geometryItems3d.length || geometryItems2d.length) {
@@ -414,7 +423,7 @@ class App {
 
           let fitToView = ()=> {
 
-            var instanceTree = model.getData().instanceTree;
+            var instanceTree = model.getData().instanceTree
 
             if (instanceTree) {
 
@@ -465,14 +474,14 @@ class App {
 
         this.viewer.removeEventListener(
           Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
-          _onGeometryLoaded);
+          _onGeometryLoaded)
 
-        return resolve(event.model);
+        return resolve(event.model)
       }
 
       this.viewer.addEventListener(
         Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
-        _onGeometryLoaded);
+        _onGeometryLoaded)
 
       var _onSuccess = () => {}
 
@@ -481,19 +490,19 @@ class App {
 
         this.viewer.removeEventListener(
           Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
-          _onGeometryLoaded);
+          _onGeometryLoaded)
 
         return reject({
           errorCode: errorCode,
           errorMessage: errorMessage,
           statusCode: statusCode,
           statusText: statusText
-        });
+        })
       }
 
       this.viewer.loadModel(
         path, opts, _onSuccess, _onError)
-    });
+    })
   }
 
   //////////////////////////////////////////////////////////////////////////
@@ -502,11 +511,11 @@ class App {
   //////////////////////////////////////////////////////////////////////////
   fitModelToView (model) {
 
-    var instanceTree = model.getData().instanceTree;
+    var instanceTree = model.getData().instanceTree
 
-    var rootId = instanceTree.getRootId();
+    var rootId = instanceTree.getRootId()
 
-    this.viewer.fitToView([rootId]);
+    this.viewer.fitToView([rootId])
   }
 
   //////////////////////////////////////////////////////////////////////////
