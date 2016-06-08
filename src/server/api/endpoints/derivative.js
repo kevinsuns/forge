@@ -56,6 +56,7 @@ module.exports = function() {
     }
     catch (ex) {
 
+      console.log(ex)
       res.status(500)
       res.json(ex)
     }

@@ -21,6 +21,29 @@ class DerivativeExtension extends ExtensionBase {
     this.api = new DerivativeAPI({
       apiUrl: '/api/derivative'
     })
+
+    this.onAggregateSelectionChangedHandler = (e) => {
+
+      this.onAggregateSelectionChanged(e)
+    }
+  }
+
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
+  onAggregateSelectionChanged(event) {
+
+    if (event.selections && event.selections.length) {
+
+      var selection = event.selections[0]
+
+      this.panel.setModel(selection.model)
+    }
+    else {
+
+      this.panel.setModel(null)
+    }
   }
 
   /////////////////////////////////////////////////////////////////
@@ -38,6 +61,10 @@ class DerivativeExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   load() {
 
+    this._viewer.addEventListener(
+      Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED_EVENT,
+      this.onAggregateSelectionChangedHandler)
+
     this.panel = new DerivativePropertyPanel(
       this._viewer, this.api)
 
@@ -53,6 +80,10 @@ class DerivativeExtension extends ExtensionBase {
   //
   /////////////////////////////////////////////////////////////////
   unload() {
+
+    this._viewer.removeEventListener(
+      Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED_EVENT,
+      this.onAggregateSelectionChangedHandler)
 
     this._viewer.setPropertyPanel(null)
 

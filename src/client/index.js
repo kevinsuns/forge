@@ -108,6 +108,9 @@ class App {
       data: null,
       success: (res) => {
 
+        $('#loginText').text('Sign In')
+        $('#loginItem').removeClass('active')
+
         console.log(res)
       },
       error: (err) => {
@@ -161,9 +164,11 @@ class App {
   //////////////////////////////////////////////////////////////////////////
   initialize () {
 
+    this.loggedIn = false
+
     $('#loginBtn').click((e) => {
 
-      this.login()
+      this.loggedIn ? this.logout() : this.login()
     })
 
     this.socket = ioClient.connect(
@@ -185,6 +190,7 @@ class App {
 
       if(this.popup) {
 
+        this.loggedIn = true
         this.popup.close()
         this.popup = null
       }

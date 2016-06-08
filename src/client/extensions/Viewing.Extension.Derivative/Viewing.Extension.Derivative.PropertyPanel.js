@@ -21,6 +21,15 @@ export default class DerivativePropertyPanel extends
   }
 
   /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
+  setModel (model) {
+
+    this.model = model
+  }
+
+  /////////////////////////////////////////////////////////////////
   // setNodeProperties override
   //
   /////////////////////////////////////////////////////////////////
@@ -86,7 +95,18 @@ export default class DerivativePropertyPanel extends
 
     super.setProperties(properties)
 
-    if(this.viewer.model.guid) {
+    // for testing
+    var nodeIdProperty = {
+
+      name: 'ObjectId',
+      value: this.nodeId,
+      category: 'Node Info',
+      dataType: 'text'
+    }
+
+    this.addMetaProperty(nodeIdProperty)
+
+    if(this.model && this.model.guid) {
 
       var labelProp = properties.filter((prop)=> {
 
@@ -108,8 +128,8 @@ export default class DerivativePropertyPanel extends
         dataType: 'derivative',
         filename: `${name}.obj`,
 
-        urn: this.viewer.model.storageUrn,
-        guid: this.viewer.model.guid,
+        urn: this.model.storageUrn,
+        guid: this.model.guid,
         objectIds: [this.nodeId],
         outputType: 'obj'
       }
@@ -244,7 +264,7 @@ export default class DerivativePropertyPanel extends
         if(result.status === 'success'){
 
           var url = this.api.buildDownloadUrl(
-            this.viewer.model.storageUrn,
+            this.model.storageUrn,
             result.derivativeUrn,
             property.filename)
 
