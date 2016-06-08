@@ -62,13 +62,20 @@ class DerivativeExtension extends ExtensionBase {
   load() {
 
     this._viewer.addEventListener(
-      Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED_EVENT,
-      this.onAggregateSelectionChangedHandler)
+      Autodesk.Viewing.GEOMETRY_LOADED_EVENT, () => {
 
-    this.panel = new DerivativePropertyPanel(
-      this._viewer, this.api)
+        if(!this.panel) {
 
-    this._viewer.setPropertyPanel(this.panel)
+          this.panel = new DerivativePropertyPanel(
+            this._viewer, this.api)
+
+          this._viewer.setPropertyPanel(this.panel)
+
+          this._viewer.addEventListener(
+            Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED_EVENT,
+            this.onAggregateSelectionChangedHandler)
+        }
+      })
 
     console.log('Viewing.Extension.Derivative loaded')
 

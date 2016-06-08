@@ -253,6 +253,8 @@ class App {
 
       viewerToolbar.addControl(this.ctrlGroup);
 
+      // A360 View Extension
+
       this.viewer.loadExtension(
         'Viewing.Extension.A360View', {
           parentControl: this.ctrlGroup,
@@ -266,6 +268,14 @@ class App {
 
         this.importModelFromItem(item)
       })
+
+      // Derivative Extension
+
+      this.viewer.loadExtension(
+        'Viewing.Extension.Derivative')
+
+      this.derivative = this.viewer.loadedExtensions[
+        'Viewing.Extension.Derivative' ]
     })
   }
 
@@ -275,150 +285,156 @@ class App {
   //////////////////////////////////////////////////////////////////////////
   importModelFromItem (item) {
 
-    console.log('Selected Item:')
-    console.log(item)
+    return new Promise(async(resolve, reject) => {
 
-    if (!item.versions || !item.versions.length) {
+      console.log('Selected Item:')
+      console.log(item)
 
-      this.a360View.panel.showError(
-        'No version available (Please wait)...')
+      if (!item.versions || !item.versions.length) {
 
-      console.log('No item version available...')
-      return
-    }
+        this.a360View.panel.showError(
+          'No version available (Please wait)...')
 
-    this.a360View.panel.startLoad(
-      'Loading ' + item.name + ' ...')
+        console.log('No item version available...')
+        return
+      }
 
-    //pick the last version by default
-    var version = item.versions[item.versions.length-1]
+      this.a360View.panel.startLoad(
+        'Loading ' + item.name + ' ...')
 
-    var storageUrn = window.btoa(
-      version.relationships.storage.data.id)
+      //pick the last version by default
+      var version = item.versions[ item.versions.length - 1 ]
 
-    var urn = version.relationships.derivatives.data.id
+      var storageUrn = window.btoa(
+        version.relationships.storage.data.id)
 
-    console.log('URN: ' + urn)
-    console.log('Storage URN: ' + storageUrn)
-    //console.log('Token: ' + this.getToken('/api/token/3legged'))
-
-    Autodesk.Viewing.Document.load('urn:' + storageUrn, async(LMVDocument) => {
+      var urn = version.relationships.derivatives.data.id
 
       // !IMPORTANT: remove padding '='
       storageUrn = this.replaceAll(storageUrn, '=', '')
-      
-      var rootItem = LMVDocument.getRootItem();
 
-      var geometryItems3d = Autodesk.Viewing.Document.getSubItemsWithProperties(
-        rootItem, { 'type': 'geometry', 'role': '3d' }, true);
+      console.log('A360 URN: ' + urn)
+      console.log('Storage URN: ' + storageUrn)
+      //console.log('Token: ' + this.getToken('/api/token/3legged'))
 
-      var geometryItems2d = Autodesk.Viewing.Document.getSubItemsWithProperties(
-        rootItem, { 'type': 'geometry', 'role': '2d' }, true);
+      var job = await this.derivative.postJob(version)
 
-      // Pick the first 3D item
-      if (geometryItems3d.length || geometryItems2d.length) {
+      Autodesk.Viewing.Document.load(
+        'urn:' + storageUrn, async(LMVDocument) => {
 
-        if(!this.viewer) {
+        var rootItem = LMVDocument.getRootItem();
 
-          var viewerContainer = document.getElementById('viewer')
+        var geometryItems3d = Autodesk.Viewing.Document.getSubItemsWithProperties(
+          rootItem, { 'type': 'geometry', 'role': '3d' }, true);
 
-          this.viewer = new Autodesk.Viewing.Private.GuiViewer3D(
-            viewerContainer)
+        var geometryItems2d = Autodesk.Viewing.Document.getSubItemsWithProperties(
+          rootItem, { 'type': 'geometry', 'role': '2d' }, true);
 
-          this.viewer.initialize()
-        }
+        // Pick the first 3D item
+        if (geometryItems3d.length || geometryItems2d.length) {
 
-        var viewable = geometryItems3d.length ?
-          geometryItems3d[0] :
-          geometryItems2d[0]
+          if (!this.viewer) {
 
-        var path = LMVDocument.getViewablePath(
-          viewable)
+            var viewerContainer = document.getElementById('viewer')
 
-        let model = await this.loadModel(path, {
-          acmSessionId: LMVDocument.acmSessionId
-        })
+            this.viewer = new Autodesk.Viewing.Private.GuiViewer3D(
+              viewerContainer)
 
-        this.a360View.panel.stopLoad()
+            this.viewer.initialize()
+          }
 
-        // store for easy use by extensions
+          var viewable = geometryItems3d.length ?
+            geometryItems3d[ 0 ] :
+            geometryItems2d[ 0 ]
 
-        model.name = item.name
-        model.storageUrn = storageUrn
+          var path = LMVDocument.getViewablePath(
+            viewable)
 
-        if(!this.viewer.loadedExtensions['Viewing.Extension.Derivative']) {
-
-          this.viewer.loadExtension(
-            'Viewing.Extension.Derivative')
-
-          this.derivative = this.viewer.loadedExtensions[
-            'Viewing.Extension.Derivative' ]
-        }
-
-        this.derivative.postJob(version).then((job) => {
+          let model = await this.loadModel(path, {
+            acmSessionId: LMVDocument.acmSessionId
+          })
 
           // first child is application/autodesk-svf
-
-          var guid = viewable.children[0].guid
+          var guid = viewable.children[ 0 ].guid
 
           console.log('Design GUID: ' + guid)
 
           model.guid = guid
-        })
 
-        if(!this.viewer.loadedExtensions['Viewing.Extension.ModelTransformer']) {
+          this.a360View.panel.stopLoad()
 
-          this.viewer.loadExtension(
-            'Viewing.Extension.ModelTransformer', {
-              parentControl: this.ctrlGroup
+          // store for easy use by extensions
+
+          model.name = item.name
+          model.storageUrn = storageUrn
+
+          if (!this.viewer.loadedExtensions[ 'Viewing.Extension.Derivative' ]) {
+
+
+          }
+
+          if (!this.viewer.loadedExtensions[ 'Viewing.Extension.ModelTransformer' ]) {
+
+            this.viewer.loadExtension(
+              'Viewing.Extension.ModelTransformer', {
+                parentControl: this.ctrlGroup
+              })
+
+            this.modelTransformer =
+              this.viewer.loadedExtensions[
+                'Viewing.Extension.ModelTransformer' ]
+
+            this.modelTransformer.on('model.delete', (deletedModel) => {
+
+              this.derivative.deleteManifest(
+                deletedModel.storageUrn)
             })
-
-          this.modelTransformer =
-            this.viewer.loadedExtensions[
-              'Viewing.Extension.ModelTransformer']
-
-          this.modelTransformer.on('model.delete', (deletedModel) => {
-
-            this.derivative.deleteManifest(
-              deletedModel.storageUrn)
-          })
-        }
-
-        this.modelTransformer.addModel(model)
-
-        // fits model to view - need to wait for instance tree
-        // but no event gets fired
-
-        let fitToView = ()=>{
-
-          var instanceTree = model.getData().instanceTree;
-
-          if(instanceTree){
-
-            this.fitModelToView(model)
           }
-          else {
 
-            setTimeout(()=>{
-              fitToView()
-            }, 500)
+          this.modelTransformer.addModel(model)
+
+          // fits model to view - need to wait for instance tree
+          // but no event gets fired
+
+          let fitToView = ()=> {
+
+            var instanceTree = model.getData().instanceTree;
+
+            if (instanceTree) {
+
+              this.fitModelToView(model)
+            }
+            else {
+
+              setTimeout(()=> {
+                fitToView()
+              }, 500)
+            }
           }
-        }
 
-        fitToView()
+          fitToView()
+
+          return resolve(model)
+        }
+      }, (errCode) => {
+
+        var errMsg = this.logError(errCode)
+
+        this.a360View.panel.showError(errMsg)
+
+        return reject({
+          error: errCode,
+          description:  errMsg
+        })
       }
-    }, (err) => {
+      /*,{
 
-      this.a360View.panel.showError(err)
-
-      this.logError(err)
-
-    } /*,{
-
-      'oauth2AccessToken': this.getToken('/api/token/3legged'),
-      'x-ads-acm-namespace': 'WIPDMSTG',
-      'x-ads-acm-check-groups': 'true'
-    }*/)
+       'oauth2AccessToken': this.getToken('/api/token/3legged'),
+       'x-ads-acm-namespace': 'WIPDMSTG',
+       'x-ads-acm-check-groups': 'true'
+       }*/
+      )
+    })
   }
 
   //////////////////////////////////////////////////////////////////////////
@@ -486,51 +502,40 @@ class App {
     switch (err) {
 
       case 1: //Autodesk.Viewing.ErrorCode.UNKNOWN_FAILURE
-        console.log('An unknown failure has occurred.');
-        break;
+        return 'An unknown failure has occurred.'
 
       case 2: //Autodesk.Viewing.ErrorCode.BAD_DATA
-        console.log('Bad data (corrupted or malformed) was encountered.');
-        break;
+        return 'Bad data (corrupted or malformed) was encountered.'
 
       case 3: //Autodesk.Viewing.ErrorCode.NETWORK_FAILURE
-        console.log('A network failure was encountered.');
-        break;
+        return 'A network failure was encountered.'
 
       case 4: //Autodesk.Viewing.ErrorCode.NETWORK_ACCESS_DENIED
-        console.log('Access was denied to a network resource (HTTP 403).');
-        break;
+        return 'Access was denied to a network resource (HTTP 403).'
 
       case 5: //Autodesk.Viewing.ErrorCode.NETWORK_FILE_NOT_FOUND
-        console.log('A network resource could not be found (HTTP 404).');
-        break;
+        return 'A network resource could not be found (HTTP 404).'
 
       case 6: //Autodesk.Viewing.ErrorCode.NETWORK_SERVER_ERROR
-        console.log('A server error was returned when accessing ' +
-          'a network resource (HTTP 5xx).');
-        break;
+        return 'A server error was returned when accessing ' +
+          'a network resource (HTTP 5xx).'
 
       case 7: //Autodesk.Viewing.ErrorCode.NETWORK_UNHANDLED_RESPONSE_CODE
-        console.log('An unhandled response code was returned ' +
-          'when accessing a network resource (HTTP everything else).');
-        break;
+        return 'An unhandled response code was returned ' +
+          'when accessing a network resource (HTTP everything else).'
 
       case 8: //Autodesk.Viewing.ErrorCode.BROWSER_WEBGL_NOT_SUPPORTED
-        console.log('Browser error: WebGL is not ' +
-          'supported by the current browser.');
-        break;
+        return 'Browser error: WebGL is not ' +
+          'supported by the current browser.'
 
       case 9: //Autodesk.Viewing.ErrorCode.BAD_DATA_NO_VIEWABLE_CONTENT
-        console.log('There is nothing viewable in the fetched document.');
-        break;
+        return 'There is nothing viewable in the fetched document.'
 
       case 10: //Autodesk.Viewing.ErrorCode.BROWSER_WEBGL_DISABLED
-        console.log('Browser error: WebGL is supported, but not enabled.');
-        break;
+        return 'Browser error: WebGL is supported, but not enabled.'
 
       case 11: //Autodesk.Viewing.ErrorCode.RTC_ERROR
-        console.log('Collaboration server error');
-        break;
+        return 'Collaboration server error'
     }
   }
 }

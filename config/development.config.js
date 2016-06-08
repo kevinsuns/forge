@@ -19,7 +19,7 @@ module.exports = {
 
     serverConfig: {
 
-        hardcodedToken: 'EaxY0Kzx8bv50MPk7J82r9ofs3DO', //used for debug
+        hardcodedToken: 'NuC26rz81VuWeQkKIU6axDum8muK', //used for debug
 
         redirectUrl: 'https://autodesk-forge.herokuapp.com/api/auth/callback',
         authenticationUrl: '/authentication/' + OAUTH_VERSION + '/authorize',
