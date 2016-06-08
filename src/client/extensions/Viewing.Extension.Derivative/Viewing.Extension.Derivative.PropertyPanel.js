@@ -21,15 +21,6 @@ export default class DerivativePropertyPanel extends
   }
 
   /////////////////////////////////////////////////////////////////
-  //
-  //
-  /////////////////////////////////////////////////////////////////
-  setModel (model) {
-
-    this.model = model
-  }
-
-  /////////////////////////////////////////////////////////////////
   // setNodeProperties override
   //
   /////////////////////////////////////////////////////////////////
@@ -88,10 +79,25 @@ export default class DerivativePropertyPanel extends
   }
 
   /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
+  getDisplayName (nodeId) {
+
+    return new Promise((resolve, reject) => {
+
+      this.currentModel.getProperties(nodeId, (result) => {
+
+        return resolve(result.name)
+      })
+    })
+  }
+
+  /////////////////////////////////////////////////////////////////
   // setProperties override
   //
   /////////////////////////////////////////////////////////////////
-  setProperties (properties) {
+  async setProperties (properties) {
 
     super.setProperties(properties)
 
@@ -106,18 +112,15 @@ export default class DerivativePropertyPanel extends
 
     this.addMetaProperty(nodeIdProperty)
 
-    if(this.model && this.model.guid) {
+    if(this.currentModel && this.currentModel.guid) {
 
-      var labelProp = properties.filter((prop)=> {
+      var name = await this.getDisplayName(this.nodeId)
 
-        return prop.displayName === 'label' ||
-               prop.displayName === 'Name'
-      })
-
-      var name = labelProp[0].displayValue
+      //get rid of some special chars
 
       name = name.split(':')[0]
       name = name.split('.')[0]
+      name = name.split('[')[0]
 
       var objDerivativeProperty = {
 
@@ -128,8 +131,8 @@ export default class DerivativePropertyPanel extends
         dataType: 'derivative',
         filename: `${name}.obj`,
 
-        urn: this.model.storageUrn,
-        guid: this.model.guid,
+        urn: this.currentModel.storageUrn,
+        guid: this.currentModel.guid,
         objectIds: [this.nodeId],
         outputType: 'obj'
       }
@@ -264,7 +267,7 @@ export default class DerivativePropertyPanel extends
         if(result.status === 'success'){
 
           var url = this.api.buildDownloadUrl(
-            this.model.storageUrn,
+            this.currentModel.storageUrn,
             result.derivativeUrn,
             property.filename)
 

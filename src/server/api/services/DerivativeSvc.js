@@ -10,7 +10,7 @@ export default class DerivativeSvc extends BaseSvc {
   //
   //
   /////////////////////////////////////////////////////////////////
-  constructor(opts) {
+  constructor (opts) {
 
     super(opts)
   }
@@ -19,7 +19,7 @@ export default class DerivativeSvc extends BaseSvc {
   //
   //
   /////////////////////////////////////////////////////////////////
-  name() {
+  name () {
 
     return 'DerivativeSvc'
   }
@@ -28,7 +28,7 @@ export default class DerivativeSvc extends BaseSvc {
   //
   //
   /////////////////////////////////////////////////////////////////
-  get jobOutputBuilder() {
+  get jobOutputBuilder () {
 
     return {
 
@@ -38,10 +38,10 @@ export default class DerivativeSvc extends BaseSvc {
           destination: {
             region: opts.region || 'us'
           },
-          formats: [{
+          formats: [ {
             type: 'svf',
-            views: opts.views || ['2d', '3d']
-          }]
+            views: opts.views || [ '2d', '3d' ]
+          } ]
         }
       },
 
@@ -51,20 +51,20 @@ export default class DerivativeSvc extends BaseSvc {
           destination: {
             region: opts.region || 'us'
           },
-          formats: [{
+          formats: [ {
             type: 'obj',
             advanced: {
               modelGuid: opts.guid,
               objectIds: opts.objectIds
             }
-          }]
+          } ]
         }
 
       }
     }
   }
 
-/////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////
   //
   //
   /////////////////////////////////////////////////////////////////
@@ -167,6 +167,51 @@ export default class DerivativeSvc extends BaseSvc {
       json: true
     })
   }
+
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
+  getThumbnail (token, urn) {
+
+    var url = util.format(
+      this._config.endPoints.thumbnail,
+      urn, 100, 100)
+
+    return new Promise((resolve, reject) => {
+
+      request({
+        url: url,
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token
+        },
+        encoding: null
+      }, (err, response, body) => {
+
+        try {
+
+          if (err) {
+            return reject(err)
+          }
+
+          if (response && [200, 201].indexOf(response.statusCode) < 0) {
+
+            return reject(response.statusMessage)
+          }
+
+          return resolve(arrayToBase64(body))
+        }
+        catch(ex){
+
+          console.log(params.url)
+          console.log(body)
+
+          return reject(ex)
+        }
+      })
+    })
+  }
 }
 
 /////////////////////////////////////////////////////////////////
@@ -216,4 +261,30 @@ function requestAsync(params) {
       }
     })
   })
+}
+
+///////////////////////////////////////////////////////////////////
+//
+//
+///////////////////////////////////////////////////////////////////
+function arrayToBase64(arraybuffer) {
+
+  var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+  var bytes = arraybuffer, i, len = bytes.length, base64 = "";
+
+  for (i = 0; i < len; i+=3) {
+    base64 += chars[bytes[i] >> 2];
+    base64 += chars[((bytes[i] & 3) << 4) | (bytes[i + 1] >> 4)];
+    base64 += chars[((bytes[i + 1] & 15) << 2) | (bytes[i + 2] >> 6)];
+    base64 += chars[bytes[i + 2] & 63];
+  }
+
+  if ((len % 3) === 2) {
+    base64 = base64.substring(0, base64.length - 1) + "=";
+  } else if (len % 3 === 1) {
+    base64 = base64.substring(0, base64.length - 2) + "==";
+  }
+
+  return base64;
 }

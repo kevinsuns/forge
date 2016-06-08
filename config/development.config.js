@@ -19,7 +19,7 @@ module.exports = {
 
     serverConfig: {
 
-        hardcodedToken: 'GLCAHZ0HhzyD3TiSc9Ia1tqTj11c', //used for debug
+        hardcodedToken: 'xzBEaSXoYZ4eBcLElYlRgEweRlv8', //used for debug
 
         redirectUrl: 'https://autodesk-forge.herokuapp.com/api/auth/callback',
         authenticationUrl: '/authentication/' + OAUTH_VERSION + '/authorize',
@@ -51,7 +51,6 @@ module.exports = {
 
             supported:        BASE_URL + '/viewingservice/' + OSS_VERSION + '/supported',
             register:         BASE_URL + '/viewingservice/' + OSS_VERSION + '/register',
-            thumbnail:        BASE_URL + '/viewingservice/' + OSS_VERSION + '/thumbnails/%s',
             viewable:         BASE_URL + '/viewingservice/' + OSS_VERSION + '/%s',
             items:            BASE_URL + '/viewingservice/' + OSS_VERSION + '/items/%s',
 
@@ -67,7 +66,8 @@ module.exports = {
             manifest:        BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/manifest',
             download:        BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/manifest/%s',
             metadata:        BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/metadata',
-            hierarchy:       BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/metadata/%s'
+            hierarchy:       BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/metadata/%s',
+            thumbnail:       BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/thumbnail?width=%s&height=%s'
         }
     }
 }

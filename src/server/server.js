@@ -32,7 +32,6 @@ import webpack from 'webpack';
 
 //Endpoints
 import DerivativeAPI from './api/endpoints/derivative'
-import ViewingAPI from './api/endpoints/viewing'
 import TokenAPI from './api/endpoints/token'
 import AuthAPI from './api/endpoints/auth'
 import DMAPI from './api/endpoints/dm'
@@ -89,7 +88,6 @@ app.use(session)
 //
 /////////////////////////////////////////////////////////////////////
 app.use('/api/derivative', DerivativeAPI())
-app.use('/api/viewing', ViewingAPI())
 app.use('/api/token', TokenAPI())
 app.use('/api/auth', AuthAPI())
 app.use('/api/dm', DMAPI())

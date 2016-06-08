@@ -208,5 +208,32 @@ module.exports = function() {
     }
   })
 
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////////////////
+  router.get('/thumbnails/:urn', async (req, res) => {
+
+    try {
+
+      var token = req.session.token || config.hardcodedToken
+
+      var urn = req.params.urn
+
+      var derivativeSvc = ServiceManager.getService(
+        'DerivativeSvc');
+
+      var response = await derivativeSvc.getThumbnail(
+        token, urn)
+
+      res.end(response);
+    }
+    catch (ex) {
+
+      res.status(500)
+      res.json(ex)
+    }
+  })
+
   return router;
 }
