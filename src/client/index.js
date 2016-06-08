@@ -76,7 +76,7 @@ class App {
   //////////////////////////////////////////////////////////////////////////
   async login() {
 
-    //this.initializeViewer() return
+    //this.initializeViewer(); return;
 
     await this.register()
 
@@ -89,7 +89,8 @@ class App {
       success: (url) => {
 
         // iframes are not allowed
-        this.popup = this.PopupCenter(url, "Autodesk Login", 800, 400)
+        this.popup = this.PopupCenter(
+          url, "Autodesk Login", 800, 400)
 
         if(this.popup){
 
@@ -264,7 +265,7 @@ class App {
       this.viewer.loadExtension(
         'Viewing.Extension.Derivative')
 
-      this.derivative = this.viewer.loadedExtensions[
+      this.derivativeExtension = this.viewer.loadedExtensions[
         'Viewing.Extension.Derivative']
 
       // A360 View Extension
@@ -275,10 +276,10 @@ class App {
           showPanel: true
         })
 
-      this.a360View =
+      this.a360ViewExtension =
         this.viewer.loadedExtensions['Viewing.Extension.A360View']
 
-      this.a360View.on('node.dblClick', (node)=> {
+      this.a360ViewExtension.on('node.dblClick', (node)=> {
 
         if(node.type === 'items') {
 
@@ -286,11 +287,11 @@ class App {
         }
       })
 
-      this.a360View.on('node.added', (node)=> {
+      this.a360ViewExtension.on('node.added', (node)=> {
 
         if(node.type === 'items') {
 
-          this.derivative.onItemNode(node)
+          this.derivativeExtension.onItemNode(node)
         }
       })
     })
@@ -304,161 +305,172 @@ class App {
 
     return new Promise(async(resolve, reject) => {
 
-      console.log('Selected Item:')
-      console.log(item)
+      try {
 
-      if (!item.versions || !item.versions.length) {
+        console.log('Selected Item:')
+        console.log(item)
 
-        this.a360View.panel.showError(
-          'No version available (Please wait) ...')
+        if (!item.versions || !item.versions.length) {
 
-        console.log('No item version available...')
-        return
-      }
+          this.a360ViewExtension.panel.showError(
+            'No version available (Please wait) ...')
 
-      this.a360View.panel.startLoad(
-        'Loading ' + item.name + ' ...')
-
-      //pick the last version by default
-      var version = item.versions[ item.versions.length - 1 ]
-
-      var storageUrn = window.btoa(
-        version.relationships.storage.data.id)
-
-      // !IMPORTANT: remove all padding '=' chars
-      // not accepted by the adsk services
-
-      storageUrn = storageUrn.replace(new RegExp('=', 'g'), '')
-
-      var urn = version.relationships.derivatives.data.id
-
-      console.log('A360 URN: ' + urn)
-      console.log('Storage URN: ' + storageUrn)
-      //console.log('Token: ' + this.getToken('/api/token/3legged'))
-
-      var job = await this.derivative.postJob(version)
-
-      Autodesk.Viewing.Document.load(
-        'urn:' + storageUrn, async(LMVDocument) => {
-
-        var rootItem = LMVDocument.getRootItem()
-
-        var geometryItems3d = Autodesk.Viewing.Document.getSubItemsWithProperties(
-          rootItem, { 'type': 'geometry', 'role': '3d' }, true)
-
-        var geometryItems2d = Autodesk.Viewing.Document.getSubItemsWithProperties(
-          rootItem, { 'type': 'geometry', 'role': '2d' }, true)
-
-        // Pick the first 3D item
-        if (geometryItems3d.length || geometryItems2d.length) {
-
-          if (!this.viewer) {
-
-            var viewerContainer = document.getElementById('viewer')
-
-            this.viewer = new Autodesk.Viewing.Private.GuiViewer3D(
-              viewerContainer)
-
-            this.viewer.initialize()
-          }
-
-          var viewable = geometryItems3d.length ?
-            geometryItems3d[ 0 ] :
-            geometryItems2d[ 0 ]
-
-          var path = LMVDocument.getViewablePath(
-            viewable)
-
-          let model = await this.loadModel(path, {
-            acmSessionId: LMVDocument.acmSessionId
-          })
-
-          var metadata = await this.derivative.getMetadata(
-            storageUrn)
-
-          // assume first metadata, since we loaded first viewable
-          if(metadata.metadata && metadata.metadata.length) {
-
-            var guid = metadata.metadata[0].guid
-
-            console.log('Design GUID: ' + guid)
-
-            model.guid = guid
-          }
-
-          this.a360View.panel.stopLoad()
-
-          // store for easy use by extensions
-
-          model.name = item.name
-          model.storageUrn = storageUrn
-
-          if (!this.viewer.loadedExtensions[ 'Viewing.Extension.Derivative' ]) {
-
-
-          }
-
-          if (!this.viewer.loadedExtensions[ 'Viewing.Extension.ModelTransformer' ]) {
-
-            this.viewer.loadExtension(
-              'Viewing.Extension.ModelTransformer', {
-                parentControl: this.ctrlGroup
-              })
-
-            this.modelTransformer =
-              this.viewer.loadedExtensions[
-                'Viewing.Extension.ModelTransformer' ]
-
-            this.modelTransformer.on('model.delete', (deletedModel) => {
-
-              this.derivative.deleteManifest(
-                deletedModel.storageUrn)
-            })
-          }
-
-          this.modelTransformer.addModel(model)
-
-          // fits model to view - need to wait for instance tree
-          // but no event gets fired
-
-          let fitToView = ()=> {
-
-            var instanceTree = model.getData().instanceTree
-
-            if (instanceTree) {
-
-              this.fitModelToView(model)
-            }
-            else {
-
-              setTimeout(()=> {
-                fitToView()
-              }, 500)
-            }
-          }
-
-          fitToView()
-
-          return resolve(model)
+          return reject('No item version available')
         }
-      }, (errCode) => {
 
-        var errMsg = this.logError(errCode)
+        this.a360ViewExtension.panel.startLoad(
+          'Loading ' + item.name + ' ...')
 
-        this.a360View.panel.showError(errMsg)
+        //pick the last version by default
+        var version = item.versions[ item.versions.length - 1 ]
 
-        return reject({
-          error: errCode,
-          description:  errMsg
+        var storageUrn = window.btoa(
+          version.relationships.storage.data.id)
+
+        // !IMPORTANT: remove all padding '=' chars
+        // not accepted by the adsk services
+
+        storageUrn = storageUrn.replace(new RegExp('=', 'g'), '')
+
+        var urn = version.relationships.derivatives.data.id
+
+        console.log('A360 URN: ' + urn)
+        console.log('Storage URN: ' + storageUrn)
+        //console.log('Token: ' + this.getToken('/api/token/3legged'))
+
+        // check if item version has existing svf derivative
+        // this has been pre-filled by derivativeExtension
+
+        if (!(version.manifest &&
+              version.manifest.status   === 'success' &&
+              version.manifest.progress === 'complete')) {
+
+          var manifest = await this.derivativeExtension.postJob(version)
+
+          version.manifest = manifest
+
+          item.parent.classList.add('derivated')
+        }
+
+        Autodesk.Viewing.Document.load(
+          'urn:' + storageUrn, async(LMVDocument) => {
+
+          var rootItem = LMVDocument.getRootItem()
+
+          var geometryItems3d = Autodesk.Viewing.Document.getSubItemsWithProperties(
+            rootItem, { 'type': 'geometry', 'role': '3d' }, true)
+
+          var geometryItems2d = Autodesk.Viewing.Document.getSubItemsWithProperties(
+            rootItem, { 'type': 'geometry', 'role': '2d' }, true)
+
+          // Pick the first 3D item
+          if (geometryItems3d.length || geometryItems2d.length) {
+
+            if (!this.viewer) {
+
+              var viewerContainer = document.getElementById('viewer')
+
+              this.viewer = new Autodesk.Viewing.Private.GuiViewer3D(
+                viewerContainer)
+
+              this.viewer.initialize()
+            }
+
+            var viewable = geometryItems3d.length ?
+              geometryItems3d[0] :
+              geometryItems2d[0]
+
+            var path = LMVDocument.getViewablePath(
+              viewable)
+
+            let model = await this.loadModel(path, {
+              acmSessionId: LMVDocument.acmSessionId
+            })
+
+            var metadata = await this.derivativeExtension.getMetadata(
+              storageUrn)
+
+            // assume first metadata, since we loaded first viewable
+            if (metadata.metadata && metadata.metadata.length) {
+
+              var guid = metadata.metadata[0].guid
+
+              console.log('Design GUID: ' + guid)
+
+              model.guid = guid
+            }
+
+            this.a360ViewExtension.panel.stopLoad()
+
+            // store for easy use by extensions
+
+            model.node = item
+            model.name = item.name
+            model.version = version
+            model.storageUrn = storageUrn
+
+            if (!this.viewer.loadedExtensions['Viewing.Extension.ModelTransformer']) {
+
+              this.viewer.loadExtension(
+                'Viewing.Extension.ModelTransformer', {
+                  parentControl: this.ctrlGroup
+                })
+
+              this.modelTransformerExtension =
+                this.viewer.loadedExtensions[ 'Viewing.Extension.ModelTransformer' ]
+
+              this.modelTransformerExtension.on('model.delete', (deletedModel) => {
+
+                deletedModel.node.parent.classList.remove('derivated')
+
+                delete deletedModel.version.manifest
+
+                this.derivativeExtension.deleteManifest(
+                  deletedModel.storageUrn)
+              })
+            }
+
+            this.modelTransformerExtension.addModel(model)
+
+            // fits model to view - need to wait for instance tree
+            // but no event gets fired
+
+            let fitToView = ()=> {
+
+              var instanceTree = model.getData().instanceTree
+
+              if (instanceTree) {
+
+                this.fitModelToView(model)
+              }
+              else {
+
+                setTimeout(()=> {
+                  fitToView()
+                }, 500)
+              }
+            }
+
+            fitToView()
+
+            return resolve(model)
+          }
+        },(errCode) => {
+
+          var errMsg = this.logError(errCode)
+
+          this.a360ViewExtension.panel.showError(errMsg)
+
+          return reject({
+            error: errCode,
+            description: errMsg
+          })
         })
       }
-      /*,{
+      catch(ex) {
 
-       'oauth2AccessToken': this.getToken('/api/token/3legged'),
-       'x-ads-acm-namespace': 'WIPDMSTG',
-       'x-ads-acm-check-groups': 'true'
-       }*/
-      )
+        return reject(ex)
+      }
     })
   }
 

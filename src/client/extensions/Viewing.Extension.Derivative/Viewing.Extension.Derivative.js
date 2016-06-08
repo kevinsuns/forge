@@ -16,7 +16,7 @@ class DerivativeExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   constructor(viewer, options) {
 
-    super(viewer, options);
+    super(viewer, options)
 
     this.api = new DerivativeAPI({
       apiUrl: '/api/derivative'
@@ -29,7 +29,7 @@ class DerivativeExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   static get ExtensionId() {
 
-    return 'Viewing.Extension.Derivative';
+    return 'Viewing.Extension.Derivative'
   }
 
   /////////////////////////////////////////////////////////////////
@@ -63,9 +63,9 @@ class DerivativeExtension extends ExtensionBase {
 
     this._viewer.setPropertyPanel(null)
 
-    console.log('Viewing.Extension.Derivative unloaded');
+    console.log('Viewing.Extension.Derivative unloaded')
 
-    return true;
+    return true
   }
 
   /////////////////////////////////////////////////////////////////
@@ -80,7 +80,7 @@ class DerivativeExtension extends ExtensionBase {
         version.relationships.storage.data.id)
 
       storageUrn = storageUrn.replace(
-        new RegExp('=', 'g'), '');
+        new RegExp('=', 'g'), '')
 
       console.log('Job: ' + storageUrn)
 
@@ -100,14 +100,15 @@ class DerivativeExtension extends ExtensionBase {
 
         if (job.result === 'success' || job.result === 'created') {
 
-          await this.api.waitJob(storageUrn, (progress) => {
+          var manifest = await this.api.waitJob(storageUrn,
+            (progress) => {
 
-            return jobPanel.updateProgress(progress)
-          })
+              return jobPanel.updateProgress(progress)
+            })
 
           jobPanel.done()
 
-          return resolve(job)
+          return resolve(manifest)
         }
         else {
 
@@ -129,6 +130,15 @@ class DerivativeExtension extends ExtensionBase {
   //
   //
   /////////////////////////////////////////////////////////////////
+  getManifest(urn) {
+
+    return this.api.getManifest(urn)
+  }
+
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
   getMetadata(urn) {
 
     return this.api.getMetadata(urn)
@@ -144,10 +154,10 @@ class DerivativeExtension extends ExtensionBase {
   }
 
   /////////////////////////////////////////////////////////////////
-  // Item node from Dm TreeView
+  // Item node from DM TreeView
   //
   /////////////////////////////////////////////////////////////////
-  onItemNode(node) {
+  async onItemNode(node) {
 
     // pick last item version
     if(node.versions && node.versions.length) {
@@ -158,11 +168,22 @@ class DerivativeExtension extends ExtensionBase {
         version.relationships.storage.data.id)
 
       storageUrn = storageUrn.replace(
-        new RegExp('=', 'g'), '');
+        new RegExp('=', 'g'), '')
+
+      var manifest = await this.api.getManifest(storageUrn)
+
+      if (manifest &&
+          manifest.status   === 'success' &&
+          manifest.progress === 'complete') {
+
+        version.manifest = manifest
+
+        node.parent.classList.add('derivated')
+      }
     }
   }
 }
 
 Autodesk.Viewing.theExtensionManager.registerExtension(
   DerivativeExtension.ExtensionId,
-  DerivativeExtension);
+  DerivativeExtension)

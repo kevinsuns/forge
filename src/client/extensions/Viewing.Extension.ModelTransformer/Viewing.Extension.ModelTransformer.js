@@ -18,6 +18,8 @@ class ModelTransformerExtension extends ExtensionBase {
     super(viewer, options);
 
     this.firstModelLoaded = null
+
+    this.modelCollection = {}
   }
 
   /////////////////////////////////////////////////////////////////
@@ -186,6 +188,8 @@ class ModelTransformerExtension extends ExtensionBase {
 
     model.id = ExtensionBase.guid()
 
+    this.modelCollection[model.id] = model
+
     if(!this.firstModelLoaded) {
 
       this.firstModelLoaded = model.name
@@ -209,21 +213,27 @@ class ModelTransformerExtension extends ExtensionBase {
   //////////////////////////////////////////////////////////////////////////
   buildModelTransform (modelName) {
 
+    // those file type have different orientation
+    // than other, so need to correct it
+    // upon insertion
+    const zOriented = ['rvt', 'nwc']
+
     var rotation = { x:0.0, y:0.0, z:0.0 }
 
-    if(this.firstModelLoaded.endsWith('.rvt') ||
-       this.firstModelLoaded.endsWith('.nwc')){
+    var firstExt = this.firstModelLoaded.split(".").pop(-1)
 
-      if(!(modelName.endsWith('.rvt') ||
-           modelName.endsWith('.nwc'))){
+    var modelExt = modelName.split(".").pop(-1)
+
+    if(zOriented.indexOf(firstExt) > -1) {
+
+      if(zOriented.indexOf(modelExt) < 0) {
 
         rotation = { x:90.0, y:0.0, z:0.0 }
       }
     }
     else {
 
-      if(modelName.endsWith('.rvt') ||
-         modelName.endsWith('.nwc')){
+      if(zOriented.indexOf(modelExt) > -1) {
 
         rotation = { x:-90.0, y:0.0, z:0.0 }
       }
@@ -247,6 +257,13 @@ class ModelTransformerExtension extends ExtensionBase {
   //
   /////////////////////////////////////////////////////////////////
   deleteModel (model) {
+
+    delete this.modelCollection[model.id]
+
+    if(Object.keys(this.modelCollection).length === 0){
+
+      this.firstModelLoaded = null
+    }
 
     this.emit('model.delete', model)
 

@@ -232,6 +232,8 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
   /////////////////////////////////////////////////////////////
   createTreeNode (node, parent, options) {
 
+    node.parent = parent
+
     parent.classList.add(node.type)
 
     var label = document.createElement('label')
@@ -243,6 +245,7 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
     var text = this.getTreeNodeLabel(node)
 
     if (options && options.localize) {
+
       label.setAttribute('data-i18n', text)
       text = Autodesk.Viewing.i18n.translate(text)
     }
