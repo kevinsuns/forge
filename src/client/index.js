@@ -45,6 +45,14 @@ class App {
   //
   //
   //////////////////////////////////////////////////////////////////////////
+  replaceAll (str, search, replacement) {
+    return str.replace(new RegExp(search, 'g'), replacement);
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+  //
+  //
+  //////////////////////////////////////////////////////////////////////////
   register (socketId) {
 
     $.ajax({
@@ -285,13 +293,16 @@ class App {
     var storageUrn = window.btoa(
       version.relationships.storage.data.id)
 
+    // !IMPORTANT: remove padding '='
+    storageUrn = this.replaceAll(storageUrn, '=', '')
+
     var urn = version.relationships.derivatives.data.id
 
     console.log('URN: ' + urn)
     console.log('Storage URN: ' + storageUrn)
     console.log('Token: ' + this.getToken('/api/token/3legged'))
 
-    Autodesk.Viewing.Document.load('urn:' + urn, async(LMVDocument) => {
+    Autodesk.Viewing.Document.load('urn:' + storageUrn, async(LMVDocument) => {
 
       var rootItem = LMVDocument.getRootItem();
 
@@ -397,12 +408,12 @@ class App {
 
       this.logError(err)
 
-    },{
+    } /*,{
 
       'oauth2AccessToken': this.getToken('/api/token/3legged'),
       'x-ads-acm-namespace': 'WIPDMSTG',
       'x-ads-acm-check-groups': 'true'
-    })
+    }*/)
   }
 
   //////////////////////////////////////////////////////////////////////////

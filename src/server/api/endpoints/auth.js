@@ -92,7 +92,7 @@ module.exports = function() {
   router.post('/logout', function (req, res) {
 
     req.session.destroy();
-    res.end('logged out');
+    res.json('logged out');
   });
 
   return router;
