@@ -50,8 +50,12 @@ class ModelTransformerExtension extends ExtensionBase {
         this.panel.toggleVisibility()
       })
 
-    this._options.parentControl.addControl(
-      this.control)
+    this._viewer.addEventListener(
+      Autodesk.Viewing.GEOMETRY_LOADED_EVENT, (e) => {
+
+        this._options.parentControl.addControl(
+          this.control)
+      })
 
     this.panel = new Panel(
       this._viewer,

@@ -6,6 +6,11 @@ body{
 .viewer {
     position: relative;
     height: calc(100vh - 65px);
+}
+
+.background {
+    position: relative;
+    height: calc(100vh - 65px);
     background-color: #B3B3B3;
 }
 

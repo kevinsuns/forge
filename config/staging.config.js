@@ -12,6 +12,8 @@ var DM_VERSION = 'v1'
 module.exports = {
 
     clientConfig: {
+        token3LeggedUrl: '/api/token/3legged',
+        token2LeggedUrl: '/api/token/2legged',
         env: 'AutodeskStaging',
         host: 'localhost',
         port: 3000

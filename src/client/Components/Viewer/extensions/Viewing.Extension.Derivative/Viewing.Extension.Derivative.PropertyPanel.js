@@ -402,7 +402,7 @@ function createLinkProperty(property, parent){
 
   var html = [
 
-    '<div id="' + id + '" class="propertyValue">',
+    '<div id="' + id + '" class="propertyValue derivative">',
     '<a  href="' + property.href + '" target="_blank"> ' + property.value + '</a>',
     '</div>'
 
@@ -423,7 +423,7 @@ function createImageProperty(property, parent){
 
   var html = [
 
-    '<div id="' + id + '" class="propertyValue">' +
+    '<div id="' + id + '" class="propertyValue derivative">' +
     '<a href="' + property.href +'">',
     '<img src="' + property.href +'" width="128" height="128"> </img>' +
     '</a>',
@@ -446,7 +446,7 @@ function createFileProperty(property, parent){
 
   var html = [
 
-    '<div id="' + id + '" class="propertyValue">' +
+    '<div id="' + id + '" class="propertyValue derivative">' +
     '<a href="' + property.href +'">',
     property.value,
     '</a>',

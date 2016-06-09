@@ -12,6 +12,8 @@ var DM_VERSION = 'v1'
 module.exports = {
 
     clientConfig: {
+        token3LeggedUrl: '/api/token/3legged',
+        token2LeggedUrl: '/api/token/2legged',
         env: 'AutodeskStaging',
         host: 'localhost',
         port: 3000
@@ -19,7 +21,7 @@ module.exports = {
 
     serverConfig: {
 
-        hardcodedToken: 'JGhhjy4ENELCLu7ozIEGL1g3u7xj', //used for debug
+        hardcodedToken: 'UjxBX7N8q7mFjOQeJ5Ee5LqYtAss', //used for debug
 
         redirectUrl: 'https://autodesk-forge.herokuapp.com/api/auth/callback',
         authenticationUrl: '/authentication/' + OAUTH_VERSION + '/authorize',
