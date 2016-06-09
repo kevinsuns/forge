@@ -59,7 +59,18 @@ export default class DerivativeSvc extends BaseSvc {
             }
           } ]
         }
+      },
 
+      defaultOutput: (opts = {}) => {
+
+        return {
+          destination: {
+            region: opts.region || 'us'
+          },
+          formats: [ {
+            type: opts.outputType
+          }]
+        }
       }
     }
   }
@@ -220,9 +231,10 @@ export default class DerivativeSvc extends BaseSvc {
 /////////////////////////////////////////////////////////////////
 function requestAsync(params) {
 
-  return new Promise( function(resolve, reject) {
+  return new Promise((resolve, reject) => {
 
     request({
+
       url: params.url,
       method: params.method || 'GET',
       headers: {
@@ -230,7 +242,8 @@ function requestAsync(params) {
       },
       json: params.json,
       body: params.body
-    },  (err, response, body) => {
+
+    }, (err, response, body) => {
 
       try {
 

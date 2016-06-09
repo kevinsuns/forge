@@ -20,6 +20,11 @@ class ModelTransformerExtension extends ExtensionBase {
     this.firstModelLoaded = null
 
     this.modelCollection = {}
+
+    this.onAggregateSelectionChangedHandler = (e) =>{
+
+      this.onAggregateSelectionChanged(e)
+    }
   }
 
   /////////////////////////////////////////////////////////////////
@@ -77,9 +82,11 @@ class ModelTransformerExtension extends ExtensionBase {
 
         this.fitModelToView(data.model)
       }
-
-      this.setStructure(data.model)
     })
+
+    this._viewer.addEventListener(
+      Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED_EVENT,
+      this.onAggregateSelectionChangedHandler)
 
     console.log('Viewing.Extension.ModelTransformer loaded');
 
@@ -92,12 +99,30 @@ class ModelTransformerExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   unload() {
 
+    this._viewer.removeEventListener(
+      Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED_EVENT,
+      this.onAggregateSelectionChangedHandler)
+
     this._options.parentControl.removeControl(
       this.control)
 
     console.log('Viewing.Extension.ModelTransfomer unloaded')
 
     return true
+  }
+
+  /////////////////////////////////////////////////////////////////
+  // Fix model structure when selecting model
+  //
+  /////////////////////////////////////////////////////////////////
+  onAggregateSelectionChanged(event) {
+
+    if (event.selections && event.selections.length) {
+
+      var selection = event.selections[0]
+
+      this.setStructure(selection.model)
+    }
   }
 
   /////////////////////////////////////////////////////////////////

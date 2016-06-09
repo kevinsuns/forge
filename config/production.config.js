@@ -13,7 +13,8 @@ module.exports = {
 
   clientConfig: {
     env: 'AutodeskStaging',
-    host: 'https://forge.autodesk.io',
+    //host: 'https://forge.autodesk.io',
+    host: 'https://autodesk-forge.herokuapp.com',
     port: 443
   },
 

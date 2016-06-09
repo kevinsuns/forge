@@ -112,53 +112,126 @@ export default class DerivativePropertyPanel extends
 
     this.addMetaProperty(nodeIdProperty)
 
-    var instanceTree = model.getData().instanceTree
-    var rootId = instanceTree.getRootId()
-    console.log('Rootid: ' + rootId)
-
     if(this.currentModel && this.currentModel.guid) {
 
       var name = await this.getDisplayName(this.nodeId)
 
       //get rid of some special chars
 
-      name = name.split(':')[0]
-      name = name.split('.')[0]
-      name = name.split('[')[0]
+      name = name.split(':')[ 0 ]
+      name = name.split('.')[ 0 ]
+      name = name.split('[')[ 0 ]
+
+      var modelName = this.currentModel.name.split(".")[0]
+      var extension = this.currentModel.name.split(".").pop(-1)
+
+      var manifestProperty = {
+
+        name: 'Manifest',
+        value: `Show ${modelName} manifest`,
+        href: `/api/derivative/manifest/${this.currentModel.storageUrn}`,
+        category: 'Model Derivatives',
+        dataType: 'link'
+      }
+
+      this.addMetaProperty(manifestProperty)
+
+      if(derivativeFormats.iges.indexOf(extension) > -1) {
+
+        var stepDerivativeProperty = {
+
+          name: 'IGES',
+          nameId: guid(),
+          value: `Download ${modelName}.iges`,
+          category: 'Model Derivatives',
+          dataType: 'derivative',
+          filename: `${modelName}.iges`,
+
+          urn: this.currentModel.storageUrn,
+          outputType: 'iges'
+        }
+
+        this.addDerivativeProperty(stepDerivativeProperty)
+      }
+
+      if(derivativeFormats.step.indexOf(extension) > -1) {
+
+        var stepDerivativeProperty = {
+
+          name: 'STEP',
+          nameId: guid(),
+          value: `Download ${modelName}.step`,
+          category: 'Model Derivatives',
+          dataType: 'derivative',
+          filename: `${modelName}.step`,
+
+          urn: this.currentModel.storageUrn,
+          outputType: 'step'
+        }
+
+        this.addDerivativeProperty(stepDerivativeProperty)
+      }
+
+      if(derivativeFormats.stl.indexOf(extension) > -1) {
+
+        var stepDerivativeProperty = {
+
+          name: 'STL',
+          nameId: guid(),
+          value: `Download ${modelName}.stl`,
+          category: 'Model Derivatives',
+          dataType: 'derivative',
+          filename: `${modelName}.stl`,
+
+          urn: this.currentModel.storageUrn,
+          outputType: 'stl'
+        }
+
+        this.addDerivativeProperty(stepDerivativeProperty)
+      }
 
       var objDerivativeProperty = {
 
         name: 'OBJ',
         nameId: guid(),
-        value: `Download ${name}.obj ...`,
-        category: 'Derivatives',
+        value: `Download ${name}.obj`,
+        category: 'Component Derivatives',
         dataType: 'derivative',
         filename: `${name}.obj`,
 
         urn: this.currentModel.storageUrn,
         guid: this.currentModel.guid,
-        objectIds: [this.nodeId],
+        objectIds: [ this.nodeId ],
         outputType: 'obj'
       }
 
-      this.addMetaProperty(objDerivativeProperty)
-
-      this.api.getDerivativeURN(
-        objDerivativeProperty,
-        this.onDerivativeProgress(
-          objDerivativeProperty)).then((result) => {
-
-          // will check that result when property clicked
-          // to see if we need to trigger the job
-          // or if the derivative is pending or available
-
-          objDerivativeProperty.status =
-            result.status
-
-          objDerivativeProperty.derivativeUrn =
-            result.derivativeUrn
-        })
+      this.addDerivativeProperty(objDerivativeProperty)
     }
+  }
+
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
+  addDerivativeProperty (derivativeProperty) {
+
+    this.addMetaProperty(derivativeProperty)
+
+    this.api.getDerivativeURN(
+      derivativeProperty,
+      this.onDerivativeProgress(
+        derivativeProperty)).then((result) => {
+
+        // will check that result when property clicked
+        // to see if we need to trigger the job
+        // or if the derivative is pending or available
+
+        derivativeProperty.status =
+          result.status
+
+        derivativeProperty.derivativeUrn =
+          result.derivativeUrn
+      })
   }
 
   /////////////////////////////////////////////////////////////////
@@ -260,6 +333,8 @@ export default class DerivativePropertyPanel extends
         if(property.status === 'not found') {
 
           var job = await this.api.postJob(property)
+
+          console.log(job)
         }
 
         // wait till derivative urn is available
@@ -413,4 +488,114 @@ function guid(format = 'xxxxxxxxxx') {
     });
 
   return guid;
+}
+
+/////////////////////////////////////////////////////////////////
+// supported derivative formats
+//
+/////////////////////////////////////////////////////////////////
+const derivativeFormats = {
+
+  svf: [
+    "ipt",
+    "neu",
+    "stla",
+    "stl",
+    "jt",
+    "skp",
+    "collaboration",
+    "prt",
+    "dwf",
+    "sldasm",
+    "step",
+    "dwg",
+    "zip",
+    "nwc",
+    "model",
+    "stp",
+    "ste",
+    "f3d",
+    "dgn",
+    "pdf",
+    "iges",
+    "idw",
+    "dwt",
+    "dxf",
+    "catproduct",
+    "igs",
+    "sldprt",
+    "cgr",
+    "3dm",
+    "sab",
+    "obj",
+    "cam360",
+    "gbxml",
+    "exp",
+    "wire",
+    "ige",
+    "rcp",
+    "dae",
+    "x_b",
+    "3ds",
+    "rvt",
+    "max",
+    "g",
+    "iam",
+    "asm",
+    "dlv3",
+    "x_t",
+    "session",
+    "xas",
+    "xpr",
+    "catpart",
+    "stlb",
+    "mfr",
+    "ifw",
+    "nwd",
+    "sat",
+    "fbx",
+    "smb",
+    "smt",
+    "ifc",
+    "dwfx",
+    "prt\\.\\d+$",
+    "neu\\.\\d+$",
+    "asm\\.\\d+$"
+  ],
+  thumbnail: [
+    "f3d",
+    "cam360"
+  ],
+  stl: [
+    "ipt",
+    "f3d",
+    "cam360",
+    "wire",
+    "iam",
+    "fbx"
+  ],
+  step: [
+    "ipt",
+    "f3d",
+    "cam360",
+    "wire",
+    "iam",
+    "fbx"
+  ],
+  iges: [
+    "ipt",
+    "f3d",
+    "cam360",
+    "wire",
+    "iam",
+    "fbx"
+  ],
+  obj: [
+    "ipt",
+    "f3d",
+    "cam360",
+    "wire",
+    "iam",
+    "fbx"
+  ]
 }

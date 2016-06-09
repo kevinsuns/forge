@@ -34,8 +34,13 @@ module.exports = function() {
           break
 
         case 'svf':
-        default:
           output = derivativeSvc.jobOutputBuilder.svf()
+          break
+
+        default:
+          output = derivativeSvc.jobOutputBuilder.defaultOutput({
+            outputType: payload.outputType
+          })
           break
       }
 
