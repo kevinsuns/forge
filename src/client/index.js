@@ -76,7 +76,7 @@ class App {
   //////////////////////////////////////////////////////////////////////////
   async login() {
 
-    //this.initializeViewer(); return;
+    this.initializeViewer(); return;
 
     await this.register()
 

@@ -220,6 +220,10 @@ module.exports = function() {
 
       var urn = req.params.urn
 
+      var width = req.query.width || 100
+
+      var height = req.query.height || 100
+
       var derivativeSvc = ServiceManager.getService(
         'DerivativeSvc');
 

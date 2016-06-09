@@ -4,9 +4,10 @@
 //
 /////////////////////////////////////////////////////////////////////
 var BASE_URL = 'https://developer-stg.api.autodesk.com'
-var DM_PROJECT_VERSION = 'v1'
+var DERIVATIVE_VERSION = 'v2'
 var OAUTH_VERSION = 'v1'
 var OSS_VERSION = 'v1'
+var DM_VERSION = 'v1'
 
 module.exports = {
 
@@ -18,7 +19,7 @@ module.exports = {
 
     serverConfig: {
 
-        redirectUrl: 'https://autodesk-forge.herokuapp.com/api/auth/callback',
+        redirectUrl: 'https://forge.autodesk.io/api/auth/callback',
         authenticationUrl: '/authentication/' + OAUTH_VERSION + '/authorize',
         accessTokenUrl: '/authentication/' + OAUTH_VERSION + '/gettoken',
         baseUrl: BASE_URL,

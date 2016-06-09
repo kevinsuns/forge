@@ -77,7 +77,7 @@ module.exports = function() {
               req.session.socketId)
           }
 
-          res.end('<script>window.opener.location.reload(false)window.close()</script>')
+          res.end('done')
         }
         catch(ex){
 

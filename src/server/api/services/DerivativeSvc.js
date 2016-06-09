@@ -40,7 +40,7 @@ export default class DerivativeSvc extends BaseSvc {
           },
           formats: [ {
             type: 'svf',
-            views: opts.views || [ '2d', '3d' ]
+            views: opts.views || ['2d', '3d']
           } ]
         }
       },
