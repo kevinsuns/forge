@@ -13,17 +13,17 @@ module.exports = {
 
   clientConfig: {
     env: 'AutodeskStaging',
-    host: 'https://autodesk-forge.herokuapp.com',
+    host: 'https://forge.autodesk.io',
     port: 443
   },
 
   serverConfig: {
 
-    redirectUrl: 'https://autodesk-forge.herokuapp.com/api/auth/callback',
+    redirectUrl: 'https://forge.autodesk.io/api/auth/callback',
     authenticationUrl: '/authentication/' + OAUTH_VERSION + '/authorize',
     accessTokenUrl: '/authentication/' + OAUTH_VERSION + '/gettoken',
     baseUrl: BASE_URL,
-    port: 3003,
+    port: 3002,
 
     scope: [
       'data:read',
