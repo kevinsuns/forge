@@ -112,6 +112,10 @@ export default class DerivativePropertyPanel extends
 
     this.addMetaProperty(nodeIdProperty)
 
+    var instanceTree = model.getData().instanceTree
+    var rootId = instanceTree.getRootId()
+    console.log('Rootid: ' + rootId)
+
     if(this.currentModel && this.currentModel.guid) {
 
       var name = await this.getDisplayName(this.nodeId)

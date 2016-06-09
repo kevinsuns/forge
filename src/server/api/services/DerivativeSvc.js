@@ -172,11 +172,11 @@ export default class DerivativeSvc extends BaseSvc {
   //
   //
   /////////////////////////////////////////////////////////////////
-  getThumbnail (token, urn) {
+  getThumbnail (token, urn, options = {width: 100, height: 100}) {
 
     var url = util.format(
       this._config.endPoints.thumbnail,
-      urn, 100, 100)
+      urn, options.width, options.height)
 
     return new Promise((resolve, reject) => {
 

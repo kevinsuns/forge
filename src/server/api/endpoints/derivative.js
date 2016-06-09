@@ -220,15 +220,16 @@ module.exports = function() {
 
       var urn = req.params.urn
 
-      var width = req.query.width || 100
-
-      var height = req.query.height || 100
+      var options = {
+        width: req.query.width || 100,
+        height: req.query.height || 100
+      }
 
       var derivativeSvc = ServiceManager.getService(
         'DerivativeSvc');
 
       var response = await derivativeSvc.getThumbnail(
-        token, urn)
+        token, urn, options)
 
       res.end(response);
     }
