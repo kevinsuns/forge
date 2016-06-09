@@ -23,7 +23,7 @@ module.exports = {
     authenticationUrl: '/authentication/' + OAUTH_VERSION + '/authorize',
     accessTokenUrl: '/authentication/' + OAUTH_VERSION + '/gettoken',
     baseUrl: BASE_URL,
-    port: 3000,
+    port: 3003,
 
     scope: [
       'data:read',
