@@ -20,9 +20,6 @@ export default class JobPanel extends ToolPanelBase {
     $(this.container).addClass('derivative')
     $(this.container).addClass('job')
 
-    $(`#${this.container.id}`).find(
-      '.dockingPanelTitle').prepend('<img/>')
-
     $(`#${this.container.id}-name`).text(
       'Design: ' + version.attributes.displayName)
 
@@ -33,8 +30,7 @@ export default class JobPanel extends ToolPanelBase {
       angle += 2
       angle %= 360
 
-      $(`#${this.container.id}`).find(
-        '.dockingPanelTitle img').css({
+      $(`#${this.titleImgId}`).css({
           transform: `rotateZ(${angle}deg)`
         })
     }, 10)

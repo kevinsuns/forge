@@ -63,6 +63,33 @@ export default class ViewerToolkit {
     }
   }
 
+  //////////////////////////////////////////////////////////////////////////
+  // Return default viewable path: first 3d or 2d item
+  //
+  //////////////////////////////////////////////////////////////////////////
+  static getDefaultViewablePath(svf) {
+
+    var rootItem = svf.getRootItem()
+
+    var geometryItems3d = Autodesk.Viewing.Document.getSubItemsWithProperties(
+      rootItem, { 'type': 'geometry', 'role': '3d' }, true)
+
+    var geometryItems2d = Autodesk.Viewing.Document.getSubItemsWithProperties(
+      rootItem, { 'type': 'geometry', 'role': '2d' }, true)
+
+    // Pick the first 3D or 2D item
+    if (geometryItems3d.length || geometryItems2d.length) {
+
+      var viewable = geometryItems3d.length ?
+        geometryItems3d[ 0 ] :
+        geometryItems2d[ 0 ]
+
+      return svf.getViewablePath(viewable)
+    }
+
+    return null
+  }
+
   /////////////////////////////////////////////////////////////////
   // Toolbar button
   //
@@ -99,57 +126,6 @@ export default class ViewerToolkit {
 
       return ctrlGroup;
     }
-  }
-
-  /////////////////////////////////////////////////////////////////
-  // NodeId to FragIds v < 2.5 (deprecated)
-  //
-  /////////////////////////////////////////////////////////////////
-  static nodeIdToFragIds(model, dbId,
-    recursive = true,
-    instanceTree = null) {
-
-    return new Promise(async(resolve, reject)=>{
-
-      try{
-
-        var it = instanceTree || model.getData().instanceTree;
-
-        var node = it.dbIdToNode[dbId];
-
-        if(node == undefined){
-          return reject('Invalid dbId: ' + dbId);
-        }
-
-        var fragIds = [...(Array.isArray(node.fragIds) ?
-          node.fragIds : [node.fragIds])
-        ];
-
-        if(node.children && recursive) {
-
-          var getAllChildFragIds = [];
-
-          node.children.forEach((child)=> {
-
-            getAllChildFragIds.push(ViewerToolkit.nodeIdToFragIds(
-              model, child.dbId, recursive, it));
-          });
-
-          var allChildFragIds = Promise.all(getAllChildFragIds);
-
-          allChildFragIds.forEach((childFragIds)=>{
-
-            fragIds = [...fragIds, childFragIds];
-          });
-        }
-
-        return resolve(fragIds);
-      }
-      catch(ex){
-
-        return reject(ex);
-      }
-    });
   }
 
   /////////////////////////////////////////////////////////////////

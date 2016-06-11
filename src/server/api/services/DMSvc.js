@@ -151,7 +151,7 @@ function requestAsync(params) {
           return reject(err)
         }
 
-        if (body.errors) {
+        if (body && body.errors) {
 
           console.log('body error: ' + params.url)
           console.log(body.errors)
@@ -159,12 +159,17 @@ function requestAsync(params) {
           return reject(body.errors)
         }
 
+        if(response.statusCode !== 200){
+
+          return reject(response)
+        }
+
         return resolve(body.data || body)
       }
       catch(ex){
 
         console.log(params.url)
-        console.log(body)
+        console.log(ex)
 
         return reject(ex)
       }

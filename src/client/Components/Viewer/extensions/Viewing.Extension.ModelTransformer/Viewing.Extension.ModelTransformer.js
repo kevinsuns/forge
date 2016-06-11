@@ -82,7 +82,7 @@ class ModelTransformerExtension extends ExtensionBase {
 
     this.panel.on('model.selected', (data)=>{
 
-      if(data.fitToView){
+      if(data.fitToView) {
 
         this.fitModelToView(data.model)
       }
@@ -138,9 +138,9 @@ class ModelTransformerExtension extends ExtensionBase {
     var viewer = this._viewer
 
     var euler = new THREE.Euler(
-      transform.rotation.x * Math.PI/180,
-      transform.rotation.y * Math.PI/180,
-      transform.rotation.z * Math.PI/180,
+      (model.offset.rotation.x + transform.rotation.x) * Math.PI/180,
+      (model.offset.rotation.y + transform.rotation.y) * Math.PI/180,
+      (model.offset.rotation.z + transform.rotation.z) * Math.PI/180,
       'XYZ')
 
     var quaternion = new THREE.Quaternion()
@@ -215,8 +215,6 @@ class ModelTransformerExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   addModel (model) {
 
-    model.id = ExtensionBase.guid()
-
     this.modelCollection[model.id] = model
 
     if(!this.firstModelLoaded) {
@@ -224,13 +222,26 @@ class ModelTransformerExtension extends ExtensionBase {
       this.firstModelLoaded = model.name
     }
 
-    var transform = this.buildModelTransform(
+    if(!model.transform) {
+
+      model.transform = {
+        scale: {
+          x:1.0, y:1.0, z:1.0
+        },
+        translation: {
+          x:0.0, y:0.0, z:0.0
+        },
+        rotation: {
+          x:0.0, y:0.0, z:0.0
+        }
+      }
+    }
+
+    model.offset = this.buildModelOffset(
       model.name)
 
     this.transformModel(
-      model, transform)
-
-    model.transform = transform
+      model, model.transform)
 
     this.panel.dropdown.addItem(
       model, true)
@@ -240,7 +251,7 @@ class ModelTransformerExtension extends ExtensionBase {
   //
   //
   //////////////////////////////////////////////////////////////////////////
-  buildModelTransform (modelName) {
+  buildModelOffset (modelName) {
 
     // those file type have different orientation
     // than other, so need to correct it
@@ -268,17 +279,11 @@ class ModelTransformerExtension extends ExtensionBase {
       }
     }
 
-    var transform = {
-      scale: {
-        x:1.0, y:1.0, z:1.0
-      },
-      translation: {
-        x:0.0, y:0.0, z:0.0
-      },
-      rotation: rotation
+    var offset = {
+      rotation
     }
 
-    return transform
+    return offset
   }
 
   /////////////////////////////////////////////////////////////////

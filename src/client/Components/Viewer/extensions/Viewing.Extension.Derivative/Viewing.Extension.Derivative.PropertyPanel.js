@@ -3,6 +3,7 @@
 // by Philippe Leefsma, April 2016
 //
 /////////////////////////////////////////////////////////////////////
+import ToolPanelBase from 'ToolPanelBase'
 
 export default class DerivativePropertyPanel extends
   Autodesk.Viewing.Extensions.ViewerPropertyPanel {
@@ -18,6 +19,80 @@ export default class DerivativePropertyPanel extends
     this.viewer = viewer
 
     this.api = api
+
+    $(this.container).addClass('derivative')
+  }
+
+  /////////////////////////////////////////////////////////////
+  // initialize override
+  //
+  /////////////////////////////////////////////////////////////
+  initialize() {
+
+    super.initialize()
+
+    this.container.classList.add('derivative')
+  }
+
+  /////////////////////////////////////////////////////////////
+  // createTitleBar override
+  //
+  /////////////////////////////////////////////////////////////
+  createTitleBar (title) {
+
+    var titleBar = document.createElement("div")
+
+    titleBar.className = "dockingPanelTitle"
+
+    this.titleTextId = ToolPanelBase.guid()
+
+    this.titleImgId = ToolPanelBase.guid()
+
+    var html = `
+      <img id="${this.titleImgId}"></img>
+      <div id="${this.titleTextId}" class="dockingPanelTitleText">
+        ${title}
+      </div>
+    `
+
+    $(titleBar).append(html)
+
+    this.addEventListener(titleBar, 'click', (event)=> {
+
+      if (!this.movedSinceLastClick) {
+
+        this.onTitleClick(event)
+      }
+
+      this.movedSinceLastClick = false
+    })
+
+    this.addEventListener(titleBar, 'dblclick', (event) => {
+
+      this.onTitleDoubleClick(event)
+    })
+
+    return titleBar
+  }
+
+  /////////////////////////////////////////////////////////////
+  // setTitle override
+  //
+  /////////////////////////////////////////////////////////////
+  setTitle (text, options) {
+
+    if (options && options.localizeTitle) {
+
+      $(`#${this.titleTextId}`).attr('data-i18n', text)
+
+      text = Autodesk.Viewing.i18n.translate(text)
+
+    } else {
+
+      $(`#${this.titleTextId}`).removeAttr('data-i18n')
+    }
+
+    $(`#${this.titleTextId}`).text(text)
   }
 
   /////////////////////////////////////////////////////////////////
@@ -41,20 +116,20 @@ export default class DerivativePropertyPanel extends
       name: metaProperty.name,
       value: metaProperty.value,
       category: metaProperty.category
-    });
+    })
 
     if (element) {
 
-      return false;
+      return false
     }
 
-    var parent = null;
+    var parent = null
 
     if (metaProperty.category) {
 
       parent = this.tree.getElementForNode({
         name: metaProperty.category
-      });
+      })
 
       if (!parent) {
         parent = this.tree.createElement_({
@@ -62,18 +137,18 @@ export default class DerivativePropertyPanel extends
             type: 'category'
           },
           this.tree.myRootContainer,
-          options && options.localizeCategory ? {localize: true} : null);
+          options && options.localizeCategory ? {localize: true} : null)
       }
     }
     else {
 
-      parent = this.tree.myRootContainer;
+      parent = this.tree.myRootContainer
     }
 
     this.tree.createElement_(
       metaProperty,
       parent,
-      options && options.localizeProperty ? {localize: true} : null);
+      options && options.localizeProperty ? {localize: true} : null)
 
     return true
   }
@@ -250,54 +325,54 @@ export default class DerivativePropertyPanel extends
     var text = property.name
 
     if (options && options.localize) {
-      name.setAttribute('data-i18n', text);
-      text = Autodesk.Viewing.i18n.translate(text);
+      name.setAttribute('data-i18n', text)
+      text = Autodesk.Viewing.i18n.translate(text)
     }
 
-    name.textContent = text;
-    name.title = text;
-    name.className = 'propertyName';
+    name.textContent = text
+    name.title = text
+    name.className = 'propertyName'
 
-    var separator = document.createElement('div');
-    separator.className = 'separator';
+    var separator = document.createElement('div')
+    separator.className = 'separator'
 
-    parent.appendChild(name);
-    parent.appendChild(separator);
+    parent.appendChild(name)
+    parent.appendChild(separator)
 
-    var value = null;
+    var value = null
 
     //native properties dont have a dataType
     //display them just as text
     if(!property.dataType) {
-      value = createTextProperty(property, parent);
-      return [name, value];
+      value = createTextProperty(property, parent)
+      return [name, value]
     }
 
     switch (property.dataType) {
 
       case 'text':
-        value = createTextProperty(property, parent);
-        break;
+        value = createTextProperty(property, parent)
+        break
 
       case 'link':
-        value = createLinkProperty(property, parent);
-        break;
+        value = createLinkProperty(property, parent)
+        break
 
       case 'img':
-        value = createImageProperty(property, parent);
-        break;
+        value = createImageProperty(property, parent)
+        break
 
       case 'file':
       case 'derivative':
-        value = createFileProperty(property, parent);
-        break;
+        value = createFileProperty(property, parent)
+        break
 
       default :
-        break;
+        break
     }
 
     // Make the property highlightable
-    return [name, value];
+    return [name, value]
   }
 
   /////////////////////////////////////////////////////////////////
@@ -353,7 +428,7 @@ export default class DerivativePropertyPanel extends
           downloadURI(url, property.filename)
         }
 
-        break;
+        break
 
       default :
         break
@@ -382,14 +457,14 @@ export default class DerivativePropertyPanel extends
 /////////////////////////////////////////////////////////////////
 function createTextProperty(property, parent){
 
-  var value = document.createElement('div');
-  value.textContent = property.value;
-  value.title = property.value;
-  value.className = 'propertyValue';
+  var value = document.createElement('div')
+  value.textContent = property.value
+  value.title = property.value
+  value.className = 'propertyValue'
 
-  parent.appendChild(value);
+  parent.appendChild(value)
 
-  return value;
+  return value
 }
 
 /////////////////////////////////////////////////////////////////
@@ -398,7 +473,7 @@ function createTextProperty(property, parent){
 /////////////////////////////////////////////////////////////////
 function createLinkProperty(property, parent){
 
-  var id = guid();
+  var id = guid()
 
   var html = [
 
@@ -406,11 +481,11 @@ function createLinkProperty(property, parent){
     '<a  href="' + property.href + '" target="_blank"> ' + property.value + '</a>',
     '</div>'
 
-  ].join('\n');
+  ].join('\n')
 
-  $(parent).append(html);
+  $(parent).append(html)
 
-  return $('#' + id)[0];
+  return $('#' + id)[0]
 }
 
 /////////////////////////////////////////////////////////////////
@@ -419,7 +494,7 @@ function createLinkProperty(property, parent){
 /////////////////////////////////////////////////////////////////
 function createImageProperty(property, parent){
 
-  var id = guid();
+  var id = guid()
 
   var html = [
 
@@ -429,11 +504,11 @@ function createImageProperty(property, parent){
     '</a>',
     '</div>'
 
-  ].join('\n');
+  ].join('\n')
 
-  $(parent).append(html);
+  $(parent).append(html)
 
-  return $('#' + id)[0];
+  return $('#' + id)[0]
 }
 
 /////////////////////////////////////////////////////////////////
@@ -442,7 +517,7 @@ function createImageProperty(property, parent){
 /////////////////////////////////////////////////////////////////
 function createFileProperty(property, parent){
 
-  var id = guid();
+  var id = guid()
 
   var html = [
 
@@ -452,11 +527,11 @@ function createFileProperty(property, parent){
     '</a>',
     '</div>'
 
-  ].join('\n');
+  ].join('\n')
 
-  $(parent).append(html);
+  $(parent).append(html)
 
-  return $('#' + id)[0];
+  return $('#' + id)[0]
 }
 
 /////////////////////////////////////////////////////////////////
@@ -465,10 +540,10 @@ function createFileProperty(property, parent){
 /////////////////////////////////////////////////////////////////
 function downloadURI(uri, name) {
 
-  var link = document.createElement("a");
-  link.download = name;
-  link.href = uri;
-  link.click();
+  var link = document.createElement("a")
+  link.download = name
+  link.href = uri
+  link.click()
 }
 
 /////////////////////////////////////////////////////////////////
@@ -477,17 +552,17 @@ function downloadURI(uri, name) {
 /////////////////////////////////////////////////////////////////
 function guid(format = 'xxxxxxxxxx') {
 
-  var d = new Date().getTime();
+  var d = new Date().getTime()
 
   var guid = format.replace(
     /[xy]/g,
     function (c) {
-      var r = (d + Math.random() * 16) % 16 | 0;
-      d = Math.floor(d / 16);
-      return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
-    });
+      var r = (d + Math.random() * 16) % 16 | 0
+      d = Math.floor(d / 16)
+      return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16)
+    })
 
-  return guid;
+  return guid
 }
 
 /////////////////////////////////////////////////////////////////

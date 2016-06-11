@@ -17,6 +17,7 @@
     "c0nfig": "^0.2.2",
     "cookie-parser": "^1.4.1",
     "css-loader": "^0.23.1",
+    "dragula": "^3.7.1",
     "es6-promise": "^3.2.1",
     "exports-loader": "^0.6.3",
     "expose-loader": "^0.7.1",
@@ -26,10 +27,11 @@
     "file-loader": "^0.8.5",
     "font-awesome": "^4.5.0",
     "font-awesome-webpack": "0.0.4",
-    "html-webpack-plugin": "^2.9.0",
+    "html-webpack-plugin": "^2.20.0",
     "imports-loader": "^0.6.5",
     "jquery": "^2.2.0",
     "less": "^2.7.1",
+    "lockr": "^0.8.4",
     "oauth": "^0.9.14",
     "raw-loader": "^0.5.1",
     "request": "^2.72.0",
@@ -60,8 +62,8 @@
     "postinstall": "npm run build-prod",
     "start": "node bin/run.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-dev": "webpack --config ./webpack/webpack.config.development.js",
-    "build-prod": "webpack --config ./webpack/webpack.config.production.js"
+    "build-dev": "webpack --watch --progress --colors --config ./webpack/webpack.config.development.js",
+    "build-prod": "webpack --progress --config ./webpack/webpack.config.production.js"
   },
   "repository": {
     "type": "git",

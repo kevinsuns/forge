@@ -61,19 +61,16 @@ export default class DerivativeAPI {
 
     return new Promise(async(resolve, reject) => {
 
-      try {
+      var url = `${this.apiUrl}/manifest/${urn}`
 
-        var url = `${this.apiUrl}/manifest/${urn}`
+      $.get(url).success((res)=> {
 
-        $.get(url, (res)=> {
+        return resolve(res)
 
-          return resolve(res)
-        })
-      }
-      catch(ex) {
+      }).error((jqXHR, textStatus, error) => {
 
-        return reject(ex)
-      }
+        return reject(error)
+      })
     })
   }
 

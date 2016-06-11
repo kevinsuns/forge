@@ -1,3 +1,4 @@
+var html = require('html-webpack-plugin')
 var webpack = require('webpack')
 var path = require('path')
 
@@ -16,7 +17,8 @@ module.exports = {
   output: {
     path: path.join(__dirname, '../dist'),
     filename: "[name].js",
-    publicPath: './'
+    publicPath: './',
+    watch: true
   },
 
   plugins: [
@@ -34,6 +36,17 @@ module.exports = {
 
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"development"'
+    }),
+
+    new html({
+      viewerCSS: 'https://developer-stg.api.autodesk.com/viewingservice/v1/viewers/style.css',
+      viewer3D: 'https://developer-stg.api.autodesk.com/viewingservice/v1/viewers/viewer3D.js',
+      template: './layout/index.ejs',
+      title: 'Autodesk Forge | DEV',
+      filename: 'index.html',
+      bundle: 'bundle.js',
+      minify: false,
+      inject: false
     })
   ],
 

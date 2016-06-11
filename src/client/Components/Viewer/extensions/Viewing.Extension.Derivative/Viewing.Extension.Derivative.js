@@ -159,26 +159,37 @@ class DerivativeExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   async onItemNode(node) {
 
-    // pick last item version
-    if(node.versions && node.versions.length) {
+    try {
 
-      var version = node.versions[node.versions.length -1]
+      // pick last item version
+      if (node.versions && node.versions.length) {
 
-      var storageUrn = window.btoa(
-        version.relationships.storage.data.id)
+        var version = node.versions[ node.versions.length - 1 ]
 
-      storageUrn = storageUrn.replace(
-        new RegExp('=', 'g'), '')
+        var storageUrn = window.btoa(
+          version.relationships.storage.data.id)
 
-      var manifest = await this.api.getManifest(storageUrn)
+        storageUrn = storageUrn.replace(
+          new RegExp('=', 'g'), '')
 
-      if (manifest &&
-          manifest.status   === 'success' &&
+        var manifest = await this.api.getManifest(storageUrn)
+
+        if (manifest &&
+          manifest.status === 'success' &&
           manifest.progress === 'complete') {
 
-        version.manifest = manifest
+          version.manifest = manifest
 
-        node.parent.classList.add('derivated')
+          node.parent.classList.add('derivated')
+        }
+      }
+    }
+    catch(ex){
+
+      // file not derivated have no manifest
+      // skip those errors
+      if(ex !== 'Not Found') {
+        console.warn(ex)
       }
     }
   }

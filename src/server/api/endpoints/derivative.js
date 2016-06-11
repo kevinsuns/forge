@@ -61,8 +61,7 @@ module.exports = function() {
     }
     catch (ex) {
 
-      console.log(ex)
-      res.status(500)
+      res.status(ex.statusCode || 500)
       res.json(ex)
     }
   })
@@ -89,7 +88,7 @@ module.exports = function() {
     }
     catch (ex) {
 
-      res.status(500)
+      res.status(ex.statusCode || 500)
       res.json(ex)
     }
   })
@@ -118,7 +117,7 @@ module.exports = function() {
     }
     catch (ex) {
 
-      res.status(500)
+      res.status(ex.statusCode || 500)
       res.json(ex)
     }
   })
@@ -145,7 +144,7 @@ module.exports = function() {
     }
     catch (ex) {
 
-      res.status(500)
+      res.status(ex.statusCode || 500)
       res.json(ex)
     }
   })
@@ -172,7 +171,7 @@ module.exports = function() {
     }
     catch (ex) {
 
-      res.status(500)
+      res.status(ex.statusCode || 500)
       res.json(ex)
     }
   })
@@ -208,7 +207,7 @@ module.exports = function() {
     }
     catch (ex) {
 
-      res.status(500)
+      res.status(ex.statusCode || 500)
       res.json(ex)
     }
   })
@@ -240,7 +239,7 @@ module.exports = function() {
     }
     catch (ex) {
 
-      res.status(500)
+      res.status(ex.statusCode || 500)
       res.json(ex)
     }
   })

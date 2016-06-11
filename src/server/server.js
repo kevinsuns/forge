@@ -66,8 +66,9 @@ var app = express()
 if(process.env.WEBPACK == 'hot')
     setWebpackHotReloading(app);
 
+app.use('/resources', express.static(__dirname + '/../../resources'))
+app.use(favicon(__dirname + '/../../resources/img/forge.png'))
 app.use('/', express.static(__dirname + '/../../dist/'))
-app.use(favicon(__dirname + '/../../dist/img/forge.png'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cookieParser())

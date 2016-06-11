@@ -104,7 +104,7 @@ export default class ExtensionBase extends Autodesk.Viewing.Extension {
     var tmpArray = this._events[event].slice();
 
     for(var i = 0; i < tmpArray.length; ++i) {
-      var result	= tmpArray[i].apply(this,
+      var result = tmpArray[i].apply(this,
         Array.prototype.slice.call(arguments, 1));
 
       if(result !== undefined )

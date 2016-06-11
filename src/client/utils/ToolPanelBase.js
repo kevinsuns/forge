@@ -21,17 +21,17 @@ export default class ToolPanelBase extends
   ///////////////////////////////////////////////////////////////////
   static guid(format = 'xxxxxxxxxx') {
 
-    var d = new Date().getTime();
+    var d = new Date().getTime()
 
     var guid = format.replace(
       /[xy]/g,
       function (c) {
-        var r = (d + Math.random() * 16) % 16 | 0;
-        d = Math.floor(d / 16);
-        return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
-      });
+        var r = (d + Math.random() * 16) % 16 | 0
+        d = Math.floor(d / 16)
+        return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16)
+      })
 
-    return guid;
+    return guid
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -45,14 +45,14 @@ export default class ToolPanelBase extends
       title,
       Object.assign(getDefaultOptions(), options))
 
-    this._dialogResult = 'CANCEL';
+    this._dialogResult = 'CANCEL'
 
-    this._events = {};
+    this._events = {}
 
-    this._isVisible = false;
-    this._isMinimized = false;
+    this._isVisible = false
+    this._isMinimized = false
 
-    this._btnElement = options.buttonElement;
+    this._btnElement = options.buttonElement
   }
 
   /////////////////////////////////////////////////////////////
@@ -61,7 +61,7 @@ export default class ToolPanelBase extends
   /////////////////////////////////////////////////////////////
   htmlContent(id) {
 
-    return '<div>';
+    return '<div></div>'
   }
 
   /////////////////////////////////////////////////////////////
@@ -70,9 +70,9 @@ export default class ToolPanelBase extends
   /////////////////////////////////////////////////////////////
   unload() {
 
-    this.setVisible(false);
+    this.setVisible(false)
 
-    $(this.container).remove();
+    $(this.container).remove()
   }
 
   /////////////////////////////////////////////////////////////
@@ -81,7 +81,7 @@ export default class ToolPanelBase extends
   /////////////////////////////////////////////////////////////
   isVisible() {
 
-    return this._isVisible;
+    return this._isVisible
   }
 
   /////////////////////////////////////////////////////////////
@@ -96,21 +96,21 @@ export default class ToolPanelBase extends
 
         this.emit((show ? 'open' : 'close'), {
           result: this._dialogResult
-        });
+        })
       }
     }
 
-    this._isVisible = show;
+    this._isVisible = show
 
     if(this._btnElement) {
 
       if(show)
-        this._btnElement.classList.add('active');
+        this._btnElement.classList.add('active')
       else
-        this._btnElement.classList.remove('active');
+        this._btnElement.classList.remove('active')
     }
 
-    super.setVisible(show);
+    super.setVisible(show)
   }
 
   /////////////////////////////////////////////////////////////
@@ -119,7 +119,7 @@ export default class ToolPanelBase extends
   /////////////////////////////////////////////////////////////
   toggleVisibility () {
 
-    this.setVisible(!this._isVisible);
+    this.setVisible(!this._isVisible)
   }
 
   /////////////////////////////////////////////////////////////
@@ -129,29 +129,92 @@ export default class ToolPanelBase extends
   initialize() {
 
     this.title = this.createTitleBar(
-      this.titleLabel || this.container.id);
+      this.titleLabel || this.container.id)
 
-    this.container.appendChild(this.title);
+    $(this.container).append(this.title)
 
     this.setTitle(
       this.titleLabel || this.container.id,
-      this.options);
+      this.options)
 
     if(this.options.movable) {
-      this.initializeMoveHandlers(this.title);
+      this.initializeMoveHandlers(this.title)
     }
 
     if(this.options.closable){
-      this.closer = this.createCloseButton();
-      this.container.appendChild(this.closer);
+      this.closer = this.createCloseButton()
+      $(this.title).append(this.closer)
     }
 
     var $content = $(this.htmlContent(
-      this.container.id));
+      this.container.id))
 
-    this.content = $content[0];
+    this.content = $content[0]
 
-    $(this.container).append($content);
+    $(this.container).append($content)
+
+    this.container.classList.add('toolPanelBase')
+  }
+
+  /////////////////////////////////////////////////////////////
+  // createTitleBar override
+  //
+  /////////////////////////////////////////////////////////////
+  createTitleBar (title) {
+    
+    var titleBar = document.createElement("div")
+
+    titleBar.className = "dockingPanelTitle"
+
+    this.titleTextId = ToolPanelBase.guid()
+
+    this.titleImgId = ToolPanelBase.guid()
+
+    var html = `
+      <img id="${this.titleImgId}"></img>
+      <div id="${this.titleTextId}" class="dockingPanelTitleText">
+        ${title}
+      </div>
+    `
+
+    $(titleBar).append(html)
+
+    this.addEventListener(titleBar, 'click', (event)=> {
+      
+      if (!this.movedSinceLastClick) {
+        
+        this.onTitleClick(event)
+      }
+      
+      this.movedSinceLastClick = false
+    })
+
+    this.addEventListener(titleBar, 'dblclick', (event) => {
+      
+      this.onTitleDoubleClick(event)
+    })
+
+    return titleBar
+  }
+
+  /////////////////////////////////////////////////////////////
+  // setTitle override
+  //
+  /////////////////////////////////////////////////////////////
+  setTitle (text, options) {
+  
+    if (options && options.localizeTitle) {
+
+      $(`#${this.titleTextId}`).attr('data-i18n', text)
+
+      text = Autodesk.Viewing.i18n.translate(text)
+      
+    } else {
+
+      $(`#${this.titleTextId}`).removeAttr('data-i18n')
+    }
+
+    $(`#${this.titleTextId}`).text(text)
   }
 
   /////////////////////////////////////////////////////////////
@@ -160,23 +223,23 @@ export default class ToolPanelBase extends
   /////////////////////////////////////////////////////////////
   onTitleDoubleClick(event) {
 
-    this._isMinimized = !this._isMinimized;
+    this._isMinimized = !this._isMinimized
 
     if(this._isMinimized) {
 
-      this._height = $(this.container).css('height');
+      this._height = $(this.container).css('height')
 
       $(this.container).css({
         'height':'34px',
         'min-height':'34px'
-      });
+      })
     }
     else {
 
       $(this.container).css({
         'height':this._height,
         'min-height':'100px'
-      });
+      })
     }
   }
 
@@ -186,9 +249,9 @@ export default class ToolPanelBase extends
   ///////////////////////////////////////////////////////////////////
   on(event, fct) {
 
-    this._events[event] = this._events[event]	|| [];
-    this._events[event].push(fct);
-    return fct;
+    this._events[event] = this._events[event]	|| []
+    this._events[event].push(fct)
+    return fct
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -198,10 +261,10 @@ export default class ToolPanelBase extends
   off(event, fct) {
 
     if(event in this._events === false)
-      return;
+      return
 
     this._events[event].splice(
-      this._events[event].indexOf(fct), 1);
+      this._events[event].indexOf(fct), 1)
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -211,18 +274,46 @@ export default class ToolPanelBase extends
   emit(event /* , args... */) {
 
     if(this._events[event] === undefined)
-      return;
+      return
 
-    var tmpArray = this._events[event].slice();
+    var handlers = this._events[event].slice()
 
-    for(var i = 0; i < tmpArray.length; ++i) {
-      var result	= tmpArray[i].apply(this,
-        Array.prototype.slice.call(arguments, 1));
+    for(var i = 0; i < handlers.length; ++i) {
+
+      var result = handlers[i].apply(this,
+        Array.prototype.slice.call(arguments, 1))
 
       if(result !== undefined )
-        return result;
+        return result
     }
 
-    return undefined;
+    return undefined
   }
 }
+
+/////////////////////////////////////////////////////////////
+//
+//
+/////////////////////////////////////////////////////////////
+var css = `
+
+  .toolPanelBase .dockingPanelTitle {
+    padding: 4px 10px 4px 10px;
+    text-transform: none;
+  }
+
+  .dockingPanel .dockingPanelTitle .dockingPanelTitleText {
+    margin-top: 4px;
+    text-transform: none;
+  }
+
+  .dockingPanel .dockingPanelTitle img,
+  .dockingPanel .dockingPanelTitle img:before {
+    float: left;
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+  }
+`;
+
+$('<style type="text/css">' + css + '</style>').appendTo('head');

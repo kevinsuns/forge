@@ -16,8 +16,10 @@
 // UNINTERRUPTED OR ERROR FREE.
 //////////////////////////////////////////////////////////////////////////
 import 'Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer'
+import 'Viewing.Extension.SceneManager/Viewing.Extension.SceneManager'
 import 'Viewing.Extension.Derivative/Viewing.Extension.Derivative'
 import 'Viewing.Extension.A360View/Viewing.Extension.A360View'
+import ViewerToolkit from 'ViewerToolkit'
 
 export default class Viewer {
 
@@ -103,10 +105,12 @@ export default class Viewer {
 
         model.node.parent.classList.remove('derivated')
 
-      delete model.version.manifest
+        delete model.version.manifest
 
-      this.derivativeExtension.deleteManifest(
-        model.storageUrn)
+        this.derivativeExtension.deleteManifest(
+          model.storageUrn)
+
+        this.sceneManagerExtension.removeModel(model)
     })
 
     // A360 View Extension
@@ -124,7 +128,10 @@ export default class Viewer {
 
       if(node.type === 'items') {
 
-        this.importModelFromItem(node)
+        this.importModelFromItem(node).then((model) => {
+
+          this.sceneManagerExtension.addModel(model)
+        })
       }
     })
 
@@ -135,40 +142,27 @@ export default class Viewer {
         this.derivativeExtension.onItemNode(node)
       }
     })
-  }
 
-  //////////////////////////////////////////////////////////////////////////
-  // Return default viewable path: first 3d or 2d item
-  //
-  //////////////////////////////////////////////////////////////////////////
-  getDefaultViewablePath(svf) {
+    // SceneManager Extension
 
-    var rootItem = svf.getRootItem()
+    this.viewer.loadExtension(
+      'Viewing.Extension.SceneManager', {
+        parentControl: this.ctrlGroup
+      })
 
-    var geometryItems3d = Autodesk.Viewing.Document.getSubItemsWithProperties(
-      rootItem, { 'type': 'geometry', 'role': '3d' }, true)
+    this.sceneManagerExtension = this.viewer.loadedExtensions[
+      'Viewing.Extension.SceneManager']
 
-    var geometryItems2d = Autodesk.Viewing.Document.getSubItemsWithProperties(
-      rootItem, { 'type': 'geometry', 'role': '2d' }, true)
+    this.sceneManagerExtension.on('scene.restore', (scene)=> {
 
-    // Pick the first 3D or 2D item
-    if (geometryItems3d.length || geometryItems2d.length) {
-
-      var viewable = geometryItems3d.length ?
-        geometryItems3d[ 0 ] :
-        geometryItems2d[ 0 ]
-
-      return svf.getViewablePath(viewable)
-    }
-
-    return null
+    })
   }
 
   //////////////////////////////////////////////////////////////////////////
   //
   //
   //////////////////////////////////////////////////////////////////////////
-  importModelFromItem (item) {
+  importModelFromItem (item, options = {}) {
 
     return new Promise(async(resolve, reject) => {
 
@@ -221,7 +215,7 @@ export default class Viewer {
 
         var onSVFLoaded = async (svf) => {
 
-          var viewablePath = this.getDefaultViewablePath(svf)
+          var viewablePath = ViewerToolkit.getDefaultViewablePath(svf)
 
           if(!viewablePath) {
 
@@ -252,6 +246,8 @@ export default class Viewer {
           model.name = item.name
           model.version = version
           model.storageUrn = storageUrn
+          model.id = ViewerToolkit.guid()
+          model.transform = options.transform
 
           this.modelTransformerExtension.addModel(model)
 
