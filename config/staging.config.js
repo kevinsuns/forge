@@ -14,8 +14,9 @@ module.exports = {
     clientConfig: {
         token3LeggedUrl: '/api/token/3legged',
         token2LeggedUrl: '/api/token/2legged',
-        env: 'AutodeskStaging',
+        viewerEnv: 'AutodeskStaging',
         host: 'localhost',
+        env: 'staging',
         port: 3000
     },
 

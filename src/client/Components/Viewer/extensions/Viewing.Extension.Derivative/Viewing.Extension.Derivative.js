@@ -152,47 +152,6 @@ class DerivativeExtension extends ExtensionBase {
 
     this.api.deleteManifest(urn)
   }
-
-  /////////////////////////////////////////////////////////////////
-  // Item node from DM TreeView
-  //
-  /////////////////////////////////////////////////////////////////
-  async onItemNode(node) {
-
-    try {
-
-      // pick last item version
-      if (node.versions && node.versions.length) {
-
-        var version = node.versions[ node.versions.length - 1 ]
-
-        var storageUrn = window.btoa(
-          version.relationships.storage.data.id)
-
-        storageUrn = storageUrn.replace(
-          new RegExp('=', 'g'), '')
-
-        var manifest = await this.api.getManifest(storageUrn)
-
-        if (manifest &&
-          manifest.status === 'success' &&
-          manifest.progress === 'complete') {
-
-          version.manifest = manifest
-
-          node.parent.classList.add('derivated')
-        }
-      }
-    }
-    catch(ex){
-
-      // file not derivated have no manifest
-      // skip those errors
-      if(ex !== 'Not Found') {
-        console.warn(ex)
-      }
-    }
-  }
 }
 
 Autodesk.Viewing.theExtensionManager.registerExtension(

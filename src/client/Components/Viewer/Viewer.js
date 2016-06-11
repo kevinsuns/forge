@@ -31,7 +31,7 @@ export default class Viewer {
 
     var options = {
 
-      env: config.env,
+      env: config.viewerEnv,
 
       refreshToken: () => {
         return this.getToken(config.token3LeggedUrl)
@@ -73,6 +73,38 @@ export default class Viewer {
     this.ctrlGroup = new Autodesk.Viewing.UI.ControlGroup('forge')
 
     viewerToolbar.addControl(this.ctrlGroup)
+
+    this.onGeometryLoadedHandler = (e) => {
+
+      this.onGeometryLoaded(e)
+    }
+
+    this.viewer.addEventListener(
+      Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
+      this.onGeometryLoadedHandler)
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+  //
+  //
+  //////////////////////////////////////////////////////////////////////////
+  onGeometryLoaded (e) {
+
+    this.viewer.removeEventListener(
+      Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
+      this.onGeometryLoadedHandler)
+
+    this.viewer.setLightPreset(1)
+
+    setTimeout(()=> {
+
+      this.viewer.setLightPreset(0)
+
+      this.viewer.setBackgroundColor(
+        122,198,255,
+        219,219,219)
+
+    }, 100)
   }
 
   //////////////////////////////////////////////////////////////////////////
@@ -103,7 +135,10 @@ export default class Viewer {
     this.modelTransformerExtension.on('model.delete',
       (model) => {
 
-        model.node.parent.classList.remove('derivated')
+        if (model.node && model.node.parent) {
+
+          model.node.parent.classList.remove('derivated')
+        }
 
         delete model.version.manifest
 
@@ -130,6 +165,7 @@ export default class Viewer {
 
         this.importModelFromItem(node).then((model) => {
 
+          this.modelTransformerExtension.addModel(model)
           this.sceneManagerExtension.addModel(model)
         })
       }
@@ -139,7 +175,37 @@ export default class Viewer {
 
       if(node.type === 'items') {
 
-        this.derivativeExtension.onItemNode(node)
+        // pick last item version
+        if (node.versions && node.versions.length) {
+
+          var version = node.versions[ node.versions.length - 1 ]
+
+          var storageUrn = window.btoa(
+            version.relationships.storage.data.id)
+
+          storageUrn = storageUrn.replace(
+            new RegExp('=', 'g'), '')
+
+          this.derivativeExtension.getManifest(
+            storageUrn).then((manifest) => {
+
+              if (manifest &&
+                  manifest.status === 'success' &&
+                  manifest.progress === 'complete') {
+
+                version.manifest = manifest
+
+                node.parent.classList.add('derivated')
+              }
+            }, (err) => {
+
+              // file not derivated have no manifest
+              // skip those errors
+              if(err !== 'Not Found') {
+                console.warn(err)
+              }
+            })
+        }
       }
     })
 
@@ -155,6 +221,42 @@ export default class Viewer {
 
     this.sceneManagerExtension.on('scene.restore', (scene)=> {
 
+      console.log(scene)
+
+      scene.deleteSet.forEach((model) => {
+
+        this.modelTransformerExtension.deleteModel(
+          model, false)
+      })
+
+      this.modelTransformerExtension.clearModels()
+
+      scene.transformSet.forEach((model) => {
+
+        this.modelTransformerExtension.addModel(model)
+        this.modelTransformerExtension.applyTransform(model)
+      })
+
+      scene.loadSet.forEach((modelInfo) => {
+
+        //build a fake item
+
+        var item = {
+          name: modelInfo.name,
+          versions: [modelInfo.version]
+        }
+
+        var options = {
+          transform: modelInfo.transform
+        }
+
+        this.importModelFromItem(
+          item, options).then((model) => {
+
+            this.modelTransformerExtension.addModel(model)
+            this.sceneManagerExtension.addModel(model)
+          })
+      })
     })
   }
 
@@ -222,8 +324,13 @@ export default class Viewer {
             return reject('No viewable content')
           }
 
+          var transform =
+            this.modelTransformerExtension.buildPlacementTransform(
+              item.name, options.transform)
+
           let model = await this.loadViewable(viewablePath, {
-            acmSessionId: svf.acmSessionId
+            acmSessionId: svf.acmSessionId,
+            placementTransform: transform
           })
 
           var metadata = await this.derivativeExtension.getMetadata(
@@ -248,8 +355,6 @@ export default class Viewer {
           model.storageUrn = storageUrn
           model.id = ViewerToolkit.guid()
           model.transform = options.transform
-
-          this.modelTransformerExtension.addModel(model)
 
           // fits model to view - need to wait for instance tree
           // but no event gets fired

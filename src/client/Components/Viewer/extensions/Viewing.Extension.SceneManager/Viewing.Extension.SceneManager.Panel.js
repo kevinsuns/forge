@@ -14,6 +14,8 @@ export default class SceneManagerPanel extends ToolPanelBase{
 
     super(container, 'Scene Manager', {
       buttonElement: btnElement,
+      closable: true,
+      movable: true,
       shadow: true
     });
 

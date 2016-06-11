@@ -200,6 +200,19 @@ export default class Dropdown extends EventsEmitter {
     $('#' + this.dropdownId).addClass('open');
     $('#' + this.dropdownId).trigger('click.bs.dropdown');
   }
+
+  /////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////
+  clear() {
+
+    $('#' + this.buttonId).prop('disabled', true)
+
+    $(`#${this.listId} li`).remove()
+
+    this.currentItem = null
+  }
 }
 
 /////////////////////////////////////////////////////////////

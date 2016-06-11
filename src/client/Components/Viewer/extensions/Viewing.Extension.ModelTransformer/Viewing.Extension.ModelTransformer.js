@@ -21,6 +21,11 @@ class ModelTransformerExtension extends ExtensionBase {
 
     this.modelCollection = {}
 
+    this.onGeometryLoadedHandler = (e) =>{
+
+      this.onGeometryLoaded(e)
+    }
+
     this.onAggregateSelectionChangedHandler = (e) =>{
 
       this.onAggregateSelectionChanged(e)
@@ -42,19 +47,33 @@ class ModelTransformerExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   async load() {
 
+    this.loadControls()
+
+    this._viewer.addEventListener(
+      Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
+      this.onGeometryLoadedHandler)
+
+    this._viewer.addEventListener(
+      Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED_EVENT,
+      this.onAggregateSelectionChangedHandler)
+
+    console.log('Viewing.Extension.ModelTransformer loaded');
+
+    return true
+  }
+
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
+  loadControls () {
+
     this.control = ViewerToolkit.createButton(
       'toolbar-model-transformer',
       'adsk-button-icon model-transformer-icon',
       'Transform Models', ()=>{
 
         this.panel.toggleVisibility()
-      })
-
-    this._viewer.addEventListener(
-      Autodesk.Viewing.GEOMETRY_LOADED_EVENT, (e) => {
-
-        this._options.parentControl.addControl(
-          this.control)
       })
 
     this.panel = new Panel(
@@ -65,9 +84,7 @@ class ModelTransformerExtension extends ExtensionBase {
 
       data.model.transform = data.transform
 
-      this.transformModel(
-        data.model,
-        data.transform)
+      this.applyTransform(data.model)
 
       this._viewer.impl.sceneUpdated(true)
     })
@@ -87,14 +104,16 @@ class ModelTransformerExtension extends ExtensionBase {
         this.fitModelToView(data.model)
       }
     })
+  }
 
-    this._viewer.addEventListener(
-      Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED_EVENT,
-      this.onAggregateSelectionChangedHandler)
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
+  onGeometryLoaded (e) {
 
-    console.log('Viewing.Extension.ModelTransformer loaded');
-
-    return true
+    this._options.parentControl.addControl(
+      this.control)
   }
 
   /////////////////////////////////////////////////////////////////
@@ -104,11 +123,18 @@ class ModelTransformerExtension extends ExtensionBase {
   unload() {
 
     this._viewer.removeEventListener(
+      Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
+      this.onGeometryLoadedHandler)
+
+    this._viewer.removeEventListener(
       Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED_EVENT,
       this.onAggregateSelectionChangedHandler)
 
-    this._options.parentControl.removeControl(
-      this.control)
+    if(this.control) {
+
+      this._options.parentControl.removeControl(
+        this.control)
+    }
 
     console.log('Viewing.Extension.ModelTransfomer unloaded')
 
@@ -133,14 +159,14 @@ class ModelTransformerExtension extends ExtensionBase {
   // Applies transform to specific model
   //
   /////////////////////////////////////////////////////////////////
-  transformModel(model, transform) {
+  applyTransform(model) {
 
     var viewer = this._viewer
 
     var euler = new THREE.Euler(
-      (model.offset.rotation.x + transform.rotation.x) * Math.PI/180,
-      (model.offset.rotation.y + transform.rotation.y) * Math.PI/180,
-      (model.offset.rotation.z + transform.rotation.z) * Math.PI/180,
+      model.transform.rotation.x * Math.PI/180,
+      model.transform.rotation.y * Math.PI/180,
+      model.transform.rotation.z * Math.PI/180,
       'XYZ')
 
     var quaternion = new THREE.Quaternion()
@@ -155,9 +181,9 @@ class ModelTransformerExtension extends ExtensionBase {
 
       fragProxy.getAnimTransform()
 
-      fragProxy.position = transform.translation
+      fragProxy.position = model.transform.translation
 
-      fragProxy.scale = transform.scale
+      fragProxy.scale = model.transform.scale
 
       //Not a standard three.js quaternion
       fragProxy.quaternion._x = quaternion.x
@@ -217,11 +243,6 @@ class ModelTransformerExtension extends ExtensionBase {
 
     this.modelCollection[model.id] = model
 
-    if(!this.firstModelLoaded) {
-
-      this.firstModelLoaded = model.name
-    }
-
     if(!model.transform) {
 
       model.transform = {
@@ -237,12 +258,6 @@ class ModelTransformerExtension extends ExtensionBase {
       }
     }
 
-    model.offset = this.buildModelOffset(
-      model.name)
-
-    this.transformModel(
-      model, model.transform)
-
     this.panel.dropdown.addItem(
       model, true)
   }
@@ -251,14 +266,52 @@ class ModelTransformerExtension extends ExtensionBase {
   //
   //
   //////////////////////////////////////////////////////////////////////////
-  buildModelOffset (modelName) {
+  modelTransformToMatrix (transform) {
+
+    var matrix = new THREE.Matrix4()
+
+    var translation = new THREE.Vector3(
+      transform.translation.x,
+      transform.translation.y,
+      transform.translation.z)
+
+    var euler = new THREE.Euler(
+      transform.rotation.x * Math.PI/180,
+      transform.rotation.y * Math.PI/180,
+      transform.rotation.z * Math.PI/180,
+      'XYZ')
+
+    var quaternion = new THREE.Quaternion()
+
+    quaternion.setFromEuler(euler)
+
+    var scale = new THREE.Vector3(
+      transform.scale.x,
+      transform.scale.y,
+      transform.scale.z)
+
+    matrix.compose(translation, quaternion, scale)
+
+    return matrix
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+  //
+  //
+  //////////////////////////////////////////////////////////////////////////
+  buildPlacementTransform (modelName, transform) {
+
+    if(!this.firstModelLoaded) {
+
+      this.firstModelLoaded = modelName
+    }
 
     // those file type have different orientation
     // than other, so need to correct it
     // upon insertion
     const zOriented = ['rvt', 'nwc']
 
-    var rotation = { x:0.0, y:0.0, z:0.0 }
+    var placementTransform = new THREE.Matrix4();
 
     var firstExt = this.firstModelLoaded.split(".").pop(-1)
 
@@ -268,29 +321,33 @@ class ModelTransformerExtension extends ExtensionBase {
 
       if(zOriented.indexOf(modelExt) < 0) {
 
-        rotation = { x:90.0, y:0.0, z:0.0 }
+        placementTransform.makeRotationX(
+          90 * Math.PI/180)
       }
     }
     else {
 
       if(zOriented.indexOf(modelExt) > -1) {
 
-        rotation = { x:-90.0, y:0.0, z:0.0 }
+        placementTransform.makeRotationX(
+          -90 * Math.PI/180)
       }
     }
 
-    var offset = {
-      rotation
+    if(transform) {
+
+      placementTransform.multiply(
+        this.modelTransformToMatrix(transform))
     }
 
-    return offset
+    return placementTransform
   }
 
   /////////////////////////////////////////////////////////////////
   //
   //
   /////////////////////////////////////////////////////////////////
-  deleteModel (model) {
+  deleteModel (model, fireEvent = true) {
 
     delete this.modelCollection[model.id]
 
@@ -299,9 +356,23 @@ class ModelTransformerExtension extends ExtensionBase {
       this.firstModelLoaded = null
     }
 
-    this.emit('model.delete', model)
+    if(fireEvent) {
+
+      this.emit('model.delete', model)
+    }
 
     this._viewer.impl.unloadModel(model)
+  }
+
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
+  clearModels () {
+
+    this.modelCollection = {}
+
+    this.panel.dropdown.clear()
   }
 }
 

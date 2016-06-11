@@ -16,6 +16,8 @@ class SceneManagerExtension extends ExtensionBase {
   constructor(viewer, options) {
 
     super(viewer, options);
+
+    this.modelCollection = {}
   }
 
   /////////////////////////////////////////////////////////////////
@@ -57,19 +59,19 @@ class SceneManagerExtension extends ExtensionBase {
       this._viewer.container,
       this._control.container);
 
-    this._panel.on('scene.add', (state) => {
+    this._panel.on('scene.add', (scene) => {
 
-      return this.onAddSceneHandler(state);
+      return this.onAddSceneHandler(scene);
     })
 
-    this._panel.on('scene.restore', (state)=>{
+    this._panel.on('scene.restore', (scene)=>{
 
-      return this.onRestoreSceneHandler(state);
+      return this.onRestoreSceneHandler(scene);
     });
 
-    this._panel.on('scene.remove', (state)=>{
+    this._panel.on('scene.remove', (scene)=>{
 
-      return this.onRemoveSceneHandler(state);
+      return this.onRemoveSceneHandler(scene);
     });
 
     this._panel.on('sequence.update', (sequence)=>{
@@ -91,6 +93,17 @@ class SceneManagerExtension extends ExtensionBase {
 
     this.parentControl.addControl(
       this._control)
+
+    this.sceneMap = Lockr.get(
+      SceneManagerExtension.ExtensionId + '.scenes') || {}
+
+    this.sequence = Lockr.get(
+      SceneManagerExtension.ExtensionId + '.sequence') || []
+
+    this.sequence.forEach((sceneId) => {
+
+      this._panel.addItem(this.sceneMap[ sceneId ])
+    })
 
     console.log('Viewing.Extension.SceneManager loaded');
 
@@ -119,12 +132,45 @@ class SceneManagerExtension extends ExtensionBase {
   ////////////////////////////////////////////////////////////////
   onAddScene (data) {
 
-    var scene = this._viewer.getState();
+    var filter = {
+      renderOptions: false,
+      objectSet: false,
+      viewport: true,
+      guid: true
+    }
+
+    var scene = this._viewer.getState(filter)
 
     scene.name = (data.name.length ?
-      data.name : new Date().toString('d/M/yyyy H:mm:ss'));
+      data.name : new Date().toString('d/M/yyyy H:mm:ss'))
 
-    return scene;
+    scene.modelInfo = []
+
+    for(var modelId in this.modelCollection) {
+
+      var model = this.modelCollection[modelId]
+
+      scene.modelInfo.push({
+        storageUrn: model.storageUrn,
+        transform: model.transform,
+        version: model.version,
+        name: model.name
+      })
+    }
+
+    this.sequence.push(scene.guid)
+
+    this.sceneMap[ scene.guid ] = scene
+
+    Lockr.set(
+      SceneManagerExtension.ExtensionId + '.sequence',
+      this.sequence)
+
+    Lockr.set(
+      SceneManagerExtension.ExtensionId + '.scenes',
+      this.sceneMap)
+
+    return scene
   }
 
   /////////////////////////////////////////////////////////////////
@@ -133,15 +179,75 @@ class SceneManagerExtension extends ExtensionBase {
   ////////////////////////////////////////////////////////////////
   onRestoreScene (scene) {
 
-    this._viewer.restoreState(scene, null, false);
+    console.log(scene)
+
+    var filter = {
+      renderOptions: false,
+      objectSet: false,
+      viewport: true
+    }
+    
+    this._viewer.restoreState(scene, filter, false)
+
+    var deleteSet = Object.keys(this.modelCollection).map(
+      (modelId) => {
+
+        return this.modelCollection[modelId]
+      })
+
+    var transformSet = []
+
+    var loadSet = []
+
+    scene.modelInfo.forEach((modelInfo) => {
+
+      for(var i=0; i < deleteSet.length; ++i) {
+
+        if(modelInfo.storageUrn === deleteSet[i].storageUrn) {
+
+          var model = deleteSet[i]
+
+          model.transform = modelInfo.transform
+
+          transformSet.push(model)
+
+          deleteSet.splice(i, 1)
+
+          return
+        }
+      }
+
+      loadSet.push(modelInfo)
+    })
+
+    this.modelCollection = {}
+
+    this.emit('scene.restore', {
+      transformSet,
+      deleteSet,
+      loadSet
+    })
   }
 
   /////////////////////////////////////////////////////////////////
   //
   //
   ////////////////////////////////////////////////////////////////
-  onRemoveScene (state) {
+  onRemoveScene (scene) {
 
+    var idx = this.sequence.indexOf(scene.guid)
+
+    this.sequence.splice(idx, 1)
+
+    delete this.sceneMap[scene.guid]
+
+    Lockr.set(
+      SceneManagerExtension.ExtensionId + '.sequence',
+      this.sequence)
+
+    Lockr.set(
+      SceneManagerExtension.ExtensionId + '.scenes',
+      this.sceneMap)
   }
 
   /////////////////////////////////////////////////////////////////
@@ -150,6 +256,11 @@ class SceneManagerExtension extends ExtensionBase {
   ////////////////////////////////////////////////////////////////
   onSaveSequence (sequence) {
 
+    this.sequence = sequence
+
+    Lockr.set(
+      SceneManagerExtension.ExtensionId + '.sequence',
+      this.sequence)
   }
 
   /////////////////////////////////////////////////////////////////
@@ -158,6 +269,7 @@ class SceneManagerExtension extends ExtensionBase {
   ////////////////////////////////////////////////////////////////
   addModel (model) {
 
+    this.modelCollection[model.id] = model
   }
 
   /////////////////////////////////////////////////////////////////
@@ -166,9 +278,13 @@ class SceneManagerExtension extends ExtensionBase {
   ////////////////////////////////////////////////////////////////
   removeModel (model) {
 
+    if(this.modelCollection[model.id]){
+
+      delete this.modelCollection[model.id]
+    }
   }
 }
 
 Autodesk.Viewing.theExtensionManager.registerExtension(
   SceneManagerExtension.ExtensionId,
-  SceneManagerExtension);
+  SceneManagerExtension)

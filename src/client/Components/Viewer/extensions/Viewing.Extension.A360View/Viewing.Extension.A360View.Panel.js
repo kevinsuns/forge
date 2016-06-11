@@ -12,7 +12,10 @@ export default class A360Panel extends ToolPanelBase {
   constructor(extension, container, btnElement) {
 
     super(container, 'A360 View', {
-      buttonElement: btnElement
+      buttonElement: btnElement,
+      closable: true,
+      movable: true,
+      shadow: true
     })
 
     this.extension = extension
@@ -33,16 +36,6 @@ export default class A360Panel extends ToolPanelBase {
     })
 
     this.titleId = ToolPanelBase.guid()
-
-    $(`#${this.container.id}`).find(
-      '.dockingPanelTitle').text('')
-
-    $(`#${this.container.id}`).find(
-      '.dockingPanelTitle').prepend(
-        `<div id="${this.titleId}">A360 View</div>`)
-
-    $(`#${this.container.id}`).find(
-      '.dockingPanelTitle').prepend('<img/>')
   }
 
   /////////////////////////////////////////////////////////////
@@ -115,7 +108,7 @@ export default class A360Panel extends ToolPanelBase {
   /////////////////////////////////////////////////////////////
   startLoad (title) {
 
-    $(`#${this.titleId}`).text(title)
+    this.setTitle(title)
 
     var angle = 0
 
@@ -126,10 +119,10 @@ export default class A360Panel extends ToolPanelBase {
         angle += 30
         angle %= 360
 
-        $(`#${this.container.id}`).find(
-          '.dockingPanelTitle img').css({
-            transform: `rotateY(${angle}deg)`
-          })
+        $(`#${this.titleImgId}`).css({
+          transform: `rotateY(${angle}deg)`
+        })
+
       }, 100)
     }
   }
@@ -144,12 +137,11 @@ export default class A360Panel extends ToolPanelBase {
 
     this.loadIntervalId = 0
 
-    $(`#${this.container.id}`).find(
-      '.dockingPanelTitle img').css({
-        transform: `rotateY(0deg)`
-      })
+    $(`#${this.titleImgId}`).css({
+      transform: `rotateY(0deg)`
+    })
 
-    $(`#${this.titleId}`).text('A360 View')
+    this.setTitle('A360 View')
   }
 
   /////////////////////////////////////////////////////////////
@@ -162,12 +154,11 @@ export default class A360Panel extends ToolPanelBase {
 
     this.loadIntervalId = 0
 
-    $(`#${this.container.id}`).find(
-      '.dockingPanelTitle img').css({
-        transform: `rotateY(0deg)`
-      })
+    $(`#${this.titleImgId}`).css({
+      transform: `rotateY(0deg)`
+    })
 
-    $(`#${this.titleId}`).text(error)
+    this.setTitle(error)
   }
 }
 

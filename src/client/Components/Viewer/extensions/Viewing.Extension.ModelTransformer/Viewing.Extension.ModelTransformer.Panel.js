@@ -13,7 +13,10 @@ export default class ModelTransformerPanel extends ToolPanelBase {
   constructor(viewer, btnElement) {
 
     super(viewer.container, 'Transform Models', {
-      buttonElement: btnElement
+      buttonElement: btnElement,
+      closable: true,
+      movable: true,
+      shadow: true
     })
 
     $(this.container).addClass('model-transformer')
@@ -62,6 +65,8 @@ export default class ModelTransformerPanel extends ToolPanelBase {
     })
 
     $(`#${this.container.id}-delete-btn`).click(() => {
+
+      this.tool.clearSelection()
 
       if(this.currentModel) {
 

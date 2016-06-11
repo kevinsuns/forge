@@ -230,8 +230,8 @@ export default class ToolPanelBase extends
       this._height = $(this.container).css('height')
 
       $(this.container).css({
-        'height':'34px',
-        'min-height':'34px'
+        'height':'32px',
+        'min-height':'32px'
       })
     }
     else {

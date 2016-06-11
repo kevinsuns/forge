@@ -14,14 +14,15 @@ module.exports = {
     clientConfig: {
         token3LeggedUrl: '/api/token/3legged',
         token2LeggedUrl: '/api/token/2legged',
-        env: 'AutodeskStaging',
+        viewerEnv: 'AutodeskStaging',
+        env: 'development',
         host: 'localhost',
         port: 3000
     },
 
     serverConfig: {
 
-        hardcodedToken: 'sDB1JuP7qEAVVSdlOBSw3UQrsHMc', //used for debug
+        hardcodedToken: 'Omb1fwsNIwYPdZE0E7uZPmRn56AH', //used for debug
 
         redirectUrl: 'https://autodesk-forge.herokuapp.com/api/auth/callback',
         authenticationUrl: '/authentication/' + OAUTH_VERSION + '/authorize',
