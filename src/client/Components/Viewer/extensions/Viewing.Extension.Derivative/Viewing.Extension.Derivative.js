@@ -72,7 +72,7 @@ class DerivativeExtension extends ExtensionBase {
   //
   //
   /////////////////////////////////////////////////////////////////
-  postJob(version) {
+  postJob(version, showProgress = true) {
 
     return new Promise(async(resolve, reject) => {
 
@@ -87,6 +87,8 @@ class DerivativeExtension extends ExtensionBase {
       var jobPanel = new JobPanel(
         this._viewer.container,
         version)
+
+      jobPanel.setVisible(showProgress)
 
       try {
 

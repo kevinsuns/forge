@@ -35,8 +35,6 @@ export default class JobPanel extends ToolPanelBase {
           transform: `rotateZ(${angle}deg)`
         })
     }, 10)
-
-    this.setVisible(true)
   }
 
   /////////////////////////////////////////////////////////////

@@ -159,18 +159,6 @@ export default class Viewer {
     this.a360ViewExtension =
       this.viewer.loadedExtensions['Viewing.Extension.A360View']
 
-    this.a360ViewExtension.on('node.dblClick', (node)=> {
-
-      if(node.type === 'items') {
-
-        this.importModelFromItem(node).then((model) => {
-
-          this.modelTransformerExtension.addModel(model)
-          this.sceneManagerExtension.addModel(model)
-        })
-      }
-    })
-
     this.a360ViewExtension.on('node.added', (node)=> {
 
       if(node.type === 'items') {
@@ -190,8 +178,8 @@ export default class Viewer {
             storageUrn).then((manifest) => {
 
               if (manifest &&
-                  manifest.status === 'success' &&
-                  manifest.progress === 'complete') {
+                manifest.status === 'success' &&
+                manifest.progress === 'complete') {
 
                 version.manifest = manifest
 
@@ -206,6 +194,45 @@ export default class Viewer {
               }
             })
         }
+      }
+    })
+
+    this.a360ViewExtension.on('node.dblClick', (node)=> {
+
+      if(node.type === 'items') {
+
+        var item = node
+
+        console.log(item)
+
+        if (!item.versions || !item.versions.length) {
+
+          this.a360ViewExtension.panel.showError(
+            'No version available (Please wait) ...')
+
+          console.log('No item version available')
+          return
+        }
+
+        this.a360ViewExtension.panel.startLoad(
+          'Loading ' + item.name + ' ...')
+
+        var options = {
+          showProgress: true
+        }
+
+        this.importModelFromItem(node, options).then((model) => {
+
+          this.a360ViewExtension.panel.stopLoad()
+
+          this.modelTransformerExtension.addModel(model)
+          this.sceneManagerExtension.addModel(model)
+
+        }, (error) => {
+
+          this.a360ViewExtension.panel.showError(
+            error.description)
+        })
       }
     })
 
@@ -235,11 +262,15 @@ export default class Viewer {
 
         this.modelTransformerExtension.addModel(model)
         this.modelTransformerExtension.applyTransform(model)
+
+        this.sceneManagerExtension.addModel(model)
       })
 
       scene.loadSet.forEach((modelInfo) => {
 
         //build a fake item
+
+        delete modelInfo.version.manifest
 
         var item = {
           name: modelInfo.name,
@@ -247,14 +278,22 @@ export default class Viewer {
         }
 
         var options = {
-          transform: modelInfo.transform
+          showProgress: false
         }
 
         this.importModelFromItem(
           item, options).then((model) => {
 
+            model.transform = modelInfo.transform
+
             this.modelTransformerExtension.addModel(model)
+            this.modelTransformerExtension.applyTransform(model)
+
             this.sceneManagerExtension.addModel(model)
+
+          }, (error) => {
+
+            console.log(error)
           })
       })
     })
@@ -269,19 +308,6 @@ export default class Viewer {
     return new Promise(async(resolve, reject) => {
 
       try {
-
-        console.log(item)
-
-        if (!item.versions || !item.versions.length) {
-
-          this.a360ViewExtension.panel.showError(
-            'No version available (Please wait) ...')
-
-          return reject('No item version available')
-        }
-
-        this.a360ViewExtension.panel.startLoad(
-          'Loading ' + item.name + ' ...')
 
         //pick the last version by default
         var version = item.versions[ item.versions.length - 1 ]
@@ -306,11 +332,15 @@ export default class Viewer {
               version.manifest.status   === 'success' &&
               version.manifest.progress === 'complete')) {
 
-          var manifest = await this.derivativeExtension.postJob(version)
+          var manifest = await this.derivativeExtension.postJob(
+            version, options.showProgress)
 
           version.manifest = manifest
 
-          item.parent.classList.add('derivated')
+          if(item.parent){
+
+            item.parent.classList.add('derivated')
+          }
         }
 
         // SVF Loaded callback
@@ -326,7 +356,7 @@ export default class Viewer {
 
           var transform =
             this.modelTransformerExtension.buildPlacementTransform(
-              item.name, options.transform)
+              item.name)
 
           let model = await this.loadViewable(viewablePath, {
             acmSessionId: svf.acmSessionId,
@@ -345,8 +375,6 @@ export default class Viewer {
             model.guid = guid
           }
 
-          this.a360ViewExtension.panel.stopLoad()
-
           // store for later use by extensions
 
           model.node = item
@@ -361,19 +389,17 @@ export default class Viewer {
 
           this.fitModelToView(model)
 
-          return resolve(model)
+          resolve(model)
         }
 
         Autodesk.Viewing.Document.load(
-          'urn:' + storageUrn, (svf) => onSVFLoaded(svf), (errCode) => {
+          'urn:' + storageUrn, (svf) => onSVFLoaded(svf), (error) => {
 
-          var errMsg = this.logError(errCode)
+          var description = this.logError(error)
 
-          this.a360ViewExtension.panel.showError(errMsg)
-
-          return reject({
-            error: errCode,
-            description: errMsg
+          reject({
+            error,
+            description
           })
         })
 

@@ -180,6 +180,7 @@ class SceneManagerExtension extends ExtensionBase {
   onRestoreScene (scene) {
 
     console.log(scene)
+    console.log(this.modelCollection)
 
     var filter = {
       renderOptions: false,

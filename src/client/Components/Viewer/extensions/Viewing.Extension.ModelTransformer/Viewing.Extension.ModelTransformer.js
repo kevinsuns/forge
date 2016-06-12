@@ -299,7 +299,7 @@ class ModelTransformerExtension extends ExtensionBase {
   //
   //
   //////////////////////////////////////////////////////////////////////////
-  buildPlacementTransform (modelName, transform) {
+  buildPlacementTransform (modelName) {
 
     if(!this.firstModelLoaded) {
 
@@ -332,12 +332,6 @@ class ModelTransformerExtension extends ExtensionBase {
         placementTransform.makeRotationX(
           -90 * Math.PI/180)
       }
-    }
-
-    if(transform) {
-
-      placementTransform.multiply(
-        this.modelTransformToMatrix(transform))
     }
 
     return placementTransform
