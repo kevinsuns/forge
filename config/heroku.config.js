@@ -15,7 +15,7 @@ module.exports = {
     host: 'https://autodesk-forge.herokuapp.com',
     token3LeggedUrl: '/api/token/3legged',
     token2LeggedUrl: '/api/token/2legged',
-    viewerEnv: 'AutodeskStaging',
+    viewerEnv: 'AutodeskProduction',
     env: 'heroku',
     port: 443
   },
