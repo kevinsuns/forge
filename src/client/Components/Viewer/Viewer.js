@@ -235,6 +235,18 @@ export default class Viewer {
           return
         }
 
+        //pick the last version by default
+        var version = item.versions[ item.versions.length - 1 ]
+
+        if(!version.relationships.storage) {
+
+          this.a360ViewExtension.panel.showError(
+            'Derivatives unavailable on this item')
+
+          console.log('Derivatives unavailable on this item')
+          return
+        }
+
         this.a360ViewExtension.panel.startLoad(
           'Loading ' + item.name + ' ...')
 

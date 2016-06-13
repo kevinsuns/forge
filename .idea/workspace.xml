@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2343a0a1-e1a0-4f3f-a09f-9a0360fa41ed" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.css" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/Viewer.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/Viewer.js" />
     </list>
     <ignored path="forge.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,11 +26,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Viewer.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Viewer.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/Viewer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.653846" vertical-offset="2115" max-vertical-offset="9015">
-              <caret line="172" column="50" selection-start-line="172" selection-start-column="39" selection-end-line="172" selection-end-column="50" />
+            <state vertical-scroll-proportion="0.29411766" vertical-offset="3105" max-vertical-offset="9195">
+              <caret line="236" column="0" selection-start-line="236" selection-start-column="0" selection-end-line="236" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -56,10 +56,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Viewing.Extension.A360View.css" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Viewing.Extension.A360View.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7822932" vertical-offset="361" max-vertical-offset="1065">
+            <state vertical-scroll-proportion="0.0" vertical-offset="361" max-vertical-offset="1065">
               <caret line="60" column="1" selection-start-line="60" selection-start-column="1" selection-end-line="60" selection-end-column="1" />
               <folding>
                 <element signature="e#10923#12668#2" expanded="true" />
@@ -185,8 +185,8 @@
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.SceneManager/Viewing.Extension.SceneManager.js" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer.js" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.Panel.js" />
-        <option value="$PROJECT_DIR$/src/client/Components/Viewer/Viewer.js" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.css" />
+        <option value="$PROJECT_DIR$/src/client/Components/Viewer/Viewer.js" />
       </list>
     </option>
   </component>
@@ -1036,21 +1036,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/Viewer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.653846" vertical-offset="2115" max-vertical-offset="9015">
-          <caret line="172" column="50" selection-start-line="172" selection-start-column="39" selection-end-line="172" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7822932" vertical-offset="361" max-vertical-offset="1065">
+        <state vertical-scroll-proportion="0.0" vertical-offset="361" max-vertical-offset="1065">
           <caret line="60" column="1" selection-start-line="60" selection-start-column="1" selection-end-line="60" selection-end-column="1" />
           <folding>
             <element signature="e#10923#12668#2" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/Viewer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.29411766" vertical-offset="3105" max-vertical-offset="9195">
+          <caret line="236" column="0" selection-start-line="236" selection-start-column="0" selection-end-line="236" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
