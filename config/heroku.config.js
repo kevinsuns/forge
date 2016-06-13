@@ -3,7 +3,7 @@
 // PRODUCTION configuration
 //
 /////////////////////////////////////////////////////////////////////
-var BASE_URL = 'https://developer-stg.api.autodesk.com'
+var BASE_URL = 'https://developer.api.autodesk.com'
 var DERIVATIVE_VERSION = 'v2'
 var OAUTH_VERSION = 'v1'
 var OSS_VERSION = 'v1'
