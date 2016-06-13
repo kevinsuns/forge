@@ -54,8 +54,8 @@ module.exports = {
     }),
 
     new html({
-      viewerCSS: 'https://developer-stg.api.autodesk.com/viewingservice/v1/viewers/style.min.css',
-      viewer3D: 'https://developer-stg.api.autodesk.com/viewingservice/v1/viewers/viewer3D.min.js',
+      viewerCSS: 'https://developer.api.autodesk.com/viewingservice/v1/viewers/style.min.css',
+      viewer3D: 'https://developer.api.autodesk.com/viewingservice/v1/viewers/viewer3D.min.js',
       template: './layout/index.ejs',
       bundle: 'bundle.min.js',
       title: 'Autodesk Forge',
