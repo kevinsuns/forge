@@ -17,40 +17,40 @@ export default class SceneManagerPanel extends ToolPanelBase{
       closable: true,
       movable: true,
       shadow: true
-    });
+    })
 
-    $(this.container).addClass('scene-manager');
+    $(this.container).addClass('scene-manager')
 
     $(`#${this.container.id}-save-btn`).click((e)=>{
 
-      var $name = $(`#${this.container.id}-name`);
+      var $name = $(`#${this.container.id}-name`)
 
-      var state = this.emit('scene.add', {name: $name.val()});
+      var state = this.emit('scene.add', {name: $name.val()})
 
-      this.addItem(state);
+      this.addItem(state)
 
-      $name.val('');
-    });
+      $name.val('')
+    })
 
     this.drake = dragula(
       [$(`#${this.container.id}-item-list`)[0]],
-      {removeOnSpill: false});
+      {removeOnSpill: false})
 
     this.drake.on('drop', ()=> {
 
-      var sequence = [];
+      var sequence = []
 
       $(`#${this.container.id}-item-list > div`).each(
         (idx, child)=> {
-          sequence.push(child.id);
-        });
+          sequence.push(child.id)
+        })
 
-      this.emit('sequence.update', sequence);
-    });
+      this.emit('sequence.update', sequence)
+    })
 
     this.drake.on('drag', (el)=> {
 
-    });
+    })
   }
 
   /////////////////////////////////////////////////////////////
@@ -74,7 +74,7 @@ export default class SceneManagerPanel extends ToolPanelBase{
                placeholder=" Scene Name ...">
         <div class="item-list" id="${id}-item-list">
         </div>
-      </div>`;
+      </div>`
   }
 
   /////////////////////////////////////////////////////////////
@@ -93,35 +93,35 @@ export default class SceneManagerPanel extends ToolPanelBase{
               </span>
             </button>
         </div>
-      `;
+      `
 
-    $(`#${this.container.id}-item-list`).append(itemHtml);
+    $(`#${this.container.id}-item-list`).append(itemHtml)
 
     if(item.readonly){
 
-      $(`#${item.guid}-delete-btn`).css({display:'none'});
+      $(`#${item.guid}-delete-btn`).css({display:'none'})
     }
 
-    var $item = $(`#${item.guid}`);
+    var $item = $(`#${item.guid}`)
 
     $(`#${item.guid}-delete-btn`).click((e)=>{
 
-      this.emit('scene.remove', item);
-      $item.remove();
-    });
+      this.emit('scene.remove', item)
+      $item.remove()
+    })
 
     $item.click((e)=> {
 
-      e.preventDefault();
+      e.preventDefault()
 
       var element = document.elementFromPoint(
         e.pageX,
-        e.pageY);
+        e.pageY)
 
       if (element.className.indexOf('list-group-item') > -1) {
 
-        this.emit('scene.restore', item);
+        this.emit('scene.restore', item)
       }
-    });
+    })
   }
 }

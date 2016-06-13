@@ -75,8 +75,7 @@ export default class ModelTransformerPanel extends ToolPanelBase {
           model: this.currentModel
         })
 
-        this.dropdown.removeCurrentItem(
-          'Select Model ...')
+        this.dropdown.removeCurrentItem()
       }
     })
 

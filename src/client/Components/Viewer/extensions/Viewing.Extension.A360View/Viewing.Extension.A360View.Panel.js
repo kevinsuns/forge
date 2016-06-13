@@ -221,27 +221,45 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
   //
   //
   /////////////////////////////////////////////////////////////
-  createTreeNode (node, parent, options) {
+  createTreeNode (node, parent, options = {}) {
 
     node.parent = parent
 
     parent.classList.add(node.type)
 
-    var label = document.createElement('label')
-
-    label.classList.add(node.type)
-
-    parent.appendChild(label)
-
     var text = this.getTreeNodeLabel(node)
 
-    if (options && options.localize) {
+    if (options.localize) {
 
-      label.setAttribute('data-i18n', text)
       text = Autodesk.Viewing.i18n.translate(text)
     }
 
-    label.textContent = text
+    var html = `
+      <label class="${node.type}"
+        ${options.localize?"data-i18n=" + text : ''}
+          data-placement="right"
+          data-toggle="tooltip"
+          data-delay='{"show":"1000", "hide":"100"}'
+          title="no derivative available">
+        ${text}
+      </label>
+    `
+
+    $(parent).append(html)
+
+    $(parent).find('label[data-toggle="tooltip"]').tooltip({
+      animated: 'fade',
+      html: true
+    })
+
+    node.setTooltip = (title) => {
+
+      $(parent).find('label')
+        //.attr('title', "<img src='resources/img/forge.png'/>")
+        .attr('title', title)
+        .tooltip('fixTitle')
+        .tooltip('setContent')
+    }
   }
 
   /////////////////////////////////////////////////////////////

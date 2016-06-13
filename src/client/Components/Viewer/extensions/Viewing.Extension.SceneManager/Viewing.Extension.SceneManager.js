@@ -15,7 +15,7 @@ class SceneManagerExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   constructor(viewer, options) {
 
-    super(viewer, options);
+    super(viewer, options)
 
     this.modelCollection = {}
   }
@@ -26,7 +26,7 @@ class SceneManagerExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   static get ExtensionId() {
 
-    return 'Viewing.Extension.SceneManager';
+    return 'Viewing.Extension.SceneManager'
   }
 
   /////////////////////////////////////////////////////////////////
@@ -40,55 +40,55 @@ class SceneManagerExtension extends ExtensionBase {
       'glyphicon glyphicon-picture',
       'Manage Scenes', ()=>{
 
-        this._panel.toggleVisibility();
-      });
+        this._panel.toggleVisibility()
+      })
 
     this.onAddSceneHandler =
-      (e) => this.onAddScene(e);
+      (e) => this.onAddScene(e)
 
     this.onRestoreSceneHandler =
-      (e) => this.onRestoreScene(e);
+      (e) => this.onRestoreScene(e)
 
     this.onRemoveSceneHandler =
-      (e) => this.onRemoveScene(e);
+      (e) => this.onRemoveScene(e)
 
     this.onSaveSequenceHandler =
-      (e) => this.onSaveSequence(e);
+      (e) => this.onSaveSequence(e)
 
     this._panel = new SceneManagerPanel(
       this._viewer.container,
-      this._control.container);
+      this._control.container)
 
     this._panel.on('scene.add', (scene) => {
 
-      return this.onAddSceneHandler(scene);
+      return this.onAddSceneHandler(scene)
     })
 
     this._panel.on('scene.restore', (scene)=>{
 
-      return this.onRestoreSceneHandler(scene);
-    });
+      return this.onRestoreSceneHandler(scene)
+    })
 
     this._panel.on('scene.remove', (scene)=>{
 
-      return this.onRemoveSceneHandler(scene);
-    });
+      return this.onRemoveSceneHandler(scene)
+    })
 
     this._panel.on('sequence.update', (sequence)=>{
 
-      return this.onSaveSequenceHandler(sequence);
-    });
+      return this.onSaveSequenceHandler(sequence)
+    })
 
-    this.parentControl = this._options.parentControl;
+    this.parentControl = this._options.parentControl
 
     if(!this.parentControl){
 
-      var viewerToolbar = this._viewer.getToolbar(true);
+      var viewerToolbar = this._viewer.getToolbar(true)
 
       this.parentControl = new Autodesk.Viewing.UI.ControlGroup(
-        'scene-manager');
+        'scene-manager')
 
-      viewerToolbar.addControl(this.parentControl);
+      viewerToolbar.addControl(this.parentControl)
     }
 
     this.parentControl.addControl(
@@ -105,9 +105,9 @@ class SceneManagerExtension extends ExtensionBase {
       this._panel.addItem(this.sceneMap[ sceneId ])
     })
 
-    console.log('Viewing.Extension.SceneManager loaded');
+    console.log('Viewing.Extension.SceneManager loaded')
 
-    return true;
+    return true
   }
 
   /////////////////////////////////////////////////////////////////
@@ -117,17 +117,17 @@ class SceneManagerExtension extends ExtensionBase {
   unload() {
 
     this.parentControl.removeControl(
-      this._control);
+      this._control)
 
-    this._panel.setVisible(false);
+    this._panel.setVisible(false)
 
-    console.log('Viewing.Extension.SceneManager unloaded');
+    console.log('Viewing.Extension.SceneManager unloaded')
 
-    return true;
+    return true
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Save current scene
   //
   ////////////////////////////////////////////////////////////////
   onAddScene (data) {
@@ -174,13 +174,10 @@ class SceneManagerExtension extends ExtensionBase {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Restore scene
   //
   ////////////////////////////////////////////////////////////////
   onRestoreScene (scene) {
-
-    console.log(scene)
-    console.log(this.modelCollection)
 
     var filter = {
       renderOptions: false,
@@ -231,7 +228,7 @@ class SceneManagerExtension extends ExtensionBase {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Delete scene
   //
   ////////////////////////////////////////////////////////////////
   onRemoveScene (scene) {
@@ -252,7 +249,7 @@ class SceneManagerExtension extends ExtensionBase {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Save scenes sequence
   //
   ////////////////////////////////////////////////////////////////
   onSaveSequence (sequence) {
@@ -265,7 +262,7 @@ class SceneManagerExtension extends ExtensionBase {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Register model in SceneManager 
   //
   ////////////////////////////////////////////////////////////////
   addModel (model) {
@@ -274,7 +271,7 @@ class SceneManagerExtension extends ExtensionBase {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Unregister model in SceneManager 
   //
   ////////////////////////////////////////////////////////////////
   removeModel (model) {

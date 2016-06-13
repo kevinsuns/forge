@@ -78,6 +78,30 @@ export default class DerivativeAPI {
   //
   //
   ///////////////////////////////////////////////////////////////////
+  getThumbnail(urn) {
+
+    return new Promise(async(resolve, reject) => {
+
+      try {
+
+        var url = `${this.apiUrl}/thumbnails/${urn}`
+
+        $.get(url, (res)=> {
+
+          return resolve(res)
+        })
+      }
+      catch(ex) {
+
+        return reject(ex)
+      }
+    })
+  }
+
+  ///////////////////////////////////////////////////////////////////
+  //
+  //
+  ///////////////////////////////////////////////////////////////////
   waitJob (urn, onProgress) {
 
     return new Promise(async(resolve, reject) => {

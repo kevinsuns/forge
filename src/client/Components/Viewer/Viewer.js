@@ -24,7 +24,7 @@ import ViewerToolkit from 'ViewerToolkit'
 export default class Viewer {
 
   //////////////////////////////////////////////////////////////////////////
-  //
+  // Viewer Component constructor
   //
   //////////////////////////////////////////////////////////////////////////
   constructor (container, config) {
@@ -85,7 +85,7 @@ export default class Viewer {
   }
 
   //////////////////////////////////////////////////////////////////////////
-  //
+  // geometry loaded callback
   //
   //////////////////////////////////////////////////////////////////////////
   onGeometryLoaded (e) {
@@ -108,7 +108,7 @@ export default class Viewer {
   }
 
   //////////////////////////////////////////////////////////////////////////
-  // Load all extensions on hook up events
+  // Load all extensions and hook up events
   //
   //////////////////////////////////////////////////////////////////////////
   loadExtensions () {
@@ -178,12 +178,20 @@ export default class Viewer {
             storageUrn).then((manifest) => {
 
               if (manifest &&
-                manifest.status === 'success' &&
-                manifest.progress === 'complete') {
+                  manifest.status === 'success' &&
+                  manifest.progress === 'complete') {
 
                 version.manifest = manifest
 
                 node.parent.classList.add('derivated')
+
+                this.derivativeExtension.getThumbnail(
+                  storageUrn).then((thumbnail) => {
+
+                    var img = `<img src='data:image/png;base64,${thumbnail}'/>`
+
+                    node.setTooltip(img)
+                  })
               }
             }, (err) => {
 
@@ -221,12 +229,21 @@ export default class Viewer {
           showProgress: true
         }
 
-        this.importModelFromItem(node, options).then((model) => {
+        this.importModelFromItem(item, options).then((model) => {
 
           this.a360ViewExtension.panel.stopLoad()
 
           this.modelTransformerExtension.addModel(model)
+
           this.sceneManagerExtension.addModel(model)
+
+          item.parent.classList.add('derivated')
+
+          this.derivativeExtension.getThumbnail(
+            model.storageUrn).then((thumbnail) => {
+
+              node.setTooltip()
+            })
 
         }, (error) => {
 
@@ -300,7 +317,7 @@ export default class Viewer {
   }
 
   //////////////////////////////////////////////////////////////////////////
-  //
+  // Import model from DM item into the scene
   //
   //////////////////////////////////////////////////////////////////////////
   importModelFromItem (item, options = {}) {
@@ -336,11 +353,6 @@ export default class Viewer {
             version, options.showProgress)
 
           version.manifest = manifest
-
-          if(item.parent){
-
-            item.parent.classList.add('derivated')
-          }
         }
 
         // SVF Loaded callback
@@ -417,7 +429,7 @@ export default class Viewer {
   //////////////////////////////////////////////////////////////////////////
   loadViewable(viewablePath, opts) {
 
-    return new Promise(async(resolve, reject)=> {
+    return new Promise((resolve, reject)=> {
 
       let _onGeometryLoaded = (event)=> {
 
@@ -442,15 +454,16 @@ export default class Viewer {
           _onGeometryLoaded)
 
         return reject({
-          errorCode: errorCode,
-          errorMessage: errorMessage,
-          statusCode: statusCode,
-          statusText: statusText
+          errorMessage,
+          statusCode,
+          statusText,
+          errorCode
         })
       }
 
       this.viewer.loadModel(
-        viewablePath, opts, _onSuccess, _onError)
+        viewablePath, opts,
+        _onSuccess, _onError)
     })
   }
 

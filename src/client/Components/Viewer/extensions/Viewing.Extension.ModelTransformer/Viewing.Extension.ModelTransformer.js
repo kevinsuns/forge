@@ -45,7 +45,7 @@ class ModelTransformerExtension extends ExtensionBase {
   // Load callback
   //
   /////////////////////////////////////////////////////////////////
-  async load() {
+  load() {
 
     this.loadControls()
 
@@ -57,7 +57,7 @@ class ModelTransformerExtension extends ExtensionBase {
       Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED_EVENT,
       this.onAggregateSelectionChangedHandler)
 
-    console.log('Viewing.Extension.ModelTransformer loaded');
+    console.log('Viewing.Extension.ModelTransformer loaded')
 
     return true
   }
@@ -364,9 +364,11 @@ class ModelTransformerExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   clearModels () {
 
-    this.modelCollection = {}
+    this.panel.tool.clearSelection()
 
     this.panel.dropdown.clear()
+
+    this.modelCollection = {}
   }
 }
 

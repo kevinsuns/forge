@@ -62,7 +62,7 @@ export default class Dropdown extends EventsEmitter {
 
     opts.menuItems = opts.menuItems || [];
 
-    var text = opts.prompt ||  this.title + ': ' +
+    var text = opts.prompt || this.title + ': ' +
      opts.menuItems[opts.selectedItemIdx || 0].name;
 
     $('#' + this.labelId).text(text);
@@ -125,6 +125,8 @@ export default class Dropdown extends EventsEmitter {
   /////////////////////////////////////////////////////////////
   setCurrentItem(item) {
 
+    this.currentItem = item
+
     $('#' + this.labelId).text(
       this.title + ': ' + item.name);
   }
@@ -152,7 +154,7 @@ export default class Dropdown extends EventsEmitter {
   //
   //
   /////////////////////////////////////////////////////////////
-  removeCurrentItem(prompt) {
+  removeCurrentItem() {
 
     if(this.currentItem){
 
@@ -166,9 +168,30 @@ export default class Dropdown extends EventsEmitter {
       this.currentItem = null
     }
 
-    $('#' + this.labelId).text(prompt)
+    $('#' + this.labelId).text(this.title)
 
     this.emit('item.selected', null)
+  }
+
+  /////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////
+  removeItem(item) {
+
+    if(this.currentItem && this.currentItem.id === item.id) {
+
+      $('#' + this.labelId).text(this.title)
+
+      this.currentItem = null
+    }
+
+    $('#' + item.id).remove()
+
+    if($('#' + this.listId + ' > li').length === 0){
+
+      $('#' + this.buttonId).prop('disabled', true)
+    }
   }
 
   /////////////////////////////////////////////////////////////

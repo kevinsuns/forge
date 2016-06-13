@@ -10,6 +10,8 @@ export default class TransformTool extends EventsEmitter {
 
     super();
 
+    this._active = false;
+
     this._viewer = viewer;
   
     this._hitPoint = null;
@@ -199,18 +201,21 @@ export default class TransformTool extends EventsEmitter {
 
   clearSelection () {
 
-    this._model = null;
+    if(this._active) {
 
-    this._selectedFragProxyMap = {};
+      this._model = null;
 
-    this._transformControlTx.visible = false;
+      this._selectedFragProxyMap = {};
 
-    this._transformControlTx.removeEventListener(
-      'change', this.onTxChange);
+      this._transformControlTx.visible = false;
 
-    this._viewer.removeEventListener(
-      Autodesk.Viewing.CAMERA_CHANGE_EVENT,
-      this.onCameraChanged);
+      this._transformControlTx.removeEventListener(
+        'change', this.onTxChange);
+
+      this._viewer.removeEventListener(
+        Autodesk.Viewing.CAMERA_CHANGE_EVENT,
+        this.onCameraChanged);
+    }
   }
 
   ///////////////////////////////////////////////////////////////////////////
@@ -253,6 +258,8 @@ export default class TransformTool extends EventsEmitter {
   ///////////////////////////////////////////////////////////////////
   activate() {
 
+    this._active = true;
+
     this._viewer.select([]);
 
     var bbox = this._viewer.model.getBoundingBox();
@@ -289,6 +296,8 @@ export default class TransformTool extends EventsEmitter {
   //
   ///////////////////////////////////////////////////////////////////////////
   deactivate() {
+
+    this._active = false;
 
     this._viewer.impl.removeOverlay(
       'TransformToolOverlay',
