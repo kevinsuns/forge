@@ -22,8 +22,6 @@ module.exports = function() {
 
       var response = await dmSvc.getUser(token)
 
-      console.log('USER: ' + response)
-
       res.json(response)
     }
     catch (ex) {

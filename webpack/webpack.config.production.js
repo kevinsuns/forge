@@ -1,4 +1,5 @@
 var htmlMinifier = require('html-minifier').minify
+var clean = require('clean-webpack-plugin')
 var html = require('html-webpack-plugin')
 var webpack = require('webpack')
 var path = require('path')
@@ -15,6 +16,12 @@ module.exports = {
   },
 
   plugins: [
+
+    new clean(['dist'], {
+      root: __dirname + '/..',
+      verbose: true,
+      dry: false
+    }),
 
     new webpack.NoErrorsPlugin(),
     new webpack.optimize.DedupePlugin(),
@@ -36,8 +43,8 @@ module.exports = {
     }),
 
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': '"production"'
-      //'process.env.NODE_ENV': '"heroku"'
+      //'process.env.NODE_ENV': '"production"'
+      'process.env.NODE_ENV': '"heroku"'
     }),
 
     new webpack.ProvidePlugin({

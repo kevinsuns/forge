@@ -240,7 +240,7 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
           data-placement="right"
           data-toggle="tooltip"
           data-delay='{"show":"1000", "hide":"100"}'
-          title="no derivative available">
+          title="loading item ...">
         ${text}
       </label>
     `
@@ -248,6 +248,7 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
     $(parent).append(html)
 
     $(parent).find('label[data-toggle="tooltip"]').tooltip({
+      container: 'body',
       animated: 'fade',
       html: true
     })
@@ -255,7 +256,6 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
     node.setTooltip = (title) => {
 
       $(parent).find('label')
-        //.attr('title', "<img src='resources/img/forge.png'/>")
         .attr('title', title)
         .tooltip('fixTitle')
         .tooltip('setContent')

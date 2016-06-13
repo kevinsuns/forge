@@ -65,6 +65,8 @@ module.exports = function() {
         try {
 
           req.session.token = access_token
+          req.session.refreshToken = refresh_token
+
           req.session.cookie.expires = false
 
           var socketSvc = ServiceManager.getService(
@@ -97,6 +99,22 @@ module.exports = function() {
     req.session.destroy()
     res.json('logged out')
   })
+
+  /////////////////////////////////////////////////////////////////////////////
+  // refresh token
+  //
+  /////////////////////////////////////////////////////////////////////////////
+  function refreshToken() {
+
+    oauth2.getOAuthAccessToken(
+      req.session.refreshToken, {
+        'grant_type': 'refresh_token'
+      },
+      function (err, access_token, refresh_token, results) {
+
+        req.session.token = access_token
+      });
+  }
 
   return router
 }

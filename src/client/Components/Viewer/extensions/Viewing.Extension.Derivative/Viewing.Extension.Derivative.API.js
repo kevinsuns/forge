@@ -78,13 +78,15 @@ export default class DerivativeAPI {
   //
   //
   ///////////////////////////////////////////////////////////////////
-  getThumbnail(urn) {
+  getThumbnail(urn, options = { width:100, height:100 }) {
 
     return new Promise(async(resolve, reject) => {
 
       try {
 
-        var url = `${this.apiUrl}/thumbnails/${urn}`
+        var query = `width=${options.width}&height=${options.height}`
+
+        var url = `${this.apiUrl}/thumbnails/${urn}?${query}`
 
         $.get(url, (res)=> {
 

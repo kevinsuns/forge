@@ -15,6 +15,7 @@
     "bootstrap": "^3.3.6",
     "bootstrap-webpack": "0.0.5",
     "c0nfig": "^0.2.2",
+    "clean-webpack-plugin": "^0.1.9",
     "cookie-parser": "^1.4.1",
     "css-loader": "^0.23.1",
     "dragula": "^3.7.1",

@@ -90,10 +90,6 @@ export default class Viewer {
   //////////////////////////////////////////////////////////////////////////
   onGeometryLoaded (e) {
 
-    this.viewer.removeEventListener(
-      Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
-      this.onGeometryLoadedHandler)
-
     this.viewer.setLightPreset(1)
 
     setTimeout(()=> {
@@ -101,8 +97,8 @@ export default class Viewer {
       this.viewer.setLightPreset(0)
 
       this.viewer.setBackgroundColor(
-        122,198,255,
-        219,219,219)
+        122, 198, 255,
+        219, 219, 219)
 
     }, 100)
   }
@@ -138,6 +134,8 @@ export default class Viewer {
         if (model.node && model.node.parent) {
 
           model.node.parent.classList.remove('derivated')
+
+          model.node.setTooltip('no derivative on this item')
         }
 
         delete model.version.manifest
@@ -186,14 +184,20 @@ export default class Viewer {
                 node.parent.classList.add('derivated')
 
                 this.derivativeExtension.getThumbnail(
-                  storageUrn).then((thumbnail) => {
+                  storageUrn, {
+                    width: 200,
+                    height: 200
+                  }).then((thumbnail) => {
 
-                    var img = `<img src='data:image/png;base64,${thumbnail}'/>`
+                    var img = `<img width="150" height="150"
+                      src='data:image/png;base64,${thumbnail}'/>`
 
                     node.setTooltip(img)
                   })
               }
             }, (err) => {
+
+              node.setTooltip('no derivative on this item')
 
               // file not derivated have no manifest
               // skip those errors
@@ -240,9 +244,15 @@ export default class Viewer {
           item.parent.classList.add('derivated')
 
           this.derivativeExtension.getThumbnail(
-            model.storageUrn).then((thumbnail) => {
+            model.storageUrn, {
+              width: 200,
+              height: 200
+            }).then((thumbnail) => {
 
-              node.setTooltip()
+              var img = `<img width="150" height="150"
+                src='data:image/png;base64,${thumbnail}'/>`
+
+              node.setTooltip(img)
             })
 
         }, (error) => {
@@ -295,7 +305,7 @@ export default class Viewer {
         }
 
         var options = {
-          showProgress: false
+          showProgress: true
         }
 
         this.importModelFromItem(

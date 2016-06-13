@@ -105,7 +105,7 @@ class DerivativeExtension extends ExtensionBase {
           var manifest = await this.api.waitJob(storageUrn,
             (progress) => {
 
-              return jobPanel.updateProgress(progress)
+              return !showProgress || jobPanel.updateProgress(progress)
             })
 
           jobPanel.done()
@@ -150,9 +150,9 @@ class DerivativeExtension extends ExtensionBase {
   //
   //
   /////////////////////////////////////////////////////////////////
-  getThumbnail(urn) {
+  getThumbnail(urn, options) {
 
-    return this.api.getThumbnail(urn)
+    return this.api.getThumbnail(urn, options)
   }
 
   /////////////////////////////////////////////////////////////////

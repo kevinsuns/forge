@@ -3,7 +3,7 @@
 // PRODUCTION configuration
 //
 /////////////////////////////////////////////////////////////////////
-var BASE_URL = 'https://developer-stg.api.autodesk.com'
+var BASE_URL = 'https://developer.api.autodesk.com'
 var DERIVATIVE_VERSION = 'v2'
 var OAUTH_VERSION = 'v1'
 var OSS_VERSION = 'v1'
@@ -37,8 +37,8 @@ module.exports = {
     ].join(' '),
 
     credentials: {
-      ConsumerKey: process.env.LMV_STG_CONSUMERKEY,
-      ConsumerSecret: process.env.LMV_STG_CONSUMERSECRET
+      ConsumerKey: process.env.FORGE_CONSUMERKEY,
+      ConsumerSecret: process.env.FORGE_CONSUMERSECRET
     },
 
     endPoints: {
@@ -52,7 +52,6 @@ module.exports = {
 
       supported:        BASE_URL + '/viewingservice/' + OSS_VERSION + '/supported',
       register:         BASE_URL + '/viewingservice/' + OSS_VERSION + '/register',
-      thumbnail:        BASE_URL + '/viewingservice/' + OSS_VERSION + '/thumbnails/%s',
       viewable:         BASE_URL + '/viewingservice/' + OSS_VERSION + '/%s',
       items:            BASE_URL + '/viewingservice/' + OSS_VERSION + '/items/%s',
 
@@ -68,7 +67,8 @@ module.exports = {
       manifest:        BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/manifest',
       download:        BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/manifest/%s',
       metadata:        BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/metadata',
-      hierarchy:       BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/metadata/%s'
+      hierarchy:       BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/metadata/%s',
+      thumbnail:       BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/thumbnail?width=%s&height=%s'
     }
   }
 }
