@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2343a0a1-e1a0-4f3f-a09f-9a0360fa41ed" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/Viewer.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/Viewer.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webpack/webpack.config.production.js" afterPath="$PROJECT_DIR$/webpack/webpack.config.production.js" />
     </list>
     <ignored path="forge.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,10 +26,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Viewer.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Viewer.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/Viewer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.29411766" vertical-offset="3105" max-vertical-offset="9195">
+            <state vertical-scroll-proportion="-7.5" vertical-offset="3105" max-vertical-offset="9195">
               <caret line="236" column="0" selection-start-line="236" selection-start-column="0" selection-end-line="236" selection-end-column="0" />
               <folding />
             </state>
@@ -68,11 +68,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="webpack.config.production.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="webpack.config.production.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/webpack/webpack.config.production.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="1515">
-              <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+            <state vertical-scroll-proportion="1.371553" vertical-offset="0" max-vertical-offset="1515">
+              <caret line="63" column="19" selection-start-line="63" selection-start-column="19" selection-end-line="63" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -108,11 +108,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="viewer3D.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/libs/viewer/viewer3D.js">
+      <file leaf-file-name="heroku.config.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/config/heroku.config.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.470588" vertical-offset="909282" max-vertical-offset="1319730">
-              <caret line="60634" column="65" selection-start-line="60634" selection-start-column="40" selection-end-line="60634" selection-end-column="65" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="225" max-vertical-offset="1200">
+              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -177,7 +177,6 @@
         <option value="$PROJECT_DIR$/config/production.config.js" />
         <option value="$PROJECT_DIR$/heroku.config.sh" />
         <option value="$PROJECT_DIR$/config/heroku.config.js" />
-        <option value="$PROJECT_DIR$/webpack/webpack.config.production.js" />
         <option value="$PROJECT_DIR$/src/client/utils/TabManager.js" />
         <option value="$USER_HOME$/Dropbox/projects/dotty/dotty-trial/routes/collaboration.js" />
         <option value="$PROJECT_DIR$/config/development.config.js" />
@@ -187,6 +186,7 @@
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.Panel.js" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.css" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/Viewer.js" />
+        <option value="$PROJECT_DIR$/webpack/webpack.config.production.js" />
       </list>
     </option>
   </component>
@@ -509,6 +509,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="config" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -626,7 +640,7 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19412516" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33756167" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31853417" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39948782" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2899106" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -882,14 +896,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/heroku.config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="465" max-vertical-offset="1200">
-          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/client/utils/TabManager.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="615" max-vertical-offset="3180">
@@ -1004,14 +1010,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/webpack/webpack.config.production.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="1515">
-          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/server/server.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="953" max-vertical-offset="1665">
@@ -1048,8 +1046,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/Viewer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29411766" vertical-offset="3105" max-vertical-offset="9195">
+        <state vertical-scroll-proportion="-7.5" vertical-offset="3105" max-vertical-offset="9195">
           <caret line="236" column="0" selection-start-line="236" selection-start-column="0" selection-end-line="236" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/heroku.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="225" max-vertical-offset="1200">
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webpack/webpack.config.production.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.371553" vertical-offset="0" max-vertical-offset="1515">
+          <caret line="63" column="19" selection-start-line="63" selection-start-column="19" selection-end-line="63" selection-end-column="19" />
           <folding />
         </state>
       </provider>
