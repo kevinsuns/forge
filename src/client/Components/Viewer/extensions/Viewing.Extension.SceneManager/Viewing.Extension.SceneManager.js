@@ -267,7 +267,7 @@ class SceneManagerExtension extends ExtensionBase {
   ////////////////////////////////////////////////////////////////
   addModel (model) {
 
-    this.modelCollection[model.id] = model
+    this.modelCollection[model.modelId] = model
   }
 
   /////////////////////////////////////////////////////////////////
@@ -276,9 +276,9 @@ class SceneManagerExtension extends ExtensionBase {
   ////////////////////////////////////////////////////////////////
   removeModel (model) {
 
-    if(this.modelCollection[model.id]){
+    if(this.modelCollection[model.modelId]){
 
-      delete this.modelCollection[model.id]
+      delete this.modelCollection[model.modelId]
     }
   }
 }

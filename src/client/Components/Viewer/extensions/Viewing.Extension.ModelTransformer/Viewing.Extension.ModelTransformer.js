@@ -241,7 +241,7 @@ class ModelTransformerExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   addModel (model) {
 
-    this.modelCollection[model.id] = model
+    this.modelCollection[model.modelId] = model
 
     if(!model.transform) {
 
@@ -343,7 +343,7 @@ class ModelTransformerExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   deleteModel (model, fireEvent = true) {
 
-    delete this.modelCollection[model.id]
+    delete this.modelCollection[model.modelId]
 
     if(Object.keys(this.modelCollection).length === 0){
 

@@ -166,6 +166,15 @@ export default class Viewer {
 
           var version = node.versions[ node.versions.length - 1 ]
 
+          if(!version.relationships.storage) {
+
+            node.setTooltip('derivative unavailable on this item')
+
+            node.parent.classList.add('unavailable')
+
+            return
+          }
+
           var storageUrn = window.btoa(
             version.relationships.storage.data.id)
 
@@ -197,7 +206,7 @@ export default class Viewer {
               }
             }, (err) => {
 
-              node.setTooltip('no derivative on this item')
+              node.setTooltip('no derivative created on this item')
 
               // file not derivated have no manifest
               // skip those errors
@@ -273,7 +282,7 @@ export default class Viewer {
     this.sceneManagerExtension = this.viewer.loadedExtensions[
       'Viewing.Extension.SceneManager']
 
-    this.sceneManagerExtension.on('scene.restore', (scene)=> {
+    this.sceneManagerExtension.on('scene.restore', async(scene)=> {
 
       console.log(scene)
 
@@ -293,36 +302,42 @@ export default class Viewer {
         this.sceneManagerExtension.addModel(model)
       })
 
-      scene.loadSet.forEach((modelInfo) => {
+      for(var i=0; i<scene.loadSet.length; ++i) {
 
-        //build a fake item
+        try {
 
-        delete modelInfo.version.manifest
+          var modelInfo = scene.loadSet[i]
 
-        var item = {
-          name: modelInfo.name,
-          versions: [modelInfo.version]
+          //build a fake item
+
+          delete modelInfo.version.manifest
+
+          var item = {
+            name: modelInfo.name,
+            versions: [modelInfo.version]
+          }
+
+          var options = {
+            showProgress: true
+          }
+
+          var model = await this.importModelFromItem(
+            item, options)
+
+          model.transform = modelInfo.transform
+
+          this.modelTransformerExtension.addModel(model)
+          this.modelTransformerExtension.applyTransform(model)
+
+          this.sceneManagerExtension.addModel(model)
+
+          this.viewer.impl.sceneUpdated(true)
         }
+        catch(error) {
 
-        var options = {
-          showProgress: true
+          console.log(error)
         }
-
-        this.importModelFromItem(
-          item, options).then((model) => {
-
-            model.transform = modelInfo.transform
-
-            this.modelTransformerExtension.addModel(model)
-            this.modelTransformerExtension.applyTransform(model)
-
-            this.sceneManagerExtension.addModel(model)
-
-          }, (error) => {
-
-            console.log(error)
-          })
-      })
+      }
     })
   }
 
@@ -403,8 +418,8 @@ export default class Viewer {
           model.name = item.name
           model.version = version
           model.storageUrn = storageUrn
-          model.id = ViewerToolkit.guid()
           model.transform = options.transform
+          model.modelId = ViewerToolkit.guid()
 
           // fits model to view - need to wait for instance tree
           // but no event gets fired
@@ -441,18 +456,42 @@ export default class Viewer {
 
     return new Promise((resolve, reject)=> {
 
+      var geometryLoaded = false
+      var objectTreeCreated = false
+
       let _onGeometryLoaded = (event)=> {
 
         this.viewer.removeEventListener(
           Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
           _onGeometryLoaded)
 
-        return resolve(event.model)
+        geometryLoaded = true
+
+        if(objectTreeCreated) {
+          return resolve(event.model)
+        }
+      }
+
+      let _onObjectTreeCreated = (event)=> {
+
+        this.viewer.removeEventListener(
+          Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
+          _onObjectTreeCreated)
+
+        objectTreeCreated = true
+
+        if(geometryLoaded) {
+          return resolve(event.model)
+        }
       }
 
       this.viewer.addEventListener(
         Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
         _onGeometryLoaded)
+
+      this.viewer.addEventListener(
+        Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT,
+        _onObjectTreeCreated)
 
       var _onSuccess = () => {}
 
