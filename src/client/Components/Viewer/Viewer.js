@@ -168,7 +168,7 @@ export default class Viewer {
 
           if(!version.relationships.storage) {
 
-            node.setTooltip('derivative unavailable on this item')
+            node.setTooltip('derivatives unavailable on this item')
 
             node.parent.classList.add('unavailable')
 
