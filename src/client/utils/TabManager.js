@@ -61,7 +61,7 @@ export default class TabManager extends EventsEmitter {
         width: `calc(${100/nbTabs}% - ${nbTabs>1?'12px':'40px'})`,
         left: `calc(${idx * (100/nbTabs)}% - ${idx * 16}px`
       })
-    });
+    })
 
     var containerHtml = `
 
