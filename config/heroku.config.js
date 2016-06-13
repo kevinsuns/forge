@@ -37,8 +37,8 @@ module.exports = {
     ].join(' '),
 
     credentials: {
-      ConsumerKey: process.env.FORGE_CONSUMERKEY,
-      ConsumerSecret: process.env.FORGE_CONSUMERSECRET
+      ConsumerKey: process.env.FORGE_HEROKU_CONSUMERKEY,
+      ConsumerSecret: process.env.FORGE_HEROKU_CONSUMERSECRET
     },
 
     endPoints: {
