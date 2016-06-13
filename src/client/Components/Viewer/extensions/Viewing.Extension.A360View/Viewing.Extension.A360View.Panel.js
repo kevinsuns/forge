@@ -229,14 +229,14 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
     var text = this.getTreeNodeLabel(node)
 
-    if (options.localize) {
+    if (options && options.localize) {
 
       text = Autodesk.Viewing.i18n.translate(text)
     }
 
     var html = `
       <label class="${node.type}"
-        ${options.localize?"data-i18n=" + text : ''}
+        ${options && options.localize?"data-i18n=" + text : ''}
           data-placement="right"
           data-toggle="tooltip"
           data-delay='{"show":"1000", "hide":"100"}'
