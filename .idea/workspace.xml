@@ -59,10 +59,10 @@
       <file leaf-file-name="Viewing.Extension.A360View.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8911466" vertical-offset="361" max-vertical-offset="1065">
-              <caret line="65" column="1" selection-start-line="65" selection-start-column="1" selection-end-line="65" selection-end-column="1" />
+            <state vertical-scroll-proportion="0.7822932" vertical-offset="361" max-vertical-offset="1065">
+              <caret line="60" column="1" selection-start-line="60" selection-start-column="1" selection-end-line="60" selection-end-column="1" />
               <folding>
-                <element signature="e#10923#12684#2" expanded="true" />
+                <element signature="e#10923#12668#2" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1046,10 +1046,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8911466" vertical-offset="361" max-vertical-offset="1065">
-          <caret line="65" column="1" selection-start-line="65" selection-start-column="1" selection-end-line="65" selection-end-column="1" />
+        <state vertical-scroll-proportion="0.7822932" vertical-offset="361" max-vertical-offset="1065">
+          <caret line="60" column="1" selection-start-line="60" selection-start-column="1" selection-end-line="60" selection-end-column="1" />
           <folding>
-            <element signature="e#10923#12684#2" expanded="true" />
+            <element signature="e#10923#12668#2" expanded="true" />
           </folding>
         </state>
       </provider>
