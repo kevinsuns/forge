@@ -14,7 +14,12 @@
     width: calc(100% - 10px);
     margin-left: 5px;
     margin-top: 3px;
+    opacity: 0.6;
     padding: 0;
+}
+
+.a360 .container:hover {
+    opacity: 1;
 }
 
 .a360 .dockingPanelTitle img,

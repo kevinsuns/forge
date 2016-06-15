@@ -43,8 +43,8 @@ module.exports = {
     }),
 
     new webpack.DefinePlugin({
-      //'process.env.NODE_ENV': '"production"'
-      'process.env.NODE_ENV': '"heroku"'
+      'process.env.NODE_ENV': '"production"'
+      //'process.env.NODE_ENV': '"heroku"'
     }),
 
     new webpack.ProvidePlugin({
@@ -56,8 +56,8 @@ module.exports = {
     new html({
       //viewerCSS: 'https://developer-stg.api.autodesk.com/viewingservice/v1/viewers/style.min.css',
       //viewer3D: 'https://developer-stg.api.autodesk.com/viewingservice/v1/viewers/viewer3D.min.js',
-      viewerCSS: 'https://autodeskviewer.com/viewers/2.8/style.min.css',
       viewer3D: 'https://autodeskviewer.com/viewers/2.8/viewer3D.min.js',
+      viewerCSS: 'https://autodeskviewer.com/viewers/2.8/style.min.css',
       template: './layout/index.ejs',
       bundle: 'bundle.min.js',
       title: 'Autodesk Forge',

@@ -52,6 +52,8 @@ module.exports = function() {
     ///////////////////////////////////////////////////////////////////////////
     router.get('/3legged', function (req, res) {
 
+
+
       res.json({
         access_token: req.session.token || config.hardcodedToken
       })

@@ -39,8 +39,8 @@ module.exports = {
     }),
 
     new html({
-      viewerCSS: 'https://developer-stg.api.autodesk.com/viewingservice/v1/viewers/style.css',
-      viewer3D: 'https://developer-stg.api.autodesk.com/viewingservice/v1/viewers/viewer3D.js',
+      viewer3D: 'https://autodeskviewer.com/viewers/2.8/viewer3D.js',
+      viewerCSS: 'https://autodeskviewer.com/viewers/2.8/style.css',
       template: './layout/index.ejs',
       title: 'Autodesk Forge | DEV',
       filename: 'index.html',

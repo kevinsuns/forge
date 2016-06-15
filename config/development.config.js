@@ -3,7 +3,7 @@
 // DEVELOPMENT configuration
 //
 /////////////////////////////////////////////////////////////////////
-var BASE_URL = 'https://developer-stg.api.autodesk.com'
+var BASE_URL = 'https://developer.api.autodesk.com'
 var DERIVATIVE_VERSION = 'v2'
 var OAUTH_VERSION = 'v1'
 var OSS_VERSION = 'v1'
@@ -14,7 +14,7 @@ module.exports = {
     clientConfig: {
         token3LeggedUrl: '/api/token/3legged',
         token2LeggedUrl: '/api/token/2legged',
-        viewerEnv: 'AutodeskStaging',
+        viewerEnv: 'AutodeskProduction',
         env: 'development',
         host: 'localhost',
         port: 3000
@@ -22,7 +22,7 @@ module.exports = {
 
     serverConfig: {
 
-        hardcodedToken: 'x3DMvXJtoIRr6LaJxDHSnuSMVn07', //only for dev
+        hardcodedToken: 'yPxlKeoqf3GZVezZcOXEp5CNwlIG', //only for dev
 
         redirectUrl: 'https://autodesk-forge.herokuapp.com/api/auth/callback',
         authenticationUrl: '/authentication/' + OAUTH_VERSION + '/authorize',

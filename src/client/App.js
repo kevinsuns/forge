@@ -206,7 +206,7 @@ export default class App {
         this.popup = null
       }
 
-      $.get('/api/dm/user', (user) => {
+      $.get('/api/user', (user) => {
 
         var username = user.firstName + ' ' + user.lastName
 

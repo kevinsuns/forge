@@ -15,7 +15,7 @@ module.exports = {
     token3LeggedUrl: '/api/token/3legged',
     token2LeggedUrl: '/api/token/2legged',
     host: 'https://forge.autodesk.io',
-    viewerEnv: 'AutodeskStaging',
+    viewerEnv: 'AutodeskProduction',
     env: 'production',
     port: 443
   },

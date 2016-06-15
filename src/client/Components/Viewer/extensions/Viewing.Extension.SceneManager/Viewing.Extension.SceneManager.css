@@ -13,7 +13,12 @@
     padding-top: 10px;
     padding-left: 10px;
     padding-right: 10px;
+    opacity: 0.6;
     margin: 0;
+}
+
+.scene-manager .container:hover {
+    opacity: 1.0;
 }
 
 .scene-manager .item-list {
