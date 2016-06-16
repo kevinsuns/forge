@@ -185,7 +185,7 @@ class SceneManagerExtension extends ExtensionBase {
       viewport: true
     }
     
-    this._viewer.restoreState(scene, filter, false)
+    //this._viewer.restoreState(scene, filter, false)
 
     var deleteSet = Object.keys(this.modelCollection).map(
       (modelId) => {

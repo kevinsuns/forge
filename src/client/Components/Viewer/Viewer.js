@@ -294,7 +294,7 @@ export default class Viewer {
     this.sceneManagerExtension = this.viewer.loadedExtensions[
       'Viewing.Extension.SceneManager']
 
-    this.sceneManagerExtension.on('scene.restore', async(scene)=> {
+    this.sceneManagerExtension.on('scene.restore', (scene)=> {
 
       console.log(scene)
 
@@ -314,13 +314,11 @@ export default class Viewer {
         this.sceneManagerExtension.addModel(model)
       })
 
-      for(var i=0; i<scene.loadSet.length; ++i) {
+      scene.loadSet.forEach((modelInfo) => {
 
         try {
 
-          var modelInfo = scene.loadSet[i]
-
-          //build a fake item
+          // build a fake item
 
           delete modelInfo.version.manifest
 
@@ -329,27 +327,30 @@ export default class Viewer {
             versions: [modelInfo.version]
           }
 
-          var options = {
-            showProgress: true
+          var onFullyLoaded = (model) => {
+
+            model.transform = modelInfo.transform
+
+            this.modelTransformerExtension.addModel(model)
+            this.modelTransformerExtension.applyTransform(model)
+
+            this.sceneManagerExtension.addModel(model)
+
+            this.viewer.impl.sceneUpdated(true)
           }
 
-          var model = await this.importModelFromItem(
-            item, options)
+          var options = {
+            showProgress: true,
+            onFullyLoaded: onFullyLoaded
+          }
 
-          model.transform = modelInfo.transform
-
-          this.modelTransformerExtension.addModel(model)
-          this.modelTransformerExtension.applyTransform(model)
-
-          this.sceneManagerExtension.addModel(model)
-
-          this.viewer.impl.sceneUpdated(true)
+          this.importModelFromItem(item, options)
         }
         catch(error) {
 
           console.log(error)
         }
-      }
+      })
     })
   }
 
@@ -408,6 +409,7 @@ export default class Viewer {
               item.name)
 
           let model = await this.loadViewable(viewablePath, {
+            onFullyLoaded: options.onFullyLoaded,
             acmSessionId: svf.acmSessionId,
             placementTransform: transform
           })
@@ -431,7 +433,6 @@ export default class Viewer {
           model.version = version
           model.storageUrn = storageUrn
           model.transform = options.transform
-          model.modelId = ViewerToolkit.guid()
 
           // fits model to view - need to wait for instance tree
           // but no event gets fired
@@ -464,36 +465,53 @@ export default class Viewer {
   // Load viewable path
   //
   //////////////////////////////////////////////////////////////////////////
-  loadViewable(viewablePath, opts) {
+  loadViewable(viewablePath, options = {}) {
 
     return new Promise((resolve, reject)=> {
 
       var geometryLoaded = false
+
       var objectTreeCreated = false
+
+      var modelId = ViewerToolkit.guid()
 
       let _onGeometryLoaded = (event)=> {
 
-        this.viewer.removeEventListener(
-          Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
-          _onGeometryLoaded)
+        if(modelId === event.model.modelId) {
 
-        geometryLoaded = true
+          this.viewer.removeEventListener(
+            Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
+            _onGeometryLoaded)
 
-        if(objectTreeCreated) {
-          return resolve(event.model)
+          geometryLoaded = true
+
+          if(objectTreeCreated) {
+
+            if (options.onFullyLoaded) {
+
+              options.onFullyLoaded(event.model)
+            }
+          }
         }
       }
 
       let _onObjectTreeCreated = (event)=> {
 
-        this.viewer.removeEventListener(
-          Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
-          _onObjectTreeCreated)
+        if(modelId === event.model.modelId) {
 
-        objectTreeCreated = true
+          this.viewer.removeEventListener(
+            Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
+            _onObjectTreeCreated)
 
-        if(geometryLoaded) {
-          return resolve(event.model)
+          objectTreeCreated = true
+
+          if (geometryLoaded) {
+
+            if (options.onFullyLoaded) {
+
+              options.onFullyLoaded(event.model)
+            }
+          }
         }
       }
 
@@ -505,7 +523,12 @@ export default class Viewer {
         Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT,
         _onObjectTreeCreated)
 
-      var _onSuccess = () => {}
+      var _onSuccess = (model) => {
+
+        model.modelId = modelId
+
+        resolve(model)
+      }
 
       var _onError = (errorCode, errorMessage,
                       statusCode, statusText) => {
@@ -523,7 +546,7 @@ export default class Viewer {
       }
 
       this.viewer.loadModel(
-        viewablePath, opts,
+        viewablePath, options,
         _onSuccess, _onError)
     })
   }
@@ -622,3 +645,5 @@ export default class Viewer {
     $(this.viewer.container).remove()
   }
 }
+
+
