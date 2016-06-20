@@ -131,6 +131,23 @@ export default class DerivativeSvc extends BaseSvc {
   //
   //
   /////////////////////////////////////////////////////////////////
+  getProperties (token, urn, guid) {
+
+    var url = util.format(
+      this._config.endPoints.properties,
+      urn, guid)
+
+    return requestAsync({
+      url: url,
+      token: token,
+      json: true
+    })
+  }
+
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
   getManifest (token, urn) {
 
     var url = util.format(
@@ -206,7 +223,8 @@ export default class DerivativeSvc extends BaseSvc {
             return reject(err)
           }
 
-          if (response && [200, 201].indexOf(response.statusCode) < 0) {
+          if (response && [200, 201, 202].indexOf(
+              response.statusCode) < 0) {
 
             return reject(response.statusMessage)
           }
@@ -263,7 +281,8 @@ function requestAsync(params) {
           return reject(body.errors)
         }
 
-        if([200, 201].indexOf(response.statusCode) < 0){
+        if([200, 201, 202].indexOf(
+            response.statusCode) < 0){
 
           return reject(response)
         }

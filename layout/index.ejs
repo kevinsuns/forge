@@ -17,9 +17,11 @@
 ////////////////////////////////////////////////////////////////////////////////-->
 <html>
     <head>
-        <title><%=htmlWebpackPlugin.options.title%></title>
-        <link rel="stylesheet" href="<%=htmlWebpackPlugin.options.viewerCSS%>" type="text/css">
+        <link rel="stylesheet" href="<%=htmlWebpackPlugin.options.viewerCSS%>" type="text/css"/>
+        <meta name="viewport" content="width=device-width, height=device-height, minimal-ui"/>
         <link rel="shortcut icon" href="resources/img/favicon.ico" type="image/x-icon"/>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <title><%=htmlWebpackPlugin.options.title%></title>
     </head>
 
     <body>
@@ -40,7 +42,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="https://forge.autodesk.com" target="_blank">
-                        <img src="resources/img/forge.png" class="forge-logo">
+                        <img src="resources/img/forge.png" height="62" class="forge-logo">
                     </a>
                     <a class="navbar-brand" href="https://forge.autodesk.com" target="_blank">
                         <b>Autodesk Forge</b>
@@ -54,7 +56,7 @@
                             <a id="loginBtn" style="cursor: pointer;">
                                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                                 <label id="loginText">
-                                    Sign in
+                                    &nbsp;Sign in
                                 </label>
                             </a>
                         </li>

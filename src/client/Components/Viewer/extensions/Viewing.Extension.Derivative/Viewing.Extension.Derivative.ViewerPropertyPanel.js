@@ -3,9 +3,10 @@
 // by Philippe Leefsma, April 2016
 //
 /////////////////////////////////////////////////////////////////////
+import {Formats} from './Viewing.Extension.Derivative.Constants'
 import ToolPanelBase from 'ToolPanelBase'
 
-export default class DerivativePropertyPanel extends
+export default class ViewerPropertyPanel extends
   Autodesk.Viewing.Extensions.ViewerPropertyPanel {
 
   /////////////////////////////////////////////////////////////////
@@ -204,14 +205,47 @@ export default class DerivativePropertyPanel extends
 
         name: 'Manifest',
         value: `Show ${modelName} manifest`,
-        href: `/api/derivative/manifest/${this.currentModel.storageUrn}`,
+
+        href: '/api/derivatives/manifest/' +
+              `${this.currentModel.storageUrn}`,
+
         category: 'Model Derivatives',
         dataType: 'link'
       }
 
       this.addMetaProperty(manifestProperty)
 
-      if(derivativeFormats.iges.indexOf(extension) > -1) {
+      var hierarchyProperty = {
+
+        name: 'Hierarchy',
+        value: `Show ${modelName} hierarchy`,
+
+        href: '/api/derivatives/hierarchy/' +
+              `${this.currentModel.storageUrn}/` +
+              `${this.currentModel.guid}`,
+
+        category: 'Model Derivatives',
+        dataType: 'link'
+      }
+
+      this.addMetaProperty(hierarchyProperty)
+
+      var propsProperty = {
+
+        name: 'Properties',
+        value: `Show ${modelName} properties`,
+
+        href: '/api/derivatives/properties/' +
+        `${this.currentModel.storageUrn}/` +
+        `${this.currentModel.guid}`,
+
+        category: 'Model Derivatives',
+        dataType: 'link'
+      }
+
+      this.addMetaProperty(propsProperty)
+
+      if(Formats.iges.indexOf(extension) > -1) {
 
         var stepDerivativeProperty = {
 
@@ -229,7 +263,7 @@ export default class DerivativePropertyPanel extends
         this.addDerivativeProperty(stepDerivativeProperty)
       }
 
-      if(derivativeFormats.step.indexOf(extension) > -1) {
+      if(Formats.step.indexOf(extension) > -1) {
 
         var stepDerivativeProperty = {
 
@@ -247,7 +281,7 @@ export default class DerivativePropertyPanel extends
         this.addDerivativeProperty(stepDerivativeProperty)
       }
 
-      if(derivativeFormats.stl.indexOf(extension) > -1) {
+      if(Formats.stl.indexOf(extension) > -1) {
 
         var stepDerivativeProperty = {
 
@@ -563,114 +597,4 @@ function guid(format = 'xxxxxxxxxx') {
     })
 
   return guid
-}
-
-/////////////////////////////////////////////////////////////////
-// supported derivative formats
-//
-/////////////////////////////////////////////////////////////////
-const derivativeFormats = {
-
-  svf: [
-    "ipt",
-    "neu",
-    "stla",
-    "stl",
-    "jt",
-    "skp",
-    "collaboration",
-    "prt",
-    "dwf",
-    "sldasm",
-    "step",
-    "dwg",
-    "zip",
-    "nwc",
-    "model",
-    "stp",
-    "ste",
-    "f3d",
-    "dgn",
-    "pdf",
-    "iges",
-    "idw",
-    "dwt",
-    "dxf",
-    "catproduct",
-    "igs",
-    "sldprt",
-    "cgr",
-    "3dm",
-    "sab",
-    "obj",
-    "cam360",
-    "gbxml",
-    "exp",
-    "wire",
-    "ige",
-    "rcp",
-    "dae",
-    "x_b",
-    "3ds",
-    "rvt",
-    "max",
-    "g",
-    "iam",
-    "asm",
-    "dlv3",
-    "x_t",
-    "session",
-    "xas",
-    "xpr",
-    "catpart",
-    "stlb",
-    "mfr",
-    "ifw",
-    "nwd",
-    "sat",
-    "fbx",
-    "smb",
-    "smt",
-    "ifc",
-    "dwfx",
-    "prt\\.\\d+$",
-    "neu\\.\\d+$",
-    "asm\\.\\d+$"
-  ],
-  thumbnail: [
-    "f3d",
-    "cam360"
-  ],
-  stl: [
-    "ipt",
-    "f3d",
-    "cam360",
-    "wire",
-    "iam",
-    "fbx"
-  ],
-  step: [
-    "ipt",
-    "f3d",
-    "cam360",
-    "wire",
-    "iam",
-    "fbx"
-  ],
-  iges: [
-    "ipt",
-    "f3d",
-    "cam360",
-    "wire",
-    "iam",
-    "fbx"
-  ],
-  obj: [
-    "ipt",
-    "f3d",
-    "cam360",
-    "wire",
-    "iam",
-    "fbx"
-  ]
 }

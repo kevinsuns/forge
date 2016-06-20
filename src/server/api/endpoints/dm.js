@@ -16,11 +16,15 @@ module.exports = function() {
 
     try {
 
-      var token = req.session.token || config.hardcodedToken
+      var authSvc = ServiceManager.getService(
+        'AuthSvc');
 
+      var token = await authSvc.getToken(req)
+      
       var dmSvc = ServiceManager.getService('DMSvc')
 
-      var response = await dmSvc.getUser(token)
+      var response = await dmSvc.getUser(
+        token.access_token)
 
       res.json(response)
     }
@@ -40,11 +44,15 @@ module.exports = function() {
 
     try {
 
-      var token = req.session.token || config.hardcodedToken
+      var authSvc = ServiceManager.getService(
+        'AuthSvc');
 
+      var token = await authSvc.getToken(req)
+      
       var dmSvc = ServiceManager.getService('DMSvc')
 
-      var response = await dmSvc.getHubs(token)
+      var response = await dmSvc.getHubs(
+        token.access_token)
 
       res.json(response)
     }
@@ -63,15 +71,18 @@ module.exports = function() {
   router.get('/hubs/:hubId/projects', async (req, res) => {
 
     try {
-
-      var token = req.session.token || config.hardcodedToken
-
+      
       var hubId = req.params.hubId
+
+      var authSvc = ServiceManager.getService(
+        'AuthSvc');
+
+      var token = await authSvc.getToken(req)
 
       var dmSvc = ServiceManager.getService('DMSvc')
 
       var response = await dmSvc.getProjects(
-        token, hubId)
+        token.access_token, hubId)
 
       res.json(response)
     }
@@ -90,17 +101,20 @@ module.exports = function() {
   router.get('/hubs/:hubId/projects/:projectId', async (req, res) => {
 
     try {
-
-      var token = req.session.token || config.hardcodedToken
-
+      
       var hubId = req.params.hubId
 
       var projectId = req.params.projectId
 
+      var authSvc = ServiceManager.getService(
+        'AuthSvc');
+
+      var token = await authSvc.getToken(req)
+
       var dmSvc = ServiceManager.getService('DMSvc')
 
       var response = await dmSvc.getProject(
-        token, hubId, projectId)
+        token.access_token, hubId, projectId)
 
       res.json(response)
     }
@@ -119,17 +133,20 @@ module.exports = function() {
   router.get('/projects/:projectId/folders/:folderId', async (req, res) => {
 
     try {
-
-      var token = req.session.token || config.hardcodedToken
-
+      
       var projectId = req.params.projectId
 
       var folderId = req.params.folderId
 
+      var authSvc = ServiceManager.getService(
+        'AuthSvc');
+
+      var token = await authSvc.getToken(req)
+
       var dmSvc = ServiceManager.getService('DMSvc')
 
       var response = await dmSvc.getFolderContent(
-        token, projectId, folderId)
+        token.access_token, projectId, folderId)
 
       res.json(response)
     }
@@ -148,17 +165,20 @@ module.exports = function() {
   router.get('/projects/:projectId/items/:itemId/versions', async (req, res) => {
 
     try {
-
-      var token = req.session.token || config.hardcodedToken
-
+      
       var projectId = req.params.projectId
 
       var itemId = req.params.itemId
 
+      var authSvc = ServiceManager.getService(
+        'AuthSvc');
+
+      var token = await authSvc.getToken(req)
+
       var dmSvc = ServiceManager.getService('DMSvc')
 
       var response = await dmSvc.getItemVersions(
-        token, projectId, itemId)
+        token.access_token, projectId, itemId)
 
       res.json(response)
     }

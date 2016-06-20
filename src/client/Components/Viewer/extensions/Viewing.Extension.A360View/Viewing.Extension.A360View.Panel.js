@@ -176,8 +176,6 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
     super()
 
-    this._events = {}
-
     this.extension = extension
   }
 
@@ -212,7 +210,7 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
   //
   //
   /////////////////////////////////////////////////////////////
-  getTreeNodeLabel = function (node) {
+  getTreeNodeLabel (node) {
 
     return node.name
   }
@@ -234,58 +232,88 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
       text = Autodesk.Viewing.i18n.translate(text)
     }
 
-    var html = `
-      <label class="${node.type}"
-        ${options && options.localize?"data-i18n=" + text : ''}
-          data-placement="right"
-          data-toggle="tooltip"
-          data-delay='{"show":"1000", "hide":"100"}'
-          title="loading item ...">
-        ${text}
-      </label>
-    `
+    if (node.tooltip) {
 
-    $(parent).append(html)
+      var html = `
+        <label class="${node.type}"
+          ${options && options.localize?"data-i18n=" + text : ''}
+            data-placement="right"
+            data-toggle="tooltip"
+            data-delay='{"show":"1000", "hide":"100"}'
+            title="loading item ...">
+          ${text}
+        </label>
+      `
 
-    $(parent).find('label[data-toggle="tooltip"]').tooltip({
-      container: 'body',
-      animated: 'fade',
-      html: true
-    })
+      $(parent).append(html)
 
-    node.setTooltip = (title) => {
+      $(parent).find('label[data-toggle="tooltip"]').tooltip({
+        container: 'body',
+        animated: 'fade',
+        html: true
+      })
 
-      $(parent).find('label')
-        .attr('title', title)
-        .tooltip('fixTitle')
-        .tooltip('setContent')
+      node.setTooltip = (title) => {
+
+        $(parent).find('label')
+          .attr('title', title)
+          .tooltip('fixTitle')
+          .tooltip('setContent')
+      }
     }
+    else {
+
+      var label = `<label class="${node.type}"
+          ${options && options.localize?"data-i18n=" + text : ''}>
+          ${text}
+        </label>`
+
+      $(parent).append(label)
+    }
+
+    node.expand = () => {
+      $(parent).parent().removeClass('collapsed')
+      $(parent).parent().addClass('expanded')
+    }
+
+    node.collapse = () => {
+      $(parent).parent().removeClass('expanded')
+      $(parent).parent().addClass('collapsed')
+    }
+
+    this.extension.emit('node.added', node)
   }
 
   /////////////////////////////////////////////////////////////
   //
   //
   /////////////////////////////////////////////////////////////
-  forEachChild (node, callback) {
+  forEachChild (node, addChildCallback) {
+
+    if(node.onIteratingChildren) {
+
+      node.onIteratingChildren(addChildCallback)
+    }
 
     switch(node.type) {
 
       case 'hubs':
 
-        this.extension.api.getProjects(node.id).then((projects) => {
+        this.extension.api.getProjects(
+          node.id).then((projects) => {
 
-          projects.forEach( (project) => {
+            projects.forEach( (project) => {
 
-            var child = {
-              name: project.attributes.name,
-              type: project.type,
-              hubId: node.id,
-              id: project.id,
-              group: true
-            }
+              var child = {
+                name: project.attributes.name,
+                type: project.type,
+                hubId: node.id,
+                id: project.id,
+                group: true
+              }
 
-            callback(child)
-          })
+              addChildCallback(child)
+            })
         })
 
         break
@@ -310,7 +338,21 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
                     group: true
                   }
 
-                  callback(child)
+                  if(folderItem.type === 'items') {
+
+                    this.extension.api.getItemVersions(
+                      child.projectId, child.id).then((itemVersions) => {
+
+                        child.versions = itemVersions
+                        child.tooltip = true
+
+                        addChildCallback(child)
+                      })
+                  }
+                  else {
+
+                    addChildCallback(child)
+                  }
                 })
             })
           })
@@ -332,37 +374,24 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
                 group: true
               }
 
-              callback(child)
+              if(folderItem.type === 'items') {
+
+                this.extension.api.getItemVersions(
+                  child.projectId, child.id).then((itemVersions) => {
+
+                    child.versions = itemVersions
+                    child.tooltip = true
+
+                    addChildCallback(child)
+                  })
+              }
+              else {
+
+                addChildCallback(child)
+              }
             })
           })
 
-        break
-
-      case 'items':
-
-        this.extension.api.getItemVersions(
-          node.projectId, node.id).then((itemVersions) => {
-
-            node.versions = itemVersions
-
-            // node ready for further processing,
-            // by derivative for example
-            var children = this.extension.emit(
-              'node.added', node)
-
-            if(children) {
-
-              children = Array.isArray(children) ?
-                children : [children]
-
-              children.forEach((child) => {
-
-                callback(child)
-              })
-            }
-          })
-
-      default:
         break
     }
   }

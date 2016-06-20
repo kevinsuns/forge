@@ -15,11 +15,14 @@ module.exports = function() {
   router.post('/job', async (req, res) => {
 
     try {
-
-      var token = req.session.token || config.hardcodedToken
-
+      
       var payload = JSON.parse(req.body.payload)
 
+      var authSvc = ServiceManager.getService(
+        'AuthSvc');
+
+      var token = await authSvc.getToken(req)
+      
       var derivativeSvc = ServiceManager.getService(
         'DerivativeSvc')
 
@@ -56,7 +59,7 @@ module.exports = function() {
       }
 
       var response = await derivativeSvc.postJob(
-        token, input, output)
+        token.access_token, input, output)
 
       res.json(response)
     }
@@ -75,46 +78,19 @@ module.exports = function() {
   router.get('/metadata/:urn', async (req, res) => {
 
     try {
-
-      var token = req.session.token || config.hardcodedToken
-
+      
       var urn = req.params.urn
+
+      var authSvc = ServiceManager.getService(
+        'AuthSvc');
+
+      var token = await authSvc.getToken(req)
 
       var derivativeSvc = ServiceManager.getService(
         'DerivativeSvc');
 
       var response = await derivativeSvc.getMetadata(
-        token, urn)
-
-      res.json(response)
-    }
-    catch (ex) {
-
-      res.status(ex.statusCode || 500)
-      res.json(ex)
-    }
-  })
-
-  /////////////////////////////////////////////////////////////////////////////
-  // GET /hierarchy/{urn}/{guid}
-  // Get hierarchy for design
-  //
-  /////////////////////////////////////////////////////////////////////////////
-  router.get('/hierarchy/:urn/:guid', async (req, res) => {
-
-    try {
-
-      var token = req.session.token || config.hardcodedToken
-
-      var urn = req.params.urn
-
-      var guid = req.params.guid
-
-      var derivativeSvc = ServiceManager.getService(
-        'DerivativeSvc');
-
-      var response = await derivativeSvc.getHierarchy(
-        token, urn, guid)
+        token.access_token, urn)
 
       res.json(response)
     }
@@ -134,15 +110,84 @@ module.exports = function() {
 
     try {
 
-      var token = req.session.token || config.hardcodedToken
-
       var urn = req.params.urn
+
+      var authSvc = ServiceManager.getService(
+        'AuthSvc');
+
+      var token = await authSvc.getToken(req)
 
       var derivativeSvc = ServiceManager.getService(
         'DerivativeSvc');
 
       var response = await derivativeSvc.getManifest(
-        token, urn)
+        token.access_token, urn)
+
+      res.json(response)
+    }
+    catch (ex) {
+
+      res.status(ex.statusCode || 500)
+      res.json(ex)
+    }
+  })
+
+  /////////////////////////////////////////////////////////////////////////////
+  // GET /hierarchy/{urn}/{guid}
+  // Get hierarchy for design
+  //
+  /////////////////////////////////////////////////////////////////////////////
+  router.get('/hierarchy/:urn/:guid', async (req, res) => {
+
+    try {
+      
+      var urn = req.params.urn
+
+      var guid = req.params.guid
+
+      var authSvc = ServiceManager.getService(
+        'AuthSvc');
+
+      var token = await authSvc.getToken(req)
+
+      var derivativeSvc = ServiceManager.getService(
+        'DerivativeSvc');
+
+      var response = await derivativeSvc.getHierarchy(
+        token.access_token, urn, guid)
+
+      res.json(response)
+    }
+    catch (ex) {
+
+      res.status(ex.statusCode || 500)
+      res.json(ex)
+    }
+  })
+
+  /////////////////////////////////////////////////////////////////////////////
+  // GET /properties/{urn}/{guid}
+  // Get properties for design
+  //
+  /////////////////////////////////////////////////////////////////////////////
+  router.get('/properties/:urn/:guid', async (req, res) => {
+
+    try {
+
+      var urn = req.params.urn
+
+      var guid = req.params.guid
+
+      var authSvc = ServiceManager.getService(
+        'AuthSvc');
+
+      var token = await authSvc.getToken(req)
+
+      var derivativeSvc = ServiceManager.getService(
+        'DerivativeSvc');
+
+      var response = await derivativeSvc.getProperties(
+        token.access_token, urn, guid)
 
       res.json(response)
     }
@@ -161,16 +206,19 @@ module.exports = function() {
   router.delete('/manifest/:urn', async (req, res) => {
 
     try {
-
-      var token = req.session.token || config.hardcodedToken
-
+      
       var urn = req.params.urn
+
+      var authSvc = ServiceManager.getService(
+        'AuthSvc');
+
+      var token = await authSvc.getToken(req)
 
       var derivativeSvc = ServiceManager.getService(
         'DerivativeSvc');
 
       var response = await derivativeSvc.deleteManifest(
-        token, urn)
+        token.access_token, urn)
 
       res.json(response)
     }
@@ -189,20 +237,23 @@ module.exports = function() {
   router.get('/download', async (req, res) => {
 
     try {
-
-      var token = req.session.token || config.hardcodedToken
-
+      
       var urn = req.query.urn
 
       var filename = req.query.filename
 
       var derivativeUrn = req.query.derivativeUrn
 
+      var authSvc = ServiceManager.getService(
+        'AuthSvc');
+
+      var token = await authSvc.getToken(req)
+
       var derivativeSvc = ServiceManager.getService(
         'DerivativeSvc');
 
       var response = await derivativeSvc.download(
-        token, urn, derivativeUrn)
+        token.access_token, urn, derivativeUrn)
 
       res.set('Content-Type', 'application/obj');
 
@@ -226,9 +277,7 @@ module.exports = function() {
   router.get('/thumbnails/:urn', async (req, res) => {
 
     try {
-
-      var token = req.session.token || config.hardcodedToken
-
+      
       var urn = req.params.urn
 
       var options = {
@@ -236,11 +285,16 @@ module.exports = function() {
         height: req.query.height || 100
       }
 
+      var authSvc = ServiceManager.getService(
+        'AuthSvc');
+
+      var token = await authSvc.getToken(req)
+
       var derivativeSvc = ServiceManager.getService(
         'DerivativeSvc');
 
       var response = await derivativeSvc.getThumbnail(
-        token, urn, options)
+        token.access_token, urn, options)
 
       res.end(response);
     }

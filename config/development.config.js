@@ -22,7 +22,7 @@ module.exports = {
 
     serverConfig: {
 
-        hardcodedToken: 'yoPAiQlg94YFCibI04DntWo8o82k', //only for dev
+        hardcodedToken: '0lGAe57Ojcloh3nl1v2b65ewtyIQ', //only for dev
 
         redirectUrl: 'https://autodesk-forge.herokuapp.com/api/auth/callback',
         authenticationUrl: '/authentication/' + OAUTH_VERSION + '/authorize',
@@ -70,6 +70,7 @@ module.exports = {
             download:        BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/manifest/%s',
             metadata:        BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/metadata',
             hierarchy:       BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/metadata/%s',
+            properties:      BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/metadata/%s/properties',
             thumbnail:       BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/thumbnail?width=%s&height=%s'
         }
     }

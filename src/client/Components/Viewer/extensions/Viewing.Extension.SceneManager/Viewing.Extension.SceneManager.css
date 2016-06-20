@@ -1,5 +1,5 @@
 
-.scene-manager{
+.scene-manager {
     top: 10px;
     right: 10px;
     width: 370px;
@@ -8,6 +8,8 @@
 }
 
 .scene-manager .container {
+    transition: opacity 2.5s ease-in-out;
+    opacity: 0.3;
     height: calc(100% - 55px);
     width: calc(100% - 18px);
     padding-top: 10px;

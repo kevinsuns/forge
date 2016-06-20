@@ -15,6 +15,7 @@
 // DOES NOT WARRANT THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 /////////////////////////////////////////////////////////////////////////////////
+import ServiceManager from '../services/SvcManager'
 import { serverConfig as config } from 'c0nfig'
 import Lmv from 'view-and-data'
 import express from 'express'
@@ -32,32 +33,42 @@ module.exports = function() {
     // 2-legged token
     //
     ///////////////////////////////////////////////////////////////////////////
-    router.get('/2legged', function (req, res) {
+    router.get('/2legged', async (req, res) => {
 
-      lmv.getToken().then(
-        function(response){
+      try {
 
-          res.json(response);
-        },
-        function(error){
+        var response = await lmv.getToken()
 
-          res.status(error.statusCode || 404);
-          res.json(error);
-        });
-    });
+        return json(response)
+      }
+      catch (error) {
+
+        res.status(error.statusCode || 404);
+        res.json(error);
+      }
+    })
 
     ///////////////////////////////////////////////////////////////////////////
     // 3-legged token
     //
     ///////////////////////////////////////////////////////////////////////////
-    router.get('/3legged', function (req, res) {
+    router.get('/3legged', async (req, res) => {
 
+      try {
 
+        var authSvc = ServiceManager.getService(
+          'AuthSvc');
 
-      res.json({
-        access_token: req.session.token || config.hardcodedToken
-      })
-    });
+        var token = await authSvc.getToken(req)
+
+        res.json(token)
+      }
+      catch (error) {
+
+        res.status(error.statusCode || 404);
+        res.json(error);
+      }
+    })
 
     return router;
 }

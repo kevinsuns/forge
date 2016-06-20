@@ -64,10 +64,14 @@ module.exports = function() {
 
         try {
 
-          req.session.token = access_token
-          req.session.refreshToken = refresh_token
+          var authSvc = ServiceManager.getService(
+            'AuthSvc')
 
-          req.session.cookie.expires = false
+          authSvc.setToken(req.session, {
+            expires_in: results.expires_in,
+            refresh_token: refresh_token,
+            access_token: access_token
+          })
 
           var socketSvc = ServiceManager.getService(
             'SocketSvc')

@@ -16,11 +16,15 @@ module.exports = function() {
 
     try {
 
-      var token = req.session.token || config.hardcodedToken
+      var authSvc = ServiceManager.getService(
+        'AuthSvc');
+
+      var token = await authSvc.getToken(req)
 
       var dmSvc = ServiceManager.getService('DMSvc')
 
-      var response = await dmSvc.getUser(token)
+      var response = await dmSvc.getUser(
+        token.access_token)
 
       res.json(response)
     }

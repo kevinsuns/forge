@@ -1,4 +1,3 @@
-var htmlMinifier = require('html-minifier').minify
 var clean = require('clean-webpack-plugin')
 var html = require('html-webpack-plugin')
 var webpack = require('webpack')
@@ -62,7 +61,13 @@ module.exports = {
       bundle: 'bundle.min.js',
       title: 'Autodesk Forge',
       filename: 'index.html',
-      minify: htmlMinifier,
+      minify: {
+        removeStyleLinkTypeAttributes: true,
+        removeAttributeQuotes: true,
+        collapseWhitespace: true,
+        removeComments: true,
+        minifyCSS: true
+      },
       inject: false
     })
   ],

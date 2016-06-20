@@ -53,6 +53,11 @@ export default class Viewer {
 
       this.loadExtensions()
     })
+
+    this.onNodeAddedHandler = (node) => {
+
+      return this.onNodeAdded(node)
+    }
   }
 
   //////////////////////////////////////////////////////////////////////////
@@ -65,6 +70,9 @@ export default class Viewer {
 
     $('#loader, .spinner').remove()
 
+    this.viewer.setBackgroundColor(
+      255, 207, 13,
+      219, 219, 219)
 
     // Add custom control group for our toolbar controls
 
@@ -112,7 +120,9 @@ export default class Viewer {
     // Derivative Extension
 
     this.viewer.loadExtension(
-      'Viewing.Extension.Derivative')
+      'Viewing.Extension.Derivative', {
+      parentControl: this.ctrlGroup
+    })
 
     this.derivativeExtension = this.viewer.loadedExtensions[
       'Viewing.Extension.Derivative']
@@ -157,130 +167,26 @@ export default class Viewer {
     this.a360ViewExtension =
       this.viewer.loadedExtensions['Viewing.Extension.A360View']
 
-    this.a360ViewExtension.on('node.added', (node)=> {
-
-      if(node.type === 'items') {
-
-        // pick last item version
-        if (node.versions && node.versions.length) {
-
-          var version = node.versions[ node.versions.length - 1 ]
-
-          if(!version.relationships.storage) {
-
-            node.setTooltip('derivatives unavailable on this item')
-
-            node.parent.classList.add('unavailable')
-
-            return
-          }
-
-          var storageUrn = window.btoa(
-            version.relationships.storage.data.id)
-
-          storageUrn = storageUrn.replace(
-            new RegExp('=', 'g'), '')
-
-          this.derivativeExtension.getManifest(
-            storageUrn).then((manifest) => {
-
-              if (manifest &&
-                  manifest.status === 'success' &&
-                  manifest.progress === 'complete') {
-
-                version.manifest = manifest
-
-                node.parent.classList.add('derivated')
-
-                this.derivativeExtension.getThumbnail(
-                  storageUrn, {
-                    width: 200,
-                    height: 200
-                  }).then((thumbnail) => {
-
-                    var img = `<img width="150" height="150"
-                      src='data:image/png;base64,${thumbnail}'/>`
-
-                    node.setTooltip(img)
-                  })
-              }
-            }, (err) => {
-
-              node.setTooltip('no derivative created on this item')
-
-              // file not derivated have no manifest
-              // skip those errors
-              if(err !== 'Not Found') {
-                console.warn(err)
-              }
-            })
-        }
-      }
-    })
+    this.a360ViewExtension.on('node.added', this.onNodeAddedHandler)
 
     this.a360ViewExtension.on('node.dblClick', (node)=> {
 
-      if(node.type === 'items') {
+      console.log(node)
 
-        var item = node
+      switch(node.type) {
 
-        console.log(item)
+          case 'items':
 
-        if (!item.versions || !item.versions.length) {
+            this.onItemNodeDblClicked(node)
+            break;
 
-          this.a360ViewExtension.panel.showError(
-            'No version available (Please wait) ...')
+          case 'derivatives':
 
-          console.log('No item version available')
-          return
-        }
+            this.onDerivativeNodeDblClicked(node)
+            break;
 
-        //pick the last version by default
-        var version = item.versions[ item.versions.length - 1 ]
-
-        if(!version.relationships.storage) {
-
-          this.a360ViewExtension.panel.showError(
-            'Derivatives unavailable on this item')
-
-          console.log('Derivatives unavailable on this item')
-          return
-        }
-
-        this.a360ViewExtension.panel.startLoad(
-          'Loading ' + item.name + ' ...')
-
-        var options = {
-          showProgress: true
-        }
-
-        this.importModelFromItem(item, options).then((model) => {
-
-          this.a360ViewExtension.panel.stopLoad()
-
-          this.modelTransformerExtension.addModel(model)
-
-          this.sceneManagerExtension.addModel(model)
-
-          item.parent.classList.add('derivated')
-
-          this.derivativeExtension.getThumbnail(
-            model.storageUrn, {
-              width: 200,
-              height: 200
-            }).then((thumbnail) => {
-
-              var img = `<img width="150" height="150"
-                src='data:image/png;base64,${thumbnail}'/>`
-
-              node.setTooltip(img)
-            })
-
-        }, (error) => {
-
-          this.a360ViewExtension.panel.showError(
-            error.description)
-        })
+        default:
+          break;
       }
     })
 
@@ -351,6 +257,185 @@ export default class Viewer {
           console.log(error)
         }
       })
+    })
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+  // A360 View Node Added Handler
+  //
+  //////////////////////////////////////////////////////////////////////////
+  onNodeAdded (node) {
+
+    ['hubs'].indexOf(node.type) < 0  ?
+      node.collapse():
+      node.expand()
+
+    switch (node.type) {
+
+      case 'items':
+
+        if (!(node.versions && node.versions.length)) {
+
+          node.setTooltip('unable to load versions on this item')
+
+          return
+        }
+
+        // pick last item version
+
+        var version = node.versions[ node.versions.length - 1 ]
+
+        if (!version.relationships.storage) {
+
+          node.setTooltip('derivatives unavailable on this item')
+
+          node.parent.classList.add('unavailable')
+
+          return
+        }
+
+        var storageUrn = window.btoa(
+          version.relationships.storage.data.id)
+
+        storageUrn = storageUrn.replace(
+          new RegExp('=', 'g'), '')
+
+        this.derivativeExtension.getManifest(
+          storageUrn).then((manifest) => {
+
+            if (manifest &&
+              manifest.status === 'success' &&
+              manifest.progress === 'complete') {
+
+              version.manifest = manifest
+
+              node.parent.classList.add('derivated')
+
+              this.derivativeExtension.getThumbnail(
+                storageUrn, {
+                  width: 200,
+                  height: 200
+                }).then((thumbnail) => {
+
+                  var img = `<img width="150" height="150"
+                    src='data:image/png;base64,${thumbnail}'/>`
+
+                  node.setTooltip(img)
+                })
+            }
+
+          }, (err) => {
+
+            node.setTooltip('no derivative created on this item')
+
+            // file not derivated have no manifest
+            // skip those errors
+            if (err !== 'Not Found') {
+
+              console.warn(err)
+            }
+        })
+
+        node.onIteratingChildren = (addChild) => {
+
+          var derivativesNode = {
+            id: node.id + '-derivatives',
+            storageUrn: storageUrn,
+            itemName: node.name,
+            name: 'Derivatives',
+            type: 'derivatives',
+            tooltip: true,
+            group: true
+          }
+
+          addChild(derivativesNode)
+        }
+
+        break
+
+      case 'derivatives':
+
+        node.setTooltip('Double-click to load derivatives panel')
+        break
+    }
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+  // A360 Item Node double-clicked Handler
+  //
+  //////////////////////////////////////////////////////////////////////////
+  onItemNodeDblClicked (node) {
+
+    var item = node
+
+    console.log(item)
+
+    if (!item.versions || !item.versions.length) {
+
+      this.a360ViewExtension.panel.showError(
+        'No version available (Please wait) ...')
+
+      console.log('No item version available')
+      return
+    }
+
+    //pick the last version by default
+    var version = item.versions[ item.versions.length - 1 ]
+
+    if(!version.relationships.storage) {
+
+      this.a360ViewExtension.panel.showError(
+        'Derivatives unavailable on this item')
+
+      console.log('Derivatives unavailable on this item')
+      return
+    }
+
+    this.a360ViewExtension.panel.startLoad(
+      'Loading ' + item.name + ' ...')
+
+    var options = {
+      showProgress: true
+    }
+
+    this.importModelFromItem(item, options).then((model) => {
+
+      this.a360ViewExtension.panel.stopLoad()
+
+      this.modelTransformerExtension.addModel(model)
+
+      this.sceneManagerExtension.addModel(model)
+
+      item.parent.classList.add('derivated')
+
+      this.derivativeExtension.getThumbnail(
+        model.storageUrn, {
+          width: 200,
+          height: 200
+        }).then((thumbnail) => {
+
+          var img = `<img width="150" height="150"
+                src='data:image/png;base64,${thumbnail}'/>`
+
+          node.setTooltip(img)
+        })
+
+    }, (error) => {
+
+      this.a360ViewExtension.panel.showError(
+        error.description)
+    })
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+  // Derivative node double-clicked handler
+  //
+  //////////////////////////////////////////////////////////////////////////
+  onDerivativeNodeDblClicked (node) {
+
+    this.derivativeExtension.loadDerivativesPanel({
+      urn: node.storageUrn,
+      name: node.itemName
     })
   }
 

@@ -68,6 +68,7 @@ module.exports = {
       download:        BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/manifest/%s',
       metadata:        BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/metadata',
       hierarchy:       BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/metadata/%s',
+      properties:      BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/metadata/%s/properties',
       thumbnail:       BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/thumbnail?width=%s&height=%s'
     }
   }

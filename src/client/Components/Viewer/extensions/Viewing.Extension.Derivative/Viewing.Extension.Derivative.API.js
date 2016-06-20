@@ -78,6 +78,48 @@ export default class DerivativeAPI {
   //
   //
   ///////////////////////////////////////////////////////////////////
+  getProperties (urn, guid) {
+
+    return new Promise(async(resolve, reject) => {
+
+      var url = `${this.apiUrl}/properties/${urn}/${guid}`
+
+      $.get(url).success((res)=> {
+
+        return resolve(res)
+
+      }).error((jqXHR, textStatus, error) => {
+
+        return reject(error)
+      })
+    })
+  }
+
+  ///////////////////////////////////////////////////////////////////
+  //
+  //
+  ///////////////////////////////////////////////////////////////////
+  getHierarchy (urn, guid) {
+
+    return new Promise(async(resolve, reject) => {
+
+      var url = `${this.apiUrl}/hierarchy/${urn}/${guid}`
+
+      $.get(url).success((res)=> {
+
+        return resolve(res)
+
+      }).error((jqXHR, textStatus, error) => {
+
+        return reject(error)
+      })
+    })
+  }
+
+  ///////////////////////////////////////////////////////////////////
+  //
+  //
+  ///////////////////////////////////////////////////////////////////
   getThumbnail(urn, options = { width:100, height:100 }) {
 
     return new Promise(async(resolve, reject) => {
@@ -296,7 +338,7 @@ function findDerivative(manifest, params) {
                   childDerivative.objectIds,
                   params.objectIds)) {
 
-                return resolve({
+                resolve({
                   parent: parentDerivative,
                   target: childDerivative
                 })

@@ -159,9 +159,10 @@ function requestAsync(params) {
           return reject(body.errors)
         }
 
-        if(response.statusCode !== 200){
+        if (response && [200, 201, 202].indexOf(
+            response.statusCode) < 0) {
 
-          return reject(response)
+          return reject(response.statusMessage)
         }
 
         return resolve(body.data || body)

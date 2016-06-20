@@ -3,10 +3,13 @@
 // by Philippe Leefsma, April 2016
 //
 /////////////////////////////////////////////////////////////////////
-import DerivativePropertyPanel from './Viewing.Extension.Derivative.PropertyPanel'
+import ViewerPropertyPanel from './Viewing.Extension.Derivative.ViewerPropertyPanel'
+import DerivativesPanel from './Viewing.Extension.Derivative.Panel'
+import {Formats} from './Viewing.Extension.Derivative.Constants'
 import DerivativeAPI from './Viewing.Extension.Derivative.API'
 import JobPanel from './Viewing.Extension.Derivative.JobPanel'
 import ExtensionBase from 'ExtensionBase'
+import ViewerToolkit from 'ViewerToolkit'
 
 class DerivativeExtension extends ExtensionBase {
 
@@ -19,7 +22,7 @@ class DerivativeExtension extends ExtensionBase {
     super(viewer, options)
 
     this.api = new DerivativeAPI({
-      apiUrl: '/api/derivative'
+      apiUrl: '/api/derivatives'
     })
   }
 
@@ -33,6 +36,15 @@ class DerivativeExtension extends ExtensionBase {
   }
 
   /////////////////////////////////////////////////////////////////
+  // Formats
+  //
+  /////////////////////////////////////////////////////////////////
+  get Formats() {
+
+    return Formats
+  }
+
+  /////////////////////////////////////////////////////////////////
   // Load callback
   //
   /////////////////////////////////////////////////////////////////
@@ -41,15 +53,15 @@ class DerivativeExtension extends ExtensionBase {
     this._viewer.addEventListener(
       Autodesk.Viewing.GEOMETRY_LOADED_EVENT, () => {
 
-        if(!this.panel) {
+        if(!this.propertyPanel) {
 
-          this.panel = new DerivativePropertyPanel(
+          this.propertyPanel = new ViewerPropertyPanel(
             this._viewer, this.api)
 
-          this._viewer.setPropertyPanel(this.panel)
+          this._viewer.setPropertyPanel(this.propertyPanel)
         }
       })
-
+    
     console.log('Viewing.Extension.Derivative loaded')
 
     return true
@@ -162,6 +174,20 @@ class DerivativeExtension extends ExtensionBase {
   deleteManifest(urn) {
 
     this.api.deleteManifest(urn)
+  }
+
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
+  loadDerivativesPanel(params) {
+
+    var panel = new DerivativesPanel(
+      this, params)
+
+    panel.setVisible(true)
+
+    return panel
   }
 }
 

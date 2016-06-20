@@ -25,22 +25,23 @@ import favicon from 'serve-favicon'
 import express from 'express'
 
 //Webpack hot reloading stuff
-import webpackConfig from '../../webpack/webpack.config.development';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
-import webpack from 'webpack';
+import webpackConfig from '../../webpack/webpack.config.development'
+import webpackDevMiddleware from 'webpack-dev-middleware'
+import webpackHotMiddleware from 'webpack-hot-middleware'
+import webpack from 'webpack'
 
 //Endpoints
-import DerivativeAPI from './api/endpoints/derivative'
+import DerivativeAPI from './api/endpoints/derivatives'
 import TokenAPI from './api/endpoints/token'
 import UserAPI from './api/endpoints/user'
 import AuthAPI from './api/endpoints/auth'
 import DMAPI from './api/endpoints/dm'
 
 //Services
-import DerivativeSvc from './api/services/DerivativeSvc';
-import SocketSvc from './api/services/SocketSvc';
-import DMSvc from './api/services/DMSvc';
+import DerivativeSvc from './api/services/DerivativeSvc'
+import SocketSvc from './api/services/SocketSvc'
+import AuthSvc from './api/services/AuthSvc'
+import DMSvc from './api/services/DMSvc'
 
 /////////////////////////////////////////////////////////////////////
 // Webpack hot-reloading setup
@@ -48,14 +49,14 @@ import DMSvc from './api/services/DMSvc';
 /////////////////////////////////////////////////////////////////////
 function setWebpackHotReloading(app) {
 
-    var compiler = webpack(webpackConfig);
+    var compiler = webpack(webpackConfig)
 
     app.use(webpackDevMiddleware(compiler, {
         noInfo: true,
         publicPath: webpackConfig.output.publicPath
-    }));
+    }))
 
-    app.use(webpackHotMiddleware(compiler));
+    app.use(webpackHotMiddleware(compiler))
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -65,7 +66,7 @@ function setWebpackHotReloading(app) {
 var app = express()
 
 if(process.env.WEBPACK == 'hot')
-    setWebpackHotReloading(app);
+    setWebpackHotReloading(app)
 
 app.use('/resources', express.static(__dirname + '/../../resources'))
 app.use(favicon(__dirname + '/../../resources/img/forge.png'))
@@ -74,7 +75,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cookieParser())
 
-var store = new Session.MemoryStore;
+var store = new Session.MemoryStore
 
 var session = Session({
     secret: 'peperonipizza',
@@ -89,7 +90,7 @@ app.use(session)
 // Routes setup
 //
 /////////////////////////////////////////////////////////////////////
-app.use('/api/derivative', DerivativeAPI())
+app.use('/api/derivatives', DerivativeAPI())
 app.use('/api/token', TokenAPI())
 app.use('/api/user', UserAPI())
 app.use('/api/auth', AuthAPI())
@@ -108,7 +109,11 @@ var server = app.listen(app.get('port'), function() {
             server,
             session
         }
-    });
+    })
+
+    var authSvc = new AuthSvc({
+        config: config
+    })
 
     var dmSvc = new DMSvc({
         config: config
