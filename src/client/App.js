@@ -60,13 +60,6 @@ export default class App {
   //////////////////////////////////////////////////////////////////////////
   async login() {
 
-    if(config.env === 'development') {
-      this.background.stop()
-      this.viewer = new Viewer($('#viewer')[0], config)
-      this.loggedIn = true
-      return
-    }
-
     await this.register()
 
     $.ajax({

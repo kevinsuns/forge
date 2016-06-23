@@ -16,15 +16,15 @@ module.exports = {
         token2LeggedUrl: '/api/token/2legged',
         viewerEnv: 'AutodeskProduction',
         env: 'development',
-        host: 'localhost',
+        host: 'local.dev.com',
         port: 3000
     },
 
     serverConfig: {
 
-        hardcodedToken: '0lGAe57Ojcloh3nl1v2b65ewtyIQ', //only for dev
+        //hardcodedToken: 'HAMdMsUgHXuU9U6KTH2LrOfY0eXg', //only for dev
 
-        redirectUrl: 'https://autodesk-forge.herokuapp.com/api/auth/callback',
+        redirectUrl: 'http://local.dev.com:3000/api/auth/callback',
         authenticationUrl: '/authentication/' + OAUTH_VERSION + '/authorize',
         accessTokenUrl: '/authentication/' + OAUTH_VERSION + '/gettoken',
         baseUrl: BASE_URL,
@@ -39,8 +39,8 @@ module.exports = {
         ].join(' '),
 
         credentials: {
-            ConsumerKey: process.env.LMV_STG_CONSUMERKEY,
-            ConsumerSecret: process.env.LMV_STG_CONSUMERSECRET
+            ConsumerKey: process.env.FORGE_DEV_CONSUMERKEY,
+            ConsumerSecret: process.env.FORGE_DEV_CONSUMERSECRET
         },
 
         endPoints: {

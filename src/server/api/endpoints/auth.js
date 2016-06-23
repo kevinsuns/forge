@@ -55,6 +55,12 @@ module.exports = function() {
   /////////////////////////////////////////////////////////////////////////////
   router.get('/callback', function (req, res) {
 
+    if(!req.query || !req.query.code) {
+
+      res.json('invalid request')
+      return
+    }
+
     oauth2.getOAuthAccessToken(
       req.query.code, {
         'grant_type': 'authorization_code',
@@ -76,7 +82,7 @@ module.exports = function() {
           var socketSvc = ServiceManager.getService(
             'SocketSvc')
 
-          if(req.session.socketId){
+          if(req.session.socketId) {
 
             socketSvc.broadcast(
               'callback', 'done',

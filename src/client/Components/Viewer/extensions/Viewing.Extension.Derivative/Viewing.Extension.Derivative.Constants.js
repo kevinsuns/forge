@@ -107,7 +107,9 @@ module.exports = {
       "cam360",
       "wire",
       "iam",
-      "fbx"
+      "fbx",
+      "dwf",
+      "dwfx"
     ]
   }
 }

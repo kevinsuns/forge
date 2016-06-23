@@ -111,7 +111,7 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
   //
   //
   /////////////////////////////////////////////////////////////
-  onTreeNodeDoubleClick (tree, node, event) {
+  async onTreeNodeDoubleClick (tree, node, event) {
 
     switch(node.type) {
 
@@ -181,6 +181,28 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
       case 'exports.stl':
       case 'exports.obj':
 
+        if(!node.derivativeResult ||
+            node.derivativeResult.status === 'not found') {
+
+          var job = await this.extension.api.postJob(node)
+
+          console.log(job)
+        }
+
+        // wait till derivative urn is available
+
+        var result = await this.extension.api.getDerivativeURN(
+          node, this.onDerivativeProgress(node))
+
+        if(result.status === 'success'){
+
+          var url = this.extension.api.buildDownloadUrl(
+            node.urn,
+            result.derivativeUrn,
+            node.filename)
+
+          downloadURI(url, node.filename)
+        }
 
         break
     }
@@ -232,6 +254,11 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
     node.isCollapsed = () => {
       return $(parent).parent().hasClass('collapsed')
+    }
+
+    node.setProgress = (progress) => {
+
+      label.textContent = text + ' ' + progress
     }
   }
 
@@ -308,24 +335,46 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
       case 'exports':
 
+        var modelName = this.params.name.split(".")[0]
         var fileType = this.params.name.split(".").pop(-1)
 
         if(Formats.iges.indexOf(fileType) > -1) {
 
           var igesNode = {
-            name: 'IGES',
+            id: ToolPanelBase.guid(),
+            urn: this.params.urn,
             type: 'exports.iges',
+            filename: modelName,
+            outputType: 'iges',
+            name: 'IGES',
             group: true
           }
 
           addChildCallback(igesNode)
 
-          this.extension.api.getDerivativeURN({
-            outputType: 'iges'
+          this.extension.api.getDerivativeURN(
+            igesNode, (progress) => {
 
-          }).then((derivativeResult) => {
+              console.log(progress)
 
+            }).then((derivativeResult) => {
+
+            console.log('derivativeResult')
             console.log(derivativeResult)
+
+            igesNode.derivativeResult = derivativeResult
+
+            if(derivativeResult.status === 'not found'){
+
+              igesNode.setProgress('0%')
+
+            } else {
+
+            }
+          }, (error) => {
+
+              console.log('derivativeResult ERROR')
+              console.log(error)
           })
         }
 
@@ -388,13 +437,26 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
         break
     }
   }
+
+  /////////////////////////////////////////////////////////////////
+  // onDerivativeProgress
+  //
+  /////////////////////////////////////////////////////////////////
+  onDerivativeProgress (node) {
+
+    return (progress) => {
+
+      console.log(progress)
+    }
+  }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
-class DerivativesPropertyPanel extends Autodesk.Viewing.UI.PropertyPanel {
+class DerivativesPropertyPanel
+  extends Autodesk.Viewing.UI.PropertyPanel {
 
   constructor(container, title, properties) {
 

@@ -229,16 +229,21 @@ export default class AnimatedBackground {
         }
 
         _thisAnimation.start = function() {
+
             $(output).css({display: 'block'})
-            now = Date.now() - start;
-            update();
+
+            _animId = 1
+
             render();
-            _animId = requestAnimationFrame(_thisAnimation.start);
         }
 
         _thisAnimation.stop = function() {
+
             $(output).css({display: 'none'})
-            cancelAnimationFrame(_animId);
+
+            clearTimeout(_animId);
+
+            _animId = 0
         }
 
         _thisAnimation.resize = function() {
@@ -301,7 +306,19 @@ export default class AnimatedBackground {
         }
 
         function render() {
-            renderer.render(scene);
+
+            if(_animId) {
+
+                now = Date.now() - start;
+
+                update();
+
+                _animId = setTimeout(() => {
+                    requestAnimationFrame(_thisAnimation.start)
+                }, 25)
+
+                renderer.render(scene);
+            }
         }
 
         function addEventListeners() {

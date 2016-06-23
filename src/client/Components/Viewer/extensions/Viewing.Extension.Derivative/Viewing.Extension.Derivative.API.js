@@ -233,10 +233,9 @@ export default class DerivativeAPI {
           var manifest = await this.getManifest(
             params.urn)
 
-          if(manifest.status === 'error') {
-
-            return reject(manifest)
-          }
+          //if(manifest.status === 'failed') {
+          //  return reject(manifest)
+          //}
 
           if(!manifest.derivatives) {
 
@@ -245,8 +244,6 @@ export default class DerivativeAPI {
 
           var derivativeResult = await findDerivative(
             manifest, params)
-
-          //console.log(derivativeResult)
 
           if(derivativeResult.target &&
              derivativeResult.target.status === 'success') {
@@ -329,7 +326,15 @@ function findDerivative(manifest, params) {
 
           parentDerivative = derivative
 
-          if (derivative.children) {
+          if(derivative.outputType !== 'obj'){
+
+            resolve({
+              parent: parentDerivative,
+              target: parentDerivative
+            })
+          }
+
+          else if (derivative.children) {
 
             derivative.children.forEach((childDerivative) => {
 

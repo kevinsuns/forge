@@ -199,7 +199,7 @@ export default class ViewerPropertyPanel extends
       name = name.split('[')[ 0 ]
 
       var modelName = this.currentModel.name.split(".")[0]
-      var extension = this.currentModel.name.split(".").pop(-1)
+      var fileType = this.currentModel.name.split(".").pop(-1)
 
       var manifestProperty = {
 
@@ -209,7 +209,7 @@ export default class ViewerPropertyPanel extends
         href: '/api/derivatives/manifest/' +
               `${this.currentModel.storageUrn}`,
 
-        category: 'Model Derivatives',
+        category: 'Model Derivatives - JSON',
         dataType: 'link'
       }
 
@@ -224,7 +224,7 @@ export default class ViewerPropertyPanel extends
               `${this.currentModel.storageUrn}/` +
               `${this.currentModel.guid}`,
 
-        category: 'Model Derivatives',
+        category: 'Model Derivatives - JSON',
         dataType: 'link'
       }
 
@@ -239,13 +239,13 @@ export default class ViewerPropertyPanel extends
         `${this.currentModel.storageUrn}/` +
         `${this.currentModel.guid}`,
 
-        category: 'Model Derivatives',
+        category: 'Model Derivatives - JSON',
         dataType: 'link'
       }
 
       this.addMetaProperty(propsProperty)
 
-      if(Formats.iges.indexOf(extension) > -1) {
+      if(Formats.iges.indexOf(fileType) > -1) {
 
         var stepDerivativeProperty = {
 
@@ -263,7 +263,7 @@ export default class ViewerPropertyPanel extends
         this.addDerivativeProperty(stepDerivativeProperty)
       }
 
-      if(Formats.step.indexOf(extension) > -1) {
+      if(Formats.step.indexOf(fileType) > -1) {
 
         var stepDerivativeProperty = {
 
@@ -281,7 +281,7 @@ export default class ViewerPropertyPanel extends
         this.addDerivativeProperty(stepDerivativeProperty)
       }
 
-      if(Formats.stl.indexOf(extension) > -1) {
+      if(Formats.stl.indexOf(fileType) > -1) {
 
         var stepDerivativeProperty = {
 
@@ -299,7 +299,28 @@ export default class ViewerPropertyPanel extends
         this.addDerivativeProperty(stepDerivativeProperty)
       }
 
-      var objDerivativeProperty = {
+      if(Formats.obj.indexOf(fileType) > -1) {
+
+        var objDerivativeProperty = {
+
+          name: 'OBJ',
+          nameId: guid(),
+          value: `Download ${modelName}.obj`,
+          category: 'Model Derivatives',
+          dataType: 'derivative',
+          filename: `${modelName}.obj`,
+
+          urn: this.currentModel.storageUrn,
+          guid: this.currentModel.guid,
+          //pass -1 for whole model
+          objectIds: [ -1 ],
+          outputType: 'obj'
+        }
+
+        this.addDerivativeProperty(objDerivativeProperty)
+      }
+
+      var objCompDerivativeProperty = {
 
         name: 'OBJ',
         nameId: guid(),
@@ -314,7 +335,7 @@ export default class ViewerPropertyPanel extends
         outputType: 'obj'
       }
 
-      this.addDerivativeProperty(objDerivativeProperty)
+      this.addDerivativeProperty(objCompDerivativeProperty)
     }
   }
 
