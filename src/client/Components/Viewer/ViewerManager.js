@@ -21,7 +21,7 @@ import 'Viewing.Extension.Derivative/Viewing.Extension.Derivative'
 import 'Viewing.Extension.A360View/Viewing.Extension.A360View'
 import ViewerToolkit from 'ViewerToolkit'
 
-export default class Viewer {
+export default class ViewerManager {
 
   //////////////////////////////////////////////////////////////////////////
   // Viewer Component constructor
@@ -29,35 +29,51 @@ export default class Viewer {
   //////////////////////////////////////////////////////////////////////////
   constructor (container, config) {
 
-    var options = {
+    this._domContainer = container
 
-      env: config.viewerEnv,
-
-      refreshToken: () => {
-        return this.getToken(config.token3LeggedUrl)
-      },
-
-      getAccessToken: () => {
-        return this.getToken(config.token3LeggedUrl)
-      }
-    }
-
-    Autodesk.Viewing.Initializer(options, () => {
-
-      this.viewer = new Autodesk.Viewing.Private.GuiViewer3D(
-        container)
-
-      this.viewer.initialize()
-
-      this.initializeUI()
-
-      this.loadExtensions()
-    })
+    this._config = config
 
     this.onNodeAddedHandler = (node) => {
 
       return this.onNodeAdded(node)
     }
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+  // Initialize viewer
+  //
+  //////////////////////////////////////////////////////////////////////////
+  initialize () {
+
+    return new Promise((resolve, reject) => {
+
+      var options = {
+
+        env: this._config.viewerEnv,
+
+        refreshToken: () => {
+          return this.getToken(this._config.token3LeggedUrl)
+        },
+
+        getAccessToken: () => {
+          return this.getToken(this._config.token3LeggedUrl)
+        }
+      }
+
+      Autodesk.Viewing.Initializer(options, () => {
+
+        this.viewer = new Autodesk.Viewing.Private.GuiViewer3D(
+          this._domContainer)
+
+        this.viewer.initialize()
+
+        this.initializeUI()
+
+        this.loadExtensions()
+
+        resolve(this.viewer)
+      })
+    })
   }
 
   //////////////////////////////////////////////////////////////////////////

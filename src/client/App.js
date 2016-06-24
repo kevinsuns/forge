@@ -19,7 +19,7 @@ import 'babel-polyfill'
 import Background from 'AnimatedBackground/AnimatedBackground'
 import {clientConfig as config} from 'c0nfig'
 import ioClient from 'socket.io-client'
-import Viewer from 'Viewer/Viewer'
+import ViewerManager from 'Viewer/ViewerManager'
 import 'bootstrap-webpack'
 import './styles/app.css'
 
@@ -212,7 +212,13 @@ export default class App {
       var viewerContainer =
         document.getElementById('viewer')
 
-      this.viewer = new Viewer(viewerContainer, config)
+      this.viewerManager = new ViewerManager(
+        viewerContainer, config)
+
+      this.viewerManager.initialize().then((viewer) => {
+
+        console.log(viewer)
+      })
     })
   }
 }
