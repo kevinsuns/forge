@@ -1,7 +1,7 @@
 
 import BaseSvc from './BaseSvc'
 
-export default class AuthSvc extends BaseSvc {
+export default class ForgeSvc extends BaseSvc {
 
   /////////////////////////////////////////////////////////////////
   //
@@ -18,7 +18,7 @@ export default class AuthSvc extends BaseSvc {
   /////////////////////////////////////////////////////////////////
   name () {
 
-    return 'AuthSvc'
+    return 'ForgeSvc'
   }
 
   /////////////////////////////////////////////////////////////////
@@ -27,7 +27,9 @@ export default class AuthSvc extends BaseSvc {
   /////////////////////////////////////////////////////////////////
   setToken(session, token) {
 
-    session.token = token
+    session.forge = session.forge || {}
+
+    session.forge.token = token
 
     session.cookie.expires = false
   }
@@ -38,8 +40,8 @@ export default class AuthSvc extends BaseSvc {
   /////////////////////////////////////////////////////////////////
   getToken (req) {
 
-    return req.session.token || {
-        access_token: this._config.hardcodedToken
+    return req.session.forge.token || {
+        access_token: this._config.forge.oauth.hardcodedToken
     }
   }
 }

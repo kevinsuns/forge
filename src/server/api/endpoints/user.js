@@ -16,10 +16,10 @@ module.exports = function() {
 
     try {
 
-      var authSvc = ServiceManager.getService(
-        'AuthSvc');
+      var forgeSvc = ServiceManager.getService(
+        'ForgeSvc');
 
-      var token = await authSvc.getToken(req)
+      var token = await forgeSvc.getToken(req)
 
       var dmSvc = ServiceManager.getService('DMSvc')
 

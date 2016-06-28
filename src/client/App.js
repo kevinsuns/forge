@@ -34,7 +34,7 @@ export default class App {
     return new Promise((resolve, reject) => {
 
       $.ajax({
-        url: '/api/auth/register',
+        url: '/api/app/register',
         type: 'POST',
         contentType: 'application/json',
         dataType: 'json',
@@ -63,7 +63,7 @@ export default class App {
     await this.register()
 
     $.ajax({
-      url: '/api/auth/login',
+      url: '/api/forge/login',
       type: 'POST',
       contentType: 'application/json',
       dataType: 'json',
@@ -93,7 +93,7 @@ export default class App {
   //////////////////////////////////////////////////////////////////////////
   logout() {
 
-    this.viewer.destroy()
+    this.viewerManager.destroy()
 
     this.background.start()
 
@@ -101,7 +101,7 @@ export default class App {
     $('#loginItem').removeClass('active')
 
     $.ajax({
-      url: '/api/auth/logout',
+      url: '/api/forge/logout',
       type: 'POST',
       contentType: 'application/json',
       dataType: 'json',
@@ -213,7 +213,7 @@ export default class App {
         document.getElementById('viewer')
 
       this.viewerManager = new ViewerManager(
-        viewerContainer, config)
+        viewerContainer, config.forge)
 
       this.viewerManager.initialize().then((viewer) => {
 

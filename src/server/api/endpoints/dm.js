@@ -16,10 +16,10 @@ module.exports = function() {
 
     try {
 
-      var authSvc = ServiceManager.getService(
-        'AuthSvc');
+      var forgeSvc = ServiceManager.getService(
+        'ForgeSvc');
 
-      var token = await authSvc.getToken(req)
+      var token = await forgeSvc.getToken(req)
       
       var dmSvc = ServiceManager.getService('DMSvc')
 
@@ -44,10 +44,10 @@ module.exports = function() {
 
     try {
 
-      var authSvc = ServiceManager.getService(
-        'AuthSvc');
+      var forgeSvc = ServiceManager.getService(
+        'ForgeSvc');
 
-      var token = await authSvc.getToken(req)
+      var token = await forgeSvc.getToken(req)
       
       var dmSvc = ServiceManager.getService('DMSvc')
 
@@ -74,10 +74,10 @@ module.exports = function() {
       
       var hubId = req.params.hubId
 
-      var authSvc = ServiceManager.getService(
-        'AuthSvc');
+      var forgeSvc = ServiceManager.getService(
+        'ForgeSvc');
 
-      var token = await authSvc.getToken(req)
+      var token = await forgeSvc.getToken(req)
 
       var dmSvc = ServiceManager.getService('DMSvc')
 
@@ -106,10 +106,10 @@ module.exports = function() {
 
       var projectId = req.params.projectId
 
-      var authSvc = ServiceManager.getService(
-        'AuthSvc');
+      var forgeSvc = ServiceManager.getService(
+        'ForgeSvc');
 
-      var token = await authSvc.getToken(req)
+      var token = await forgeSvc.getToken(req)
 
       var dmSvc = ServiceManager.getService('DMSvc')
 
@@ -138,10 +138,10 @@ module.exports = function() {
 
       var folderId = req.params.folderId
 
-      var authSvc = ServiceManager.getService(
-        'AuthSvc');
+      var forgeSvc = ServiceManager.getService(
+        'ForgeSvc');
 
-      var token = await authSvc.getToken(req)
+      var token = await forgeSvc.getToken(req)
 
       var dmSvc = ServiceManager.getService('DMSvc')
 
@@ -170,10 +170,10 @@ module.exports = function() {
 
       var itemId = req.params.itemId
 
-      var authSvc = ServiceManager.getService(
-        'AuthSvc');
+      var forgeSvc = ServiceManager.getService(
+        'ForgeSvc');
 
-      var token = await authSvc.getToken(req)
+      var token = await forgeSvc.getToken(req)
 
       var dmSvc = ServiceManager.getService('DMSvc')
 

@@ -32,15 +32,15 @@ import webpack from 'webpack'
 
 //Endpoints
 import DerivativeAPI from './api/endpoints/derivatives'
-import TokenAPI from './api/endpoints/token'
+import ForgeAPI from './api/endpoints/forge'
 import UserAPI from './api/endpoints/user'
-import AuthAPI from './api/endpoints/auth'
+import AppAPI from './api/endpoints/app'
 import DMAPI from './api/endpoints/dm'
 
 //Services
 import DerivativeSvc from './api/services/DerivativeSvc'
 import SocketSvc from './api/services/SocketSvc'
-import AuthSvc from './api/services/AuthSvc'
+import ForgeSvc from './api/services/ForgeSvc'
 import DMSvc from './api/services/DMSvc'
 
 /////////////////////////////////////////////////////////////////////
@@ -91,9 +91,9 @@ app.use(session)
 //
 /////////////////////////////////////////////////////////////////////
 app.use('/api/derivatives', DerivativeAPI())
-app.use('/api/token', TokenAPI())
+app.use('/api/forge', ForgeAPI())
 app.use('/api/user', UserAPI())
-app.use('/api/auth', AuthAPI())
+app.use('/api/app', AppAPI())
 app.use('/api/dm', DMAPI())
 
 /////////////////////////////////////////////////////////////////////
@@ -111,16 +111,16 @@ var server = app.listen(app.get('port'), function() {
         }
     })
 
-    var authSvc = new AuthSvc({
-        config: config
+    var forgeSvc = new ForgeSvc({
+        config: config.forge
     })
 
     var dmSvc = new DMSvc({
-        config: config
+        config: config.forge
     })
 
     var derivativeSvc = new DerivativeSvc({
-        config: config
+        config: config.forge
     })
 
     console.log('Server listening on: ')

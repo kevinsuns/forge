@@ -18,10 +18,10 @@ module.exports = function() {
       
       var payload = JSON.parse(req.body.payload)
 
-      var authSvc = ServiceManager.getService(
-        'AuthSvc');
+      var forgeSvc = ServiceManager.getService(
+        'ForgeSvc');
 
-      var token = await authSvc.getToken(req)
+      var token = await forgeSvc.getToken(req)
       
       var derivativeSvc = ServiceManager.getService(
         'DerivativeSvc')
@@ -81,10 +81,10 @@ module.exports = function() {
       
       var urn = req.params.urn
 
-      var authSvc = ServiceManager.getService(
-        'AuthSvc');
+      var forgeSvc = ServiceManager.getService(
+        'ForgeSvc');
 
-      var token = await authSvc.getToken(req)
+      var token = await forgeSvc.getToken(req)
 
       var derivativeSvc = ServiceManager.getService(
         'DerivativeSvc');
@@ -112,10 +112,10 @@ module.exports = function() {
 
       var urn = req.params.urn
 
-      var authSvc = ServiceManager.getService(
-        'AuthSvc');
+      var forgeSvc = ServiceManager.getService(
+        'ForgeSvc');
 
-      var token = await authSvc.getToken(req)
+      var token = await forgeSvc.getToken(req)
 
       var derivativeSvc = ServiceManager.getService(
         'DerivativeSvc');
@@ -145,10 +145,10 @@ module.exports = function() {
 
       var guid = req.params.guid
 
-      var authSvc = ServiceManager.getService(
-        'AuthSvc');
+      var forgeSvc = ServiceManager.getService(
+        'ForgeSvc');
 
-      var token = await authSvc.getToken(req)
+      var token = await forgeSvc.getToken(req)
 
       var derivativeSvc = ServiceManager.getService(
         'DerivativeSvc');
@@ -178,10 +178,10 @@ module.exports = function() {
 
       var guid = req.params.guid
 
-      var authSvc = ServiceManager.getService(
-        'AuthSvc');
+      var forgeSvc = ServiceManager.getService(
+        'ForgeSvc');
 
-      var token = await authSvc.getToken(req)
+      var token = await forgeSvc.getToken(req)
 
       var derivativeSvc = ServiceManager.getService(
         'DerivativeSvc');
@@ -209,10 +209,10 @@ module.exports = function() {
       
       var urn = req.params.urn
 
-      var authSvc = ServiceManager.getService(
-        'AuthSvc');
+      var forgeSvc = ServiceManager.getService(
+        'ForgeSvc');
 
-      var token = await authSvc.getToken(req)
+      var token = await forgeSvc.getToken(req)
 
       var derivativeSvc = ServiceManager.getService(
         'DerivativeSvc');
@@ -244,10 +244,10 @@ module.exports = function() {
 
       var derivativeUrn = req.query.derivativeUrn
 
-      var authSvc = ServiceManager.getService(
-        'AuthSvc');
+      var forgeSvc = ServiceManager.getService(
+        'ForgeSvc');
 
-      var token = await authSvc.getToken(req)
+      var token = await forgeSvc.getToken(req)
 
       var derivativeSvc = ServiceManager.getService(
         'DerivativeSvc');
@@ -285,10 +285,10 @@ module.exports = function() {
         height: req.query.height || 100
       }
 
-      var authSvc = ServiceManager.getService(
-        'AuthSvc');
+      var forgeSvc = ServiceManager.getService(
+        'ForgeSvc');
 
-      var token = await authSvc.getToken(req)
+      var token = await forgeSvc.getToken(req)
 
       var derivativeSvc = ServiceManager.getService(
         'DerivativeSvc');

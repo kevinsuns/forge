@@ -3,18 +3,22 @@
 // DEVELOPMENT configuration
 //
 /////////////////////////////////////////////////////////////////////
-var BASE_URL = 'https://developer.api.autodesk.com'
-var DERIVATIVE_VERSION = 'v2'
-var OAUTH_VERSION = 'v1'
-var OSS_VERSION = 'v1'
-var DM_VERSION = 'v1'
+var FORGE_BASE_URL = 'https://developer.api.autodesk.com'
+var FORGE_DERIVATIVE_VERSION = 'v2'
+var FORGE_OAUTH_VERSION = 'v1'
+var FORGE_OSS_VERSION = 'v1'
+var FORGE_DM_VERSION = 'v1'
 
 module.exports = {
 
     clientConfig: {
-        token3LeggedUrl: '/api/token/3legged',
-        token2LeggedUrl: '/api/token/2legged',
-        viewerEnv: 'AutodeskProduction',
+
+        forge: {
+            token3LeggedUrl: '/api/forge/3legged',
+            token2LeggedUrl: '/api/forge/2legged',
+            viewerEnv: 'AutodeskProduction'
+        },
+
         env: 'development',
         host: 'local.dev.com',
         port: 3000
@@ -22,56 +26,59 @@ module.exports = {
 
     serverConfig: {
 
-        //hardcodedToken: 'HAMdMsUgHXuU9U6KTH2LrOfY0eXg', //only for dev
-
-        redirectUrl: 'http://local.dev.com:3000/api/auth/callback',
-        authenticationUrl: '/authentication/' + OAUTH_VERSION + '/authorize',
-        accessTokenUrl: '/authentication/' + OAUTH_VERSION + '/gettoken',
-        baseUrl: BASE_URL,
         port: 3000,
+        
+        forge: {
 
-        scope: [
-            'data:read',
-            'data:create',
-            'data:write',
-            'bucket:read',
-            'bucket:create'
-        ].join(' '),
+            oauth: {
 
-        credentials: {
-            ConsumerKey: process.env.FORGE_DEV_CONSUMERKEY,
-            ConsumerSecret: process.env.FORGE_DEV_CONSUMERSECRET
-        },
+                clientId: process.env.FORGE_DEV_CLIENTID,
+                clientSecret: process.env.FORGE_DEV_CLIENTSECRET,
 
-        endPoints: {
+                baseUri: FORGE_BASE_URL,
+                authenticationUri: '/authentication/' + FORGE_OAUTH_VERSION + '/authorize',
+                accessTokenUri:  '/authentication/' + FORGE_OAUTH_VERSION + '/gettoken',
+                redirectUri: 'http://local.dev.com:3000/api/forge/oauth/callback',
+                
+                scope: [
+                    'data:read',
+                    'data:create',
+                    'data:write',
+                    'bucket:read',
+                    'bucket:create'
+                ].join(' ')
+            },
 
-            authenticate:     BASE_URL + '/authentication/' + OAUTH_VERSION + '/authenticate',
+            endPoints: {
 
-            getBucket:        BASE_URL + '/oss/' + OSS_VERSION + '/buckets/%s/details',
-            createBucket:     BASE_URL + '/oss/' + OSS_VERSION + '/buckets',
-            upload:           BASE_URL + '/oss/' + OSS_VERSION + '/buckets/%s/objects/%s',
-            resumableUpload:  BASE_URL + '/oss/' + OSS_VERSION + '/buckets/%s/objects/%s/resumable',
+                authenticate:     FORGE_BASE_URL + '/authentication/' + FORGE_OAUTH_VERSION + '/authenticate',
 
-            supported:        BASE_URL + '/viewingservice/' + OSS_VERSION + '/supported',
-            register:         BASE_URL + '/viewingservice/' + OSS_VERSION + '/register',
-            viewable:         BASE_URL + '/viewingservice/' + OSS_VERSION + '/%s',
-            items:            BASE_URL + '/viewingservice/' + OSS_VERSION + '/items/%s',
+                getBucket:        FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/details',
+                createBucket:     FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets',
+                upload:           FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/objects/%s',
+                resumableUpload:  FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/objects/%s/resumable',
 
-            user:            BASE_URL + '/userprofile/'    + DM_VERSION + '/users/@me',
+                supported:        FORGE_BASE_URL + '/viewingservice/' + FORGE_OSS_VERSION + '/supported',
+                register:         FORGE_BASE_URL + '/viewingservice/' + FORGE_OSS_VERSION + '/register',
+                viewable:         FORGE_BASE_URL + '/viewingservice/' + FORGE_OSS_VERSION + '/%s',
+                items:            FORGE_BASE_URL + '/viewingservice/' + FORGE_OSS_VERSION + '/items/%s',
 
-            hubs:            BASE_URL + '/project/'        + DM_VERSION + '/hubs',
-            projects:        BASE_URL + '/project/'        + DM_VERSION + '/hubs/%s/projects',
-            project:         BASE_URL + '/project/'        + DM_VERSION + '/hubs/%s/projects/%s',
-            folderContent:   BASE_URL + '/data/'           + DM_VERSION + '/projects/%s/folders/%s/contents',
-            itemVersions:    BASE_URL + '/data/'           + DM_VERSION + '/projects/%s/items/%s/versions',
+                user:            FORGE_BASE_URL + '/userprofile/'    + FORGE_DM_VERSION + '/users/@me',
 
-            job:             BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/job',
-            manifest:        BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/manifest',
-            download:        BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/manifest/%s',
-            metadata:        BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/metadata',
-            hierarchy:       BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/metadata/%s',
-            properties:      BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/metadata/%s/properties',
-            thumbnail:       BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/thumbnail?width=%s&height=%s'
+                hubs:            FORGE_BASE_URL + '/project/'        + FORGE_DM_VERSION + '/hubs',
+                projects:        FORGE_BASE_URL + '/project/'        + FORGE_DM_VERSION + '/hubs/%s/projects',
+                project:         FORGE_BASE_URL + '/project/'        + FORGE_DM_VERSION + '/hubs/%s/projects/%s',
+                folderContent:   FORGE_BASE_URL + '/data/'           + FORGE_DM_VERSION + '/projects/%s/folders/%s/contents',
+                itemVersions:    FORGE_BASE_URL + '/data/'           + FORGE_DM_VERSION + '/projects/%s/items/%s/versions',
+
+                job:             FORGE_BASE_URL + '/modelderivative/' + FORGE_DERIVATIVE_VERSION + '/designdata/job',
+                manifest:        FORGE_BASE_URL + '/modelderivative/' + FORGE_DERIVATIVE_VERSION + '/designdata/%s/manifest',
+                download:        FORGE_BASE_URL + '/modelderivative/' + FORGE_DERIVATIVE_VERSION + '/designdata/%s/manifest/%s',
+                metadata:        FORGE_BASE_URL + '/modelderivative/' + FORGE_DERIVATIVE_VERSION + '/designdata/%s/metadata',
+                hierarchy:       FORGE_BASE_URL + '/modelderivative/' + FORGE_DERIVATIVE_VERSION + '/designdata/%s/metadata/%s',
+                properties:      FORGE_BASE_URL + '/modelderivative/' + FORGE_DERIVATIVE_VERSION + '/designdata/%s/metadata/%s/properties',
+                thumbnail:       FORGE_BASE_URL + '/modelderivative/' + FORGE_DERIVATIVE_VERSION + '/designdata/%s/thumbnail?width=%s&height=%s'
+            }
         }
     }
 }

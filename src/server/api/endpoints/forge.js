@@ -9,23 +9,12 @@ module.exports = function() {
   var router = express.Router()
 
   var oauth2 = new OAuth2(
-    config.credentials.ConsumerKey,
-    config.credentials.ConsumerSecret,
-    config.baseUrl,
-    config.authenticationUrl,
-    config.accessTokenUrl,
+    config.forge.oauth.clientId,
+    config.forge.oauth.clientSecret,
+    config.forge.oauth.baseUri,
+    config.forge.oauth.authenticationUri,
+    config.forge.oauth.accessTokenUri,
     null)
-
-  /////////////////////////////////////////////////////////////////////////////
-  // Register socketId from client
-  //
-  /////////////////////////////////////////////////////////////////////////////
-  router.post('/register', function (req, res) {
-
-    req.session.socketId = req.body.socketId
-
-    res.json('success')
-  })
 
   /////////////////////////////////////////////////////////////////////////////
   // login endpoint
@@ -34,8 +23,8 @@ module.exports = function() {
   router.post('/login', function (req, res) {
 
     var authURL = oauth2.getAuthorizeUrl({
-      redirect_uri: config.redirectUrl,
-      scope: config.scope
+      redirect_uri: config.forge.oauth.redirectUri,
+      scope: config.forge.oauth.scope
     })
 
     res.json(authURL + '&response_type=code')
@@ -53,7 +42,7 @@ module.exports = function() {
   //  }
   //
   /////////////////////////////////////////////////////////////////////////////
-  router.get('/callback', function (req, res) {
+  router.get('/oauth/callback', function (req, res) {
 
     if(!req.query || !req.query.code) {
 
@@ -64,16 +53,16 @@ module.exports = function() {
     oauth2.getOAuthAccessToken(
       req.query.code, {
         'grant_type': 'authorization_code',
-        'redirect_uri': config.redirectUrl
+        'redirect_uri': config.forge.oauth.redirectUri
       },
       function (err, access_token, refresh_token, results) {
 
         try {
 
-          var authSvc = ServiceManager.getService(
-            'AuthSvc')
+          var forgeSvc = ServiceManager.getService(
+            'ForgeSvc')
 
-          authSvc.setToken(req.session, {
+          forgeSvc.setToken(req.session, {
             expires_in: results.expires_in,
             refresh_token: refresh_token,
             access_token: access_token
@@ -106,7 +95,8 @@ module.exports = function() {
   /////////////////////////////////////////////////////////////////////////////
   router.post('/logout', function (req, res) {
 
-    req.session.destroy()
+    req.session.forge = null
+
     res.json('logged out')
   })
 
@@ -125,6 +115,28 @@ module.exports = function() {
         req.session.token = access_token
       });
   }
+
+  ///////////////////////////////////////////////////////////////////////////
+  // 3-legged token
+  //
+  ///////////////////////////////////////////////////////////////////////////
+  router.get('/3legged', async (req, res) => {
+
+    try {
+
+      var forgeSvc = ServiceManager.getService(
+        'ForgeSvc');
+
+      var token = await forgeSvc.getToken(req)
+
+      res.json(token)
+    }
+    catch (error) {
+
+      res.status(error.statusCode || 404);
+      res.json(error);
+    }
+  })
 
   return router
 }
