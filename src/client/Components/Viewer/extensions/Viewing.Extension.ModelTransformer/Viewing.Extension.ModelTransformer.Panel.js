@@ -386,4 +386,14 @@ export default class ModelTransformerPanel extends ToolPanelBase {
     $(`#${this.container.id}-Ry`).val(rotation.y.toFixed(2))
     $(`#${this.container.id}-Rz`).val(rotation.z.toFixed(2))
   }
+
+  /////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////
+  clearSelection () {
+
+    this.txTool.clearSelection()
+    this.rxTool.clearSelection()
+  }
 }

@@ -402,7 +402,7 @@ class ModelTransformerExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   clearModels () {
 
-    this.panel.tool.clearSelection()
+    this.panel.clearSelection()
 
     this.panel.dropdown.clear()
 
