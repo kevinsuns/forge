@@ -39,6 +39,7 @@ module.exports = {
     }),
 
     new html({
+      threeJS: 'https://autodeskviewer.com/viewers/2.8/three.js',
       viewer3D: 'https://autodeskviewer.com/viewers/2.8/viewer3D.js',
       viewerCSS: 'https://autodeskviewer.com/viewers/2.8/style.css',
       template: './layout/index.ejs',

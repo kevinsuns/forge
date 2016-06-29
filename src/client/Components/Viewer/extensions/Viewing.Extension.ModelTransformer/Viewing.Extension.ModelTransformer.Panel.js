@@ -3,9 +3,11 @@
 //
 //
 /////////////////////////////////////////////////////////////////////
-import TransformTool from './Viewing.Extension.ModelTransformer.Tool'
+import TranslateTool from './Viewing.Tool.Translate'
+import RotateTool from './Viewing.Tool.Rotate'
 import './Viewing.Extension.ModelTransformer.css'
 import ToolPanelBase from 'ToolPanelBase'
+import SwitchButton from 'SwitchButton'
 import Dropdown from 'Dropdown'
 
 export default class ModelTransformerPanel extends ToolPanelBase {
@@ -34,7 +36,7 @@ export default class ModelTransformerPanel extends ToolPanelBase {
 
       this.currentModel = model
 
-      if(model) {
+      if (model) {
 
         this.setTransform(model.transform)
 
@@ -45,15 +47,16 @@ export default class ModelTransformerPanel extends ToolPanelBase {
       }
     })
 
-    $(`#${this.container.id}-apply-btn`).click(() => {
+    var applyTransform = (model) => {
 
-      this.tool.clearSelection()
+      this.txTool.clearSelection()
+      this.rxTool.clearSelection()
 
-      if (this.currentModel) {
+      if (model) {
 
         this.emit('model.transform', {
 
-          model: this.currentModel,
+          model: model,
 
           transform: {
             translation: this.getTranslation(),
@@ -62,13 +65,25 @@ export default class ModelTransformerPanel extends ToolPanelBase {
           }
         })
       }
+    }
+
+    this.fullTransformSwitch = new SwitchButton(
+      `#${this.container.id}-full-transform-switch`)
+
+    this.fullTransformSwitch.on('checked', (checked) => {
+
+      this.txTool.fullTransform = checked
+      this.rxTool.fullTransform = checked
+
+      this.txTool.clearSelection()
+      this.rxTool.clearSelection()
     })
 
-    $(`#${this.container.id}-delete-btn`).click(() => {
+    $(`#${this.container.id}-unload-btn`).click(() => {
 
-      this.tool.clearSelection()
+      this.txTool.clearSelection()
 
-      if(this.currentModel) {
+      if (this.currentModel) {
 
         this.emit('model.delete', {
 
@@ -81,70 +96,94 @@ export default class ModelTransformerPanel extends ToolPanelBase {
 
     this.viewer = viewer
 
-    this.tool = new TransformTool(viewer)
+    this.txTool = new TranslateTool(viewer)
+    this.rxTool = new RotateTool(viewer)
 
-    this.viewer.toolController.registerTool(this.tool)
+    this.txTool.fullTransform = true
+    this.rxTool.fullTransform = true
 
-    this.tool.on('transform.TxChange', (data)=>{
+    this.viewer.toolController.registerTool(this.txTool)
+    this.viewer.toolController.registerTool(this.rxTool)
+
+    this.txTool.on('transform.translate', (data) => {
+
+      data.model.transform.translation = data.translation
 
       this.setTranslation(
         data.model.transform.translation)
     })
 
-    this.tool.on('transform.modelSelected', (model)=>{
+    this.rxTool.on('transform.rotate', (data) => {
 
-      this.dropdown.setCurrentItem(model)
+      data.model.transform.rotation = data.rotation
 
-      this.setTransform(model.transform)
-
-      this.currentModel = model
-
-      this.emit('model.selected', {
-        fitToView: false,
-        model
+      this.setRotation({
+        x: (data.rotation.x * 180 / Math.PI) % 360,
+        y: (data.rotation.y * 180 / Math.PI) % 360,
+        z: (data.rotation.z * 180 / Math.PI) % 360
       })
     })
+
+    var onModelSelected = (selection) => {
+
+      this.dropdown.setCurrentItem(selection.model)
+
+      this.setTransform(selection.model.transform)
+
+      this.currentModel = selection.model
+
+      this.emit('model.selected', {
+        model: selection.model,
+        fitToView: false
+      })
+    }
+
+    this.txTool.on('transform.modelSelected',
+      onModelSelected)
+
+    this.rxTool.on('transform.modelSelected',
+      onModelSelected)
 
     this.on('open', () => {
 
       this.viewer.toolController.activateTool(
-        this.tool.getName())
+        this.txTool.getName())
     })
 
     this.on('close', () => {
 
       this.viewer.toolController.deactivateTool(
-        this.tool.getName())
+        this.txTool.getName())
+
+      this.viewer.toolController.deactivateTool(
+        this.rxTool.getName())
     })
 
-    $('.model-transformer .scale').on(
+    $('.model-transformer .trans, ' +
+      '.model-transformer .rot').on(
       'change keyup input paste', ()=>{
 
-        if(this.currentModel){
-
-          this.currentModel.transform.scale =
-            this.getScale()
-        }
-      })
+        applyTransform(this.currentModel)
+    })
 
     $('.model-transformer .trans').on(
-      'change keyup input paste', ()=>{
+      'focus', () => {
 
-        if(this.currentModel){
+        this.viewer.toolController.deactivateTool(
+          this.rxTool.getName())
 
-          this.currentModel.transform.translation =
-            this.getTranslation()
-        }
+        this.viewer.toolController.activateTool(
+          this.txTool.getName())
     })
 
     $('.model-transformer .rot').on(
-      'change keyup input paste', ()=>{
+      'focus', () => {
 
-        if(this.currentModel) {
+        this.viewer.toolController.deactivateTool(
+          this.txTool.getName())
 
-          this.currentModel.transform.rotation =
-            this.getRotation()
-        }
+        this.viewer.toolController.activateTool(
+          this.rxTool.getName())
     })
 
     $(`#${this.container.id}-Sx`).on('change keyup', () => {
@@ -153,6 +192,8 @@ export default class ModelTransformerPanel extends ToolPanelBase {
 
       $(`#${this.container.id}-Sy`).val(scale)
       $(`#${this.container.id}-Sz`).val(scale)
+
+      applyTransform(this.currentModel)
     })
   }
 
@@ -181,15 +222,15 @@ export default class ModelTransformerPanel extends ToolPanelBase {
           <hr class="v-spacer">
 
           <input id="${id}-Sx" type="text"
-            class="input numeric"
+            class="input numeric scale"
             placeholder="  x (1.0)">
 
           <input id="${id}-Sy" type="text"
-            class="input numeric"
+            class="input numeric scale"
             placeholder="  y (1.0)">
 
           <input id="${id}-Sz" type="text"
-            class="input numeric"
+            class="input numeric scale"
             placeholder="  z (1.0)">
 
           <hr class="v-spacer">
@@ -201,15 +242,15 @@ export default class ModelTransformerPanel extends ToolPanelBase {
           <hr class="v-spacer">
 
           <input id="${id}-Tx" type="text"
-            class="input numeric"
+            class="input numeric trans"
             placeholder="  x (0.0)">
 
           <input id="${id}-Ty" type="text"
-            class="input numeric"
+            class="input numeric trans"
             placeholder="  y (0.0)">
 
           <input id="${id}-Tz" type="text"
-            class="input numeric"
+            class="input numeric trans"
             placeholder="  z (0.0)">
 
           <hr class="v-spacer">
@@ -221,43 +262,42 @@ export default class ModelTransformerPanel extends ToolPanelBase {
           <hr class="v-spacer">
 
           <input id="${id}-Rx" type="text"
-            class="input numeric"
+            class="input numeric rot"
             placeholder="  x (0.0)">
 
           <input id="${id}-Ry" type="text"
-            class="input numeric"
+            class="input numeric rot"
             placeholder="  y (0.0)">
 
           <input id="${id}-Rz" type="text"
-            class="input numeric"
+            class="input numeric rot"
             placeholder="  z (0.0)">
 
           <hr class="v-spacer-large">
 
         </div>
 
-        <div style="margin-top:8px;">
+        <div style="margin-top:8px">
 
-          <button class="btn btn-info"
-                  id="${id}-apply-btn">
-            <span class="glyphicon glyphicon-ok btn-span"
-                  aria-hidden="true">
-            </span>
-             Apply Transform
-          </button>
+          <div style="color:white;">
+          Full Model Transform
+            <div id="${id}-full-transform-switch"
+              style="float:left; margin-right:8px;">
+            </div>
+          </div>
 
           <hr class="v-spacer-large">
 
           <button class="btn btn-danger"
-                  id="${id}-delete-btn">
-            <span class="glyphicon glyphicon-remove btn-span"
+                  id="${id}-unload-btn">
+            <span class="glyphicon glyphicon-save-file btn-span"
                   aria-hidden="true">
             </span>
-             Delete Model
+             Unload Model
           </button>
         </div>
 
-      </div>`;
+      </div>`
   }
 
   /////////////////////////////////////////////////////////////
@@ -283,53 +323,67 @@ export default class ModelTransformerPanel extends ToolPanelBase {
   // Gets input transform
   //
   /////////////////////////////////////////////////////////////
-  getScale() {
+  getScale () {
 
-    var x = parseFloat($(`#${this.container.id}-Sx`).val());
-    var y = parseFloat($(`#${this.container.id}-Sy`).val());
-    var z = parseFloat($(`#${this.container.id}-Sz`).val());
+    var x = parseFloat($(`#${this.container.id}-Sx`).val())
+    var y = parseFloat($(`#${this.container.id}-Sy`).val())
+    var z = parseFloat($(`#${this.container.id}-Sz`).val())
 
-    x = isNaN(x) ? 1.0 : x;
-    y = isNaN(y) ? 1.0 : y;
-    z = isNaN(z) ? 1.0 : z;
+    x = isNaN(x) ? 1.0 : x
+    y = isNaN(y) ? 1.0 : y
+    z = isNaN(z) ? 1.0 : z
 
-    return new THREE.Vector3(x, y, z);
+    return new THREE.Vector3(x, y, z)
   }
 
-  getTranslation() {
+  getTranslation () {
 
-    var x = parseFloat($(`#${this.container.id}-Tx`).val());
-    var y = parseFloat($(`#${this.container.id}-Ty`).val());
-    var z = parseFloat($(`#${this.container.id}-Tz`).val());
+    var x = parseFloat($(`#${this.container.id}-Tx`).val())
+    var y = parseFloat($(`#${this.container.id}-Ty`).val())
+    var z = parseFloat($(`#${this.container.id}-Tz`).val())
 
-    x = isNaN(x) ? 0.0 : x;
-    y = isNaN(y) ? 0.0 : y;
-    z = isNaN(z) ? 0.0 : z;
+    x = isNaN(x) ? 0.0 : x
+    y = isNaN(y) ? 0.0 : y
+    z = isNaN(z) ? 0.0 : z
 
-    return new THREE.Vector3(x, y, z);
+    return new THREE.Vector3(x, y, z)
   }
 
-  getRotation() {
+  getRotation () {
 
-    var x = parseFloat($(`#${this.container.id}-Rx`).val());
-    var y = parseFloat($(`#${this.container.id}-Ry`).val());
-    var z = parseFloat($(`#${this.container.id}-Rz`).val());
+    var x = parseFloat($(`#${this.container.id}-Rx`).val())
+    var y = parseFloat($(`#${this.container.id}-Ry`).val())
+    var z = parseFloat($(`#${this.container.id}-Rz`).val())
 
-    x = isNaN(x) ? 0.0 : x;
-    y = isNaN(y) ? 0.0 : y;
-    z = isNaN(z) ? 0.0 : z;
+    x = isNaN(x) ? 0.0 : x
+    y = isNaN(y) ? 0.0 : y
+    z = isNaN(z) ? 0.0 : z
 
-    return new THREE.Vector3(x, y, z);
+    return new THREE.Vector3(x, y, z)
   }
 
   /////////////////////////////////////////////////////////////
   //
   //
   /////////////////////////////////////////////////////////////
-  setTranslation(translation){
+  setScale (scale) {
 
-    $(`#${this.container.id}-Tx`).val(translation.x.toFixed(2));
-    $(`#${this.container.id}-Ty`).val(translation.y.toFixed(2));
-    $(`#${this.container.id}-Tz`).val(translation.z.toFixed(2));
+    $(`#${this.container.id}-Sx`).val(scale.x.toFixed(2))
+    $(`#${this.container.id}-Sy`).val(scale.y.toFixed(2))
+    $(`#${this.container.id}-Sz`).val(scale.z.toFixed(2))
+  }
+  
+  setTranslation (translation) {
+
+    $(`#${this.container.id}-Tx`).val(translation.x.toFixed(2))
+    $(`#${this.container.id}-Ty`).val(translation.y.toFixed(2))
+    $(`#${this.container.id}-Tz`).val(translation.z.toFixed(2))
+  }
+
+  setRotation (rotation) {
+
+    $(`#${this.container.id}-Rx`).val(rotation.x.toFixed(2))
+    $(`#${this.container.id}-Ry`).val(rotation.y.toFixed(2))
+    $(`#${this.container.id}-Rz`).val(rotation.z.toFixed(2))
   }
 }

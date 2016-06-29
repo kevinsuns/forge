@@ -217,7 +217,7 @@ export default class App {
 
       this.viewerManager.initialize().then((viewer) => {
 
-        console.log(viewer)
+
       })
     })
   }

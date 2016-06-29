@@ -177,6 +177,8 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
     super()
 
     this.extension = extension
+
+    this.clickTimeout = 0
   }
 
   /////////////////////////////////////////////////////////////
@@ -201,7 +203,39 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
   //
   //
   /////////////////////////////////////////////////////////////
+  onTreeNodeIconClick (tree, node, event) {
+
+    clearTimeout(this.clickTimeout)
+
+    this.clickTimeout = setTimeout(() => {
+
+      tree.setCollapsed(node, !tree.isCollapsed(node))
+
+    }, 200)
+  }
+
+  /////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////
+  onTreeNodeClick (tree, node, event) {
+
+    clearTimeout(this.clickTimeout)
+
+    this.clickTimeout = setTimeout(() => {
+
+      tree.setCollapsed(node, !tree.isCollapsed(node))
+
+    }, 200)
+  }
+
+  /////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////
   onTreeNodeDoubleClick (tree, node, event) {
+
+    clearTimeout(this.clickTimeout)
 
     this.extension.emit('node.dblClick', node)
   }

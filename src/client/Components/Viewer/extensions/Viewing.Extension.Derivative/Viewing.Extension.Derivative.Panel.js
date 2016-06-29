@@ -57,6 +57,7 @@ export default class DerivativePanel extends ToolPanelBase{
       this.params)
 
     var rootNode = {
+      id: ToolPanelBase.guid(),
       name: this.params.name,
       type: 'root',
       group: true
@@ -87,6 +88,8 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
     this.extension = extension
 
     this.params = params
+
+    this.clickTimeout = 0
   }
 
   /////////////////////////////////////////////////////////////
@@ -112,6 +115,8 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
   //
   /////////////////////////////////////////////////////////////
   async onTreeNodeDoubleClick (tree, node, event) {
+
+    clearTimeout(this.clickTimeout)
 
     switch(node.type) {
 
@@ -242,20 +247,6 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
     label.textContent = text;
 
-    node.expand = () => {
-      $(parent).parent().removeClass('collapsed')
-      $(parent).parent().addClass('expanded')
-    }
-
-    node.collapse = () => {
-      $(parent).parent().removeClass('expanded')
-      $(parent).parent().addClass('collapsed')
-    }
-
-    node.isCollapsed = () => {
-      return $(parent).parent().hasClass('collapsed')
-    }
-
     node.setProgress = (progress) => {
 
       label.textContent = text + ' ' + progress
@@ -268,9 +259,28 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
   /////////////////////////////////////////////////////////////
   onTreeNodeIconClick (tree, node, event) {
 
-    node.isCollapsed() ?
-      node.expand():
-      node.collapse()
+    clearTimeout(this.clickTimeout)
+
+    this.clickTimeout = setTimeout(() => {
+
+      tree.setCollapsed(node, !tree.isCollapsed(node))
+
+    }, 200)
+  }
+
+  /////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////
+  onTreeNodeClick (tree, node, event) {
+
+    clearTimeout(this.clickTimeout)
+
+    this.clickTimeout = setTimeout(() => {
+
+      tree.setCollapsed(node, !tree.isCollapsed(node))
+
+    }, 200)
   }
 
   /////////////////////////////////////////////////////////////
@@ -286,14 +296,13 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
         try {
 
           var exportsNode = {
+            id: ToolPanelBase.guid(),
             name: 'Exports',
             type: 'exports',
             group: true
           }
 
           addChildCallback(exportsNode)
-
-          exportsNode.collapse()
 
           var manifest = await this.extension.api.getManifest(
             this.params.urn)
@@ -310,6 +319,7 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
             var hierarchyNode = {
               objects: hierarchy.objects,
+              id: ToolPanelBase.guid(),
               name: 'Hierarchy',
               type: 'objects',
               group: true
@@ -322,8 +332,6 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
               })
 
             addChildCallback(hierarchyNode)
-
-            hierarchyNode.collapse()
           }
         }
         catch(ex) {
@@ -381,6 +389,7 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
         if(Formats.step.indexOf(fileType) > -1) {
 
           var stepNode = {
+            id: ToolPanelBase.guid(),
             name: 'STEP',
             type: 'exports.step',
             group: true
@@ -392,6 +401,7 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
         if(Formats.stl.indexOf(fileType) > -1) {
 
           var stlNode = {
+            id: ToolPanelBase.guid(),
             name: 'STL',
             type: 'exports.stl',
             group: true
@@ -401,6 +411,7 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
         }
 
         var objNode = {
+          id: ToolPanelBase.guid(),
           name: 'OBJ',
           type: 'exports.obj',
           group: true
@@ -429,8 +440,6 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
             }
 
             addChildCallback(objectNode)
-
-            objectNode.collapse()
           })
         }
 

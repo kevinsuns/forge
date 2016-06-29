@@ -13,20 +13,20 @@ class ModelTransformerExtension extends ExtensionBase {
   // Class constructor
   //
   /////////////////////////////////////////////////////////////////
-  constructor(viewer, options) {
+  constructor (viewer, options) {
 
-    super(viewer, options);
+    super(viewer, options)
 
     this.firstModelLoaded = null
 
     this.modelCollection = {}
 
-    this.onGeometryLoadedHandler = (e) =>{
+    this.onGeometryLoadedHandler = (e) => {
 
       this.onGeometryLoaded(e)
     }
 
-    this.onAggregateSelectionChangedHandler = (e) =>{
+    this.onAggregateSelectionChangedHandler = (e) => {
 
       this.onAggregateSelectionChanged(e)
     }
@@ -36,7 +36,7 @@ class ModelTransformerExtension extends ExtensionBase {
   // Extension Id
   //
   /////////////////////////////////////////////////////////////////
-  static get ExtensionId() {
+  static get ExtensionId () {
 
     return 'Viewing.Extension.ModelTransformer'
   }
@@ -45,7 +45,7 @@ class ModelTransformerExtension extends ExtensionBase {
   // Load callback
   //
   /////////////////////////////////////////////////////////////////
-  load() {
+  load () {
 
     this.loadControls()
 
@@ -71,7 +71,7 @@ class ModelTransformerExtension extends ExtensionBase {
     this.control = ViewerToolkit.createButton(
       'toolbar-model-transformer',
       'adsk-button-icon model-transformer-icon',
-      'Transform Models', ()=>{
+      'Transform Models', () => {
 
         this.panel.toggleVisibility()
       })
@@ -80,7 +80,28 @@ class ModelTransformerExtension extends ExtensionBase {
       this._viewer,
       this.control.container)
 
-    this.panel.on('model.transform', (data)=>{
+    this.panel.on('open', () => {
+
+      if(this._options.autoLoad) {
+
+        var loadedModels = this._viewer.impl.modelQueue().getModels()
+
+        loadedModels.forEach((model) => {
+
+          model.modelId = model.modelId || ExtensionBase.guid()
+
+          if (!this.modelCollection[ model.modelId ]) {
+
+            model.name = model.name ||
+            'Model ' + (Object.keys(this.modelCollection).length + 1)
+
+            this.addModel(model)
+          }
+        })
+      }
+    })
+
+    this.panel.on('model.transform', (data) => {
 
       data.model.transform = data.transform
 
@@ -89,7 +110,7 @@ class ModelTransformerExtension extends ExtensionBase {
       this._viewer.impl.sceneUpdated(true)
     })
 
-    this.panel.on('model.delete', (data)=>{
+    this.panel.on('model.delete', (data) => {
 
       this.deleteModel(
         data.model)
@@ -97,9 +118,9 @@ class ModelTransformerExtension extends ExtensionBase {
       this._viewer.impl.sceneUpdated(true)
     })
 
-    this.panel.on('model.selected', (data)=>{
+    this.panel.on('model.selected', (data) => {
 
-      if(data.fitToView) {
+      if (data.fitToView) {
 
         this.fitModelToView(data.model)
       }
@@ -114,13 +135,28 @@ class ModelTransformerExtension extends ExtensionBase {
 
     this._options.parentControl.addControl(
       this.control)
+
+    if(this._options.autoLoad) {
+
+      var model = e.target.model
+
+      model.modelId = model.modelId || ExtensionBase.guid()
+
+      if (!this.modelCollection[ model.modelId ]) {
+
+        model.name = model.name ||
+        'Model ' + (Object.keys(this.modelCollection).length + 1)
+
+        this.addModel(model)
+      }
+    }
   }
 
   /////////////////////////////////////////////////////////////////
   // Unload callback
   //
   /////////////////////////////////////////////////////////////////
-  unload() {
+  unload () {
 
     this._viewer.removeEventListener(
       Autodesk.Viewing.GEOMETRY_LOADED_EVENT,
@@ -130,7 +166,7 @@ class ModelTransformerExtension extends ExtensionBase {
       Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED_EVENT,
       this.onAggregateSelectionChangedHandler)
 
-    if(this.control) {
+    if (this.control) {
 
       this._options.parentControl.removeControl(
         this.control)
@@ -145,7 +181,7 @@ class ModelTransformerExtension extends ExtensionBase {
   // Fix model structure when selecting model
   //
   /////////////////////////////////////////////////////////////////
-  onAggregateSelectionChanged(event) {
+  onAggregateSelectionChanged (event) {
 
     if (event.selections && event.selections.length) {
 
@@ -159,7 +195,7 @@ class ModelTransformerExtension extends ExtensionBase {
   // Applies transform to specific model
   //
   /////////////////////////////////////////////////////////////////
-  applyTransform(model) {
+  applyTransform (model) {
 
     var viewer = this._viewer
 
@@ -173,7 +209,7 @@ class ModelTransformerExtension extends ExtensionBase {
 
     quaternion.setFromEuler(euler)
 
-    function _transformFragProxy(fragId){
+    function _transformFragProxy (fragId) {
 
       var fragProxy = viewer.impl.getFragmentProxy(
         model,
@@ -198,7 +234,7 @@ class ModelTransformerExtension extends ExtensionBase {
       fragments.fragId2dbId.length
 
     //fragIds range from 0 to fragCount-1
-    for(var fragId=0; fragId<fragCount; ++fragId){
+    for (var fragId = 0; fragId < fragCount; ++fragId) {
 
       _transformFragProxy(fragId)
     }
@@ -212,9 +248,11 @@ class ModelTransformerExtension extends ExtensionBase {
 
     var instanceTree = model.getData().instanceTree
 
-    if(instanceTree){
+    if (instanceTree) {
 
       var rootId = instanceTree.getRootId()
+
+      this._viewer.model = model
 
       this._viewer.fitToView([rootId])
     }
@@ -228,7 +266,7 @@ class ModelTransformerExtension extends ExtensionBase {
 
     var instanceTree = model.getData().instanceTree
 
-    if(instanceTree){
+    if (instanceTree && this._viewer.modelstructure) {
 
       this._viewer.modelstructure.setModel(
         instanceTree)
@@ -243,17 +281,17 @@ class ModelTransformerExtension extends ExtensionBase {
 
     this.modelCollection[model.modelId] = model
 
-    if(!model.transform) {
+    if (!model.transform) {
 
       model.transform = {
         scale: {
-          x:1.0, y:1.0, z:1.0
+          x: 1.0, y: 1.0, z: 1.0
         },
         translation: {
-          x:0.0, y:0.0, z:0.0
+          x: 0.0, y: 0.0, z: 0.0
         },
         rotation: {
-          x:0.0, y:0.0, z:0.0
+          x: 0.0, y: 0.0, z: 0.0
         }
       }
     }
@@ -276,9 +314,9 @@ class ModelTransformerExtension extends ExtensionBase {
       transform.translation.z)
 
     var euler = new THREE.Euler(
-      transform.rotation.x * Math.PI/180,
-      transform.rotation.y * Math.PI/180,
-      transform.rotation.z * Math.PI/180,
+      transform.rotation.x * Math.PI / 180,
+      transform.rotation.y * Math.PI / 180,
+      transform.rotation.z * Math.PI / 180,
       'XYZ')
 
     var quaternion = new THREE.Quaternion()
@@ -301,7 +339,7 @@ class ModelTransformerExtension extends ExtensionBase {
   //////////////////////////////////////////////////////////////////////////
   buildPlacementTransform (modelName) {
 
-    if(!this.firstModelLoaded) {
+    if (!this.firstModelLoaded) {
 
       this.firstModelLoaded = modelName
     }
@@ -311,15 +349,15 @@ class ModelTransformerExtension extends ExtensionBase {
     // upon insertion
     const zOriented = ['rvt', 'nwc']
 
-    var placementTransform = new THREE.Matrix4();
+    var placementTransform = new THREE.Matrix4()
 
-    var firstExt = this.firstModelLoaded.split(".").pop(-1)
+    var firstExt = this.firstModelLoaded.split('.').pop(-1)
 
     var modelExt = modelName.split(".").pop(-1)
 
-    if(zOriented.indexOf(firstExt) > -1) {
+    if (zOriented.indexOf(firstExt) > -1) {
 
-      if(zOriented.indexOf(modelExt) < 0) {
+      if (zOriented.indexOf(modelExt) < 0) {
 
         placementTransform.makeRotationX(
           90 * Math.PI/180)
