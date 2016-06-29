@@ -11,23 +11,20 @@ export default class AnimatedBackground {
     //
     //
     /////////////////////////////////////////////////////////////////
-    constructor(container, output) {
+    constructor(container, output, timeout = 25) {
 
-        this.animation = this.loadAnimation(
-          container, output)
-
-        this.animation.resize()
+        this.load(container, output, timeout)
     }
 
     /////////////////////////////////////////////////////////////////
     //
     //
     /////////////////////////////////////////////////////////////////
-    loadAnimation(container, output) {
+    load(container, output, timeout) {
 
-        var _animId = 0;
+        var running = false
 
-        var _thisAnimation = this;
+        var animId = 0
 
         //------------------------------
         // Mesh Properties
@@ -114,7 +111,8 @@ export default class AnimatedBackground {
             createMesh();
             createLights();
             addEventListeners();
-            resize(container.offsetWidth, container.offsetHeight);
+            resize(container.offsetWidth,
+              container.offsetHeight);
         }
 
         function createRenderer() {
@@ -223,36 +221,41 @@ export default class AnimatedBackground {
         }
 
         function resize(width, height) {
-            renderer.setSize(width, height);
-            FSS.Vector3.set(center, renderer.halfWidth, renderer.halfHeight);
-            createMesh();
+
+            renderer.setSize(width, height)
+
+            FSS.Vector3.set(center,
+              renderer.halfWidth,
+              renderer.halfHeight)
+
+            createMesh()
         }
 
-        _thisAnimation.start = function() {
+        this.start = function() {
 
             $(output).css({display: 'block'})
 
-            _animId = 1
-
-            render();
+            running = true
+            
+            render()
         }
 
-        _thisAnimation.stop = function() {
+        this.stop = function() {
+
+            $(output).css({display: 'none'})
+            
+            running = false
+            
+            clearTimeout(animId)
+        }
+
+        this.hide = function() {
 
             $(output).css({display: 'none'})
 
-            clearTimeout(_animId);
-
-            _animId = 0
+            running = false
         }
-
-        _thisAnimation.resize = function() {
-
-            resize(
-              container.offsetWidth,
-              container.offsetHeight);
-        }
-
+        
         function update() {
 
             var ox, oy, oz, l, light, v, vertex, offset = MESH.depth/2;
@@ -307,17 +310,17 @@ export default class AnimatedBackground {
 
         function render() {
 
-            if(_animId) {
+            if(running) {
 
                 now = Date.now() - start;
 
                 update();
 
-                _animId = setTimeout(() => {
-                    requestAnimationFrame(_thisAnimation.start)
-                }, 25)
+                animId = setTimeout(() => {
+                    requestAnimationFrame(render)
+                }, timeout)
 
-                renderer.render(scene);
+                renderer.render(scene)
             }
         }
 
@@ -344,11 +347,8 @@ export default class AnimatedBackground {
             resize(container.offsetWidth, container.offsetHeight);
             render();
         }
-
-        // Let there be light!
+        
         initialize();
-
-        return _thisAnimation;
     }
 }
 

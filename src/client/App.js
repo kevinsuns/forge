@@ -213,9 +213,11 @@ export default class App {
       this.viewerManager = new ViewerManager(
         viewerContainer, config.forge)
 
+      this.background.stop()
+
       this.viewerManager.initialize().then((viewer) => {
 
-        this.background.stop()
+        this.background.hide()
       })
     })
   }

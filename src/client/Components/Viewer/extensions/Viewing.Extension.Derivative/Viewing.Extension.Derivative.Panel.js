@@ -344,80 +344,28 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
       case 'exports':
 
         var modelName = this.params.name.split(".")[0]
+
         var fileType = this.params.name.split(".").pop(-1)
 
-        if(Formats.iges.indexOf(fileType) > -1) {
+        ['iges', 'step', 'stl', 'obj'].forEach((format) => {
 
-          var igesNode = {
-            id: ToolPanelBase.guid(),
-            urn: this.params.urn,
-            type: 'exports.iges',
-            filename: modelName,
-            outputType: 'iges',
-            name: 'IGES',
-            group: true
-          }
+            if(Formats[format].indexOf(fileType) > -1) {
 
-          addChildCallback(igesNode)
+              var exportNode = {
+                id: ToolPanelBase.guid(),
+                urn: this.params.urn,
+                type: 'exports.' + format,
+                filename: modelName,
+                outputType: format,
+                name: format.toUpperCase(),
+                group: true
+              }
 
-          this.extension.api.getDerivativeURN(
-            igesNode, (progress) => {
+              addChildCallback(exportNode)
 
-              console.log(progress)
-
-            }).then((derivativeResult) => {
-
-            console.log('derivativeResult')
-            console.log(derivativeResult)
-
-            igesNode.derivativeResult = derivativeResult
-
-            if(derivativeResult.status === 'not found'){
-
-              igesNode.setProgress('0%')
-
-            } else {
-
+              this.getDerivativeNodeProgress(exportNode)
             }
-          }, (error) => {
-
-              console.log('derivativeResult ERROR')
-              console.log(error)
-          })
-        }
-
-        if(Formats.step.indexOf(fileType) > -1) {
-
-          var stepNode = {
-            id: ToolPanelBase.guid(),
-            name: 'STEP',
-            type: 'exports.step',
-            group: true
-          }
-
-          addChildCallback(stepNode)
-        }
-
-        if(Formats.stl.indexOf(fileType) > -1) {
-
-          var stlNode = {
-            id: ToolPanelBase.guid(),
-            name: 'STL',
-            type: 'exports.stl',
-            group: true
-          }
-
-          addChildCallback(stlNode)
-        }
-
-        var objNode = {
-          id: ToolPanelBase.guid(),
-          name: 'OBJ',
-          type: 'exports.obj',
-          group: true
-        }
-
-        addChildCallback(objNode)
+        })
 
         break
 
@@ -457,6 +405,39 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
       console.log(progress)
     }
+  }
+
+  /////////////////////////////////////////////////////////////////
+  // getDerivativeNodeProgress
+  //
+  /////////////////////////////////////////////////////////////////
+  getDerivativeNodeProgress (node) {
+
+    this.extension.api.getDerivativeURN(
+      node, this.onDerivativeProgress(node)).then(
+      (derivativeResult) => {
+
+        console.log('derivativeResult')
+        console.log(derivativeResult)
+
+        node.derivativeResult = derivativeResult
+
+        if(derivativeResult.status === 'not found'){
+
+          node.setProgress('0%')
+
+        } else {
+
+          node.setProgress('100%')
+        }
+
+      }, (error) => {
+
+        console.log('derivativeResult ERROR')
+        console.log(error)
+
+        node.setProgress('Error')
+      })
   }
 }
 

@@ -190,7 +190,7 @@ class ModelTransformerExtension extends ExtensionBase {
       this.setStructure(selection.model)
     }
   }
-
+  
   /////////////////////////////////////////////////////////////////
   // Applies transform to specific model
   //
