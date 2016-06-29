@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2343a0a1-e1a0-4f3f-a09f-9a0360fa41ed" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer.Panel.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer.Panel.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/App.js" afterPath="$PROJECT_DIR$/src/client/App.js" />
     </list>
     <ignored path="forge.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,103 +26,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dist/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="6.25" vertical-offset="180" max-vertical-offset="1260">
-              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.ejs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/layout/index.ejs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.708333" vertical-offset="196" max-vertical-offset="1260">
-              <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="webpack.config.development.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/webpack/webpack.config.development.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="382" max-vertical-offset="1335">
-              <caret line="41" column="65" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="65" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="webpack.config.production.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/webpack/webpack.config.production.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="660" max-vertical-offset="1605">
-              <caret line="59" column="30" selection-start-line="59" selection-start-column="30" selection-end-line="59" selection-end-column="30" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Viewing.Extension.ModelTransformer.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.26923" vertical-offset="5622" max-vertical-offset="6255">
-              <caret line="407" column="0" selection-start-line="407" selection-start-column="0" selection-end-line="407" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Viewing.Extension.ModelTransformer.Panel.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer.Panel.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.56632656" vertical-offset="5472" max-vertical-offset="6060">
-              <caret line="387" column="3" selection-start-line="387" selection-start-column="3" selection-end-line="387" selection-end-column="3" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Viewing.Tool.Rotate.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.ModelTransformer/Viewing.Tool.Rotate.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.5384617" vertical-offset="5699" max-vertical-offset="15420">
-              <caret line="393" column="17" selection-start-line="393" selection-start-column="12" selection-end-line="393" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Viewing.Tool.Translate.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.ModelTransformer/Viewing.Tool.Translate.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.346153" vertical-offset="3044" max-vertical-offset="6030">
-              <caret line="233" column="42" selection-start-line="233" selection-start-column="42" selection-end-line="233" selection-end-column="42" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="viewer3D.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/libs/viewer/viewer3D.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.9607842" vertical-offset="974018" max-vertical-offset="1608495">
-              <caret line="64948" column="0" selection-start-line="64948" selection-start-column="0" selection-end-line="64948" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ViewerManager.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/ViewerManager.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.9615383" vertical-offset="2984" max-vertical-offset="11100">
+            <state vertical-scroll-proportion="0.0" vertical-offset="10463" max-vertical-offset="11100">
               <caret line="227" column="0" selection-start-line="227" selection-start-column="0" selection-end-line="227" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="App.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/client/App.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.7299843" vertical-offset="2535" max-vertical-offset="3180">
+              <caret line="216" column="0" selection-start-line="216" selection-start-column="0" selection-end-line="216" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -137,7 +54,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/client/utils/Dropdown.js" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.SceneManager/Viewing.Extension.SceneManager.Panel.js" />
         <option value="$PROJECT_DIR$/config/staging.config.js" />
         <option value="$PROJECT_DIR$/heroku.config.sh" />
@@ -178,7 +94,6 @@
         <option value="$PROJECT_DIR$/src/server/api/endpoints/forge.js" />
         <option value="$PROJECT_DIR$/src/server/api/services/ForgeSvc.js" />
         <option value="$PROJECT_DIR$/config/production.config.js" />
-        <option value="$PROJECT_DIR$/src/client/App.js" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.Panel.js" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.Panel.js" />
         <option value="$PROJECT_DIR$/layout/index.ejs" />
@@ -188,6 +103,8 @@
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.ModelTransformer/Viewing.Tool.Rotate.js" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer.Panel.js" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer.js" />
+        <option value="$PROJECT_DIR$/../LMV/lmv-react/Extensions/src/Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer.js" />
+        <option value="$PROJECT_DIR$/src/client/App.js" />
       </list>
     </option>
   </component>
@@ -588,7 +505,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.354475" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32699084" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39948782" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15453385" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -629,14 +546,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/client/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3210">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/client/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="270">
@@ -928,14 +837,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.6295134" vertical-offset="2007" max-vertical-offset="3210">
-          <caret line="219" column="0" selection-start-line="219" selection-start-column="0" selection-end-line="219" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dist/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="6.25" vertical-offset="180" max-vertical-offset="1260">
@@ -960,26 +861,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/webpack/webpack.config.production.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="660" max-vertical-offset="1605">
-          <caret line="59" column="30" selection-start-line="59" selection-start-column="30" selection-end-line="59" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.ModelTransformer/Viewing.Tool.Translate.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-17.346153" vertical-offset="3044" max-vertical-offset="6030">
           <caret line="233" column="42" selection-start-line="233" selection-start-column="42" selection-end-line="233" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/libs/viewer/viewer3D.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.9607842" vertical-offset="974018" max-vertical-offset="1608495">
-          <caret line="64948" column="0" selection-start-line="64948" selection-start-column="0" selection-end-line="64948" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -992,29 +877,61 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/ViewerManager.js">
+    <entry file="file://$PROJECT_DIR$/../LMV/lmv-react/Extensions/src/Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.9615383" vertical-offset="2984" max-vertical-offset="11100">
-          <caret line="227" column="0" selection-start-line="227" selection-start-column="0" selection-end-line="227" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1455" max-vertical-offset="6255">
+          <caret line="127" column="0" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.26923" vertical-offset="5622" max-vertical-offset="6255">
-          <caret line="407" column="0" selection-start-line="407" selection-start-column="0" selection-end-line="407" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.39823008" vertical-offset="1770" max-vertical-offset="6255">
+          <caret line="137" column="0" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webpack/webpack.config.production.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3532182" vertical-offset="660" max-vertical-offset="1605">
+          <caret line="59" column="30" selection-start-line="59" selection-start-column="30" selection-end-line="59" selection-end-column="30" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer.Panel.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.56632656" vertical-offset="5472" max-vertical-offset="6060">
-          <caret line="387" column="3" selection-start-line="387" selection-start-column="3" selection-end-line="387" selection-end-column="3" />
+        <state vertical-scroll-proportion="0.4599018" vertical-offset="5449" max-vertical-offset="6060">
+          <caret line="382" column="26" selection-start-line="382" selection-start-column="26" selection-end-line="382" selection-end-column="26" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/libs/viewer/viewer3D.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3447099" vertical-offset="974018" max-vertical-offset="1608495">
+          <caret line="64948" column="0" selection-start-line="64948" selection-start-column="0" selection-end-line="64948" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/ViewerManager.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="10463" max-vertical-offset="11100">
+          <caret line="227" column="0" selection-start-line="227" selection-start-column="0" selection-end-line="227" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/App.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7299843" vertical-offset="2535" max-vertical-offset="3180">
+          <caret line="216" column="0" selection-start-line="216" selection-start-column="0" selection-end-line="216" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

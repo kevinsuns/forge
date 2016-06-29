@@ -207,8 +207,6 @@ export default class App {
         $('#loginItem').addClass('active')
       })
 
-      this.background.stop()
-
       var viewerContainer =
         document.getElementById('viewer')
 
@@ -217,7 +215,7 @@ export default class App {
 
       this.viewerManager.initialize().then((viewer) => {
 
-
+        this.background.stop()
       })
     })
   }
