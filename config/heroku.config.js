@@ -1,74 +1,84 @@
 
 /////////////////////////////////////////////////////////////////////
-// PRODUCTION configuration
+// PRODUCTION/Heroku configuration
 //
 /////////////////////////////////////////////////////////////////////
-var BASE_URL = 'https://developer.api.autodesk.com'
-var DERIVATIVE_VERSION = 'v2'
-var OAUTH_VERSION = 'v1'
-var OSS_VERSION = 'v1'
-var DM_VERSION = 'v1'
+var FORGE_BASE_URL = 'https://developer.api.autodesk.com'
+var FORGE_DERIVATIVE_VERSION = 'v2'
+var FORGE_OAUTH_VERSION = 'v1'
+var FORGE_OSS_VERSION = 'v1'
+var FORGE_DM_VERSION = 'v1'
 
 module.exports = {
 
   clientConfig: {
-    host: 'https://autodesk-forge.herokuapp.com',
-    token3LeggedUrl: '/api/token/3legged',
-    token2LeggedUrl: '/api/token/2legged',
-    viewerEnv: 'AutodeskProduction',
+
+    forge: {
+      token3LeggedUrl: '/api/forge/3legged',
+      token2LeggedUrl: '/api/forge/2legged',
+      viewerEnv: 'AutodeskProduction'
+    },
+
     env: 'heroku',
+    host: 'https://autodesk-forge.herokuapp.com',
     port: 443
   },
 
   serverConfig: {
 
-    redirectUrl: 'https://autodesk-forge.herokuapp.com/api/auth/callback',
-    authenticationUrl: '/authentication/' + OAUTH_VERSION + '/authorize',
-    accessTokenUrl: '/authentication/' + OAUTH_VERSION + '/gettoken',
-    baseUrl: BASE_URL,
-    port: 3002,
+    port: 3000,
 
-    scope: [
-      'data:read',
-      'data:create',
-      'data:write',
-      'bucket:read',
-      'bucket:create'
-    ].join(' '),
+    forge: {
 
-    credentials: {
-      ConsumerKey: process.env.FORGE_HEROKU_CONSUMERKEY,
-      ConsumerSecret: process.env.FORGE_HEROKU_CONSUMERSECRET
-    },
+      oauth: {
 
-    endPoints: {
+        clientId: process.env.FORGE_HEROKU_CLIENTID,
+        clientSecret: process.env.FORGE_HEROKU_CLIENTSECRET,
 
-      authenticate:     BASE_URL + '/authentication/' + OAUTH_VERSION + '/authenticate',
+        baseUri: FORGE_BASE_URL,
+        authenticationUri: '/authentication/' + FORGE_OAUTH_VERSION + '/authorize',
+        accessTokenUri:  '/authentication/' + FORGE_OAUTH_VERSION + '/gettoken',
+        redirectUri: 'https://autodesk-forge.herokuapp.com/api/forge/oauth/callback',
 
-      getBucket:        BASE_URL + '/oss/' + OSS_VERSION + '/buckets/%s/details',
-      createBucket:     BASE_URL + '/oss/' + OSS_VERSION + '/buckets',
-      upload:           BASE_URL + '/oss/' + OSS_VERSION + '/buckets/%s/objects/%s',
-      resumableUpload:  BASE_URL + '/oss/' + OSS_VERSION + '/buckets/%s/objects/%s/resumable',
+        scope: [
+          'data:read',
+          'data:create',
+          'data:write',
+          'bucket:read',
+          'bucket:create'
+        ]
+      },
 
-      supported:        BASE_URL + '/viewingservice/' + OSS_VERSION + '/supported',
-      register:         BASE_URL + '/viewingservice/' + OSS_VERSION + '/register',
-      viewable:         BASE_URL + '/viewingservice/' + OSS_VERSION + '/%s',
-      items:            BASE_URL + '/viewingservice/' + OSS_VERSION + '/items/%s',
+      endPoints: {
 
-      user:            BASE_URL + '/userprofile/'    + DM_VERSION + '/users/@me',
+        authenticate:     FORGE_BASE_URL + '/authentication/' + FORGE_OAUTH_VERSION + '/authenticate',
 
-      hubs:            BASE_URL + '/project/'        + DM_VERSION + '/hubs',
-      projects:        BASE_URL + '/project/'        + DM_VERSION + '/hubs/%s/projects',
-      project:         BASE_URL + '/project/'        + DM_VERSION + '/hubs/%s/projects/%s',
-      folderContent:   BASE_URL + '/data/'           + DM_VERSION + '/projects/%s/folders/%s/contents',
-      itemVersions:    BASE_URL + '/data/'           + DM_VERSION + '/projects/%s/items/%s/versions',
+        getBucket:        FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/details',
+        createBucket:     FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets',
+        upload:           FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/objects/%s',
+        resumableUpload:  FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/objects/%s/resumable',
 
-      job:             BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/job',
-      manifest:        BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/manifest',
-      download:        BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/manifest/%s',
-      metadata:        BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/metadata',
-      hierarchy:       BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/metadata/%s',
-      thumbnail:       BASE_URL + '/modelderivative/' + DERIVATIVE_VERSION + '/designdata/%s/thumbnail?width=%s&height=%s'
+        supported:        FORGE_BASE_URL + '/viewingservice/' + FORGE_OSS_VERSION + '/supported',
+        register:         FORGE_BASE_URL + '/viewingservice/' + FORGE_OSS_VERSION + '/register',
+        viewable:         FORGE_BASE_URL + '/viewingservice/' + FORGE_OSS_VERSION + '/%s',
+        items:            FORGE_BASE_URL + '/viewingservice/' + FORGE_OSS_VERSION + '/items/%s',
+
+        user:            FORGE_BASE_URL + '/userprofile/'    + FORGE_DM_VERSION + '/users/@me',
+
+        hubs:            FORGE_BASE_URL + '/project/'        + FORGE_DM_VERSION + '/hubs',
+        projects:        FORGE_BASE_URL + '/project/'        + FORGE_DM_VERSION + '/hubs/%s/projects',
+        project:         FORGE_BASE_URL + '/project/'        + FORGE_DM_VERSION + '/hubs/%s/projects/%s',
+        folderContent:   FORGE_BASE_URL + '/data/'           + FORGE_DM_VERSION + '/projects/%s/folders/%s/contents',
+        itemVersions:    FORGE_BASE_URL + '/data/'           + FORGE_DM_VERSION + '/projects/%s/items/%s/versions',
+
+        job:             FORGE_BASE_URL + '/modelderivative/' + FORGE_DERIVATIVE_VERSION + '/designdata/job',
+        manifest:        FORGE_BASE_URL + '/modelderivative/' + FORGE_DERIVATIVE_VERSION + '/designdata/%s/manifest',
+        download:        FORGE_BASE_URL + '/modelderivative/' + FORGE_DERIVATIVE_VERSION + '/designdata/%s/manifest/%s',
+        metadata:        FORGE_BASE_URL + '/modelderivative/' + FORGE_DERIVATIVE_VERSION + '/designdata/%s/metadata',
+        hierarchy:       FORGE_BASE_URL + '/modelderivative/' + FORGE_DERIVATIVE_VERSION + '/designdata/%s/metadata/%s',
+        properties:      FORGE_BASE_URL + '/modelderivative/' + FORGE_DERIVATIVE_VERSION + '/designdata/%s/metadata/%s/properties',
+        thumbnail:       FORGE_BASE_URL + '/modelderivative/' + FORGE_DERIVATIVE_VERSION + '/designdata/%s/thumbnail?width=%s&height=%s'
+      }
     }
   }
 }

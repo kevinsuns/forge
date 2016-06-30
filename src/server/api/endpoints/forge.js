@@ -24,7 +24,7 @@ module.exports = function() {
 
     var authURL = oauth2.getAuthorizeUrl({
       redirect_uri: config.forge.oauth.redirectUri,
-      scope: config.forge.oauth.scope
+      scope: config.forge.oauth.scope.join(' ')
     })
 
     res.json(authURL + '&response_type=code')
@@ -52,8 +52,8 @@ module.exports = function() {
 
     oauth2.getOAuthAccessToken(
       req.query.code, {
-        'grant_type': 'authorization_code',
-        'redirect_uri': config.forge.oauth.redirectUri
+        grant_type: 'authorization_code',
+        redirect_uri: config.forge.oauth.redirectUri
       },
       function (err, access_token, refresh_token, results) {
 
@@ -62,23 +62,39 @@ module.exports = function() {
           var forgeSvc = ServiceManager.getService(
             'ForgeSvc')
 
-          forgeSvc.setToken(req.session, {
-            expires_in: results.expires_in,
-            refresh_token: refresh_token,
-            access_token: access_token
-          })
-
           var socketSvc = ServiceManager.getService(
             'SocketSvc')
 
-          if(req.session.socketId) {
-
-            socketSvc.broadcast(
-              'callback', 'done',
-              req.session.socketId)
+          var token = {
+            expires_in: results.expires_in,
+            refresh_token: refresh_token,
+            access_token: access_token,
+            scope: config.forge.oauth.scope
           }
 
-          res.end('done')
+          forgeSvc.setToken(req.sessionID, token)
+
+          var scope = [
+            'data:read'
+          ]
+
+          forgeSvc.refreshToken(token, scope.join(' ')).then(
+            function(clientToken) {
+
+              clientToken.scope = scope
+
+              forgeSvc.setClientToken(
+                req.sessionID, clientToken)
+
+              if(req.session.socketId) {
+
+                socketSvc.broadcast(
+                  'callback', 'done',
+                  req.session.socketId)
+              }
+
+              res.end('success')
+            })
         }
         catch(ex){
 
@@ -95,46 +111,36 @@ module.exports = function() {
   /////////////////////////////////////////////////////////////////////////////
   router.post('/logout', function (req, res) {
 
-    req.session.forge = null
+    var forgeSvc = ServiceManager.getService(
+      'ForgeSvc')
 
-    res.json('logged out')
+    forgeSvc.deleteToken(req.sessionID)
+
+    res.json('success')
   })
-
-  /////////////////////////////////////////////////////////////////////////////
-  // refresh token
-  //
-  /////////////////////////////////////////////////////////////////////////////
-  function refreshToken() {
-
-    oauth2.getOAuthAccessToken(
-      req.session.refreshToken, {
-        'grant_type': 'refresh_token'
-      },
-      function (err, access_token, refresh_token, results) {
-
-        req.session.token = access_token
-      });
-  }
 
   ///////////////////////////////////////////////////////////////////////////
   // 3-legged token
   //
   ///////////////////////////////////////////////////////////////////////////
-  router.get('/3legged', async (req, res) => {
+  router.get('/3legged', function(req, res) {
 
     try {
 
       var forgeSvc = ServiceManager.getService(
         'ForgeSvc');
 
-      var token = await forgeSvc.getToken(req)
+      var token = forgeSvc.getClientToken(
+        req.sessionID)
 
       res.json(token)
     }
     catch (error) {
 
-      res.status(error.statusCode || 404);
-      res.json(error);
+      console.log(error)
+
+      res.status(error.statusCode || 404)
+      res.json(error)
     }
   })
 

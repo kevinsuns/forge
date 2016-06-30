@@ -46,7 +46,7 @@ module.exports = {
           'data:write',
           'bucket:read',
           'bucket:create'
-        ].join(' ')
+        ]
       },
 
       endPoints: {

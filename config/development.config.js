@@ -38,6 +38,7 @@ module.exports = {
                 baseUri: FORGE_BASE_URL,
                 authenticationUri: '/authentication/' + FORGE_OAUTH_VERSION + '/authorize',
                 accessTokenUri:  '/authentication/' + FORGE_OAUTH_VERSION + '/gettoken',
+                refreshTokenUri: '/authentication/' + FORGE_OAUTH_VERSION + '/refreshtoken',
                 redirectUri: 'http://local.dev.com:3000/api/forge/oauth/callback',
                 
                 scope: [
@@ -46,7 +47,7 @@ module.exports = {
                     'data:write',
                     'bucket:read',
                     'bucket:create'
-                ].join(' ')
+                ]
             },
 
             endPoints: {

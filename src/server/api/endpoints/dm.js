@@ -19,7 +19,7 @@ module.exports = function() {
       var forgeSvc = ServiceManager.getService(
         'ForgeSvc');
 
-      var token = await forgeSvc.getToken(req)
+      var token = await forgeSvc.getToken(req.sessionID)
       
       var dmSvc = ServiceManager.getService('DMSvc')
 
@@ -47,10 +47,10 @@ module.exports = function() {
       var forgeSvc = ServiceManager.getService(
         'ForgeSvc');
 
-      var token = await forgeSvc.getToken(req)
+      var token = await forgeSvc.getToken(req.sessionID)
       
       var dmSvc = ServiceManager.getService('DMSvc')
-
+      
       var response = await dmSvc.getHubs(
         token.access_token)
 
@@ -77,7 +77,7 @@ module.exports = function() {
       var forgeSvc = ServiceManager.getService(
         'ForgeSvc');
 
-      var token = await forgeSvc.getToken(req)
+      var token = await forgeSvc.getToken(req.sessionID)
 
       var dmSvc = ServiceManager.getService('DMSvc')
 
@@ -109,7 +109,7 @@ module.exports = function() {
       var forgeSvc = ServiceManager.getService(
         'ForgeSvc');
 
-      var token = await forgeSvc.getToken(req)
+      var token = await forgeSvc.getToken(req.sessionID)
 
       var dmSvc = ServiceManager.getService('DMSvc')
 
@@ -141,7 +141,7 @@ module.exports = function() {
       var forgeSvc = ServiceManager.getService(
         'ForgeSvc');
 
-      var token = await forgeSvc.getToken(req)
+      var token = await forgeSvc.getToken(req.sessionID)
 
       var dmSvc = ServiceManager.getService('DMSvc')
 
@@ -173,7 +173,7 @@ module.exports = function() {
       var forgeSvc = ServiceManager.getService(
         'ForgeSvc');
 
-      var token = await forgeSvc.getToken(req)
+      var token = await forgeSvc.getToken(req.sessionID)
 
       var dmSvc = ServiceManager.getService('DMSvc')
 

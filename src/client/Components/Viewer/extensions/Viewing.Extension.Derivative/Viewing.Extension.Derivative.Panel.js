@@ -249,7 +249,7 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
     node.setProgress = (progress) => {
 
-      label.textContent = text + ' ' + progress
+      label.textContent = text + ' - ' + progress
     }
   }
 
@@ -347,7 +347,9 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
         var fileType = this.params.name.split(".").pop(-1)
 
-        ['iges', 'step', 'stl', 'obj'].forEach((format) => {
+        var exportFormats = ['iges', 'step', 'stl', 'obj']
+
+        exportFormats.forEach((format) => {
 
             if(Formats[format].indexOf(fileType) > -1) {
 

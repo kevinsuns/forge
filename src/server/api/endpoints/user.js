@@ -19,7 +19,7 @@ module.exports = function() {
       var forgeSvc = ServiceManager.getService(
         'ForgeSvc');
 
-      var token = await forgeSvc.getToken(req)
+      var token = await forgeSvc.getToken(req.sessionID)
 
       var dmSvc = ServiceManager.getService('DMSvc')
 
