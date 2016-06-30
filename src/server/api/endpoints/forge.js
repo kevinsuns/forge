@@ -79,8 +79,6 @@ module.exports = function() {
           forgeSvc.refreshToken(token, downgradedScope).then(
             (clientToken) => {
 
-              clientToken.scope = scope
-
               forgeSvc.setClientToken(
                 req.sessionID, clientToken)
 
@@ -126,7 +124,7 @@ module.exports = function() {
     try {
 
       var forgeSvc = ServiceManager.getService(
-        'ForgeSvc');
+        'ForgeSvc')
 
       var token = forgeSvc.getClientToken(
         req.sessionID)
