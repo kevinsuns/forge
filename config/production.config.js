@@ -32,13 +32,13 @@ module.exports = {
 
       oauth: {
 
-        clientId: process.env.FORGE_CLIENTID,
-        clientSecret: process.env.FORGE_CLIENTSECRET,
-
-        baseUri: FORGE_BASE_URL,
+        refreshTokenUri: '/authentication/' + FORGE_OAUTH_VERSION + '/refreshtoken',
         authenticationUri: '/authentication/' + FORGE_OAUTH_VERSION + '/authorize',
         accessTokenUri:  '/authentication/' + FORGE_OAUTH_VERSION + '/gettoken',
         redirectUri: 'https://forge.autodesk.io/api/forge/oauth/callback',
+        clientSecret: process.env.FORGE_CLIENTSECRET,
+        clientId: process.env.FORGE_CLIENTID,
+        baseUri: FORGE_BASE_URL,
 
         scope: [
           'data:read',

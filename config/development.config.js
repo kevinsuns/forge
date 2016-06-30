@@ -32,14 +32,13 @@ module.exports = {
 
             oauth: {
 
-                clientId: process.env.FORGE_DEV_CLIENTID,
-                clientSecret: process.env.FORGE_DEV_CLIENTSECRET,
-
-                baseUri: FORGE_BASE_URL,
+                refreshTokenUri: '/authentication/' + FORGE_OAUTH_VERSION + '/refreshtoken',
                 authenticationUri: '/authentication/' + FORGE_OAUTH_VERSION + '/authorize',
                 accessTokenUri:  '/authentication/' + FORGE_OAUTH_VERSION + '/gettoken',
-                refreshTokenUri: '/authentication/' + FORGE_OAUTH_VERSION + '/refreshtoken',
                 redirectUri: 'http://local.dev.com:3000/api/forge/oauth/callback',
+                clientSecret: process.env.FORGE_DEV_CLIENTSECRET,
+                clientId: process.env.FORGE_DEV_CLIENTID,
+                baseUri: FORGE_BASE_URL,
                 
                 scope: [
                     'data:read',

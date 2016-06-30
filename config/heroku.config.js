@@ -32,13 +32,13 @@ module.exports = {
 
       oauth: {
 
-        clientId: process.env.FORGE_HEROKU_CLIENTID,
-        clientSecret: process.env.FORGE_HEROKU_CLIENTSECRET,
-
-        baseUri: FORGE_BASE_URL,
+        refreshTokenUri: '/authentication/' + FORGE_OAUTH_VERSION + '/refreshtoken',
         authenticationUri: '/authentication/' + FORGE_OAUTH_VERSION + '/authorize',
         accessTokenUri:  '/authentication/' + FORGE_OAUTH_VERSION + '/gettoken',
-        redirectUri: 'https://autodesk-forge.herokuapp.com/api/forge/oauth/callback',
+        redirectUri: 'https://forge.autodesk.io/api/forge/oauth/callback',
+        clientSecret: process.env.FORGE_HEROKU_CLIENTSECRET,
+        clientId: process.env.FORGE_HEROKU_CLIENTID,
+        baseUri: FORGE_BASE_URL,
 
         scope: [
           'data:read',

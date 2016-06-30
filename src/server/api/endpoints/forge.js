@@ -42,7 +42,7 @@ module.exports = function() {
   //  }
   //
   /////////////////////////////////////////////////////////////////////////////
-  router.get('/oauth/callback', function (req, res) {
+  router.get('/oauth/callback', (req, res) => {
 
     if(!req.query || !req.query.code) {
 
@@ -74,12 +74,10 @@ module.exports = function() {
 
           forgeSvc.setToken(req.sessionID, token)
 
-          var scope = [
-            'data:read'
-          ]
+          var downgradedScope = 'data:read'
 
-          forgeSvc.refreshToken(token, scope.join(' ')).then(
-            function(clientToken) {
+          forgeSvc.refreshToken(token, downgradedScope).then(
+            (clientToken) => {
 
               clientToken.scope = scope
 
@@ -109,7 +107,7 @@ module.exports = function() {
   // logout route
   //
   /////////////////////////////////////////////////////////////////////////////
-  router.post('/logout', function (req, res) {
+  router.post('/logout', (req, res) => {
 
     var forgeSvc = ServiceManager.getService(
       'ForgeSvc')
@@ -123,7 +121,7 @@ module.exports = function() {
   // 3-legged token
   //
   ///////////////////////////////////////////////////////////////////////////
-  router.get('/3legged', function(req, res) {
+  router.get('/3legged', (req, res) => {
 
     try {
 
@@ -133,7 +131,10 @@ module.exports = function() {
       var token = forgeSvc.getClientToken(
         req.sessionID)
 
-      res.json(token)
+      res.json({
+        access_token: token.access_token,
+        expires_in: token.expires_in
+      })
     }
     catch (error) {
 
