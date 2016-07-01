@@ -115,13 +115,16 @@ export default class ModelTransformerPanel extends ToolPanelBase {
 
     this.rxTool.on('transform.rotate', (data) => {
 
-      data.model.transform.rotation = data.rotation
-
-      this.setRotation({
+      var degRotation = {
+        units: 'deg',
         x: (data.rotation.x * 180 / Math.PI) % 360,
         y: (data.rotation.y * 180 / Math.PI) % 360,
         z: (data.rotation.z * 180 / Math.PI) % 360
-      })
+      }
+
+      data.model.transform.rotation = degRotation
+
+      this.setRotation(degRotation)
     })
 
     var onModelSelected = (selection) => {
@@ -310,13 +313,13 @@ export default class ModelTransformerPanel extends ToolPanelBase {
     $(`#${this.container.id}-Ty`).val(transform.translation.y.toFixed(2))
     $(`#${this.container.id}-Tz`).val(transform.translation.z.toFixed(2))
 
-    $(`#${this.container.id}-Rx`).val(transform.rotation.x)
-    $(`#${this.container.id}-Ry`).val(transform.rotation.y)
-    $(`#${this.container.id}-Rz`).val(transform.rotation.z)
+    $(`#${this.container.id}-Rx`).val(transform.rotation.x.toFixed(2))
+    $(`#${this.container.id}-Ry`).val(transform.rotation.y.toFixed(2))
+    $(`#${this.container.id}-Rz`).val(transform.rotation.z.toFixed(2))
 
-    $(`#${this.container.id}-Sx`).val(transform.scale.x)
-    $(`#${this.container.id}-Sy`).val(transform.scale.y)
-    $(`#${this.container.id}-Sz`).val(transform.scale.z)
+    $(`#${this.container.id}-Sx`).val(transform.scale.x.toFixed(2))
+    $(`#${this.container.id}-Sy`).val(transform.scale.y.toFixed(2))
+    $(`#${this.container.id}-Sz`).val(transform.scale.z.toFixed(2))
   }
 
   /////////////////////////////////////////////////////////////

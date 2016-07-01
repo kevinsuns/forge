@@ -116,7 +116,7 @@ module.exports = function() {
   })
 
   ///////////////////////////////////////////////////////////////////////////
-  // 3-legged token
+  // 3-legged client token
   //
   ///////////////////////////////////////////////////////////////////////////
   router.get('/3legged', (req, res) => {
@@ -135,8 +135,6 @@ module.exports = function() {
       })
     }
     catch (error) {
-
-      console.log(error)
 
       res.status(error.statusCode || 404)
       res.json(error)

@@ -26,7 +26,8 @@ export default class ForgeSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // store master token, also need to set refresh_token
+  // for client token, so we can refresh later
   //
   /////////////////////////////////////////////////////////////////
   setToken (sessionId, token) {
@@ -34,12 +35,16 @@ export default class ForgeSvc extends BaseSvc {
     if(!this.tokenStore[sessionId]) {
 
       this.tokenStore[sessionId] = {
-        masterToken: null,
-        clientToken: null
+        masterToken: {},
+        clientToken: {}
       }
     }
 
-    this.tokenStore[sessionId].masterToken = token
+    var entry = this.tokenStore[sessionId]
+
+    entry.clientToken.refresh_token = token.refresh_token
+
+    entry.masterToken = token
   }
 
   /////////////////////////////////////////////////////////////////
@@ -52,12 +57,17 @@ export default class ForgeSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Store client token, also need to set refresh_token
+  // for client token, so we can refresh later
   //
   /////////////////////////////////////////////////////////////////
   setClientToken (sessionId, token) {
 
-    this.tokenStore[sessionId].clientToken = token
+    var entry = this.tokenStore[sessionId]
+
+    entry.masterToken.refresh_token = token.refresh_token
+
+    entry.clientToken = token
   }
 
   /////////////////////////////////////////////////////////////////
