@@ -320,29 +320,37 @@ export default class ViewerManager {
           storageUrn).then((manifest) => {
 
             if (manifest &&
-              manifest.status === 'success' &&
-              manifest.progress === 'complete') {
+                manifest.status === 'success' &&
+                manifest.progress === 'complete') {
 
               version.manifest = manifest
 
               node.parent.classList.add('derivated')
 
-              this.derivativeExtension.getThumbnail(
-                storageUrn, {
-                  width: 200,
-                  height: 200
-                }).then((thumbnail) => {
+              if (this.derivativeExtension.hasDerivative(
+                version.manifest, {outputType: 'svf'})) {
 
-                  var img = `<img width="150" height="150"
+                this.derivativeExtension.getThumbnail(
+                  storageUrn, {
+                    width: 200,
+                    height: 200
+                  }).then((thumbnail) => {
+
+                    var img = `<img width="150" height="150"
                     src='data:image/png;base64,${thumbnail}'/>`
 
-                  node.setTooltip(img)
-                })
+                    node.setTooltip(img)
+                  })
+
+              } else {
+
+                node.setTooltip('no SVF derivative on this item')
+              }
             }
 
           }, (err) => {
 
-            node.setTooltip('no derivative created on this item')
+            node.setTooltip('no derivative on this item')
 
             // file not derivated have no manifest
             // skip those errors
@@ -352,7 +360,7 @@ export default class ViewerManager {
             }
         })
 
-        node.onIteratingChildren = (addChild) => {
+        node.onIteratingChildren = () => {
 
           var derivativesNode = {
             id: node.id + '-derivatives',
@@ -364,7 +372,7 @@ export default class ViewerManager {
             group: true
           }
 
-          addChild(derivativesNode)
+          node.addChild(derivativesNode)
         }
 
         break
@@ -484,11 +492,11 @@ export default class ViewerManager {
         // check if item version has existing svf derivative
         // this has been pre-filled by derivativeExtension
 
-        if (!(version.manifest &&
-              version.manifest.status   === 'success' &&
-              version.manifest.progress === 'complete')) {
+        if (!version.manifest ||
+            !this.derivativeExtension.hasDerivative(
+              version.manifest, {outputType: 'svf'})) {
 
-          var manifest = await this.derivativeExtension.postJob(
+          var manifest = await this.derivativeExtension.postSVFJob(
             version, options.showProgress)
 
           version.manifest = manifest

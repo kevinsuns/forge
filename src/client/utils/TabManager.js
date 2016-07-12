@@ -45,8 +45,8 @@ export default class TabManager extends EventsEmitter {
 
     var tabHtml = `
       <li id="${tabHeaderId}" tabId="${tabId}">
-        <a id="${tabHeaderLinkId}" tabId="${tabId}"
-           class="tab-link">${tabInfo.name}
+        <a id="${tabHeaderLinkId}" tabId="${tabId}" class="tab-link">
+          ${tabInfo.name}
         </a>
       </li>
     `;
@@ -142,11 +142,6 @@ var css = `
     position:relative;
   }
 
-  .tabs a.active{
-    background-color: #fff;
-    border-bottom:1px solid #fff;
-  }
-
   .tabs > div {
     clear: both;
     border:1px solid #CCC;
@@ -168,7 +163,7 @@ var css = `
     z-index: 0;
   }
 
-  .tabs ul{
+  .tabs ul {
     list-style-type:none;
     bottom: -1px;
     position:relative;
@@ -179,7 +174,8 @@ var css = `
     float:left;
   }
 
-  .tabs a{
+  .tabs a, .tab-link,
+  .tabs a, .tab-link:hover {
     cursor: pointer;
     display:block;
     padding:5px 10px;
@@ -196,7 +192,7 @@ var css = `
     border-top-right-radius: 5px;
   }
 
-  .tabs a.active{
+  .tabs a.active {
     background-color: #E8E8E8;
     border-bottom:1px solid #E8E8E8;
     color: #000;

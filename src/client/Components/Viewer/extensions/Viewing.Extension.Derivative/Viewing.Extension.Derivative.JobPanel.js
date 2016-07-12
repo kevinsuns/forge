@@ -8,7 +8,7 @@ import ToolPanelBase from 'ToolPanelBase'
 
 export default class JobPanel extends ToolPanelBase {
 
-  constructor(container, version) {
+  constructor (container, version) {
 
     super(container, 'Processing Derivatives ...', {
       closable: false,
@@ -41,7 +41,7 @@ export default class JobPanel extends ToolPanelBase {
   //
   //
   /////////////////////////////////////////////////////////////
-  htmlContent(id) {
+  htmlContent (id) {
 
     return `
 
@@ -107,7 +107,7 @@ export default class JobPanel extends ToolPanelBase {
   //
   //
   /////////////////////////////////////////////////////////////
-  onTitleDoubleClick(event) {
+  onTitleDoubleClick (event) {
 
     clearInterval(this.intervalId)
 

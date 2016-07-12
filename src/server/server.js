@@ -41,6 +41,7 @@ import DMAPI from './api/endpoints/dm'
 import DerivativeSvc from './api/services/DerivativeSvc'
 import SocketSvc from './api/services/SocketSvc'
 import ForgeSvc from './api/services/ForgeSvc'
+import OssSvc from './api/services/OssSvc'
 import DMSvc from './api/services/DMSvc'
 
 /////////////////////////////////////////////////////////////////////
@@ -111,15 +112,19 @@ var server = app.listen(app.get('port'), function() {
         }
     })
 
+    var derivativeSvc = new DerivativeSvc({
+        config: config.forge
+    })
+
     var forgeSvc = new ForgeSvc({
         config: config.forge
     })
 
-    var dmSvc = new DMSvc({
+    var ossSvc = new OssSvc({
         config: config.forge
     })
 
-    var derivativeSvc = new DerivativeSvc({
+    var dmSvc = new DMSvc({
         config: config.forge
     })
 

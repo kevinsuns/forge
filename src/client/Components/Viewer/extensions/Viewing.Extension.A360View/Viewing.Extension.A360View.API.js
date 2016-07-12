@@ -118,7 +118,7 @@ export default class A360API {
   // GET /projects/:projectId/items/:itemId/versions
   //
   ///////////////////////////////////////////////////////////////////
-  getItemVersions(projectId, itemId) {
+  getVersions(projectId, itemId) {
 
     return new Promise(async(resolve, reject) => {
 

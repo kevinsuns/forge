@@ -1,3 +1,4 @@
+var clean = require('clean-webpack-plugin')
 var html = require('html-webpack-plugin')
 var webpack = require('webpack')
 var path = require('path')
@@ -23,15 +24,22 @@ module.exports = {
 
   plugins: [
 
+    new clean(['dist'], {
+      root: __dirname + '/..',
+      verbose: true,
+      dry: false
+    }),
+
     new webpack.optimize.UglifyJsPlugin({minimize: false}),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
 
     new webpack.ProvidePlugin({
-      _ : "underscore",
-      jQuery: "jquery",
-      $: "jquery"
+      'window.jQuery': 'jquery',
+      _ : 'underscore',
+      jQuery: 'jquery',
+      $: 'jquery'
     }),
 
     new webpack.DefinePlugin({

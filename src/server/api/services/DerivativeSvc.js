@@ -1,7 +1,6 @@
 
 import BaseSvc from './BaseSvc'
 import request from 'request'
-import trim from 'trim'
 import util from 'util'
 
 export default class DerivativeSvc extends BaseSvc {
@@ -90,6 +89,21 @@ export default class DerivativeSvc extends BaseSvc {
         input,
         output
       }
+    })
+  }
+
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
+  getFormats (token) {
+
+    var url = this._config.endPoints.formats
+
+    return requestAsync({
+      url: url,
+      token: token,
+      json: true
     })
   }
 

@@ -3,7 +3,6 @@
 // by Philippe Leefsma, April 2016
 //
 /////////////////////////////////////////////////////////////////////
-import {Formats} from './Viewing.Extension.Derivative.Constants'
 import ToolPanelBase from 'ToolPanelBase'
 
 export default class ViewerPropertyPanel extends
@@ -13,13 +12,13 @@ export default class ViewerPropertyPanel extends
   // Class constructor
   //
   /////////////////////////////////////////////////////////////////
-  constructor(viewer, api) {
+  constructor(viewer, extension) {
 
     super(viewer)
 
     this.viewer = viewer
 
-    this.api = api
+    this.extension = extension
 
     $(this.container).addClass('derivative')
   }
@@ -245,7 +244,7 @@ export default class ViewerPropertyPanel extends
 
       this.addMetaProperty(propsProperty)
 
-      if(Formats.iges.indexOf(fileType) > -1) {
+      if(this.extension.Formats.iges.indexOf(fileType) > -1) {
 
         var stepDerivativeProperty = {
 
@@ -263,7 +262,7 @@ export default class ViewerPropertyPanel extends
         this.addDerivativeProperty(stepDerivativeProperty)
       }
 
-      if(Formats.step.indexOf(fileType) > -1) {
+      if(this.extension.Formats.step.indexOf(fileType) > -1) {
 
         var stepDerivativeProperty = {
 
@@ -281,7 +280,7 @@ export default class ViewerPropertyPanel extends
         this.addDerivativeProperty(stepDerivativeProperty)
       }
 
-      if(Formats.stl.indexOf(fileType) > -1) {
+      if(this.extension.Formats.stl.indexOf(fileType) > -1) {
 
         var stepDerivativeProperty = {
 
@@ -299,7 +298,7 @@ export default class ViewerPropertyPanel extends
         this.addDerivativeProperty(stepDerivativeProperty)
       }
 
-      if(Formats.obj.indexOf(fileType) > -1) {
+      if(this.extension.Formats.obj.indexOf(fileType) > -1) {
 
         var objDerivativeProperty = {
 
@@ -347,7 +346,7 @@ export default class ViewerPropertyPanel extends
 
     this.addMetaProperty(derivativeProperty)
 
-    this.api.getDerivativeURN(
+    this.extension.api.getDerivativeURN(
       derivativeProperty,
       this.onDerivativeProgress(
         derivativeProperty)).then((result) => {
@@ -453,7 +452,7 @@ export default class ViewerPropertyPanel extends
       // download image or file
       case 'img':
       case 'file':
-        downloadURI(property.href, property.filename)
+        this.extension.api.downloadURI(property.href, property.filename)
         break
 
       case 'derivative':
@@ -462,25 +461,25 @@ export default class ViewerPropertyPanel extends
 
         if(property.status === 'not found') {
 
-          var job = await this.api.postJob(property)
+          var job = await this.extension.api.postJob(property)
 
           console.log(job)
         }
 
         // wait till derivative urn is available
 
-        var result = await this.api.getDerivativeURN(
+        var result = await this.extension.api.getDerivativeURN(
           property,
-          this.onDerivativeProgress(property))
+          this.onDerivativeProgress(property), true)
 
         if(result.status === 'success'){
 
-          var url = this.api.buildDownloadUrl(
+          var url = this.extension.api.getDownloadURI(
             this.currentModel.storageUrn,
             result.derivativeUrn,
             property.filename)
 
-          downloadURI(url, property.filename)
+          this.extension.api.downloadURI(url, property.filename)
         }
 
         break
@@ -587,18 +586,6 @@ function createFileProperty(property, parent){
   $(parent).append(html)
 
   return $('#' + id)[0]
-}
-
-/////////////////////////////////////////////////////////////////
-// Download util
-//
-/////////////////////////////////////////////////////////////////
-function downloadURI(uri, name) {
-
-  var link = document.createElement("a")
-  link.download = name
-  link.href = uri
-  link.click()
 }
 
 /////////////////////////////////////////////////////////////////

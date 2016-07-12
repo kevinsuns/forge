@@ -33,7 +33,31 @@ export default class DerivativeAPI {
   //
   //
   ///////////////////////////////////////////////////////////////////
-  getMetadata(urn) {
+  getFormats () {
+
+    return new Promise(async(resolve, reject) => {
+
+      try {
+
+        var url = `${this.apiUrl}/formats`
+
+        $.get(url, (response)=> {
+
+          return resolve(response.formats)
+        })
+      }
+      catch(ex) {
+
+        return reject(ex)
+      }
+    })
+  }
+
+  ///////////////////////////////////////////////////////////////////
+  //
+  //
+  ///////////////////////////////////////////////////////////////////
+  getMetadata (urn) {
 
     return new Promise(async(resolve, reject) => {
 
@@ -222,7 +246,57 @@ export default class DerivativeAPI {
   //
   //
   ///////////////////////////////////////////////////////////////////
-  getDerivativeURN (params, onProgress = null) {
+  findDerivative (manifest, params) {
+
+    var parentDerivative = null
+
+    for(var i = 0; i < manifest.derivatives.length; ++i) {
+
+      var derivative = manifest.derivatives[i]
+
+      if (derivative.outputType === params.outputType) {
+
+        parentDerivative = derivative
+
+        if (derivative.children) {
+
+          for(var j = 0; j < derivative.children.length; ++j) {
+
+            var childDerivative = derivative.children[j]
+
+            if(derivative.outputType !== 'obj'){
+
+              return {
+                parent: parentDerivative,
+                target: childDerivative
+              }
+            }
+
+            // match objectId
+            else if(_.isEqual(
+                childDerivative.objectIds,
+                params.objectIds)) {
+
+              return {
+                parent: parentDerivative,
+                target: childDerivative
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return {
+      parent: parentDerivative
+    }
+  }
+
+  ///////////////////////////////////////////////////////////////////
+  //
+  //
+  ///////////////////////////////////////////////////////////////////
+  getDerivativeURN (params, onProgress = null, skipNotFound = false) {
 
     return new Promise(async(resolve, reject) => {
 
@@ -242,18 +316,34 @@ export default class DerivativeAPI {
             return reject(manifest)
           }
 
-          var derivativeResult = await findDerivative(
+          var derivativeResult = this.findDerivative(
             manifest, params)
 
-          if(derivativeResult.target &&
-             derivativeResult.target.status === 'success') {
+          if(derivativeResult.target) {
 
-            onProgress ? onProgress('complete') : ''
+            var progress = manifest.progress.split(' ')[0]
 
-            return resolve({
-              status: 'success',
-              derivativeUrn: derivativeResult.target.urn
-            })
+            progress = (progress === 'complete' ? '100%' : progress)
+
+            onProgress ? onProgress(progress) : ''
+
+            if (derivativeResult.target.status === 'success') {
+
+              onProgress ? onProgress('100%') : ''
+
+              return resolve({
+                status: 'success',
+                derivativeUrn: derivativeResult.target.urn
+              })
+
+            } else if (derivativeResult.target.status === 'failed') {
+
+              onProgress ? onProgress('failed') : ''
+
+              return reject({
+                status: 'failed'
+              })
+            }
           }
 
           // if no parent -> no derivative of this type
@@ -264,26 +354,27 @@ export default class DerivativeAPI {
 
             onProgress ? onProgress('0%') : ''
 
-            return resolve({
-              status: 'not found'
-            })
-          }
-
-          if(derivativeResult.parent.status === 'success') {
-
-            if(!derivativeResult.target) {
-
-              onProgress ? onProgress('0%') : ''
+            if(!skipNotFound) {
 
               return resolve({
                 status: 'not found'
               })
             }
+
+          } else if(derivativeResult.parent.status === 'success') {
+
+            if(!derivativeResult.target) {
+
+              onProgress ? onProgress('0%') : ''
+
+              if(!skipNotFound) {
+
+                return resolve({
+                  status: 'not found'
+                })
+              }
+            }
           }
-
-          var progress = manifest.progress.split(' ')[0]
-
-          onProgress ? onProgress(progress) : ''
 
           await sleep(1000)
         }
@@ -299,69 +390,25 @@ export default class DerivativeAPI {
   //
   //
   ///////////////////////////////////////////////////////////////////
-  buildDownloadUrl(urn, derivativeUrn, filename) {
+  getDownloadURI(urn, derivativeUrn, filename) {
 
     return `${this.apiUrl}/download?` +
       `urn=${urn}&` +
       `derivativeUrn=${encodeURIComponent(derivativeUrn)}&` +
       `filename=${encodeURIComponent(filename)}`
   }
-}
 
-///////////////////////////////////////////////////////////////
-//
-//
-///////////////////////////////////////////////////////////////
-function findDerivative(manifest, params) {
+  /////////////////////////////////////////////////////////////////
+  // Download util
+  //
+  /////////////////////////////////////////////////////////////////
+  downloadURI(uri, name) {
 
-  return new Promise(async(resolve, reject) => {
-
-    try {
-
-      var parentDerivative = null
-
-      manifest.derivatives.forEach((derivative) => {
-
-        if (derivative.outputType === params.outputType) {
-
-          parentDerivative = derivative
-
-          if(derivative.outputType !== 'obj'){
-
-            resolve({
-              parent: parentDerivative,
-              target: parentDerivative
-            })
-          }
-
-          else if (derivative.children) {
-
-            derivative.children.forEach((childDerivative) => {
-
-              // match objectId
-              if(_.isEqual(
-                  childDerivative.objectIds,
-                  params.objectIds)) {
-
-                resolve({
-                  parent: parentDerivative,
-                  target: childDerivative
-                })
-              }
-            })
-          }
-        }
-      })
-
-      return resolve({
-        parent: parentDerivative
-      })
-    }
-    catch(ex){
-
-      return reject(ex)
-    }
-  })
+    var link = document.createElement("a")
+    link.download = name
+    link.href = uri
+    link.click()
+  }
 }
 
 ///////////////////////////////////////////////////////////////

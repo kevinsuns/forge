@@ -3,7 +3,6 @@
 // by Philippe Leefsma, Feb 2016
 //
 /////////////////////////////////////////////////////////////////////
-import {Formats} from './Viewing.Extension.Derivative.Constants'
 import './Viewing.Extension.Derivative.css'
 import ToolPanelBase from 'ToolPanelBase'
 
@@ -197,16 +196,18 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
         // wait till derivative urn is available
 
         var result = await this.extension.api.getDerivativeURN(
-          node, this.onDerivativeProgress(node))
+          node, this.onDerivativeProgress(node), true)
+
+        console.log(result)
 
         if(result.status === 'success'){
 
-          var url = this.extension.api.buildDownloadUrl(
+          var url = this.extension.api.getDownloadURI(
             node.urn,
             result.derivativeUrn,
             node.filename)
 
-          downloadURI(url, node.filename)
+          this.extension.api.downloadURI(url, node.filename)
         }
 
         break
@@ -347,27 +348,61 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
         var fileType = this.params.name.split(".").pop(-1)
 
-        var exportFormats = ['iges', 'step', 'stl', 'obj']
+        var exportFormats = ['svf', 'iges', 'step', 'stl']
 
         exportFormats.forEach((format) => {
 
-            if(Formats[format].indexOf(fileType) > -1) {
+            if(this.extension.Formats[format].indexOf(fileType) > -1) {
 
               var exportNode = {
                 id: ToolPanelBase.guid(),
                 urn: this.params.urn,
                 type: 'exports.' + format,
-                filename: modelName,
+                filename: modelName + '.' + format,
                 outputType: format,
                 name: format.toUpperCase(),
+                //fileExtType:'versions:autodesk.a360:CompositeDesign',
                 group: true
               }
 
               addChildCallback(exportNode)
 
+              exportNode.setProgress('loading ...')
+
               this.getDerivativeNodeProgress(exportNode)
             }
         })
+
+        //OBJ needs guid from metadata
+
+        try {
+
+          var metadata = await this.extension.api.getMetadata(
+            this.params.urn)
+
+          var exportNode = {
+            id: ToolPanelBase.guid(),
+            urn: this.params.urn,
+            guid: metadata.metadata[0].guid,
+            type: 'exports.obj',
+            filename: modelName + '.obj',
+            outputType: 'obj',
+            name: 'OBJ',
+            objectIds: [-1],
+            //fileExtType:'versions:autodesk.a360:CompositeDesign',
+            group: true
+          }
+
+          addChildCallback(exportNode)
+
+          exportNode.setProgress('loading ...')
+
+          this.getDerivativeNodeProgress(exportNode)
+        }
+        catch(ex) {
+
+          console.log(ex)
+        }
 
         break
 
@@ -406,6 +441,8 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
     return (progress) => {
 
       console.log(progress)
+
+      node.setProgress(progress)
     }
   }
 
@@ -424,7 +461,7 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
         node.derivativeResult = derivativeResult
 
-        if(derivativeResult.status === 'not found'){
+        if(derivativeResult.status === 'not found') {
 
           node.setProgress('0%')
 
@@ -438,7 +475,12 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
         console.log('derivativeResult ERROR')
         console.log(error)
 
-        node.setProgress('Error')
+        node.setProgress('0%')
+
+        if(error.status === 'failed') {
+
+          node.setProgress('failed')
+        }
       })
   }
 }

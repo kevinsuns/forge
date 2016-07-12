@@ -98,12 +98,13 @@ export default class ForgeSvc extends BaseSvc {
         },
         json: true,
         form: {
-          client_id: this._config.oauth.clientId,
           client_secret: this._config.oauth.clientSecret,
-          grant_type: 'refresh_token',
+          client_id: this._config.oauth.clientId,
           refresh_token: token.refresh_token,
+          grant_type: 'refresh_token',
           scope: scope
         }
+
       }, (err, response, body) => {
 
         try {
@@ -133,9 +134,6 @@ export default class ForgeSvc extends BaseSvc {
           return resolve(body.data || body)
         }
         catch(ex){
-
-          console.log(url)
-          console.log(ex)
 
           return reject(response)
         }

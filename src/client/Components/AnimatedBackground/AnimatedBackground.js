@@ -71,16 +71,14 @@ export default class AnimatedBackground {
         //------------------------------
         // Render Properties
         //------------------------------
-        var WEBGL = 'webgl';
+
         var CANVAS = 'canvas';
+        var WEBGL = 'webgl';
         var SVG = 'svg';
+
         var RENDER = {
             renderer: CANVAS
         };
-
-        //------------------------------
-        // Export Properties
-        //------------------------------
 
         //------------------------------
         // UI Properties
@@ -172,26 +170,36 @@ export default class AnimatedBackground {
 
             // Augment vertices for animation
             var v, vertex;
+
             for (v = geometry.vertices.length - 1; v >= 0; v--) {
+
                 vertex = geometry.vertices[v];
+
                 vertex.anchor = FSS.Vector3.clone(vertex.position);
+
                 vertex.step = FSS.Vector3.create(
                     Math.randomInRange(0.2, 2.0),
                     Math.randomInRange(0.2, 2.0),
                     Math.randomInRange(0.2, 2.0)
                 );
+
                 vertex.time = Math.randomInRange(0, Math.PIM2);
             }
         }
 
         function createLights() {
+
             var l, light;
+
             for (l = scene.lights.length - 1; l >= 0; l--) {
                 light = scene.lights[l];
                 scene.remove(light);
             }
+
             renderer.clear();
+
             for (l = 0; l < LIGHT.count; l++) {
+
                 light = new FSS.Light(LIGHT.ambient, LIGHT.diffuse);
                 light.ambientHex = light.ambient.format();
                 light.diffuseHex = light.diffuse.format();
@@ -276,9 +284,18 @@ export default class AnimatedBackground {
                 FSS.Vector3.setZ(light.position, LIGHT.zOffset);
 
                 // Calculate the force Luke!
-                var D = Math.clamp(FSS.Vector3.distanceSquared(light.position, attractor), LIGHT.minDistance, LIGHT.maxDistance);
+                var D = Math.clamp(
+                  FSS.Vector3.distanceSquared(light.position, attractor),
+                  LIGHT.minDistance,
+                  LIGHT.maxDistance);
+
                 var F = LIGHT.gravity * light.mass / D;
-                FSS.Vector3.subtractVectors(light.force, attractor, light.position);
+
+                FSS.Vector3.subtractVectors(
+                  light.force,
+                  attractor,
+                  light.position);
+
                 FSS.Vector3.normalise(light.force);
                 FSS.Vector3.multiplyScalar(light.force, F);
 
@@ -293,14 +310,18 @@ export default class AnimatedBackground {
 
             // Animate Vertices
             for (v = geometry.vertices.length - 1; v >= 0; v--) {
+
                 vertex = geometry.vertices[v];
+
                 ox = Math.sin(vertex.time + vertex.step[0] * now * MESH.speed);
                 oy = Math.cos(vertex.time + vertex.step[1] * now * MESH.speed);
                 oz = Math.sin(vertex.time + vertex.step[2] * now * MESH.speed);
+
                 FSS.Vector3.set(vertex.position,
                     MESH.xRange*geometry.segmentWidth*ox,
                     MESH.yRange*geometry.sliceHeight*oy,
                     MESH.zRange*offset*oz - offset);
+
                 FSS.Vector3.add(vertex.position, vertex.anchor);
             }
 
@@ -325,6 +346,7 @@ export default class AnimatedBackground {
         }
 
         function addEventListeners() {
+
             window.addEventListener('resize', onWindowResize);
             container.addEventListener('click', onMouseClick);
             container.addEventListener('mousemove', onMouseMove);
@@ -334,18 +356,17 @@ export default class AnimatedBackground {
         // Callbacks
         //------------------------------
         function onMouseClick(event) {
-            FSS.Vector3.set(attractor, event.x, renderer.height - event.y);
-            FSS.Vector3.subtract(attractor, center);
+            FSS.Vector3.set(attractor, event.x, renderer.height - event.y)
+            FSS.Vector3.subtract(attractor, center)
         }
 
         function onMouseMove(event) {
-            FSS.Vector3.set(attractor, event.x, renderer.height - event.y);
-            FSS.Vector3.subtract(attractor, center);
+            FSS.Vector3.set(attractor, event.x, renderer.height - event.y)
+            FSS.Vector3.subtract(attractor, center)
         }
 
         function onWindowResize(event) {
-            resize(container.offsetWidth, container.offsetHeight);
-            render();
+            resize(container.offsetWidth, container.offsetHeight)
         }
         
         initialize();

@@ -71,6 +71,35 @@ module.exports = function() {
   })
 
   /////////////////////////////////////////////////////////////////////////////
+  // GET /formats
+  // Get supported formats
+  //
+  /////////////////////////////////////////////////////////////////////////////
+  router.get('/formats', async (req, res) => {
+
+    try {
+
+      var forgeSvc = ServiceManager.getService(
+        'ForgeSvc');
+
+      var token = await forgeSvc.getToken(req.sessionID)
+
+      var derivativeSvc = ServiceManager.getService(
+        'DerivativeSvc');
+
+      var response = await derivativeSvc.getFormats(
+        token.access_token)
+
+      res.json(response)
+    }
+    catch (ex) {
+
+      res.status(ex.statusCode || 500)
+      res.json(ex)
+    }
+  })
+
+  /////////////////////////////////////////////////////////////////////////////
   // GET /metadata/{urn}
   // Get design metadata
   //

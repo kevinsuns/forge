@@ -5,7 +5,6 @@
 /////////////////////////////////////////////////////////////////////
 import ViewerPropertyPanel from './Viewing.Extension.Derivative.ViewerPropertyPanel'
 import DerivativesPanel from './Viewing.Extension.Derivative.Panel'
-import {Formats} from './Viewing.Extension.Derivative.Constants'
 import DerivativeAPI from './Viewing.Extension.Derivative.API'
 import JobPanel from './Viewing.Extension.Derivative.JobPanel'
 import ExtensionBase from 'ExtensionBase'
@@ -24,6 +23,23 @@ class DerivativeExtension extends ExtensionBase {
     this.api = new DerivativeAPI({
       apiUrl: '/api/derivatives'
     })
+
+    this.api.getFormats().then((formats) => {
+
+      //TEMP workaround till API gets fixed
+      formats.obj = [
+        "ipt",
+        "f3d",
+        "cam360",
+        "wire",
+        "iam",
+        "fbx",
+        "dwf",
+        "dwfx"
+      ]
+
+      this._formats = formats
+    })
   }
 
   /////////////////////////////////////////////////////////////////
@@ -41,7 +57,7 @@ class DerivativeExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   get Formats() {
 
-    return Formats
+    return this._formats
   }
 
   /////////////////////////////////////////////////////////////////
@@ -84,7 +100,7 @@ class DerivativeExtension extends ExtensionBase {
   //
   //
   /////////////////////////////////////////////////////////////////
-  postJob(version, showProgress = true) {
+  postSVFJob(version, showProgress = true) {
 
     return new Promise(async(resolve, reject) => {
 
@@ -173,7 +189,19 @@ class DerivativeExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   deleteManifest(urn) {
 
-    this.api.deleteManifest(urn)
+    return this.api.deleteManifest(urn)
+  }
+
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
+  hasDerivative(manifest, params) {
+
+    var derivativeResult = this.api.findDerivative(
+      manifest, params)
+
+    return derivativeResult.target ? true : false
   }
 
   /////////////////////////////////////////////////////////////////

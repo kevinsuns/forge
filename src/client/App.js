@@ -17,9 +17,10 @@
 /////////////////////////////////////////////////////////////////////
 import 'babel-polyfill'
 import Background from 'AnimatedBackground/AnimatedBackground'
-import {clientConfig as config} from 'c0nfig'
-import ioClient from 'socket.io-client'
 import ViewerManager from 'Viewer/ViewerManager'
+import {clientConfig as config} from 'c0nfig'
+import velocity from 'velocity-animate'
+import ioClient from 'socket.io-client'
 import 'bootstrap-webpack'
 import './styles/app.css'
 
@@ -157,10 +158,53 @@ export default class App {
   }
 
   //////////////////////////////////////////////////////////////////////////
+  //
+  //
+  //////////////////////////////////////////////////////////////////////////
+  initializeNavbar () {
+
+    var runAnimation = (imgs, angle, idx = 0) => {
+
+      $(imgs[ idx ]).velocity({
+
+        rotateY: [angle + 'deg', (angle + 180) + 'deg']
+
+      }, {
+
+        duration: 8000,
+        easing: 'swing',
+
+        begin: (elements) => {
+
+          $(elements).css({
+            display: 'block'
+          })
+        },
+
+        complete: (elements) => {
+
+          $(elements).css({
+            display: 'none'
+          })
+
+          runAnimation(
+            imgs,
+            (angle + 180) % 360,
+            (idx + 1) % 2)
+        }
+      })
+    }
+
+    runAnimation($('.navbar-brand img'), 90)
+  }
+
+  //////////////////////////////////////////////////////////////////////////
   // Initialize client App
   //
   //////////////////////////////////////////////////////////////////////////
   initialize () {
+
+    this.initializeNavbar()
 
     this.background = new Background(
       document.getElementById('viewer'),
