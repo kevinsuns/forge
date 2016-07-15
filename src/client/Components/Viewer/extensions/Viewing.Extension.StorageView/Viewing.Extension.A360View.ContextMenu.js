@@ -61,6 +61,20 @@ export default class A360ViewContextMenu extends
         })
 
         break
+
+      case 'oss.root':
+
+        menu.push({
+          title: 'Create Bucket',
+          target: () => {
+            this.emit('context.oss.createBucket', {
+              event,
+              node
+            })
+          }
+        })
+
+        break
     }
 
     return menu

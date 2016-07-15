@@ -212,8 +212,8 @@ export default class DMSvc extends BaseSvc {
         }
 
         resolve(response)
-      }
-      catch (ex) {
+
+      } catch (ex) {
 
         reject(ex)
       }
@@ -264,8 +264,8 @@ function requestAsync(params) {
         }
 
         return resolve(body.data || body)
-      }
-      catch(ex){
+
+      } catch(ex){
 
         console.log(params.url)
         console.log(ex)

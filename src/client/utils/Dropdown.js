@@ -2,9 +2,9 @@
 // Create dropwdown menu
 //
 /////////////////////////////////////////////////////////////
-import EventsEmitter from 'EventsEmitter';
+import CustomWebComponent from 'CustomWebComponent';
 
-export default class Dropdown extends EventsEmitter {
+export default class Dropdown extends CustomWebComponent {
   
   /////////////////////////////////////////////////////////////
   // opts = {

@@ -12,9 +12,18 @@ module.exports = function() {
     config.forge.oauth.clientId,
     config.forge.oauth.clientSecret,
     config.forge.oauth.baseUri,
-    config.forge.oauth.authenticationUri,
+    config.forge.oauth.authorizationUri,
     config.forge.oauth.accessTokenUri,
     null)
+
+  ServiceManager.on('ForgeSvc', async(forgeSvc) => {
+
+    var scope = config.forge.oauth.scope.join(' ')
+
+    var token = await forgeSvc.requestToken(scope)
+
+    forgeSvc.setToken('2legged', token)
+  })
 
   /////////////////////////////////////////////////////////////////////////////
   // login endpoint
@@ -119,7 +128,7 @@ module.exports = function() {
   // 3-legged client token
   //
   ///////////////////////////////////////////////////////////////////////////
-  router.get('/3legged', (req, res) => {
+  router.get('/token/3legged', (req, res) => {
 
     try {
 
@@ -133,6 +142,29 @@ module.exports = function() {
         access_token: token.access_token,
         expires_in: token.expires_in
       })
+    }
+    catch (error) {
+
+      res.status(error.statusCode || 404)
+      res.json(error)
+    }
+  })
+
+  ///////////////////////////////////////////////////////////////////////////
+  // 2-legged client token
+  //
+  ///////////////////////////////////////////////////////////////////////////
+  router.get('/token/2legged', async(req, res) => {
+
+    try {
+
+      var forgeSvc = ServiceManager.getService(
+        'ForgeSvc')
+
+      var token = await forgeSvc.requestToken(
+        'data:read')
+
+      res.json(token)
     }
     catch (error) {
 

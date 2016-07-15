@@ -5,9 +5,9 @@
 /////////////////////////////////////////////////////////////////////
 import DetailsPanel from './Viewing.Extension.A360View.DetailsPanel'
 import ContextMenu from './Viewing.Extension.A360View.ContextMenu'
+import TabManager from 'TabManager/TabManager'
 import './Viewing.Extension.A360View.css'
 import ToolPanelBase from 'ToolPanelBase'
-import TabManager from 'TabManager'
 import Dropzone from 'dropzone'
 
 export default class A360Panel extends ToolPanelBase {
@@ -81,6 +81,35 @@ export default class A360Panel extends ToolPanelBase {
 
       panel.setVisible(true)
     })
+
+    this.contextMenu.on('context.oss.createBucket', async(data) => {
+
+      var bucketKey = 'forge-' + ToolPanelBase.guid('xxxx-xxxx-xxxx')
+
+      var bucketCreationData = {
+        policyKey: 'transient',
+        bucketKey: bucketKey
+        //allow:[{
+        //  authId: 'AYVir4YpIiobKbt7peqr0Y85uGuFdUj7',
+        //  access: 'full'
+        //}]
+      }
+
+      var response = await this.extension.ossAPI.createBucket(
+        bucketCreationData)
+
+      console.log(response)
+
+      var bucketNode = {
+        bucketKey: response.bucketKey,
+        name: response.bucketKey,
+        id: response.bucketKey,
+        type: 'bucket',
+        group: true
+      }
+
+      data.node.addChild(bucketNode)
+    })
   }
 
   /////////////////////////////////////////////////////////////
@@ -92,12 +121,9 @@ export default class A360Panel extends ToolPanelBase {
     this.tabsContainerId = ToolPanelBase.guid()
 
     return `
-
       <div class="container">
-
         <div id="${this.tabsContainerId}" class="tabs-container">
         </div>
-
       </div>`
   }
 
@@ -107,7 +133,7 @@ export default class A360Panel extends ToolPanelBase {
   /////////////////////////////////////////////////////////////
   async loadData() {
 
-    const hubs = await this.extension.api.getHubs()
+    const hubs = await this.extension.a360API.getHubs()
 
     hubs.forEach((hub) => {
 
@@ -119,15 +145,17 @@ export default class A360Panel extends ToolPanelBase {
         html: `<div id=${treeContainerId} class="tree-container"> </div>`
       })
 
-      this.loadTree(treeContainerId, hub)
+      this.loadHub(treeContainerId, hub)
     })
+
+    this.loadOSS()
   }
 
   /////////////////////////////////////////////////////////////
   //
   //
   /////////////////////////////////////////////////////////////
-  async loadTree(containerId, hub) {
+  loadHub (containerId, hub) {
 
     var treeContainer = $(`#${containerId}`)[0]
 
@@ -141,6 +169,41 @@ export default class A360Panel extends ToolPanelBase {
       type: hub.type,
       group: true,
       id: hub.id
+    }
+
+    new Autodesk.Viewing.UI.Tree(
+      delegate, rootNode, treeContainer, {
+        excludeRoot: false,
+        localize: true
+      })
+  }
+
+  /////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////
+  loadOSS () {
+
+    var treeContainerId = ToolPanelBase.guid()
+
+    this.TabManager.addTab({
+      name: 'OSS',
+      active: false,
+      html: `<div id=${treeContainerId} class="tree-container"> </div>`
+    })
+
+    var treeContainer = $(`#${treeContainerId}`)[0]
+
+    var delegate = new OSSTreeDelegate(
+      this.container,
+      this.extension,
+      this.contextMenu)
+
+    var rootNode = {
+      id: ToolPanelBase.guid(),
+      name: 'OSS Root Storage',
+      type: 'oss.root',
+      group: true
     }
 
     new Autodesk.Viewing.UI.Tree(
@@ -214,7 +277,7 @@ export default class A360Panel extends ToolPanelBase {
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
-class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
+class BaseTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
   /////////////////////////////////////////////////////////////
   //
@@ -309,6 +372,22 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
     return node.name
   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//
+///////////////////////////////////////////////////////////////////////////////
+class A360TreeDelegate extends BaseTreeDelegate {
+
+  /////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////
+  constructor(container, extension, contextMenu) {
+
+    super(container, extension, contextMenu)
+  }
 
   /////////////////////////////////////////////////////////////
   //
@@ -379,7 +458,7 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
       var container = this.container
 
       $(parent).dropzone({
-        url: `/api/dm/upload/${node.projectId}/${node.folderId}`,
+        url: `/api/upload/dm/${node.projectId}/${node.folderId}`,
         dictDefaultMessage: ' - upload',
         previewTemplate: '<div></div>',
         parallelUploads: 20,
@@ -413,7 +492,7 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
           })
 
           dropzone.on('uploadprogress', (file, progress) => {
-            console.log(progress)
+
           })
         },
         success: (file, response) => {
@@ -457,7 +536,7 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
       case 'hubs':
 
-        this.extension.api.getProjects(
+        this.extension.a360API.getProjects(
           node.id).then((projects) => {
 
             projects.forEach( (project) => {
@@ -483,12 +562,12 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
       case 'projects':
 
-        this.extension.api.getProject(
+        this.extension.a360API.getProject(
           node.hubId, node.id).then((project) => {
 
             var rootId = project.relationships.rootFolder.data.id
 
-            this.extension.api.getFolderContent(
+            this.extension.a360API.getFolderContent(
               node.id, rootId).then((folderItems) => {
 
                 folderItems.forEach((folderItem) => {
@@ -522,7 +601,7 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
       case 'folders':
 
-        this.extension.api.getFolderContent(
+        this.extension.a360API.getFolderContent(
           node.projectId, node.id).then((folderItems) => {
 
             folderItems.forEach((folderItem) => {
@@ -572,7 +651,7 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
       group: true
     }
 
-    this.extension.api.getVersions(
+    this.extension.a360API.getVersions(
       node.projectId, node.id).then((versions) => {
 
         node.versions = versions
@@ -580,5 +659,154 @@ class A360TreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
 
         parent.addChild(node)
       })
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//
+///////////////////////////////////////////////////////////////////////////////
+class OSSTreeDelegate extends BaseTreeDelegate {
+
+  /////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////
+  constructor (container, extension, contextMenu) {
+
+    super(container, extension, contextMenu)
+  }
+
+  /////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////
+  createTreeNode (node, parent, options = {}) {
+
+    parent.id = ToolPanelBase.guid()
+
+    node.parent = parent
+
+    parent.classList.add(node.type)
+
+    var text = this.getTreeNodeLabel(node)
+
+    if (options && options.localize) {
+
+      text = Autodesk.Viewing.i18n.translate(text)
+    }
+
+    var labelId = ToolPanelBase.guid()
+
+    var label = `<label class="${node.type}" id="${labelId}"
+        ${options && options.localize?"data-i18n=" + text : ''}>
+        ${text}
+      </label>`
+
+    $(parent).append(label)
+
+    if (node.type === 'bucket') {
+
+      $(`#${labelId}`).css({
+        'pointer-events': 'none'
+      })
+
+      var container = this.container
+
+      $(parent).dropzone({
+        url: `/api/upload/oss/${node.name}`,
+        dictDefaultMessage: ' - upload',
+        previewTemplate: '<div></div>',
+        parallelUploads: 20,
+        clickable: false,
+        autoQueue: true,
+        init: function() {
+
+          var dropzone = this
+
+          dropzone.on('dragenter', () => {
+            $(parent).addClass('drop-target')
+
+            $(container).find(
+              '.container').addClass('hover')
+          })
+
+          dropzone.on('dragleave', () => {
+            $(parent).removeClass('drop-target')
+          })
+
+          dropzone.on('dragend', () => {
+            $(parent).removeClass('drop-target')
+          })
+
+          dropzone.on('drop', () => {
+            $(parent).removeClass('drop-target')
+          })
+
+          dropzone.on('addedfile', (file) => {
+            console.log(file)
+          })
+
+          dropzone.on('uploadprogress', (file, progress) => {
+
+          })
+        },
+        success: (file, response) => {
+
+          console.log(response)
+
+          var id = response.objectId.replace(
+            /[&\/\\#,+()$~%. '":*?<>{}]/g,'-')
+
+          if(!$(container).find(`leaf[lmv-nodeid='${id}']`).length) {
+
+            var objectNode = {
+              objectId: response.objectId,
+              bucketKey: node.bucketKey,
+              objectKey: file.name,
+              name: file.name,
+              group: false,
+              id: id
+            }
+
+            node.addChild(objectNode)
+          }
+        }
+      })
+    }
+
+    node.expand = () => {
+      $(parent).parent().removeClass('collapsed')
+      $(parent).parent().addClass('expanded')
+    }
+
+    node.collapse = () => {
+      $(parent).parent().removeClass('expanded')
+      $(parent).parent().addClass('collapsed')
+    }
+
+    //this.extension.emit('node.added', node)
+  }
+
+  /////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////
+  forEachChild (node, addChildCallback) {
+
+    node.addChild = addChildCallback
+
+    switch(node.type) {
+
+      case 'root':
+
+        this.extension.ossAPI.getData().then((data) => {
+
+          console.log(data)
+        })
+
+        break;
+
+    }
   }
 }

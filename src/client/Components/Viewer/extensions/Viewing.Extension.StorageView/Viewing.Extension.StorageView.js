@@ -4,11 +4,12 @@
 //
 /////////////////////////////////////////////////////////////////////
 import A360Panel from './Viewing.Extension.A360View.Panel'
-import A360API from './Viewing.Extension.A360View.API'
+import A360API from './Viewing.Extension.A360.API'
+import OSSAPI from './Viewing.Extension.OSS.API'
 import ViewerToolkit from 'ViewerToolkit'
 import ExtensionBase from 'ExtensionBase'
 
-class A360ViewExtension extends ExtensionBase {
+class StorageViewExtension extends ExtensionBase {
 
   /////////////////////////////////////////////////////////////////
   // Class constructor
@@ -18,8 +19,12 @@ class A360ViewExtension extends ExtensionBase {
 
     super(viewer, options);
 
-    this.api = new A360API({
+    this.a360API = new A360API({
       apiUrl: '/api/dm'
+    })
+
+    this.ossAPI = new OSSAPI({
+      apiUrl: '/api/oss'
     })
   }
 
@@ -29,7 +34,7 @@ class A360ViewExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   static get ExtensionId() {
 
-    return 'Viewing.Extension.A360View';
+    return 'Viewing.Extension.StorageView';
   }
 
   /////////////////////////////////////////////////////////////////
@@ -57,7 +62,7 @@ class A360ViewExtension extends ExtensionBase {
     this.panel.setVisible(
       this._options.showPanel)
 
-    console.log('Viewing.Extension.A360View loaded')
+    console.log('Viewing.Extension.StorageView loaded')
 
     return true
   }
@@ -71,12 +76,12 @@ class A360ViewExtension extends ExtensionBase {
     this._options.parentControl.removeControl(
       this.control);
 
-    console.log('Viewing.Extension.A360View unloaded');
+    console.log('Viewing.Extension.StorageView unloaded');
 
     return true;
   }
 }
 
 Autodesk.Viewing.theExtensionManager.registerExtension(
-  A360ViewExtension.ExtensionId,
-  A360ViewExtension);
+  StorageViewExtension.ExtensionId,
+  StorageViewExtension);

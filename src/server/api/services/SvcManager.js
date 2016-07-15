@@ -1,5 +1,7 @@
 
-class SvcManager {
+import EventEmitter from 'events'
+
+class SvcManager extends EventEmitter {
 
   /////////////////////////////////////////////////////////////////
   //
@@ -7,7 +9,9 @@ class SvcManager {
   /////////////////////////////////////////////////////////////////
   constructor() {
 
-    this._services = {};
+    super()
+    
+    this._services = {}
   }
 
   /////////////////////////////////////////////////////////////////
@@ -16,7 +20,9 @@ class SvcManager {
   /////////////////////////////////////////////////////////////////
   registerService(svc) {
 
-    this._services[svc.name()] = svc;
+    this._services[svc.name()] = svc
+    
+    this.emit(svc.name(), svc)
   }
 
   /////////////////////////////////////////////////////////////////
@@ -27,13 +33,13 @@ class SvcManager {
 
     if(this._services[name]){
 
-      return this._services[name];
+      return this._services[name]
     }
 
-    return null;
+    return null
   }
 }
 
-var TheSvcManager = new SvcManager();
+var TheSvcManager = new SvcManager()
 
-export default TheSvcManager;
+export default TheSvcManager

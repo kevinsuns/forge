@@ -2,9 +2,9 @@
 // switch button
 //
 /////////////////////////////////////////////////////////////
-import EventsEmitter from 'EventsEmitter';
+import CustomWebComponent from 'CustomWebComponent';
 
-export default class SwitchButton extends EventsEmitter {
+export default class SwitchButton extends CustomWebComponent {
 
   ///////////////////////////////////////////////////////////////////
   //

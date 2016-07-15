@@ -17,8 +17,8 @@
 //////////////////////////////////////////////////////////////////////////
 import 'Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer'
 import 'Viewing.Extension.SceneManager/Viewing.Extension.SceneManager'
+import 'Viewing.Extension.StorageView/Viewing.Extension.StorageView'
 import 'Viewing.Extension.Derivative/Viewing.Extension.Derivative'
-import 'Viewing.Extension.A360View/Viewing.Extension.A360View'
 import ViewerToolkit from 'ViewerToolkit'
 
 export default class ViewerManager {
@@ -32,6 +32,8 @@ export default class ViewerManager {
     this._domContainer = container
 
     this._config = config
+
+    this._tokenUrl = this._config.token3LeggedUrl
 
     this.onNodeAddedHandler = (node) => {
 
@@ -52,11 +54,11 @@ export default class ViewerManager {
         env: this._config.viewerEnv,
 
         refreshToken: () => {
-          return this.getToken(this._config.token3LeggedUrl)
+          return this.getToken()
         },
 
         getAccessToken: () => {
-          return this.getToken(this._config.token3LeggedUrl)
+          return this.getToken()
         }
       }
 
@@ -175,17 +177,17 @@ export default class ViewerManager {
     // A360 View Extension
 
     this.viewer.loadExtension(
-      'Viewing.Extension.A360View', {
+      'Viewing.Extension.StorageView', {
         parentControl: this.ctrlGroup,
         showPanel: true
       })
 
-    this.a360ViewExtension =
-      this.viewer.loadedExtensions['Viewing.Extension.A360View']
+    this.storageViewExtension =
+      this.viewer.loadedExtensions['Viewing.Extension.StorageView']
 
-    this.a360ViewExtension.on('node.added', this.onNodeAddedHandler)
+    this.storageViewExtension.on('node.added', this.onNodeAddedHandler)
 
-    this.a360ViewExtension.on('node.dblClick', (node)=> {
+    this.storageViewExtension.on('node.dblClick', (node)=> {
 
       console.log(node)
 
@@ -277,7 +279,7 @@ export default class ViewerManager {
   }
 
   //////////////////////////////////////////////////////////////////////////
-  // A360 View Node Added Handler
+  // Storage View Node Added Handler
   //
   //////////////////////////////////////////////////////////////////////////
   onNodeAdded (node) {
@@ -385,7 +387,7 @@ export default class ViewerManager {
   }
 
   //////////////////////////////////////////////////////////////////////////
-  // A360 Item Node double-clicked Handler
+  // Storage Item Node double-clicked Handler
   //
   //////////////////////////////////////////////////////////////////////////
   onItemNodeDblClicked (node) {
@@ -396,7 +398,7 @@ export default class ViewerManager {
 
     if (!item.versions || !item.versions.length) {
 
-      this.a360ViewExtension.panel.showError(
+      this.storageViewExtension.panel.showError(
         'No version available (Please wait) ...')
 
       console.log('No item version available')
@@ -408,14 +410,14 @@ export default class ViewerManager {
 
     if(!version.relationships.storage) {
 
-      this.a360ViewExtension.panel.showError(
+      this.storageViewExtension.panel.showError(
         'Derivatives unavailable on this item')
 
       console.log('Derivatives unavailable on this item')
       return
     }
 
-    this.a360ViewExtension.panel.startLoad(
+    this.storageViewExtension.panel.startLoad(
       'Loading ' + item.name + ' ...')
 
     var options = {
@@ -424,7 +426,7 @@ export default class ViewerManager {
 
     this.importModelFromItem(item, options).then((model) => {
 
-      this.a360ViewExtension.panel.stopLoad()
+      this.storageViewExtension.panel.stopLoad()
 
       this.modelTransformerExtension.addModel(model)
 
@@ -446,7 +448,7 @@ export default class ViewerManager {
 
     }, (error) => {
 
-      this.a360ViewExtension.panel.showError(
+      this.storageViewExtension.panel.showError(
         error.description)
     })
   }
@@ -732,10 +734,10 @@ export default class ViewerManager {
   //
   //
   //////////////////////////////////////////////////////////////////////////
-  getToken (url) {
+  getToken () {
 
     var xhr = new XMLHttpRequest()
-    xhr.open("GET", url, false)
+    xhr.open("GET", this._tokenUrl, false)
     xhr.send(null)
 
     var response = JSON.parse(xhr.responseText)

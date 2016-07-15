@@ -1,5 +1,6 @@
 
 import BaseSvc from './BaseSvc'
+import jsonfile from 'jsonfile'
 import request from 'request'
 import util from 'util'
 import fs from 'fs'
@@ -13,6 +14,8 @@ export default class OssSvc extends BaseSvc {
   constructor(opts) {
 
     super(opts)
+
+    this.loadData()
   }
 
   /////////////////////////////////////////////////////////////////
@@ -22,6 +25,70 @@ export default class OssSvc extends BaseSvc {
   name() {
 
     return 'OssSvc'
+  }
+
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
+  loadData () {
+
+    jsonfile.readFile(this._config.storageFile,
+      (err, oss) => {
+
+        if(err) {
+
+          this.data = {}
+
+        } else {
+
+          this.data = oss
+        }
+
+        if(!this.data[this._config.oauth.clientId]) {
+          this.data[this._config.oauth.clientId] = {}
+        }
+      })
+  }
+
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
+  saveBucket (response) {
+
+    this.data[this._config.oauth.clientId]
+      [response.bucketKey] = []
+
+    jsonfile.writeFile(
+      this._config.storageFile,
+      this.data, function (err) {
+      })
+  }
+
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
+  saveObject (response) {
+
+    this.data[this._config.oauth.clientId]
+      [response.bucketKey].push(
+        response.objectKey)
+
+    jsonfile.writeFile(
+      this._config.storageFile,
+      this.data, function (err) {
+      })
+  }
+
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
+  getData () {
+
+    return this.data[this._config.oauth.clientId]
   }
 
   /////////////////////////////////////////////////////////////////
@@ -40,6 +107,43 @@ export default class OssSvc extends BaseSvc {
       bucketKey,
       objectKey
     }
+  }
+
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
+  createBucket (token, bucketCreationData) {
+
+    return new Promise(async(resolve, reject) => {
+
+      try {
+
+        var url = this._config.endPoints.buckets
+
+        bucketCreationData.bucketKey = validateBucketKey(
+          bucketCreationData.bucketKey)
+
+        var response = await requestAsync({
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: bucketCreationData,
+          method: 'POST',
+          json: true,
+          url: url
+        })
+
+        this.saveBucket(response)
+
+        resolve(response)
+
+      } catch(ex) {
+
+        reject (ex)
+      }
+    })
   }
 
   /////////////////////////////////////////////////////////////////
@@ -73,6 +177,8 @@ export default class OssSvc extends BaseSvc {
             json: true,
             url: url
           })
+
+          this.saveObject(response)
 
           resolve(response)
         })
@@ -164,3 +270,16 @@ function getMimeType (file) {
 
   return types[extension] || file.mimetype
 }
+
+/////////////////////////////////////////////////////////////////
+//
+//
+/////////////////////////////////////////////////////////////////
+function validateBucketKey (bucketKey) {
+
+  var result = bucketKey.replace(
+    /[&\/\\#,+()$~%. '":*?<>{}]/g,'-')
+
+  return result.toLowerCase()
+}
+

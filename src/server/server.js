@@ -23,6 +23,7 @@ import Session from 'express-session'
 import bodyParser from 'body-parser'
 import favicon from 'serve-favicon'
 import express from 'express'
+import path from 'path'
 
 //Webpack hot reloading stuff
 import webpackConfig from '../../webpack/webpack.config.development'
@@ -32,9 +33,11 @@ import webpack from 'webpack'
 
 //Endpoints
 import DerivativeAPI from './api/endpoints/derivatives'
+import UploadAPI from './api/endpoints/upload'
 import ForgeAPI from './api/endpoints/forge'
 import UserAPI from './api/endpoints/user'
 import AppAPI from './api/endpoints/app'
+import OssAPI from './api/endpoints/oss'
 import DMAPI from './api/endpoints/dm'
 
 //Services
@@ -92,9 +95,11 @@ app.use(session)
 //
 /////////////////////////////////////////////////////////////////////
 app.use('/api/derivatives', DerivativeAPI())
+app.use('/api/upload', UploadAPI())
 app.use('/api/forge', ForgeAPI())
 app.use('/api/user', UserAPI())
 app.use('/api/app', AppAPI())
+app.use('/api/oss', OssAPI())
 app.use('/api/dm', DMAPI())
 
 /////////////////////////////////////////////////////////////////////
@@ -121,7 +126,11 @@ var server = app.listen(app.get('port'), function() {
     })
 
     var ossSvc = new OssSvc({
-        config: config.forge
+        config: Object.assign(
+          config.forge, {
+              storageFile: path.resolve(
+                __dirname, 'api/services/oss.json')
+          })
     })
 
     var dmSvc = new DMSvc({

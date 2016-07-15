@@ -14,8 +14,8 @@ module.exports = {
     clientConfig: {
 
         forge: {
-            token3LeggedUrl: '/api/forge/3legged',
-            token2LeggedUrl: '/api/forge/2legged',
+            token3LeggedUrl: '/api/forge/token/3legged',
+            token2LeggedUrl: '/api/forge/token/2legged',
             viewerEnv: 'AutodeskProduction'
         },
 
@@ -32,8 +32,9 @@ module.exports = {
 
             oauth: {
 
+                authenticationUri: '/authentication/' + FORGE_OAUTH_VERSION + '/authenticate',
                 refreshTokenUri: '/authentication/' + FORGE_OAUTH_VERSION + '/refreshtoken',
-                authenticationUri: '/authentication/' + FORGE_OAUTH_VERSION + '/authorize',
+                authorizationUri: '/authentication/' + FORGE_OAUTH_VERSION + '/authorize',
                 accessTokenUri:  '/authentication/' + FORGE_OAUTH_VERSION + '/gettoken',
                 redirectUri: 'http://local.dev.com:3000/api/forge/oauth/callback',
                 clientSecret: process.env.FORGE_DEV_CLIENTSECRET,
@@ -53,8 +54,8 @@ module.exports = {
 
                 authenticate:     FORGE_BASE_URL + '/authentication/' + FORGE_OAUTH_VERSION + '/authenticate',
 
-                getBucket:        FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/details',
-                createBucket:     FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets',
+                object:           FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/details',
+                buckets:          FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets',
                 upload:           FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/objects/%s',
                 resumableUpload:  FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/objects/%s/resumable',
 

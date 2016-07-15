@@ -14,8 +14,8 @@ module.exports = {
   clientConfig: {
 
     forge: {
-      token3LeggedUrl: '/api/forge/3legged',
-      token2LeggedUrl: '/api/forge/2legged',
+      token3LeggedUrl: '/api/forge/token/3legged',
+      token2LeggedUrl: '/api/forge/token/2legged',
       viewerEnv: 'AutodeskProduction'
     },
 
@@ -33,7 +33,7 @@ module.exports = {
       oauth: {
 
         refreshTokenUri: '/authentication/' + FORGE_OAUTH_VERSION + '/refreshtoken',
-        authenticationUri: '/authentication/' + FORGE_OAUTH_VERSION + '/authorize',
+        authorizationUri: '/authentication/' + FORGE_OAUTH_VERSION + '/authorize',
         accessTokenUri:  '/authentication/' + FORGE_OAUTH_VERSION + '/gettoken',
         redirectUri: 'https://forge.autodesk.io/api/forge/oauth/callback',
         clientSecret: process.env.FORGE_CLIENTSECRET,

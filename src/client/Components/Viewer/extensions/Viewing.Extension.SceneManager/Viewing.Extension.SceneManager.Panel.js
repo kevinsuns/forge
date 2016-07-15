@@ -5,8 +5,8 @@
 /////////////////////////////////////////////////////////////////////
 import './Viewing.Extension.SceneManager.css'
 import ToolPanelBase from 'ToolPanelBase'
+import 'dragula/dist/dragula.min.css'
 import dragula from 'dragula'
-import './dragula.css'
 
 export default class SceneManagerPanel extends ToolPanelBase{
 

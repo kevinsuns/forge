@@ -1,5 +1,5 @@
-import ServiceManager from './SvcManager';
-import EventEmitter from 'events';
+import ServiceManager from './SvcManager'
+import EventEmitter from 'events'
 
 export default class BaseSvc extends EventEmitter {
 
@@ -9,11 +9,11 @@ export default class BaseSvc extends EventEmitter {
   /////////////////////////////////////////////////////////////////
   constructor(opts) {
 
-    super();
+    super()
 
-    this._config = opts.config;
+    this._config = opts.config
 
-    ServiceManager.registerService(this);
+    ServiceManager.registerService(this)
   }
 
   /////////////////////////////////////////////////////////////////
@@ -22,7 +22,7 @@ export default class BaseSvc extends EventEmitter {
   /////////////////////////////////////////////////////////////////
   name() {
 
-    return this._name;
+    return this._name
   }
 
   /////////////////////////////////////////////////////////////////
@@ -31,6 +31,6 @@ export default class BaseSvc extends EventEmitter {
   /////////////////////////////////////////////////////////////////
   config() {
 
-    return this._config;
+    return this._config
   }
 }

@@ -2,35 +2,31 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2343a0a1-e1a0-4f3f-a09f-9a0360fa41ed" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.Constants.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Components/AnimatedBackground/AnimatedBackground.js" afterPath="$PROJECT_DIR$/src/client/Components/AnimatedBackground/AnimatedBackground.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/App.js" afterPath="$PROJECT_DIR$/src/client/App.js" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.SceneManager/dragula.css" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.API.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360.API.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.ContextMenu.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.ContextMenu.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.DetailsPanel.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.DetailsPanel.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.Panel.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.Panel.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.css" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.StorageView.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/client/utils/TabManager.js" afterPath="$PROJECT_DIR$/src/client/utils/TabManager/TabManager.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="$PROJECT_DIR$/.idea/.name" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/api/services/BaseSvc.js" afterPath="$PROJECT_DIR$/src/server/api/services/BaseSvc.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/api/services/DMSvc.js" afterPath="$PROJECT_DIR$/src/server/api/services/DMSvc.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/api/services/DerivativeSvc.js" afterPath="$PROJECT_DIR$/src/server/api/services/DerivativeSvc.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/utils/EventsEmitter.js" afterPath="$PROJECT_DIR$/src/client/utils/EventsEmitter.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/utils/Dropdown.js" afterPath="$PROJECT_DIR$/src/client/utils/Dropdown.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/api/services/ForgeSvc.js" afterPath="$PROJECT_DIR$/src/server/api/services/ForgeSvc.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/utils/TabManager.js" afterPath="$PROJECT_DIR$/src/client/utils/TabManager.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/api/services/OssSvc.js" afterPath="$PROJECT_DIR$/src/server/api/services/OssSvc.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/api/services/SvcManager.js" afterPath="$PROJECT_DIR$/src/server/api/services/SvcManager.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/utils/SwitchButton.js" afterPath="$PROJECT_DIR$/src/client/utils/SwitchButton.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/ViewerManager.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/ViewerManager.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.API.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.API.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.Panel.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.Panel.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.css" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.API.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.API.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.JobPanel.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.JobPanel.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.Panel.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.Panel.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.ViewerPropertyPanel.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.ViewerPropertyPanel.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.ModelTransformer/Viewing.Tool.Rotate.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.ModelTransformer/Viewing.Tool.Rotate.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/styles/app.css" afterPath="$PROJECT_DIR$/src/client/styles/app.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/api/endpoints/derivatives.js" afterPath="$PROJECT_DIR$/src/server/api/endpoints/derivatives.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.SceneManager/Viewing.Extension.SceneManager.Panel.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.SceneManager/Viewing.Extension.SceneManager.Panel.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/development.config.js" afterPath="$PROJECT_DIR$/config/development.config.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/api/endpoints/dm.js" afterPath="$PROJECT_DIR$/src/server/api/endpoints/dm.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/layout/index.ejs" afterPath="$PROJECT_DIR$/layout/index.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/api/endpoints/forge.js" afterPath="$PROJECT_DIR$/src/server/api/endpoints/forge.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/production.config.js" afterPath="$PROJECT_DIR$/config/production.config.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/server.js" afterPath="$PROJECT_DIR$/src/server/server.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webpack/webpack.config.development.js" afterPath="$PROJECT_DIR$/webpack/webpack.config.development.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/webpack/webpack.config.production.js" afterPath="$PROJECT_DIR$/webpack/webpack.config.production.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="forge.iws" />
@@ -55,21 +51,101 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="development.config.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config/development.config.js">
+      <file leaf-file-name="oss.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/server/api/endpoints/oss.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="637" max-vertical-offset="1395">
-              <caret line="51" column="12" selection-start-line="51" selection-start-column="12" selection-end-line="83" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="900">
+              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="production.config.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="server.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/server/server.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="848" max-vertical-offset="1965">
+              <caret line="134" column="0" selection-start-line="134" selection-start-column="0" selection-end-line="134" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ViewerManager.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/ViewerManager.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-8.5" vertical-offset="10624" max-vertical-offset="11250">
+              <caret line="739" column="26" selection-start-line="739" selection-start-column="26" selection-end-line="739" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="development.config.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/config/development.config.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="1410">
+              <caret line="17" column="56" selection-start-line="16" selection-start-column="11" selection-end-line="17" selection-end-column="56" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Viewing.Extension.A360View.Panel.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.Panel.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.25052193" vertical-offset="1815" max-vertical-offset="12195">
+              <caret line="133" column="20" selection-start-line="133" selection-start-column="20" selection-end-line="133" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="production.config.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config/production.config.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.6332453" vertical-offset="7" max-vertical-offset="1395">
-              <caret line="83" column="7" selection-start-line="83" selection-start-column="7" selection-end-line="83" selection-end-column="7" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1395">
+              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="oss.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/server/api/services/oss.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.625" vertical-offset="0" max-vertical-offset="105">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dm.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/server/api/endpoints/dm.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2288" max-vertical-offset="2985">
+              <caret line="133" column="28" selection-start-line="133" selection-start-column="28" selection-end-line="133" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="forge.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/server/api/endpoints/forge.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2198" max-vertical-offset="2745">
+              <caret line="165" column="0" selection-start-line="165" selection-start-column="0" selection-end-line="165" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ForgeSvc.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/server/api/services/ForgeSvc.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="968" max-vertical-offset="3345">
+              <caret line="85" column="14" selection-start-line="85" selection-start-column="2" selection-end-line="85" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -83,28 +159,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/client/utils/ToolPanelBase.js" />
-        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.SceneManager/Viewing.Extension.SceneManager.css" />
-        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer.css" />
-        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.css" />
-        <option value="$PROJECT_DIR$/src/client/Components/Viewer/Viewer.js" />
-        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.Constants.js" />
-        <option value="$PROJECT_DIR$/src/server/api/endpoints/auth.js" />
-        <option value="$PROJECT_DIR$/src/client/Components/ViewerManager/Viewer.js" />
-        <option value="$PROJECT_DIR$/src/server/api/endpoints/app.js" />
-        <option value="$PROJECT_DIR$/src/server/api/services/AuthSvc.js" />
-        <option value="$PROJECT_DIR$/src/server/api/endpoints/token.js" />
-        <option value="$PROJECT_DIR$/../../dotty/dotty-cloud/Extensions/src/Viewing.Extension.AnimationManager/Viewing.Extension.AnimationManager.Panel.js" />
-        <option value="$PROJECT_DIR$/../LMV/lmv-react/Extensions/webpack/webpack.config.development.js" />
-        <option value="$PROJECT_DIR$/../LMV/lmv-react/Extensions/webpack/webpack.config.production.js" />
-        <option value="$PROJECT_DIR$/src/client/index.js" />
-        <option value="$PROJECT_DIR$/src/server/api/endpoints/user.js" />
         <option value="$PROJECT_DIR$/config/heroku.config.js" />
         <option value="$PROJECT_DIR$/../../view.and.data-boilerplate/www/js/viewer.js" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer.js" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer.Panel.js" />
-        <option value="$PROJECT_DIR$/src/server/api/endpoints/forge.js" />
-        <option value="$PROJECT_DIR$/src/server/api/services/ForgeSvc.js" />
         <option value="$PROJECT_DIR$/webpack/webpack.config.production.js" />
         <option value="$PROJECT_DIR$/src/client/App.js" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.JobPanel.js" />
@@ -114,26 +172,44 @@
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.ViewerPropertyPanel.js" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.js" />
         <option value="$PROJECT_DIR$/src/server/api/services/DerivativeSvc.js" />
-        <option value="$PROJECT_DIR$/src/server/server.js" />
-        <option value="$PROJECT_DIR$/config/development.config.js" />
-        <option value="$PROJECT_DIR$/src/server/api/endpoints/dm.js" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.API.js" />
-        <option value="$PROJECT_DIR$/src/client/Components/Viewer/ViewerManager.js" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.API.js" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.Panel.js" />
-        <option value="$PROJECT_DIR$/src/server/api/services/DMSvc.js" />
-        <option value="$PROJECT_DIR$/src/server/api/services/OssSvc.js" />
         <option value="$PROJECT_DIR$/src/client/utils/TabManager.js" />
         <option value="$PROJECT_DIR$/src/client/Components/AnimatedBackground/AnimatedBackground.js" />
         <option value="$PROJECT_DIR$/src/client/styles/app.css" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.VersionsPanel.js" />
-        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.Panel.js" />
-        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.ContextMenu.js" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.DetailsPanel.js" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.css" />
         <option value="$PROJECT_DIR$/src/client/utils/EventsEmitter.js" />
+        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.SceneManager/Viewing.Extension.SceneManager.Panel.js" />
+        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.ContextMenu.js" />
+        <option value="$PROJECT_DIR$/src/client/utils/CustomWebComponent.js" />
+        <option value="$PROJECT_DIR$/src/client/utils/Dropdown.js" />
+        <option value="$PROJECT_DIR$/src/client/utils/SwitchButton.js" />
+        <option value="$PROJECT_DIR$/src/server/api/endpoints/dm.js" />
+        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.Panel.js" />
+        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.js" />
+        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.js" />
+        <option value="$PROJECT_DIR$/src/client/utils/TabManager/TabManager.css" />
+        <option value="$PROJECT_DIR$/src/client/utils/TabManager/TabManager.js" />
+        <option value="$PROJECT_DIR$/src/server/api/services/DMSvc.js" />
+        <option value="$PROJECT_DIR$/src/server/api/services/ForgeSvc.js" />
+        <option value="$PROJECT_DIR$/src/server/api/services/BaseSvc.js" />
+        <option value="$PROJECT_DIR$/src/server/api/services/SvcManager.js" />
         <option value="$PROJECT_DIR$/../../view-and-data-npm/test/test.js" />
+        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.ContextMenu.js" />
+        <option value="$PROJECT_DIR$/src/server/api/endpoints/upload.js" />
+        <option value="$PROJECT_DIR$/src/server/server.js" />
+        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.OSS.API.js" />
+        <option value="$PROJECT_DIR$/src/server/api/endpoints/oss.js" />
+        <option value="$PROJECT_DIR$/src/server/api/services/oss.json" />
+        <option value="$PROJECT_DIR$/src/server/api/services/OssSvc.js" />
+        <option value="$PROJECT_DIR$/src/client/Components/Viewer/ViewerManager.js" />
+        <option value="$PROJECT_DIR$/config/development.config.js" />
         <option value="$PROJECT_DIR$/config/production.config.js" />
+        <option value="$PROJECT_DIR$/src/server/api/endpoints/forge.js" />
+        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.Panel.js" />
       </list>
     </option>
   </component>
@@ -187,17 +263,18 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="forge" />
+              <option name="myItemId" value="Forge" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="forge" />
+              <option name="myItemId" value="Forge" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -207,7 +284,207 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
+              <option name="myItemId" value="Forge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="forge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="server" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Forge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="server" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="api" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Forge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="server" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="api" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="endpoints" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Forge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Forge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Viewer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Forge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Viewer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="extensions" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Viewing.Extension.StorageView" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Forge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Viewer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="extensions" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Forge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Forge" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -221,7 +498,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -242,22 +518,27 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View" />
-      <recent name="$PROJECT_DIR$/resources/libs/viewer" />
-      <recent name="$PROJECT_DIR$/resources/img" />
       <recent name="$PROJECT_DIR$/src/server/api/endpoints" />
-      <recent name="$PROJECT_DIR$/src/server/api/services" />
+      <recent name="$PROJECT_DIR$/src/client/utils" />
+      <recent name="$PROJECT_DIR$/src/client/utils/TabManager" />
+      <recent name="$PROJECT_DIR$/resources/libs/viewer" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/client/utils/TabManager" />
       <recent name="$PROJECT_DIR$/src/client" />
       <recent name="$PROJECT_DIR$/src/client/Components/Viewer" />
       <recent name="$PROJECT_DIR$/src/server/api/services" />
     </key>
   </component>
   <component name="RunManager" selected="Node.js.dev">
+    <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
+      <method />
+    </configuration>
     <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
       <method />
     </configuration>
-    <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" config-file="">
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="JSTestDriver:ConfigurationType" factoryName="JsTestDriver">
@@ -265,10 +546,6 @@
       <setting name="settingsFile" value="" />
       <setting name="serverType" value="INTERNAL" />
       <setting name="preferredDebugBrowser" value="Chrome" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" config-file="">
-      <envs />
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
@@ -336,19 +613,19 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2473573" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29598308" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39948782" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32694763" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19412516" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39948782" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23116219" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
   </component>
   <component name="UnknownFeatures">
@@ -377,205 +654,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../view.and.data-boilerplate/www/js/viewer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.51724136" vertical-offset="825" max-vertical-offset="3480">
-          <caret line="92" column="43" selection-start-line="92" selection-start-column="43" selection-end-line="92" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3796" max-vertical-offset="6300">
-          <caret line="269" column="0" selection-start-line="269" selection-start-column="0" selection-end-line="269" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer.Panel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.42857143" vertical-offset="375" max-vertical-offset="6105">
-          <caret line="46" column="7" selection-start-line="46" selection-start-column="7" selection-end-line="46" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.ModelTransformer/Viewing.Tool.Rotate.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.3021107" vertical-offset="5535" max-vertical-offset="15420">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.SceneManager/Viewing.Extension.SceneManager.Panel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1980">
-          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.SceneManager/Viewing.Extension.SceneManager.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7044855" vertical-offset="3006" max-vertical-offset="4410">
-          <caret line="236" column="0" selection-start-line="236" selection-start-column="0" selection-end-line="236" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/img/forge.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2152" max-vertical-offset="3870">
-          <caret line="175" column="0" selection-start-line="175" selection-start-column="0" selection-end-line="175" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/img/favicon.ico">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.JobPanel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="1815">
-          <caret line="97" column="0" selection-start-line="97" selection-start-column="0" selection-end-line="97" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/layout/index.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="8.75" vertical-offset="645" max-vertical-offset="1275">
-          <caret line="29" column="71" selection-start-line="29" selection-start-column="71" selection-end-line="29" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/webpack/webpack.config.production.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1620">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/webpack/webpack.config.development.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1455">
-          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/api/endpoints/forge.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1627" max-vertical-offset="2265">
-          <caret line="123" column="9" selection-start-line="123" selection-start-column="9" selection-end-line="123" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.ViewerPropertyPanel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.0384617" vertical-offset="4283" max-vertical-offset="9135">
-          <caret line="300" column="31" selection-start-line="300" selection-start-column="24" selection-end-line="300" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/api/endpoints/derivatives.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1095" max-vertical-offset="5145">
-          <caret line="95" column="0" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/api/services/DerivativeSvc.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.1538461" vertical-offset="0" max-vertical-offset="5205">
-          <caret line="2" column="29" selection-start-line="2" selection-start-column="29" selection-end-line="2" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/api/services/BaseSvc.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="621">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/api/services/ForgeSvc.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1402" max-vertical-offset="2430">
-          <caret line="148" column="0" selection-start-line="148" selection-start-column="0" selection-end-line="148" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/api/services/SocketSvc.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1980">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/server.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1209" max-vertical-offset="1830">
-          <caret line="125" column="0" selection-start-line="125" selection-start-column="0" selection-end-line="125" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/c0nfig/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1065">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/c0nfig/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.25" vertical-offset="450" max-vertical-offset="1275">
-          <caret line="40" column="12" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/api/endpoints/dm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3505" max-vertical-offset="4050">
-          <caret line="257" column="0" selection-start-line="257" selection-start-column="0" selection-end-line="257" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/ViewerManager.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="5194" max-vertical-offset="11460">
-          <caret line="360" column="10" selection-start-line="360" selection-start-column="10" selection-end-line="360" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.API.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="6870">
-          <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.Panel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4905" max-vertical-offset="8640">
-          <caret line="345" column="0" selection-start-line="345" selection-start-column="0" selection-end-line="345" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/api/services/DMSvc.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1500" max-vertical-offset="5445">
-          <caret line="196" column="0" selection-start-line="196" selection-start-column="0" selection-end-line="196" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/api/services/OssSvc.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5501931" vertical-offset="1005" max-vertical-offset="2565">
-          <caret line="86" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.1367837" vertical-offset="195" max-vertical-offset="3390">
@@ -597,38 +675,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/libs/viewer/viewer3D.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.764706" vertical-offset="880284" max-vertical-offset="1608495">
-          <caret line="58695" column="0" selection-start-line="58695" selection-start-column="0" selection-end-line="58711" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/client/styles/app.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="690">
           <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/utils/TabManager.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2382" max-vertical-offset="3060">
-          <caret line="175" column="0" selection-start-line="175" selection-start-column="0" selection-end-line="175" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/utils/ExtensionBase.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="840" max-vertical-offset="1845">
-          <caret line="70" column="2" selection-start-line="70" selection-start-column="2" selection-end-line="114" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.API.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.40265486" vertical-offset="1527" max-vertical-offset="2205">
-          <caret line="120" column="5" selection-start-line="120" selection-start-column="5" selection-end-line="120" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -646,25 +696,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.css">
+    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1062" max-vertical-offset="1725">
           <caret line="96" column="1" selection-start-line="96" selection-start-column="1" selection-end-line="96" selection-end-column="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/utils/EventsEmitter.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1261" max-vertical-offset="2925">
-          <caret line="104" column="0" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.DetailsPanel.js">
+    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.DetailsPanel.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="660">
           <caret line="25" column="6" selection-start-line="25" selection-start-column="6" selection-end-line="25" selection-end-column="6" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -672,70 +715,328 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4815">
           <caret line="49" column="21" selection-start-line="49" selection-start-column="3" selection-end-line="49" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.Panel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29387754" vertical-offset="1779" max-vertical-offset="8775">
-          <caret line="137" column="0" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.js">
+    <entry file="file://$PROJECT_DIR$/src/client/utils/CustomWebComponent.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.020408163" vertical-offset="150" max-vertical-offset="1260">
-          <caret line="15" column="67" selection-start-line="12" selection-start-column="2" selection-end-line="15" selection-end-column="67" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.ContextMenu.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1305">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/utils/ViewerToolkit.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="901" max-vertical-offset="9615">
-          <caret line="69" column="31" selection-start-line="69" selection-start-column="9" selection-end-line="69" selection-end-column="31" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="330">
+          <caret line="6" column="39" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="39" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/client/utils/Dropdown.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6530343" vertical-offset="0" max-vertical-offset="4485">
-          <caret line="33" column="26" selection-start-line="33" selection-start-column="26" selection-end-line="33" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4485">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/utils/EventsEmitter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1261" max-vertical-offset="2925">
+          <caret line="104" column="0" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/utils/ExtensionBase.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1785">
+          <caret line="19" column="26" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/utils/SwitchButton.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2085">
+          <caret line="6" column="60" selection-start-line="6" selection-start-column="60" selection-end-line="6" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/utils/ViewerToolkit.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="9615">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1635">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.API.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="6338" max-vertical-offset="6870">
+          <caret line="442" column="0" selection-start-line="442" selection-start-column="0" selection-end-line="442" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/api/endpoints/derivatives.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="5145">
+          <caret line="18" column="48" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.SceneManager/Viewing.Extension.SceneManager.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1965" max-vertical-offset="4410">
+          <caret line="144" column="58" selection-start-line="144" selection-start-column="18" selection-end-line="144" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.SceneManager/Viewing.Extension.SceneManager.Panel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1920">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/utils/TabManager/TabManager.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="1155">
+          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/api/services/DerivativeSvc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1025" max-vertical-offset="5205">
+          <caret line="80" column="6" selection-start-line="80" selection-start-column="2" selection-end-line="80" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/utils/TabManager/TabManager.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-39.166668" vertical-offset="0" max-vertical-offset="2250">
+          <caret line="145" column="0" selection-start-line="145" selection-start-column="0" selection-end-line="145" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/api/services/BaseSvc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.018518" vertical-offset="77" max-vertical-offset="615">
+          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/api/services/SvcManager.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.2222223" vertical-offset="0" max-vertical-offset="750">
+          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../view-and-data-npm/config-view-and-data.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="735">
+          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../view-and-data-npm/view-and-data.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3177" max-vertical-offset="19260">
+          <caret line="225" column="4" selection-start-line="278" selection-start-column="16" selection-end-line="278" selection-end-column="56" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../view-and-data-npm/test/test.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13852243" vertical-offset="2175" max-vertical-offset="4365">
-          <caret line="152" column="5" selection-start-line="152" selection-start-column="5" selection-end-line="152" selection-end-column="5" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.0" vertical-offset="555" max-vertical-offset="4125">
+          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/development.config.js">
+    <entry file="file://$PROJECT_DIR$/config/heroku.config.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="637" max-vertical-offset="1395">
-          <caret line="51" column="12" selection-start-line="51" selection-start-column="12" selection-end-line="83" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1350">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/libs/viewer/viewer3D.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="37.84058" vertical-offset="922111" max-vertical-offset="1608495">
+          <caret line="61300" column="12" selection-start-line="61300" selection-start-column="0" selection-end-line="61300" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.Panel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.730769" vertical-offset="3995" max-vertical-offset="8640">
+          <caret line="282" column="0" selection-start-line="282" selection-start-column="0" selection-end-line="282" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/api/services/SocketSvc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1980">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../dotty/dotty-cloud/TrialGallery/src/client/ui/views/upload/upload.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="765" max-vertical-offset="2775">
+          <caret line="94" column="0" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../dotty/dotty-cloud/TrialGallery/src/server/api/endpoints/upload.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="555" max-vertical-offset="3525">
+          <caret line="50" column="31" selection-start-line="50" selection-start-column="18" selection-end-line="50" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/api/services/DMSvc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2685" max-vertical-offset="5445">
+          <caret line="204" column="20" selection-start-line="204" selection-start-column="20" selection-end-line="204" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360.API.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1470" max-vertical-offset="2205">
+          <caret line="107" column="10" selection-start-line="104" selection-start-column="8" selection-end-line="107" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.OSS.API.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="1320">
+          <caret line="23" column="10" selection-start-line="23" selection-start-column="10" selection-end-line="23" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.StorageView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="1335">
+          <caret line="27" column="6" selection-start-line="27" selection-start-column="6" selection-end-line="27" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.ContextMenu.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="630" max-vertical-offset="1515">
+          <caret line="66" column="19" selection-start-line="66" selection-start-column="19" selection-end-line="66" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/api/services/OssSvc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="915" max-vertical-offset="4365">
+          <caret line="81" column="8" selection-start-line="81" selection-start-column="8" selection-end-line="81" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/api/endpoints/upload.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1890">
+          <caret line="109" column="5" selection-start-line="109" selection-start-column="5" selection-end-line="109" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/api/services/oss.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.625" vertical-offset="0" max-vertical-offset="105">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/api/endpoints/oss.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="900">
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/api/endpoints/dm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2333" max-vertical-offset="2985">
+          <caret line="133" column="28" selection-start-line="133" selection-start-column="28" selection-end-line="133" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1422" max-vertical-offset="1965">
+          <caret line="134" column="0" selection-start-line="134" selection-start-column="0" selection-end-line="134" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/ViewerManager.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.5" vertical-offset="10624" max-vertical-offset="11250">
+          <caret line="739" column="26" selection-start-line="739" selection-start-column="26" selection-end-line="739" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/config/production.config.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.6332453" vertical-offset="7" max-vertical-offset="1395">
-          <caret line="83" column="7" selection-start-line="83" selection-start-column="7" selection-end-line="83" selection-end-column="7" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1395">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/api/services/ForgeSvc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="968" max-vertical-offset="3345">
+          <caret line="85" column="14" selection-start-line="85" selection-start-column="2" selection-end-line="85" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/development.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1410">
+          <caret line="17" column="56" selection-start-line="16" selection-start-column="11" selection-end-line="17" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/api/endpoints/forge.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2198" max-vertical-offset="2745">
+          <caret line="165" column="0" selection-start-line="165" selection-start-column="0" selection-end-line="165" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.Panel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.25052193" vertical-offset="1815" max-vertical-offset="12195">
+          <caret line="133" column="20" selection-start-line="133" selection-start-column="20" selection-end-line="133" selection-end-column="20" />
           <folding />
         </state>
       </provider>

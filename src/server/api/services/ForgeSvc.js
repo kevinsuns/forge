@@ -83,6 +83,67 @@ export default class ForgeSvc extends BaseSvc {
   //
   //
   /////////////////////////////////////////////////////////////////
+  requestToken (scope) {
+
+    return new Promise((resolve, reject) => {
+
+      var url = this._config.oauth.baseUri +
+        this._config.oauth.authenticationUri
+
+      request({
+        url: url,
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        json: true,
+        form: {
+          client_secret: this._config.oauth.clientSecret,
+          client_id: this._config.oauth.clientId,
+          grant_type: 'client_credentials',
+          scope: scope
+        }
+
+      }, (err, response, body) => {
+
+        try {
+
+          if (err) {
+
+            console.log('error: ' + url)
+            console.log(err)
+
+            return reject(err)
+          }
+
+          if (body && body.errors) {
+
+            console.log('body error: ' + url)
+            console.log(body.errors)
+
+            return reject(body.errors)
+          }
+
+          if([200, 201, 202].indexOf(
+              response.statusCode) < 0){
+
+            return reject(response)
+          }
+
+          return resolve(body.data || body)
+        }
+        catch(ex){
+
+          return reject(response)
+        }
+      })
+    })
+  }
+
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
   refreshToken (token, scope) {
 
     return new Promise((resolve, reject) => {
