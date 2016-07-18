@@ -1,4 +1,20 @@
-
+///////////////////////////////////////////////////////////////////////
+// Copyright (c) Autodesk, Inc. All rights reserved
+// Written by Philippe Leefsma 2016 - ADN/Developer Technical Services
+//
+// Permission to use, copy, modify, and distribute this software in
+// object code form for any purpose and without fee is hereby granted,
+// provided that the above copyright notice appears in all copies and
+// that both that copyright notice and the limited warranty and
+// restricted rights notice below appear in all supporting
+// documentation.
+//
+// AUTODESK PROVIDES THIS PROGRAM "AS IS" AND WITH ALL FAULTS.
+// AUTODESK SPECIFICALLY DISCLAIMS ANY IMPLIED WARRANTY OF
+// MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE.  AUTODESK, INC.
+// DOES NOT WARRANT THAT THE OPERATION OF THE PROGRAM WILL BE
+// UNINTERRUPTED OR ERROR FREE.
+///////////////////////////////////////////////////////////////////////
 import ServiceManager from '../services/SvcManager'
 import { serverConfig as config } from 'c0nfig'
 import { OAuth2 } from 'oauth'
@@ -8,6 +24,10 @@ module.exports = function() {
 
   var router = express.Router()
 
+  /////////////////////////////////////////////////////////////////////////////
+  // Initialize OAuth library
+  //
+  /////////////////////////////////////////////////////////////////////////////
   var oauth2 = new OAuth2(
     config.forge.oauth.clientId,
     config.forge.oauth.clientSecret,
@@ -16,6 +36,10 @@ module.exports = function() {
     config.forge.oauth.accessTokenUri,
     null)
 
+  /////////////////////////////////////////////////////////////////////////////
+  // Wait for Forge Service to get initialized and set 2-legged token
+  //
+  /////////////////////////////////////////////////////////////////////////////
   ServiceManager.on('ForgeSvc', async(forgeSvc) => {
 
     var scope = config.forge.oauth.scope.join(' ')
@@ -83,9 +107,10 @@ module.exports = function() {
 
           forgeSvc.setToken(req.sessionID, token)
 
-          var downgradedScope = 'data:read'
+          // request a downgraded token to provide to client App
+          // read-only for viewing
 
-          forgeSvc.refreshToken(token, downgradedScope).then(
+          forgeSvc.refreshToken(token, 'data:read').then(
             (clientToken) => {
 
               forgeSvc.setClientToken(
@@ -125,7 +150,7 @@ module.exports = function() {
   })
 
   ///////////////////////////////////////////////////////////////////////////
-  // 3-legged client token
+  // 3-legged client token: exposes a 'data:read' only token to client App
   //
   ///////////////////////////////////////////////////////////////////////////
   router.get('/token/3legged', (req, res) => {
@@ -151,7 +176,7 @@ module.exports = function() {
   })
 
   ///////////////////////////////////////////////////////////////////////////
-  // 2-legged client token
+  // 2-legged client token: exposes a 'data:read' only token to client App
   //
   ///////////////////////////////////////////////////////////////////////////
   router.get('/token/2legged', async(req, res) => {

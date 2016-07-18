@@ -73,13 +73,16 @@ export default class A360Panel extends ToolPanelBase {
 
     this.contextMenu.on('context.details', (data) => {
 
-      var panel = new DetailsPanel(
-        extension._viewer.container,
-        data.title, {
-          left: data.event.clientX + 50
-        }, data.node.object)
+      if(data.node.details) {
 
-      panel.setVisible(true)
+        var panel = new DetailsPanel(
+          extension._viewer.container,
+          data.title, {
+            left: data.event.clientX + 50
+          }, data.node.details)
+
+        panel.setVisible(true)
+      }
     })
 
     this.contextMenu.on('context.oss.createBucket', async(data) => {
@@ -104,7 +107,7 @@ export default class A360Panel extends ToolPanelBase {
         bucketKey: response.bucketKey,
         name: response.bucketKey,
         id: response.bucketKey,
-        type: 'bucket',
+        type: 'oss.bucket',
         group: true
       }
 
@@ -133,20 +136,20 @@ export default class A360Panel extends ToolPanelBase {
   /////////////////////////////////////////////////////////////
   async loadData() {
 
-    const hubs = await this.extension.a360API.getHubs()
-
-    hubs.forEach((hub) => {
-
-      var treeContainerId = ToolPanelBase.guid()
-
-      this.TabManager.addTab({
-        name: 'Hub: ' + hub.attributes.name,
-        active: true,
-        html: `<div id=${treeContainerId} class="tree-container"> </div>`
-      })
-
-      this.loadHub(treeContainerId, hub)
-    })
+    //const hubs = await this.extension.a360API.getHubs()
+    //
+    //hubs.forEach((hub) => {
+    //
+    //  var treeContainerId = ToolPanelBase.guid()
+    //
+    //  this.TabManager.addTab({
+    //    name: 'Hub: ' + hub.attributes.name,
+    //    active: true,
+    //    html: `<div id=${treeContainerId} class="tree-container"> </div>`
+    //  })
+    //
+    //  this.loadHub(treeContainerId, hub)
+    //})
 
     this.loadOSS()
   }
@@ -333,15 +336,29 @@ class BaseTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
   //
   //
   /////////////////////////////////////////////////////////////
+  nodeClickSelector (event) {
+
+    const selector = ['HEADER', 'LABEL']
+
+    return (selector.indexOf(event.path[0].nodeName) > -1)
+  }
+
+  /////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////
   onTreeNodeClick (tree, node, event) {
 
-    clearTimeout(this.clickTimeout)
+    if (this.nodeClickSelector(event)) {
 
-    this.clickTimeout = setTimeout(() => {
+      clearTimeout(this.clickTimeout)
 
-      tree.setCollapsed(node, !tree.isCollapsed(node))
+      this.clickTimeout = setTimeout(() => {
 
-    }, 200)
+        tree.setCollapsed(node, !tree.isCollapsed(node))
+
+      }, 200)
+    }
   }
 
   /////////////////////////////////////////////////////////////
@@ -350,9 +367,12 @@ class BaseTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
   /////////////////////////////////////////////////////////////
   onTreeNodeDoubleClick (tree, node, event) {
 
-    clearTimeout(this.clickTimeout)
+    if (this.nodeClickSelector(event)) {
 
-    this.extension.emit('node.dblClick', node)
+      clearTimeout(this.clickTimeout)
+
+      this.extension.emit('node.dblClick', node)
+    }
   }
 
   /////////////////////////////////////////////////////////////
@@ -361,7 +381,10 @@ class BaseTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
   /////////////////////////////////////////////////////////////
   onTreeNodeRightClick (tree, node, event) {
 
-    this.contextMenu.show(event, node)
+    if (this.nodeClickSelector(event)) {
+
+      this.contextMenu.show(event, node)
+    }
   }
 
   /////////////////////////////////////////////////////////////
@@ -451,6 +474,15 @@ class A360TreeDelegate extends BaseTreeDelegate {
 
     if (node.type === 'projects' || node.type === 'folders') {
 
+      $(parent).append(`
+        <div class="cloud-upload">
+            <button" class="btn c${parent.id}">
+            <span class="glyphicon glyphicon-cloud-upload">
+            </span>
+          </button>
+        </div>
+      `)
+
       $(`#${labelId}`).css({
         'pointer-events': 'none'
       })
@@ -459,10 +491,10 @@ class A360TreeDelegate extends BaseTreeDelegate {
 
       $(parent).dropzone({
         url: `/api/upload/dm/${node.projectId}/${node.folderId}`,
+        clickable: `.btn.c${parent.id}`,
         dictDefaultMessage: ' - upload',
         previewTemplate: '<div></div>',
         parallelUploads: 20,
-        clickable: false,
         autoQueue: true,
         init: function() {
 
@@ -504,6 +536,17 @@ class A360TreeDelegate extends BaseTreeDelegate {
       })
 
       //$('div.dz-default.dz-message > span').hide();
+
+    } else if(node.type === 'items') {
+
+      $(parent).append(`
+        <div class="cloud-download">
+            <button" class="btn c${parent.id}">
+            <span class="glyphicon glyphicon-cloud-download">
+            </span>
+          </button>
+        </div>
+      `)
     }
 
     node.expand = () => {
@@ -547,7 +590,7 @@ class A360TreeDelegate extends BaseTreeDelegate {
                 name: project.attributes.name,
                 projectId: project.id,
                 type: project.type,
-                object: project,
+                details: project,
                 folderId: rootId,
                 hubId: node.id,
                 id: project.id,
@@ -584,7 +627,7 @@ class A360TreeDelegate extends BaseTreeDelegate {
                       name: folderItem.attributes.displayName,
                       folderId: folderItem.id,
                       type: folderItem.type,
-                      object: folderItem,
+                      details: folderItem,
                       projectId: node.id,
                       hubId: node.hubId,
                       id: folderItem.id,
@@ -619,7 +662,7 @@ class A360TreeDelegate extends BaseTreeDelegate {
                   projectId: node.projectId,
                   folderId: folderItem.id,
                   type: folderItem.type,
-                  object: folderItem,
+                  details: folderItem,
                   hubId: node.hubId,
                   id: folderItem.id,
                   group: true
@@ -646,7 +689,7 @@ class A360TreeDelegate extends BaseTreeDelegate {
       hubId: parent.hubId,
       folderId: item.id,
       type: item.type,
-      object: item,
+      details: item,
       id: item.id,
       group: true
     }
@@ -705,7 +748,16 @@ class OSSTreeDelegate extends BaseTreeDelegate {
 
     $(parent).append(label)
 
-    if (node.type === 'bucket') {
+    if (node.type === 'oss.bucket') {
+
+      $(parent).append(`
+        <div class="cloud-upload">
+            <button" class="btn c${parent.id}">
+            <span class="glyphicon glyphicon-cloud-upload">
+            </span>
+          </button>
+        </div>
+      `)
 
       $(`#${labelId}`).css({
         'pointer-events': 'none'
@@ -714,11 +766,11 @@ class OSSTreeDelegate extends BaseTreeDelegate {
       var container = this.container
 
       $(parent).dropzone({
+        clickable: `.btn.c${parent.id}`,
         url: `/api/upload/oss/${node.name}`,
         dictDefaultMessage: ' - upload',
         previewTemplate: '<div></div>',
         parallelUploads: 20,
-        clickable: false,
         autoQueue: true,
         init: function() {
 
@@ -755,23 +807,49 @@ class OSSTreeDelegate extends BaseTreeDelegate {
 
           console.log(response)
 
-          var id = response.objectId.replace(
-            /[&\/\\#,+()$~%. '":*?<>{}]/g,'-')
+          var id = response.bucketKey + '-' + response.objectKey
 
           if(!$(container).find(`leaf[lmv-nodeid='${id}']`).length) {
 
-            var objectNode = {
-              objectId: response.objectId,
-              bucketKey: node.bucketKey,
-              objectKey: file.name,
-              name: file.name,
-              group: false,
-              id: id
-            }
+            this.extension.ossAPI.getObjectDetails(
+              response.bucketKey,
+              response.objectKey).then((objectDetails) => {
 
-            node.addChild(objectNode)
+              var objectNode = {
+                objectId: response.objectId,
+                bucketKey: node.bucketKey,
+                details: objectDetails,
+                objectKey: file.name,
+                type: 'oss.object',
+                name: file.name,
+                group: false,
+                id: id
+              }
+
+              node.addChild(objectNode)
+            })
           }
         }
+      })
+
+    } else if (node.type === 'oss.object') {
+
+      var downloadId = ToolPanelBase.guid()
+
+      $(parent).append(`
+        <div class="cloud-download">
+            <button" id="${downloadId}" class="btn c${parent.id}">
+            <span class="glyphicon glyphicon-cloud-download">
+            </span>
+          </button>
+        </div>
+      `)
+
+      $(`#${downloadId}`).click(() => {
+
+        this.extension.ossAPI.download(
+          node.bucketKey,
+          node.objectKey)
       })
     }
 
@@ -798,15 +876,58 @@ class OSSTreeDelegate extends BaseTreeDelegate {
 
     switch(node.type) {
 
-      case 'root':
+      case 'oss.root':
 
-        this.extension.ossAPI.getData().then((data) => {
+        this.extension.ossAPI.getBuckets().then((response) => {
 
-          console.log(data)
+          response.items.forEach((bucketDetails) => {
+
+            this.extension.ossAPI.getBucketDetails(
+              bucketDetails.bucketKey).then((bucketDetails) => {
+
+                var bucketNode = {
+                  bucketKey: bucketDetails.bucketKey,
+                  name: bucketDetails.bucketKey,
+                  id: bucketDetails.bucketKey,
+                  details: bucketDetails,
+                  type: 'oss.bucket',
+                  group: true
+                }
+
+                addChildCallback(bucketNode)
+
+                bucketNode.collapse()
+              })
+          })
         })
 
-        break;
+        break
 
+      case 'oss.bucket':
+
+        this.extension.ossAPI.getObjects(node.bucketKey).then((response) => {
+
+          response.items.forEach((objectDetails) => {
+
+            this.extension.ossAPI.getObjectDetails(
+              node.bucketKey, objectDetails.objectKey).then((objectDetails) => {
+
+                var objectNode = {
+                  id: node.bucketKey + '-' + objectDetails.objectKey,
+                  objectKey: objectDetails.objectKey,
+                  name: objectDetails.objectKey,
+                  bucketKey: node.bucketKey,
+                  details: objectDetails,
+                  type: 'oss.object',
+                  group: false
+                }
+
+                addChildCallback(objectNode)
+              })
+          })
+        })
+
+        break
     }
   }
 }

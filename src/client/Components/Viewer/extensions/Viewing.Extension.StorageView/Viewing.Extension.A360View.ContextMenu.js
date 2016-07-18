@@ -75,6 +75,50 @@ export default class A360ViewContextMenu extends
         })
 
         break
+
+      case 'oss.bucket':
+
+        menu.push({
+          title: 'Show bucket details',
+          target: () => {
+            this.emit('context.details', {
+              event, node, title: 'Bucket Details'
+            })
+          }
+        })
+
+        menu.push({
+          title: 'Hide bucket',
+          target: () => {
+            this.emit('context.oss.bucket.hide', {
+              event, node
+            })
+          }
+        })
+
+        break
+
+      case 'oss.object':
+
+        menu.push({
+          title: 'Show object details',
+          target: () => {
+            this.emit('context.details', {
+              event, node, title: 'Object Details'
+            })
+          }
+        })
+
+        menu.push({
+          title: 'Delete object',
+          target: () => {
+            this.emit('context.oss.object.delete', {
+              event, node
+            })
+          }
+        })
+
+        break
     }
 
     return menu

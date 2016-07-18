@@ -10,13 +10,88 @@ export default class OSSAPI {
   //
   //
   ///////////////////////////////////////////////////////////////////
-  getData () {
+  getBuckets () {
 
     return new Promise(async(resolve, reject) => {
 
       try {
 
-        var url = `${this.apiUrl}/data`
+        var url = `${this.apiUrl}/buckets`
+
+        $.get(url, (res)=> {
+
+          return resolve(res)
+        })
+
+      } catch(ex) {
+
+        reject(ex)
+      }
+    })
+  }
+
+  ///////////////////////////////////////////////////////////////////
+  //
+  //
+  ///////////////////////////////////////////////////////////////////
+  getObjects (bucketKey) {
+
+    return new Promise(async(resolve, reject) => {
+
+      try {
+
+        var url = `${this.apiUrl}/buckets/${bucketKey}/objects`
+
+        $.get(url, (res)=> {
+
+          return resolve(res)
+        })
+
+      } catch(ex) {
+
+        reject(ex)
+      }
+    })
+  }
+
+  ///////////////////////////////////////////////////////////////////
+  //
+  //
+  ///////////////////////////////////////////////////////////////////
+  getBucketDetails (bucketKey) {
+
+    return new Promise(async(resolve, reject) => {
+
+      try {
+
+        var url = `${this.apiUrl}/buckets/`+
+          `${bucketKey}/details`
+
+        $.get(url, (res)=> {
+
+          return resolve(res)
+        })
+
+      } catch(ex) {
+
+        reject(ex)
+      }
+    })
+  }
+
+  ///////////////////////////////////////////////////////////////////
+  //
+  //
+  ///////////////////////////////////////////////////////////////////
+  getObjectDetails (bucketKey, objectKey) {
+
+    return new Promise(async(resolve, reject) => {
+
+      try {
+
+        var url = `${this.apiUrl}/buckets/`+
+          `${bucketKey}/objects/` +
+          `${objectKey}/details`
 
         $.get(url, (res)=> {
 
@@ -51,6 +126,21 @@ export default class OSSAPI {
         reject(ex)
       }
     })
+  }
+
+  /////////////////////////////////////////////////////////////////
+  // Download util
+  //
+  /////////////////////////////////////////////////////////////////
+  download(bucketKey, objectKey) {
+
+    var uri = `${this.apiUrl}/buckets/` +
+      `${bucketKey}/objects/${objectKey}`
+
+    var link = document.createElement("a")
+    link.download = objectKey
+    link.href = uri
+    link.click()
   }
 }
 

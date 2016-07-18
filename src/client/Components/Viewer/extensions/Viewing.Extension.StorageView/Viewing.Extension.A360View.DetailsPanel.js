@@ -10,7 +10,7 @@ import ToolPanelBase from 'ToolPanelBase'
 
 export default class A360DetailsPanel extends ToolPanelBase {
 
-  constructor(container, title, pos, object) {
+  constructor(container, title, pos, details) {
 
     super(container, title, {
       closable: true,
@@ -25,7 +25,7 @@ export default class A360DetailsPanel extends ToolPanelBase {
       left: pos.left
     })
 
-    $(`#${this.container.id}-jsonview`).JSONView(object)
+    $(`#${this.container.id}-jsonview`).JSONView(details)
   }
 
   /////////////////////////////////////////////////////////////

@@ -52,6 +52,10 @@
     height: 100%;
 }
 
+.a360 .treeview group > header > icon {
+    position: initial;
+}
+
 .a360 .treeview header {
     width: calc(100% - 36px);
 }
@@ -106,4 +110,27 @@
     margin: 6px;
 }
 
+.a360 .cloud-upload,
+.a360 .cloud-download {
+    margin-right: 4px;
+    float: left;
+    left: -5px;
+}
 
+.a360 .cloud-upload .btn,
+.a360 .cloud-download .btn {
+    border-color: #adadad;
+    position: relative;
+    line-height: 1;
+    padding: 3px;
+    height: 16px;
+    top: -4px;
+}
+
+.a360 .glyphicon-cloud-upload {
+    color: #67a8fd
+}
+
+.a360 .glyphicon-cloud-download {
+    color: #0ecc1f
+}

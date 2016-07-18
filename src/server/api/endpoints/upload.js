@@ -100,7 +100,7 @@ module.exports = function() {
 
       var ossSvc = ServiceManager.getService('OssSvc')
 
-      var response = await ossSvc.upload(
+      var response = await ossSvc.putObject(
         token.access_token,
         bucketKey,
         objectKey,

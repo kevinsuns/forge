@@ -54,10 +54,12 @@ module.exports = {
 
                 authenticate:     FORGE_BASE_URL + '/authentication/' + FORGE_OAUTH_VERSION + '/authenticate',
 
-                object:           FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/details',
+                bucketDetails:    FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/details',
+                objectDetails:    FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/objects/%s/details',
                 buckets:          FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets',
-                upload:           FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/objects/%s',
-                resumableUpload:  FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/objects/%s/resumable',
+                bucket:           FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s',
+                objects:          FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/objects',
+                object:           FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/objects/%s',
 
                 supported:        FORGE_BASE_URL + '/viewingservice/' + FORGE_OSS_VERSION + '/supported',
                 register:         FORGE_BASE_URL + '/viewingservice/' + FORGE_OSS_VERSION + '/register',

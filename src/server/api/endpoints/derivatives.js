@@ -19,7 +19,7 @@ module.exports = function() {
       var payload = JSON.parse(req.body.payload)
 
       var forgeSvc = ServiceManager.getService(
-        'ForgeSvc');
+        'ForgeSvc')
 
       var token = await forgeSvc.getToken(req.sessionID)
       
@@ -80,12 +80,12 @@ module.exports = function() {
     try {
 
       var forgeSvc = ServiceManager.getService(
-        'ForgeSvc');
+        'ForgeSvc')
 
       var token = await forgeSvc.getToken(req.sessionID)
 
       var derivativeSvc = ServiceManager.getService(
-        'DerivativeSvc');
+        'DerivativeSvc')
 
       var response = await derivativeSvc.getFormats(
         token.access_token)
@@ -111,12 +111,12 @@ module.exports = function() {
       var urn = req.params.urn
 
       var forgeSvc = ServiceManager.getService(
-        'ForgeSvc');
+        'ForgeSvc')
 
       var token = await forgeSvc.getToken(req.sessionID)
 
       var derivativeSvc = ServiceManager.getService(
-        'DerivativeSvc');
+        'DerivativeSvc')
 
       var response = await derivativeSvc.getMetadata(
         token.access_token, urn)
@@ -142,12 +142,12 @@ module.exports = function() {
       var urn = req.params.urn
 
       var forgeSvc = ServiceManager.getService(
-        'ForgeSvc');
+        'ForgeSvc')
 
       var token = await forgeSvc.getToken(req.sessionID)
 
       var derivativeSvc = ServiceManager.getService(
-        'DerivativeSvc');
+        'DerivativeSvc')
 
       var response = await derivativeSvc.getManifest(
         token.access_token, urn)
@@ -175,12 +175,12 @@ module.exports = function() {
       var guid = req.params.guid
 
       var forgeSvc = ServiceManager.getService(
-        'ForgeSvc');
+        'ForgeSvc')
 
       var token = await forgeSvc.getToken(req.sessionID)
 
       var derivativeSvc = ServiceManager.getService(
-        'DerivativeSvc');
+        'DerivativeSvc')
 
       var response = await derivativeSvc.getHierarchy(
         token.access_token, urn, guid)
@@ -208,12 +208,12 @@ module.exports = function() {
       var guid = req.params.guid
 
       var forgeSvc = ServiceManager.getService(
-        'ForgeSvc');
+        'ForgeSvc')
 
       var token = await forgeSvc.getToken(req.sessionID)
 
       var derivativeSvc = ServiceManager.getService(
-        'DerivativeSvc');
+        'DerivativeSvc')
 
       var response = await derivativeSvc.getProperties(
         token.access_token, urn, guid)
@@ -239,12 +239,12 @@ module.exports = function() {
       var urn = req.params.urn
 
       var forgeSvc = ServiceManager.getService(
-        'ForgeSvc');
+        'ForgeSvc')
 
       var token = await forgeSvc.getToken(req.sessionID)
 
       var derivativeSvc = ServiceManager.getService(
-        'DerivativeSvc');
+        'DerivativeSvc')
 
       var response = await derivativeSvc.deleteManifest(
         token.access_token, urn)
@@ -274,22 +274,22 @@ module.exports = function() {
       var derivativeUrn = req.query.derivativeUrn
 
       var forgeSvc = ServiceManager.getService(
-        'ForgeSvc');
+        'ForgeSvc')
 
       var token = await forgeSvc.getToken(req.sessionID)
 
       var derivativeSvc = ServiceManager.getService(
-        'DerivativeSvc');
+        'DerivativeSvc')
 
       var response = await derivativeSvc.download(
         token.access_token, urn, derivativeUrn)
 
-      res.set('Content-Type', 'application/obj');
+      res.set('Content-Type', 'application/obj')
 
       res.set('Content-Disposition',
-        `attachment; filename="${filename}"`);
+        `attachment filename="${filename}"`)
 
-      res.end(response);
+      res.end(response)
     }
     catch (ex) {
 
@@ -315,17 +315,17 @@ module.exports = function() {
       }
 
       var forgeSvc = ServiceManager.getService(
-        'ForgeSvc');
+        'ForgeSvc')
 
       var token = await forgeSvc.getToken(req.sessionID)
 
       var derivativeSvc = ServiceManager.getService(
-        'DerivativeSvc');
+        'DerivativeSvc')
 
       var response = await derivativeSvc.getThumbnail(
         token.access_token, urn, options)
 
-      res.end(response);
+      res.end(response)
     }
     catch (ex) {
 
@@ -334,5 +334,5 @@ module.exports = function() {
     }
   })
 
-  return router;
+  return router
 }

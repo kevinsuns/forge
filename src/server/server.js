@@ -1,4 +1,4 @@
-/////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 // Copyright (c) Autodesk, Inc. All rights reserved
 // Written by Philippe Leefsma 2016 - ADN/Developer Technical Services
 //
@@ -14,7 +14,7 @@
 // MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE.  AUTODESK, INC.
 // DOES NOT WARRANT THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
-/////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 import {serverConfig as config} from 'c0nfig'
 
 //Server stuff
@@ -129,7 +129,8 @@ var server = app.listen(app.get('port'), function() {
         config: Object.assign(
           config.forge, {
               storageFile: path.resolve(
-                __dirname, 'api/services/oss.json')
+                __dirname,
+                `../../oss/${config.forge.oauth.clientId}.json`)
           })
     })
 

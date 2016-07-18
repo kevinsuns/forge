@@ -1,7 +1,22 @@
-
+///////////////////////////////////////////////////////////////////////
+// Copyright (c) Autodesk, Inc. All rights reserved
+// Written by Philippe Leefsma 2016 - ADN/Developer Technical Services
+//
+// Permission to use, copy, modify, and distribute this software in
+// object code form for any purpose and without fee is hereby granted,
+// provided that the above copyright notice appears in all copies and
+// that both that copyright notice and the limited warranty and
+// restricted rights notice below appear in all supporting
+// documentation.
+//
+// AUTODESK PROVIDES THIS PROGRAM "AS IS" AND WITH ALL FAULTS.
+// AUTODESK SPECIFICALLY DISCLAIMS ANY IMPLIED WARRANTY OF
+// MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE.  AUTODESK, INC.
+// DOES NOT WARRANT THAT THE OPERATION OF THE PROGRAM WILL BE
+// UNINTERRUPTED OR ERROR FREE.
+///////////////////////////////////////////////////////////////////////
 import BaseSvc from './BaseSvc'
 import request from 'request'
-import util from 'util'
 
 export default class ForgeSvc extends BaseSvc {
 
@@ -42,13 +57,14 @@ export default class ForgeSvc extends BaseSvc {
 
     var entry = this.tokenStore[sessionId]
 
-    entry.clientToken.refresh_token = token.refresh_token
+    entry.clientToken.refresh_token =
+      token.refresh_token
 
     entry.masterToken = token
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // return master token (full privileges)
   //
   /////////////////////////////////////////////////////////////////
   getToken (sessionId) {
@@ -71,7 +87,7 @@ export default class ForgeSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Returns client token
   //
   /////////////////////////////////////////////////////////////////
   getClientToken (sessionId) {
@@ -80,7 +96,7 @@ export default class ForgeSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Request new 2-legged with specified scope
   //
   /////////////////////////////////////////////////////////////////
   requestToken (scope) {
@@ -141,7 +157,7 @@ export default class ForgeSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Refresh 3-legged token with specified scope
   //
   /////////////////////////////////////////////////////////////////
   refreshToken (token, scope) {
@@ -203,7 +219,7 @@ export default class ForgeSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Delete token entry
   //
   /////////////////////////////////////////////////////////////////
   deleteToken (sessionId) {
@@ -214,4 +230,3 @@ export default class ForgeSvc extends BaseSvc {
     }
   }
 }
-
