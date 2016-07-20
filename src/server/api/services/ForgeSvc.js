@@ -17,6 +17,7 @@
 ///////////////////////////////////////////////////////////////////////
 import BaseSvc from './BaseSvc'
 import request from 'request'
+import moment from 'moment'
 
 export default class ForgeSvc extends BaseSvc {
 
@@ -41,11 +42,25 @@ export default class ForgeSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
+  // Return token expiry in seconds
+  //
+  /////////////////////////////////////////////////////////////////
+  getExpiry (token) {
+
+    var age = moment().diff(token.time_stamp, 'seconds')
+
+    return token.expires_in - age
+  }
+
+  /////////////////////////////////////////////////////////////////
   // store master token, also need to set refresh_token
   // for client token, so we can refresh later
   //
   /////////////////////////////////////////////////////////////////
   setToken (sessionId, token) {
+
+    //store current time
+    token.time_stamp = moment().format()
 
     if(!this.tokenStore[sessionId]) {
 
@@ -64,12 +79,26 @@ export default class ForgeSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  // return master token (full privileges)
+  // return master token (full privileges),
+  // refresh automatically if expired
   //
   /////////////////////////////////////////////////////////////////
   getToken (sessionId) {
 
-    return this.tokenStore[sessionId].masterToken
+    return new Promise(async(resolve, reject) => {
+
+      var token = this.tokenStore[sessionId].masterToken
+
+      if(this.getExpiry(token) < 60) {
+
+        token = await this.refreshToken (
+          token, this._config.oauth.scope)
+
+        this.setToken(sessionId, token)
+      }
+
+      resolve(token)
+    })
   }
 
   /////////////////////////////////////////////////////////////////
@@ -79,20 +108,37 @@ export default class ForgeSvc extends BaseSvc {
   /////////////////////////////////////////////////////////////////
   setClientToken (sessionId, token) {
 
+    //store current time
+    token.time_stamp = moment().format()
+
     var entry = this.tokenStore[sessionId]
 
-    entry.masterToken.refresh_token = token.refresh_token
+    entry.masterToken.refresh_token =
+      token.refresh_token
 
     entry.clientToken = token
   }
 
   /////////////////////////////////////////////////////////////////
-  // Returns client token
+  // Returns client token, refresh automatically if expired
   //
   /////////////////////////////////////////////////////////////////
   getClientToken (sessionId) {
 
-    return this.tokenStore[sessionId].clientToken
+    return new Promise(async(resolve, reject) => {
+
+      var token = this.tokenStore[sessionId].clientToken
+
+      if(this.getExpiry(token) < 60) {
+
+        token = await this.refreshToken (
+          token, 'data:read')
+
+        this.setClientToken(sessionId, token)
+      }
+
+      resolve(token)
+    })
   }
 
   /////////////////////////////////////////////////////////////////

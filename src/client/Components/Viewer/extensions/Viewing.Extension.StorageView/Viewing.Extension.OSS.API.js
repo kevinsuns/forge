@@ -18,10 +18,11 @@ export default class OSSAPI {
 
         var url = `${this.apiUrl}/buckets`
 
-        $.get(url, (res)=> {
+        var res = await fetch(url)
 
-          return resolve(res)
-        })
+        var json = await res.json()
+
+        resolve(json)
 
       } catch(ex) {
 
@@ -42,10 +43,11 @@ export default class OSSAPI {
 
         var url = `${this.apiUrl}/buckets/${bucketKey}/objects`
 
-        $.get(url, (res)=> {
+        var res = await fetch(url)
 
-          return resolve(res)
-        })
+        var json = await res.json()
+
+        resolve(json)
 
       } catch(ex) {
 
@@ -67,10 +69,11 @@ export default class OSSAPI {
         var url = `${this.apiUrl}/buckets/`+
           `${bucketKey}/details`
 
-        $.get(url, (res)=> {
+        var res = await fetch(url)
 
-          return resolve(res)
-        })
+        var json = await res.json()
+
+        resolve(json)
 
       } catch(ex) {
 
@@ -85,18 +88,48 @@ export default class OSSAPI {
   ///////////////////////////////////////////////////////////////////
   getObjectDetails (bucketKey, objectKey) {
 
+    return new Promise(async(resolve, reject) =>{
+
+      try {
+
+        var url = `${this.apiUrl}/buckets/` +
+          `${bucketKey}/objects/` +
+          `${objectKey}/details`
+
+        var res = await fetch(url)
+
+        var json = await res.json()
+
+        resolve(json)
+
+      } catch (ex) {
+
+        reject(ex)
+      }
+    })
+  }
+
+  ///////////////////////////////////////////////////////////////////
+  //
+  //
+  ///////////////////////////////////////////////////////////////////
+  deleteObject (bucketKey, objectKey) {
+
     return new Promise(async(resolve, reject) => {
 
       try {
 
-        var url = `${this.apiUrl}/buckets/`+
+        var url = `${this.apiUrl}/buckets/` +
           `${bucketKey}/objects/` +
-          `${objectKey}/details`
+          `${objectKey}`
 
-        $.get(url, (res)=> {
-
-          return resolve(res)
+        var res = await fetch(url, {
+          method: 'DELETE'
         })
+
+        var json = await res.json()
+
+        resolve(json)
 
       } catch(ex) {
 
@@ -109,7 +142,7 @@ export default class OSSAPI {
   //
   //
   ///////////////////////////////////////////////////////////////////
-  createBucket (bucketData) {
+  createBucket (bucketCreationData) {
 
     return new Promise(async(resolve, reject) => {
 
@@ -117,9 +150,22 @@ export default class OSSAPI {
 
         var url = `${this.apiUrl}/buckets`
 
-        var response = await post(url, bucketData)
+        var payload = {
+          bucketCreationData
+        }
 
-        return resolve(response)
+        var res = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        })
+
+        var json = await res.json()
+
+        resolve(json)
 
       } catch(ex) {
 
@@ -142,31 +188,5 @@ export default class OSSAPI {
     link.href = uri
     link.click()
   }
-}
-
-///////////////////////////////////////////////////////////////
-//
-//
-///////////////////////////////////////////////////////////////
-function post(url, payload = null) {
-
-  return new Promise((resolve, reject)=> {
-
-    $.ajax({
-      url: url,
-      type: 'POST',
-      data: {
-        payload: JSON.stringify(payload)
-      },
-      success: (response)=> {
-
-        return resolve(response);
-      },
-      error: function (error) {
-
-        return reject(error);
-      }
-    });
-  });
 }
 

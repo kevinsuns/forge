@@ -156,18 +156,6 @@ module.exports = function() {
         bucketKey,
         objectKey)
 
-      //res.set('Content-Type', 'application/obj')
-      //
-      //res.set('Content-Disposition',
-      //  `attachment filename="${objectKey}"`)
-
-      //console.log(response)
-
-      //var wstream = fs.createWriteStream(objectKey)
-      //wstream.write(buffer)
-
-      //fs.writeFile(objectKey, buffer)
-
       res.end(buffer)
 
     } catch(ex) {
@@ -185,7 +173,7 @@ module.exports = function() {
 
     try {
 
-      var bucketCreationData = JSON.parse(req.body.payload)
+      var bucketCreationData = req.body.bucketCreationData
 
       var forgeSvc = ServiceManager.getService(
         'ForgeSvc')
@@ -201,6 +189,8 @@ module.exports = function() {
       res.json(response)
 
     } catch (ex) {
+
+      console.log(ex)
 
       res.status(ex.statusCode || 500)
       res.json(ex)

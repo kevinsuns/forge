@@ -1,7 +1,7 @@
 # Forge APIs Sample
 
 ## Description
-Forge APIs Demo Sample. A Node.js/ES6 sample that demos many of the features exposed by [Autodesk Forge](http://forge.autodesk.com) APIs 
+Forge APIs Demo Sample. A Node.js/babel/webpack/ES7 sample that demos many of the features exposed by [Autodesk Forge](http://forge.autodesk.com) APIs
 
 ## Live Demo
 

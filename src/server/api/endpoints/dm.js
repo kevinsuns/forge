@@ -45,15 +45,23 @@ module.exports = function() {
 
     try {
 
+      console.log('GET HUBS')
+
       var forgeSvc = ServiceManager.getService(
         'ForgeSvc');
 
+      console.log(req.sessionID)
+
       var token = await forgeSvc.getToken(req.sessionID)
-      
+
+      console.log(token)
+
       var dmSvc = ServiceManager.getService('DMSvc')
       
       var response = await dmSvc.getHubs(
         token.access_token)
+
+      console.log(response)
 
       res.json(response)
     }

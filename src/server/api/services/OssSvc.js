@@ -2,7 +2,6 @@
 import BaseSvc from './BaseSvc'
 import jsonfile from 'jsonfile'
 import request from 'request'
-import sp from 'superagent'
 import util from 'util'
 import fs from 'fs'
 
@@ -52,9 +51,9 @@ export default class OssSvc extends BaseSvc {
   //
   //
   /////////////////////////////////////////////////////////////////
-  saveBucket (response) {
+  hideBucket (bucketKey, hide) {
 
-    this.buckets.push(response.bucketKey)
+    this.buckets[bucketKey] = hide
 
     jsonfile.writeFile(
       this._config.storageFile,
@@ -172,8 +171,6 @@ export default class OssSvc extends BaseSvc {
           url: url
         })
 
-        this.saveBucket(response)
-
         resolve(response)
 
       } catch(ex) {
@@ -207,15 +204,15 @@ export default class OssSvc extends BaseSvc {
           var response = await requestAsync({
             method: 'PUT',
             headers: {
-              'Content-Type': getMimeType(file),
+              //'Content-Type': getMimeType(file),
+              'Content-Type': 'application/octet-stream',
               'Authorization': 'Bearer ' + token
             },
             body: data,
-            json: true,
             url: url
           })
 
-          resolve(response)
+          resolve(JSON.parse(response))
         })
       }
       catch (ex) {
@@ -231,30 +228,6 @@ export default class OssSvc extends BaseSvc {
   /////////////////////////////////////////////////////////////////
   getObject (token, bucketKey, objectKey) {
 
-    var url1 = util.format(
-      this._config.endPoints.object,
-      bucketKey, objectKey)
-
-    var wstream = fs.createWriteStream (objectKey)
-
-    sp.get(url1)
-      .set({'Authorization': 'Bearer ' + token})
-      .accept('application/octet-stream')
-      .type('application/json')
-      .end(function(err, res){
-        console.log(res.body)
-      })
-      .buffer (true)
-      .parse (function (res, fn) {
-        res.on ('data', function (chunk) {
-          wstream.write (chunk) ;
-        })
-        res.on ('end', function () {
-          wstream.end () ;
-          console.log ('Download successful') ;
-        })
-    })
-
     return new Promise((resolve, reject) => {
 
       var url = util.format(
@@ -265,13 +238,35 @@ export default class OssSvc extends BaseSvc {
         url: url,
         headers: {
           'Authorization': 'Bearer ' + token
-          //'Accept-Encoding': 'application/octet-stream'
         },
         encoding: null
       }, function(err, response, body) {
 
+        if(err) {
+
+          return reject(err)
+        }
+
         resolve(body)
       })
+    })
+  }
+
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
+  deleteObject (token, bucketKey, objectKey) {
+
+    var url = util.format(
+      this._config.endPoints.object,
+      bucketKey, objectKey)
+
+    return requestAsync({
+      method: 'DELETE',
+      token: token,
+      json: true,
+      url: url
     })
   }
 }
@@ -329,24 +324,6 @@ function requestAsync(params) {
       }
     })
   })
-
-  /////////////////////////////////////////////////////////////////
-  //
-  //
-  /////////////////////////////////////////////////////////////////
-  deleteObject (token, bucketKey, objectKey) {
-
-    var url = util.format(
-      this._config.endPoints.object,
-      bucketKey, objectKey)
-
-    return requestAsync({
-      method: 'DELETE',
-      token: token,
-      json: true,
-      url: url
-    })
-  }
 }
 
 /////////////////////////////////////////////////////////////////

@@ -243,26 +243,29 @@ export default class App {
         this.popup = null
       }
 
-      $.get('/api/user', (user) => {
+      if(msg === 'success') {
 
-        var username = user.firstName + ' ' + user.lastName
+        $.get('/api/user', (user) => {
 
-        $('#loginText').text(username)
-        $('#loginItem').addClass('active')
-      })
+          var username = user.firstName + ' ' + user.lastName
 
-      var viewerContainer =
-        document.getElementById('viewer')
+          $('#loginText').text(username)
+          $('#loginItem').addClass('active')
+        })
 
-      this.viewerManager = new ViewerManager(
-        viewerContainer, config.forge)
+        var viewerContainer =
+          document.getElementById('viewer')
 
-      this.background.stop()
+        this.viewerManager = new ViewerManager(
+          viewerContainer, config.forge)
 
-      this.viewerManager.initialize().then((viewer) => {
+        this.background.stop()
 
-        this.background.hide()
-      })
+        this.viewerManager.initialize().then((viewer) => {
+
+          this.background.hide()
+        })
+      }
     })
   }
 }

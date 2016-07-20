@@ -85,6 +85,20 @@ export default class A360Panel extends ToolPanelBase {
       }
     })
 
+    this.contextMenu.on('context.versions', (data) => {
+
+      if(data.node.versions) {
+
+        var panel = new DetailsPanel(
+          extension._viewer.container,
+          data.title, {
+            left: data.event.clientX + 50
+          }, data.node.versions)
+
+        panel.setVisible(true)
+      }
+    })
+
     this.contextMenu.on('context.oss.createBucket', async(data) => {
 
       var bucketKey = 'forge-' + ToolPanelBase.guid('xxxx-xxxx-xxxx')
@@ -136,20 +150,20 @@ export default class A360Panel extends ToolPanelBase {
   /////////////////////////////////////////////////////////////
   async loadData() {
 
-    //const hubs = await this.extension.a360API.getHubs()
-    //
-    //hubs.forEach((hub) => {
-    //
-    //  var treeContainerId = ToolPanelBase.guid()
-    //
-    //  this.TabManager.addTab({
-    //    name: 'Hub: ' + hub.attributes.name,
-    //    active: true,
-    //    html: `<div id=${treeContainerId} class="tree-container"> </div>`
-    //  })
-    //
-    //  this.loadHub(treeContainerId, hub)
-    //})
+    const hubs = await this.extension.a360API.getHubs()
+
+    hubs.forEach((hub) => {
+
+      var treeContainerId = ToolPanelBase.guid()
+
+      this.TabManager.addTab({
+        name: 'Hub: ' + hub.attributes.name,
+        active: true,
+        html: `<div id=${treeContainerId} class="tree-container"> </div>`
+      })
+
+      this.loadHub(treeContainerId, hub)
+    })
 
     this.loadOSS()
   }
@@ -535,8 +549,6 @@ class A360TreeDelegate extends BaseTreeDelegate {
         }
       })
 
-      //$('div.dz-default.dz-message > span').hide();
-
     } else if(node.type === 'items') {
 
       $(parent).append(`
@@ -811,22 +823,24 @@ class OSSTreeDelegate extends BaseTreeDelegate {
 
           if(!$(container).find(`leaf[lmv-nodeid='${id}']`).length) {
 
+            var objectNode = {
+              objectId: response.objectId,
+              bucketKey: node.bucketKey,
+              objectKey: file.name,
+              type: 'oss.object',
+              name: file.name,
+              details: null,
+              group: false,
+              id: id
+            }
+
+            node.addChild(objectNode)
+
             this.extension.ossAPI.getObjectDetails(
               response.bucketKey,
               response.objectKey).then((objectDetails) => {
 
-              var objectNode = {
-                objectId: response.objectId,
-                bucketKey: node.bucketKey,
-                details: objectDetails,
-                objectKey: file.name,
-                type: 'oss.object',
-                name: file.name,
-                group: false,
-                id: id
-              }
-
-              node.addChild(objectNode)
+                objectNode.details = objectDetails
             })
           }
         }
@@ -931,3 +945,9 @@ class OSSTreeDelegate extends BaseTreeDelegate {
     }
   }
 }
+
+
+
+
+
+

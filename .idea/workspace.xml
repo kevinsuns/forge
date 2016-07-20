@@ -2,7 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2343a0a1-e1a0-4f3f-a09f-9a0360fa41ed" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/App.js" afterPath="$PROJECT_DIR$/src/client/App.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/api/services/ForgeSvc.js" afterPath="$PROJECT_DIR$/src/server/api/services/ForgeSvc.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/api/services/OssSvc.js" afterPath="$PROJECT_DIR$/src/server/api/services/OssSvc.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/ViewerManager.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/ViewerManager.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360.API.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360.API.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.ContextMenu.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.ContextMenu.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.Panel.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.Panel.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.OSS.API.js" afterPath="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.OSS.API.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/api/endpoints/dm.js" afterPath="$PROJECT_DIR$/src/server/api/endpoints/dm.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/api/endpoints/forge.js" afterPath="$PROJECT_DIR$/src/server/api/endpoints/forge.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/api/endpoints/oss.js" afterPath="$PROJECT_DIR$/src/server/api/endpoints/oss.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="forge.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,31 +39,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="oss.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/server/api/endpoints/oss.js">
+      <file leaf-file-name="development.config.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/config/development.config.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3111" max-vertical-offset="3750">
-              <caret line="224" column="0" selection-start-line="224" selection-start-column="0" selection-end-line="224" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.022801302" vertical-offset="61" max-vertical-offset="675">
-              <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.5681818" vertical-offset="0" max-vertical-offset="165">
-              <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="754" max-vertical-offset="1440">
+              <caret line="61" column="105" selection-start-line="61" selection-start-column="51" selection-end-line="61" selection-end-column="105" />
               <folding />
             </state>
           </provider>
@@ -59,60 +52,11 @@
       <file leaf-file-name="Viewing.Extension.A360View.Panel.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.Panel.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.576923" vertical-offset="12955" max-vertical-offset="14010">
-              <caret line="886" column="0" selection-start-line="886" selection-start-column="0" selection-end-line="886" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ObjectsApi.js" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Desktop/_cyrille/oss/src/api/ObjectsApi.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="84.76923" vertical-offset="4739" max-vertical-offset="12675">
-              <caret line="169" column="8" selection-start-line="169" selection-start-column="8" selection-end-line="169" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="viewerAPI.js" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Desktop/_cyrille/viewerAPI.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="5640" max-vertical-offset="12390">
-              <caret line="415" column="10" selection-start-line="415" selection-start-column="10" selection-end-line="415" selection-end-column="10" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="13774" max-vertical-offset="14385">
+              <caret line="952" column="0" selection-start-line="952" selection-start-column="0" selection-end-line="952" selection-end-column="0" />
               <folding>
-                <marker date="1468848250000" expanded="true" signature="23948:25605" placeholder="..." />
-                <marker date="1468848250000" expanded="true" signature="24021:25605" placeholder="..." />
-                <marker date="1468848250000" expanded="true" signature="24029:25605" placeholder="..." />
-                <marker date="1468848250000" expanded="true" signature="24192:25605" placeholder="..." />
-                <marker date="1468848250000" expanded="true" signature="24374:25605" placeholder="..." />
-                <marker date="1468848250000" expanded="true" signature="24567:25605" placeholder="..." />
-                <marker date="1468848250000" expanded="true" signature="24687:25605" placeholder="..." />
-                <marker date="1468848250000" expanded="true" signature="24806:25605" placeholder="..." />
-                <marker date="1468848250000" expanded="true" signature="24815:25605" placeholder="..." />
-                <marker date="1468848250000" expanded="true" signature="24907:25605" placeholder="..." />
-                <marker date="1468848250000" expanded="true" signature="24920:25605" placeholder="..." />
-                <marker date="1468848250000" expanded="true" signature="24993:25605" placeholder="..." />
-                <marker date="1468848250000" expanded="true" signature="25051:25605" placeholder="..." />
-                <marker date="1468848250000" expanded="true" signature="25131:25605" placeholder="..." />
-                <marker date="1468848250000" expanded="true" signature="25198:25605" placeholder="..." />
-                <marker date="1468848250000" expanded="true" signature="25252:25605" placeholder="..." />
-                <marker date="1468848250000" expanded="true" signature="25307:25605" placeholder="..." />
-                <marker date="1468848250000" expanded="true" signature="25368:25605" placeholder="..." />
-                <marker date="1468848250000" expanded="true" signature="25482:25605" placeholder="..." />
-                <marker date="1468848250000" expanded="true" signature="25558:25605" placeholder="..." />
+                <element signature="n#!!doc" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ApiClient.js" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Desktop/_cyrille/oss/src/ApiClient.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="24.192308" vertical-offset="7424" max-vertical-offset="8055">
-              <caret line="453" column="23" selection-start-line="453" selection-start-column="10" selection-end-line="453" selection-end-column="23" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -120,28 +64,78 @@
       <file leaf-file-name="Viewing.Extension.OSS.API.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.OSS.API.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="765" max-vertical-offset="2670">
-              <caret line="85" column="18" selection-start-line="85" selection-start-column="2" selection-end-line="85" selection-end-column="18" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1141" max-vertical-offset="2970">
+              <caret line="102" column="21" selection-start-line="98" selection-start-column="6" selection-end-line="102" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OssSvc.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/server/api/services/OssSvc.js">
+      <file leaf-file-name="Viewing.Extension.A360.API.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360.API.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.423077" vertical-offset="4847" max-vertical-offset="5910">
-              <caret line="336" column="14" selection-start-line="336" selection-start-column="2" selection-end-line="336" selection-end-column="14" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="2100">
+              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="development.config.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config/development.config.js">
+      <file leaf-file-name="Viewing.Extension.Derivative.API.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.API.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="52" max-vertical-offset="1440">
-              <caret line="39" column="64" selection-start-line="39" selection-start-column="42" selection-end-line="39" selection-end-column="64" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="6109" max-vertical-offset="6870">
+              <caret line="394" column="39" selection-start-line="394" selection-start-column="11" selection-end-line="394" selection-end-column="39" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dm.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/server/api/endpoints/dm.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="645" max-vertical-offset="3105">
+              <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Viewing.Extension.A360View.DetailsPanel.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.DetailsPanel.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="660">
+              <caret line="25" column="6" selection-start-line="25" selection-start-column="6" selection-end-line="25" selection-end-column="6" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Viewing.Extension.StorageView.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.StorageView.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="751" max-vertical-offset="1335">
+              <caret line="26" column="24" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Viewing.Extension.A360View.ContextMenu.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.ContextMenu.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="675" max-vertical-offset="2310">
+              <caret line="68" column="11" selection-start-line="68" selection-start-column="11" selection-end-line="68" selection-end-column="11" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ForgeSvc.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/server/api/services/ForgeSvc.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.7081545" vertical-offset="945" max-vertical-offset="4020">
+              <caret line="101" column="3" selection-start-line="101" selection-start-column="3" selection-end-line="101" selection-end-column="3" />
               <folding />
             </state>
           </provider>
@@ -155,13 +149,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.ViewerPropertyPanel.js" />
-        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.js" />
-        <option value="$PROJECT_DIR$/src/server/api/services/DerivativeSvc.js" />
-        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.API.js" />
-        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.API.js" />
-        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.Panel.js" />
-        <option value="$PROJECT_DIR$/src/client/utils/TabManager.js" />
         <option value="$PROJECT_DIR$/src/client/Components/AnimatedBackground/AnimatedBackground.js" />
         <option value="$PROJECT_DIR$/src/client/styles/app.css" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.VersionsPanel.js" />
@@ -173,7 +160,6 @@
         <option value="$PROJECT_DIR$/src/client/utils/CustomWebComponent.js" />
         <option value="$PROJECT_DIR$/src/client/utils/Dropdown.js" />
         <option value="$PROJECT_DIR$/src/client/utils/SwitchButton.js" />
-        <option value="$PROJECT_DIR$/src/server/api/endpoints/dm.js" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.Panel.js" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.A360View/Viewing.Extension.A360View.js" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.js" />
@@ -182,10 +168,7 @@
         <option value="$PROJECT_DIR$/src/server/api/services/BaseSvc.js" />
         <option value="$PROJECT_DIR$/src/server/api/services/SvcManager.js" />
         <option value="$PROJECT_DIR$/../../view-and-data-npm/test/test.js" />
-        <option value="$PROJECT_DIR$/src/client/Components/Viewer/ViewerManager.js" />
         <option value="$PROJECT_DIR$/config/production.config.js" />
-        <option value="$PROJECT_DIR$/src/server/api/services/ForgeSvc.js" />
-        <option value="$PROJECT_DIR$/src/server/api/endpoints/forge.js" />
         <option value="$PROJECT_DIR$/src/server/api/services/oss.json" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/server/server.js" />
@@ -193,19 +176,30 @@
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.css" />
         <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.css" />
         <option value="$PROJECT_DIR$/src/server/api/endpoints/derivatives.js" />
-        <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/test2.json" />
         <option value="$PROJECT_DIR$/src/server/api/endpoints/upload.js" />
         <option value="$PROJECT_DIR$/src/server/api/services/DMSvc.js" />
         <option value="$PROJECT_DIR$/config/development.config.js" />
-        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.ContextMenu.js" />
-        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.OSS.API.js" />
-        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.Panel.js" />
-        <option value="$USER_HOME$/Desktop/_cyrille/viewerAPI.js" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/.babelrc" />
+        <option value="$PROJECT_DIR$/test/test.js" />
+        <option value="$PROJECT_DIR$/src/client/App.js" />
+        <option value="$PROJECT_DIR$/src/client/Components/Viewer/ViewerManager.js" />
+        <option value="$PROJECT_DIR$/src/server/api/services/ForgeSvc.js" />
+        <option value="$PROJECT_DIR$/src/server/api/endpoints/forge.js" />
+        <option value="$USER_HOME$/emsdk/emscripten/1.35.0/hello.js" />
+        <option value="$USER_HOME$/Documents/ParticleSystem/ParticleSystem/ParticleSystem.makefile" />
         <option value="$USER_HOME$/Desktop/_cyrille/oss/src/ApiClient.js" />
+        <option value="$USER_HOME$/Desktop/_cyrille/viewerAPI.js" />
+        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/test3.json" />
         <option value="$PROJECT_DIR$/src/server/api/services/OssSvc.js" />
         <option value="$PROJECT_DIR$/src/server/api/endpoints/oss.js" />
-        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.OSS.API.js" />
+        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360.API.js" />
+        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.ContextMenu.js" />
+        <option value="$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.Panel.js" />
+        <option value="$PROJECT_DIR$/src/server/api/endpoints/dm.js" />
       </list>
     </option>
   </component>
@@ -540,20 +534,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Forge" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="forge" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -665,16 +645,16 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="873" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.273432" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33474278" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39948782" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12260536" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31417623" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -713,136 +693,10 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/client/utils/SwitchButton.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2085">
-          <caret line="6" column="60" selection-start-line="6" selection-start-column="60" selection-end-line="6" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/utils/ViewerToolkit.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="9615">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.SceneManager/Viewing.Extension.SceneManager.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1965" max-vertical-offset="4410">
-          <caret line="144" column="58" selection-start-line="144" selection-start-column="18" selection-end-line="144" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/utils/TabManager/TabManager.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="1155">
-          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/utils/TabManager/TabManager.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-39.166668" vertical-offset="0" max-vertical-offset="2250">
-          <caret line="145" column="0" selection-start-line="145" selection-start-column="0" selection-end-line="145" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/api/services/BaseSvc.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.018518" vertical-offset="77" max-vertical-offset="615">
-          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/api/services/SvcManager.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.2222223" vertical-offset="0" max-vertical-offset="750">
-          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../view-and-data-npm/config-view-and-data.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="735">
-          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../view-and-data-npm/view-and-data.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3177" max-vertical-offset="19260">
-          <caret line="225" column="4" selection-start-line="278" selection-start-column="16" selection-end-line="278" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../view-and-data-npm/test/test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="555" max-vertical-offset="4125">
-          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/heroku.config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1350">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.Panel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.730769" vertical-offset="3995" max-vertical-offset="8640">
-          <caret line="282" column="0" selection-start-line="282" selection-start-column="0" selection-end-line="282" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../dotty/dotty-cloud/TrialGallery/src/client/ui/views/upload/upload.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="765" max-vertical-offset="2775">
-          <caret line="94" column="0" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../dotty/dotty-cloud/TrialGallery/src/server/api/endpoints/upload.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="555" max-vertical-offset="3525">
-          <caret line="50" column="31" selection-start-line="50" selection-start-column="18" selection-end-line="50" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360.API.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1470" max-vertical-offset="2205">
-          <caret line="107" column="10" selection-start-line="104" selection-start-column="8" selection-end-line="107" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/production.config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1395">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/api/endpoints/forge.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1382" max-vertical-offset="3120">
-          <caret line="105" column="11" selection-start-line="105" selection-start-column="11" selection-end-line="105" selection-end-column="11" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/server/server.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1707" max-vertical-offset="2220">
           <caret line="134" column="6" selection-start-line="134" selection-start-column="6" selection-end-line="134" selection-end-column="6" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -867,65 +721,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.DetailsPanel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.530303" vertical-offset="0" max-vertical-offset="660">
-          <caret line="25" column="6" selection-start-line="25" selection-start-column="6" selection-end-line="25" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/libs/viewer/viewer3D.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="928965" max-vertical-offset="1608495">
-          <caret line="61931" column="0" selection-start-line="61931" selection-start-column="0" selection-end-line="61931" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.SceneManager/Viewing.Extension.SceneManager.Panel.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7323232" vertical-offset="555" max-vertical-offset="1920">
           <caret line="70" column="19" selection-start-line="65" selection-start-column="10" selection-end-line="70" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.API.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="5717" max-vertical-offset="6870">
-          <caret line="394" column="39" selection-start-line="394" selection-start-column="11" selection-end-line="394" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/ViewerManager.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="6739" max-vertical-offset="11250">
-          <caret line="480" column="3" selection-start-line="480" selection-start-column="3" selection-end-line="480" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.StorageView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="1335">
-          <caret line="26" column="24" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/oss/rOlB7GtsAOmuvm6XqPAILp83ARMymAfL.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="489">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1290">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -933,17 +732,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.5769231" vertical-offset="9732" max-vertical-offset="18990">
           <caret line="655" column="33" selection-start-line="655" selection-start-column="10" selection-end-line="655" selection-end-column="33" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/api/endpoints/derivatives.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4041" max-vertical-offset="5145">
-          <caret line="285" column="0" selection-start-line="285" selection-start-column="0" selection-end-line="285" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -959,31 +747,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="300" max-vertical-offset="2145">
           <caret line="20" column="41" selection-start-line="12" selection-start-column="244" selection-end-line="12" selection-end-column="247" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Desktop/_cyrille/oss/src/api/OSSApi.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.31398416" vertical-offset="6242" max-vertical-offset="15420">
-          <caret line="432" column="47" selection-start-line="432" selection-start-column="21" selection-end-line="432" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/api/services/DerivativeSvc.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29023746" vertical-offset="2915" max-vertical-offset="5205">
-          <caret line="209" column="6" selection-start-line="205" selection-start-column="4" selection-end-line="209" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/api/endpoints/dm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2333" max-vertical-offset="2985">
-          <caret line="133" column="28" selection-start-line="133" selection-start-column="28" selection-end-line="133" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -995,112 +758,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.ContextMenu.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1237" max-vertical-offset="2175">
-          <caret line="91" column="25" selection-start-line="91" selection-start-column="25" selection-end-line="91" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Desktop/_cyrille/oss/src/api/BucketsApi.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3420">
           <caret line="22" column="19" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/api/services/ForgeSvc.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2572" max-vertical-offset="3330">
-          <caret line="219" column="0" selection-start-line="219" selection-start-column="0" selection-end-line="219" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.OSS.API.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1035" max-vertical-offset="2670">
-          <caret line="85" column="18" selection-start-line="85" selection-start-column="2" selection-end-line="85" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.Panel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.576923" vertical-offset="12955" max-vertical-offset="14010">
-          <caret line="886" column="0" selection-start-line="886" selection-start-column="0" selection-end-line="886" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Desktop/_cyrille/oss/src/api/ObjectsApi.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="84.76923" vertical-offset="4739" max-vertical-offset="12675">
-          <caret line="169" column="8" selection-start-line="169" selection-start-column="8" selection-end-line="169" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Desktop/_cyrille/viewerAPI.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="5640" max-vertical-offset="12390">
-          <caret line="415" column="10" selection-start-line="415" selection-start-column="10" selection-end-line="415" selection-end-column="10" />
-          <folding>
-            <marker date="1468848250000" expanded="true" signature="23948:25605" placeholder="..." />
-            <marker date="1468848250000" expanded="true" signature="24021:25605" placeholder="..." />
-            <marker date="1468848250000" expanded="true" signature="24029:25605" placeholder="..." />
-            <marker date="1468848250000" expanded="true" signature="24192:25605" placeholder="..." />
-            <marker date="1468848250000" expanded="true" signature="24374:25605" placeholder="..." />
-            <marker date="1468848250000" expanded="true" signature="24567:25605" placeholder="..." />
-            <marker date="1468848250000" expanded="true" signature="24687:25605" placeholder="..." />
-            <marker date="1468848250000" expanded="true" signature="24806:25605" placeholder="..." />
-            <marker date="1468848250000" expanded="true" signature="24815:25605" placeholder="..." />
-            <marker date="1468848250000" expanded="true" signature="24907:25605" placeholder="..." />
-            <marker date="1468848250000" expanded="true" signature="24920:25605" placeholder="..." />
-            <marker date="1468848250000" expanded="true" signature="24993:25605" placeholder="..." />
-            <marker date="1468848250000" expanded="true" signature="25051:25605" placeholder="..." />
-            <marker date="1468848250000" expanded="true" signature="25131:25605" placeholder="..." />
-            <marker date="1468848250000" expanded="true" signature="25198:25605" placeholder="..." />
-            <marker date="1468848250000" expanded="true" signature="25252:25605" placeholder="..." />
-            <marker date="1468848250000" expanded="true" signature="25307:25605" placeholder="..." />
-            <marker date="1468848250000" expanded="true" signature="25368:25605" placeholder="..." />
-            <marker date="1468848250000" expanded="true" signature="25482:25605" placeholder="..." />
-            <marker date="1468848250000" expanded="true" signature="25558:25605" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Desktop/_cyrille/oss/src/ApiClient.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="24.192308" vertical-offset="7424" max-vertical-offset="8055">
-          <caret line="453" column="23" selection-start-line="453" selection-start-column="10" selection-end-line="453" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/api/services/OssSvc.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.423077" vertical-offset="4847" max-vertical-offset="5910">
-          <caret line="336" column="14" selection-start-line="336" selection-start-column="2" selection-end-line="336" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/api/endpoints/oss.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3111" max-vertical-offset="3750">
-          <caret line="224" column="0" selection-start-line="224" selection-start-column="0" selection-end-line="224" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/development.config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="322" max-vertical-offset="1440">
-          <caret line="39" column="64" selection-start-line="39" selection-start-column="42" selection-end-line="39" selection-end-column="64" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1112,10 +773,312 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../../dotty/dotty-cloud/DottyServer/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.75" vertical-offset="0" max-vertical-offset="1140">
+          <caret line="6" column="62" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.022801302" vertical-offset="61" max-vertical-offset="675">
-          <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
+        <state vertical-scroll-proportion="-7.2" vertical-offset="0" max-vertical-offset="750">
+          <caret line="12" column="139" selection-start-line="12" selection-start-column="139" selection-end-line="12" selection-end-column="139" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/App.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3426" max-vertical-offset="4155">
+          <caret line="266" column="10" selection-start-line="266" selection-start-column="10" selection-end-line="266" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.babelrc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="120">
+          <caret line="2" column="1" selection-start-line="2" selection-start-column="1" selection-end-line="2" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="570">
+          <caret line="29" column="2" selection-start-line="29" selection-start-column="2" selection-end-line="29" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/libs/viewer/viewer3D.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.9803921" vertical-offset="1602289" max-vertical-offset="1608495">
+          <caret line="106826" column="45" selection-start-line="106826" selection-start-column="31" selection-end-line="106826" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/ViewerManager.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.846154" vertical-offset="415" max-vertical-offset="11025">
+          <caret line="59" column="73" selection-start-line="59" selection-start-column="63" selection-end-line="59" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/api/endpoints/forge.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-14.423077" vertical-offset="2190" max-vertical-offset="3105">
+          <caret line="187" column="41" selection-start-line="0" selection-start-column="0" selection-end-line="217" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/emsdk/emscripten/1.35.0/hello.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="229350">
+          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/emsdk/emscripten/1.35.0/tests/bigswitch.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="21300" max-vertical-offset="119160">
+          <caret line="1441" column="0" selection-start-line="1441" selection-start-column="0" selection-end-line="1441" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/emsdk/emscripten/1.35.0/tests/browser_main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="720">
+          <caret line="24" column="12" selection-start-line="24" selection-start-column="12" selection-end-line="24" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/hello_triangle_emscripten/build.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.32125205" vertical-offset="0" max-vertical-offset="855">
+          <caret line="13" column="27" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/hello_triangle_emscripten/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.49423394" vertical-offset="0" max-vertical-offset="2460">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Documents/ParticleSystem/ParticleSystem/ParticleSystem.makefile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7452668" vertical-offset="767" max-vertical-offset="1800">
+          <caret line="80" column="49" selection-start-line="80" selection-start-column="49" selection-end-line="80" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/emsdk/emscripten/1.35.0/tests/bullet_hello_world.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6919275" vertical-offset="0" max-vertical-offset="1080">
+          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Documents/ParticleSystem/Makefile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34596375" vertical-offset="0" max-vertical-offset="607">
+          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/hello_triangle_emscripten/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="607">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oss/rOlB7GtsAOmuvm6XqPAILp83ARMymAfL.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="135">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-16.875" vertical-offset="525" max-vertical-offset="1425">
+          <caret line="62" column="4" selection-start-line="62" selection-start-column="4" selection-end-line="62" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/_cyrille/oss/src/ApiClient.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.1538461" vertical-offset="6120" max-vertical-offset="8055">
+          <caret line="406" column="6" selection-start-line="406" selection-start-column="6" selection-end-line="406" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/_cyrille/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/_cyrille/oss/src/api/ObjectsApi.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4307" max-vertical-offset="12675">
+          <caret line="298" column="35" selection-start-line="298" selection-start-column="4" selection-end-line="298" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/_cyrille/viewerAPI.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4230" max-vertical-offset="12810">
+          <caret line="327" column="41" selection-start-line="332" selection-start-column="14" selection-end-line="332" selection-end-column="23" />
+          <folding>
+            <marker date="1469007395000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1469007395000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1469007395000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1469007395000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1469007395000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1469007395000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1469007395000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1469007395000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1469007395000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1469007395000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1469007395000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1469007395000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1469007395000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1469007395000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1469007395000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1469007395000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1469007395000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1469007395000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1469007395000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1469007395000" expanded="true" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/api/services/OssSvc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3615" max-vertical-offset="5565">
+          <caret line="263" column="0" selection-start-line="263" selection-start-column="0" selection-end-line="263" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/api/endpoints/oss.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1914" max-vertical-offset="3600">
+          <caret line="157" column="0" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/api/services/DerivativeSvc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3215" max-vertical-offset="5205">
+          <caret line="209" column="6" selection-start-line="205" selection-start-column="4" selection-end-line="209" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/_cyrille/oss/src/api/OSSApi.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="3.0667808" vertical-offset="9969" max-vertical-offset="15420">
+          <caret line="784" column="0" selection-start-line="784" selection-start-column="0" selection-end-line="784" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/api/endpoints/derivatives.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4041" max-vertical-offset="5145">
+          <caret line="285" column="0" selection-start-line="285" selection-start-column="0" selection-end-line="285" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.OSS.API.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1141" max-vertical-offset="2970">
+          <caret line="102" column="21" selection-start-line="98" selection-start-column="6" selection-end-line="102" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.DetailsPanel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="660">
+          <caret line="25" column="6" selection-start-line="25" selection-start-column="6" selection-end-line="25" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.StorageView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="751" max-vertical-offset="1335">
+          <caret line="26" column="24" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.ContextMenu.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="675" max-vertical-offset="2310">
+          <caret line="68" column="11" selection-start-line="68" selection-start-column="11" selection-end-line="68" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360View.Panel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="13774" max-vertical-offset="14385">
+          <caret line="952" column="0" selection-start-line="952" selection-start-column="0" selection-end-line="952" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.Derivative/Viewing.Extension.Derivative.API.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="6109" max-vertical-offset="6870">
+          <caret line="394" column="39" selection-start-line="394" selection-start-column="11" selection-end-line="394" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/development.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="754" max-vertical-offset="1440">
+          <caret line="61" column="105" selection-start-line="61" selection-start-column="51" selection-end-line="61" selection-end-column="105" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/Components/Viewer/extensions/Viewing.Extension.StorageView/Viewing.Extension.A360.API.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="2100">
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/api/endpoints/dm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="645" max-vertical-offset="3105">
+          <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/api/services/ForgeSvc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7081545" vertical-offset="945" max-vertical-offset="4020">
+          <caret line="101" column="3" selection-start-line="101" selection-start-column="3" selection-end-line="101" selection-end-column="3" />
           <folding />
         </state>
       </provider>

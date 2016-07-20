@@ -16,30 +16,19 @@ export default class A360API {
 
       try {
 
-        //let res = await fetch(
-        //  `${this.apiUrl}/hubs`)
-        //
-        //let hubs = await res.json()
-        //
-        //if(res.status!== 200){
-        //
-        //  return reject(json)
-        //}
-        //
-        //return resolve(hubs)
-
         var url = `${this.apiUrl}/hubs`
 
-        $.get(url, (res)=> {
+        var res = await fetch(url)
 
-          return resolve(res)
-        })
+        var json = await res.json()
+
+        resolve(json)
       }
       catch(ex) {
 
         reject(ex)
       }
-    });
+    })
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -54,16 +43,17 @@ export default class A360API {
 
         var url = `${this.apiUrl}/hubs/${hubId}/projects`
 
-        $.get(url, (res)=> {
+        var res = await fetch(url)
 
-          return resolve(res)
-        })
+        var json = await res.json()
+
+        resolve(json)
       }
       catch(ex) {
 
         reject(ex)
       }
-    });
+    })
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -78,16 +68,17 @@ export default class A360API {
 
         var url = `${this.apiUrl}/hubs/${hubId}/projects/${projectId}`
 
-        $.get(url, (res)=> {
+        var res = await fetch(url)
 
-          return resolve(res)
-        })
+        var json = await res.json()
+
+        resolve(json)
       }
       catch(ex) {
 
         reject(ex)
       }
-    });
+    })
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -102,16 +93,17 @@ export default class A360API {
 
         var url = `${this.apiUrl}/projects/${projectId}/folders/${folderId}`
 
-        $.get(url, (res)=> {
+        var res = await fetch(url)
 
-          return resolve(res)
-        })
+        var json = await res.json()
+
+        resolve(json)
       }
       catch(ex) {
 
         return reject(ex)
       }
-    });
+    })
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -126,16 +118,17 @@ export default class A360API {
 
         var url = `${this.apiUrl}/projects/${projectId}/items/${itemId}/versions`
 
-        $.get(url, (res)=> {
+        var res = await fetch(url)
 
-          return resolve(res)
-        })
+        var json = await res.json()
+
+        resolve(json)
       }
       catch(ex) {
 
         return reject(ex)
       }
-    });
+    })
   }
 }
 

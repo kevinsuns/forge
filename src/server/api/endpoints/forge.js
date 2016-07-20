@@ -77,8 +77,26 @@ module.exports = function() {
   /////////////////////////////////////////////////////////////////////////////
   router.get('/oauth/callback', (req, res) => {
 
+    var socketSvc = ServiceManager.getService(
+      'SocketSvc')
+
+    // filter out errors (access_denied, ...)
+    if (req.query && req.query.error) {
+
+        if (req.session.socketId) {
+
+          socketSvc.broadcast(
+            'callback', req.query.error,
+            req.session.socketId)
+        }
+
+      res.json(req.query.error)
+      return
+    }
+
     if(!req.query || !req.query.code) {
 
+      res.status(401)
       res.json('invalid request')
       return
     }
@@ -94,9 +112,6 @@ module.exports = function() {
 
           var forgeSvc = ServiceManager.getService(
             'ForgeSvc')
-
-          var socketSvc = ServiceManager.getService(
-            'SocketSvc')
 
           var token = {
             expires_in: results.expires_in,
@@ -119,7 +134,7 @@ module.exports = function() {
               if(req.session.socketId) {
 
                 socketSvc.broadcast(
-                  'callback', 'done',
+                  'callback', 'success',
                   req.session.socketId)
               }
 
@@ -153,19 +168,19 @@ module.exports = function() {
   // 3-legged client token: exposes a 'data:read' only token to client App
   //
   ///////////////////////////////////////////////////////////////////////////
-  router.get('/token/3legged', (req, res) => {
+  router.get('/token/3legged', async (req, res) => {
 
     try {
 
       var forgeSvc = ServiceManager.getService(
         'ForgeSvc')
 
-      var token = forgeSvc.getClientToken(
+      var token = await forgeSvc.getClientToken(
         req.sessionID)
 
       res.json({
         access_token: token.access_token,
-        expires_in: token.expires_in
+        expires_in: forgeSvc.getExpiry(token)
       })
     }
     catch (error) {

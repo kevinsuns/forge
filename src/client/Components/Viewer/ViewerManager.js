@@ -53,12 +53,12 @@ export default class ViewerManager {
 
         env: this._config.viewerEnv,
 
-        refreshToken: () => {
-          return this.getToken()
-        },
+        getAccessToken: (callback) => {
 
-        getAccessToken: () => {
-          return this.getToken()
+          $.get(this._tokenUrl, (tokenResponse) => {
+
+            callback(tokenResponse.access_token, tokenResponse.expires_in)
+          })
         }
       }
 
@@ -728,21 +728,6 @@ export default class ViewerManager {
       case 11: //Autodesk.Viewing.ErrorCode.RTC_ERROR
         return 'Collaboration server error'
     }
-  }
-
-  //////////////////////////////////////////////////////////////////////////
-  //
-  //
-  //////////////////////////////////////////////////////////////////////////
-  getToken () {
-
-    var xhr = new XMLHttpRequest()
-    xhr.open("GET", this._tokenUrl, false)
-    xhr.send(null)
-
-    var response = JSON.parse(xhr.responseText)
-
-    return response.access_token
   }
 
   //////////////////////////////////////////////////////////////////////////

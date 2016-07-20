@@ -60,6 +60,15 @@ export default class A360ViewContextMenu extends
           }
         })
 
+        menu.push({
+          title: 'Show item versions',
+          target: () => {
+            this.emit('context.versions', {
+              event, node, title: 'Item Versions'
+            })
+          }
+        })
+
         break
 
       case 'oss.root':
