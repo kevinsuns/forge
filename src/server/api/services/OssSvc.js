@@ -15,7 +15,7 @@ export default class OssSvc extends BaseSvc {
 
     super(opts)
 
-    this.loadBuckets()
+    this.loadBucketSettings()
   }
 
   /////////////////////////////////////////////////////////////////
@@ -31,18 +31,18 @@ export default class OssSvc extends BaseSvc {
   //
   //
   /////////////////////////////////////////////////////////////////
-  loadBuckets () {
+  loadBucketSettings () {
 
     jsonfile.readFile(this._config.storageFile,
-      (err, buckets) => {
+      (err, settings) => {
 
         if(err) {
 
-          this.buckets = {}
+          this._bucketSettings = {}
 
         } else {
 
-          this.buckets = buckets
+          this._bucketSettings = settings
         }
       })
   }
@@ -51,13 +51,27 @@ export default class OssSvc extends BaseSvc {
   //
   //
   /////////////////////////////////////////////////////////////////
+  get bucketSettings () {
+
+    return this._bucketSettings
+  }
+
+  /////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////
   hideBucket (bucketKey, hide) {
 
-    this.buckets[bucketKey] = hide
+    if (!this._bucketSettings[bucketKey]) {
+
+      this._bucketSettings[bucketKey] = {}
+    }
+
+    this._bucketSettings[bucketKey].hidden = hide
 
     jsonfile.writeFile(
       this._config.storageFile,
-      this.buckets, {spaces: 2}, function (err) {
+      this._bucketSettings, {spaces: 2}, function (err) {
       })
   }
 
@@ -159,6 +173,9 @@ export default class OssSvc extends BaseSvc {
 
         bucketCreationData.bucketKey = validateBucketKey(
           bucketCreationData.bucketKey)
+
+        bucketCreationData.policyKey = validatePolicyKey(
+          bucketCreationData.policyKey)
 
         var response = await requestAsync({
           headers: {
@@ -361,5 +378,25 @@ function validateBucketKey (bucketKey) {
     /[&\/\\#,+()$~%. '":*?<>{}]/g,'-')
 
   return result.toLowerCase()
+}
+
+/////////////////////////////////////////////////////////////////
+//
+//
+/////////////////////////////////////////////////////////////////
+function validatePolicyKey (policyKey) {
+
+  policyKey = policyKey.toLowerCase()
+
+  if ([
+      'transient',
+      'temporary',
+      'persistent'
+    ].indexOf(policyKey) < 0) {
+    
+    return 'transient'
+  }
+
+  return policyKey
 }
 

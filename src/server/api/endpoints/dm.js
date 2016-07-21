@@ -45,23 +45,15 @@ module.exports = function() {
 
     try {
 
-      console.log('GET HUBS')
-
       var forgeSvc = ServiceManager.getService(
         'ForgeSvc');
 
-      console.log(req.sessionID)
-
       var token = await forgeSvc.getToken(req.sessionID)
-
-      console.log(token)
 
       var dmSvc = ServiceManager.getService('DMSvc')
       
       var response = await dmSvc.getHubs(
         token.access_token)
-
-      console.log(response)
 
       res.json(response)
     }
@@ -195,6 +187,40 @@ module.exports = function() {
 
       res.status(ex.statusCode || 500)
       res.json(ex)
+    }
+  })
+
+  /////////////////////////////////////////////////////////////////////////////
+  // GET /buckets/:bucketKey/objects/:objectKey
+  // Download an item version based on { bucketKey, objectKey }
+  //
+  /////////////////////////////////////////////////////////////////////////////
+  router.get('/buckets/:bucketKey/objects/:objectKey', async (req, res) =>{
+
+    try {
+
+      var bucketKey = req.params.bucketKey
+
+      var objectKey = req.params.objectKey
+
+      var forgeSvc = ServiceManager.getService(
+        'ForgeSvc')
+
+      var ossSvc = ServiceManager.getService(
+        'OssSvc')
+
+      var token = await forgeSvc.getToken(req.sessionID)
+
+      var object = await ossSvc.getObject(
+        token.access_token,
+        bucketKey,
+        objectKey)
+
+      res.end(object)
+
+    } catch(ex) {
+
+      console.log(ex)
     }
   })
 

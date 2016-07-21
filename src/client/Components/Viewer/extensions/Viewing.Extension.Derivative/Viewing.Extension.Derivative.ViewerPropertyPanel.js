@@ -3,7 +3,7 @@
 // by Philippe Leefsma, April 2016
 //
 /////////////////////////////////////////////////////////////////////
-import ToolPanelBase from 'ToolPanelBase'
+import ToolPanelBase from 'ToolPanelBase/ToolPanelBase'
 
 export default class ViewerPropertyPanel extends
   Autodesk.Viewing.Extensions.ViewerPropertyPanel {
@@ -203,7 +203,7 @@ export default class ViewerPropertyPanel extends
       var manifestProperty = {
 
         name: 'Manifest',
-        value: `Show ${modelName} manifest`,
+        value: `Show`,
 
         href: '/api/derivatives/manifest/' +
               `${this.currentModel.storageUrn}`,
@@ -217,7 +217,7 @@ export default class ViewerPropertyPanel extends
       var hierarchyProperty = {
 
         name: 'Hierarchy',
-        value: `Show ${modelName} hierarchy`,
+        value: `Show`,
 
         href: '/api/derivatives/hierarchy/' +
               `${this.currentModel.storageUrn}/` +
@@ -232,11 +232,11 @@ export default class ViewerPropertyPanel extends
       var propsProperty = {
 
         name: 'Properties',
-        value: `Show ${modelName} properties`,
+        value: `Show`,
 
         href: '/api/derivatives/properties/' +
-        `${this.currentModel.storageUrn}/` +
-        `${this.currentModel.guid}`,
+              `${this.currentModel.storageUrn}/` +
+              `${this.currentModel.guid}`,
 
         category: 'Model Derivatives - JSON',
         dataType: 'link'
@@ -529,13 +529,13 @@ function createLinkProperty(property, parent){
 
   var id = guid()
 
-  var html = [
-
-    '<div id="' + id + '" class="propertyValue derivative">',
-    '<a  href="' + property.href + '" target="_blank"> ' + property.value + '</a>',
-    '</div>'
-
-  ].join('\n')
+  var html = `
+    <div id="${id}" class="propertyValue derivative">
+      <a  href="${property.href}" target="_blank">
+        ${property.value}
+      </a>
+    </div>
+    `
 
   $(parent).append(html)
 

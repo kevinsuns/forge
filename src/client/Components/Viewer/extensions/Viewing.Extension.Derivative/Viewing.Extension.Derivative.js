@@ -72,7 +72,7 @@ class DerivativeExtension extends ExtensionBase {
         if(!this.propertyPanel) {
 
           this.propertyPanel = new ViewerPropertyPanel(
-            this._viewer, this.api)
+            this._viewer, this)
 
           this._viewer.setPropertyPanel(this.propertyPanel)
         }

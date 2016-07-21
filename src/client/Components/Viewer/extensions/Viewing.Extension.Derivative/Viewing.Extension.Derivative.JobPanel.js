@@ -3,8 +3,8 @@
 // by Philippe Leefsma, June 2016
 //
 /////////////////////////////////////////////////////////////////////
+import ToolPanelBase from 'ToolPanelBase/ToolPanelBase'
 import './Viewing.Extension.Derivative.css'
-import ToolPanelBase from 'ToolPanelBase'
 
 export default class JobPanel extends ToolPanelBase {
 

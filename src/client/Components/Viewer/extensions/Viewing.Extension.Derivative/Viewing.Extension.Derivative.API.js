@@ -1,16 +1,18 @@
 
-export default class DerivativeAPI {
+import ClientAPI from 'ClientAPI'
 
-  constructor(opts) {
+export default class DerivativeAPI extends ClientAPI {
 
-    this.apiUrl = opts.apiUrl
+  constructor (opts) {
+
+    super(opts.apiUrl)
   }
 
   ///////////////////////////////////////////////////////////////////
   //
   //
   ///////////////////////////////////////////////////////////////////
-  postJob(payload) {
+  postJob (payload) {
 
     return new Promise(async(resolve, reject) => {
 

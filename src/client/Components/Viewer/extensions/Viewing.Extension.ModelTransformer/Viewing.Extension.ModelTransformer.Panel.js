@@ -3,12 +3,12 @@
 //
 //
 /////////////////////////////////////////////////////////////////////
+import ToolPanelBase from 'ToolPanelBase/ToolPanelBase'
 import TranslateTool from './Viewing.Tool.Translate'
-import RotateTool from './Viewing.Tool.Rotate'
 import './Viewing.Extension.ModelTransformer.css'
-import ToolPanelBase from 'ToolPanelBase'
+import RotateTool from './Viewing.Tool.Rotate'
+import Dropdown from 'Dropdown/Dropdown'
 import SwitchButton from 'SwitchButton'
-import Dropdown from 'Dropdown'
 
 export default class ModelTransformerPanel extends ToolPanelBase {
 

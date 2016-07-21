@@ -1,7 +1,7 @@
 
 import { EventsEmitterComposer } from 'EventsEmitter'
 
-export default class A360ViewContextMenu extends
+export default class StorageContextMenu extends
   EventsEmitterComposer (Autodesk.Viewing.UI.ObjectContextMenu) {
 
   /////////////////////////////////////////////////////////////////
@@ -10,7 +10,7 @@ export default class A360ViewContextMenu extends
   /////////////////////////////////////////////////////////////////
   constructor (viewer) {
 
-    super(viewer)
+    super (viewer)
   }
 
   /////////////////////////////////////////////////////////////////
@@ -96,14 +96,15 @@ export default class A360ViewContextMenu extends
           }
         })
 
-        menu.push({
-          title: 'Hide bucket',
-          target: () => {
-            this.emit('context.oss.bucket.hide', {
-              event, node
-            })
-          }
-        })
+        //Disabled for now ...
+        //menu.push({
+        //  title: 'Hide bucket',
+        //  target: () => {
+        //    this.emit('context.oss.bucket.hide', {
+        //      event, node
+        //    })
+        //  }
+        //})
 
         break
 

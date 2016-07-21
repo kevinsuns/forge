@@ -17,7 +17,7 @@
 //////////////////////////////////////////////////////////////////////////
 import 'Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer'
 import 'Viewing.Extension.SceneManager/Viewing.Extension.SceneManager'
-import 'Viewing.Extension.StorageView/Viewing.Extension.StorageView'
+import 'Viewing.Extension.Storage/Viewing.Extension.Storage'
 import 'Viewing.Extension.Derivative/Viewing.Extension.Derivative'
 import ViewerToolkit from 'ViewerToolkit'
 
@@ -174,20 +174,20 @@ export default class ViewerManager {
         this.sceneManagerExtension.removeModel(model)
     })
 
-    // A360 View Extension
+    // Storage Extension
 
     this.viewer.loadExtension(
-      'Viewing.Extension.StorageView', {
+      'Viewing.Extension.Storage', {
         parentControl: this.ctrlGroup,
         showPanel: true
       })
 
-    this.storageViewExtension =
-      this.viewer.loadedExtensions['Viewing.Extension.StorageView']
+    this.storageExtension =
+      this.viewer.loadedExtensions['Viewing.Extension.Storage']
 
-    this.storageViewExtension.on('node.added', this.onNodeAddedHandler)
+    this.storageExtension.on('node.added', this.onNodeAddedHandler)
 
-    this.storageViewExtension.on('node.dblClick', (node)=> {
+    this.storageExtension.on('node.dblClick', (node)=> {
 
       console.log(node)
 
@@ -398,7 +398,7 @@ export default class ViewerManager {
 
     if (!item.versions || !item.versions.length) {
 
-      this.storageViewExtension.panel.showError(
+      this.storageExtension.panel.showError(
         'No version available (Please wait) ...')
 
       console.log('No item version available')
@@ -410,14 +410,14 @@ export default class ViewerManager {
 
     if(!version.relationships.storage) {
 
-      this.storageViewExtension.panel.showError(
+      this.storageExtension.panel.showError(
         'Derivatives unavailable on this item')
 
       console.log('Derivatives unavailable on this item')
       return
     }
 
-    this.storageViewExtension.panel.startLoad(
+    this.storageExtension.panel.startLoad(
       'Loading ' + item.name + ' ...')
 
     var options = {
@@ -426,7 +426,7 @@ export default class ViewerManager {
 
     this.importModelFromItem(item, options).then((model) => {
 
-      this.storageViewExtension.panel.stopLoad()
+      this.storageExtension.panel.stopLoad()
 
       this.modelTransformerExtension.addModel(model)
 
@@ -448,7 +448,7 @@ export default class ViewerManager {
 
     }, (error) => {
 
-      this.storageViewExtension.panel.showError(
+      this.storageExtension.panel.showError(
         error.description)
     })
   }

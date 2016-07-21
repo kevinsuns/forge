@@ -4,11 +4,11 @@
 //
 /////////////////////////////////////////////////////////////////////
 import JSONView from 'jquery-jsonview/dist/jquery.jsonview'
+import ToolPanelBase from 'ToolPanelBase/ToolPanelBase'
 import 'jquery-jsonview/dist/jquery.jsonview.css'
-import './Viewing.Extension.A360View.css'
-import ToolPanelBase from 'ToolPanelBase'
+import './Viewing.Extension.Storage.css'
 
-export default class A360DetailsPanel extends ToolPanelBase {
+export default class StorageDetailsPanel extends ToolPanelBase {
 
   constructor(container, title, pos, details) {
 
@@ -18,7 +18,7 @@ export default class A360DetailsPanel extends ToolPanelBase {
       shadow: true
     })
 
-    $(this.container).addClass('a360')
+    $(this.container).addClass('storage')
     $(this.container).addClass('details')
 
     $(this.container).css({

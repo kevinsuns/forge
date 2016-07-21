@@ -2,6 +2,7 @@
 //
 //
 /////////////////////////////////////////////////////////////////
+import './ToolPanelBase.css'
 
 function getDefaultOptions () {
 
@@ -104,10 +105,14 @@ export default class ToolPanelBase extends
 
     if(this._btnElement) {
 
-      if(show)
+      if(show) {
+
         this._btnElement.classList.add('active')
-      else
+
+      } else {
+
         this._btnElement.classList.remove('active')
+      }
     }
 
     super.setVisible(show)
@@ -290,30 +295,3 @@ export default class ToolPanelBase extends
     return undefined
   }
 }
-
-/////////////////////////////////////////////////////////////
-//
-//
-/////////////////////////////////////////////////////////////
-var css = `
-
-  .toolPanelBase .dockingPanelTitle {
-    padding: 4px 10px 4px 10px;
-    text-transform: none;
-  }
-
-  .dockingPanel .dockingPanelTitle .dockingPanelTitleText {
-    margin-top: 4px;
-    text-transform: none;
-  }
-
-  .dockingPanel .dockingPanelTitle img,
-  .dockingPanel .dockingPanelTitle img:before {
-    float: left;
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
-  }
-`;
-
-$('<style type="text/css">' + css + '</style>').appendTo('head');

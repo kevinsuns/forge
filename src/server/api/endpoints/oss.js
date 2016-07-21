@@ -151,12 +151,12 @@ module.exports = function() {
 
       var token = await forgeSvc.getToken('2legged')
 
-      var buffer = await ossSvc.getObject(
+      var object = await ossSvc.getObject(
         token.access_token,
         bucketKey,
         objectKey)
 
-      res.end(buffer)
+      res.end(object)
 
     } catch(ex) {
 

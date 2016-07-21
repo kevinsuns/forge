@@ -3,9 +3,9 @@
 // by Philippe Leefsma, April 2016
 //
 /////////////////////////////////////////////////////////////////////
-import A360Panel from './Viewing.Extension.A360View.Panel'
-import A360API from './Viewing.Extension.A360.API'
-import OSSAPI from './Viewing.Extension.OSS.API'
+import StoragePanel from './Viewing.Extension.Storage.Panel'
+import A360API from './A360/Viewing.Extension.A360.API'
+import OSSAPI from './OSS/Viewing.Extension.OSS.API'
 import ViewerToolkit from 'ViewerToolkit'
 import ExtensionBase from 'ExtensionBase'
 
@@ -34,7 +34,7 @@ class StorageViewExtension extends ExtensionBase {
   /////////////////////////////////////////////////////////////////
   static get ExtensionId() {
 
-    return 'Viewing.Extension.StorageView';
+    return 'Viewing.Extension.Storage'
   }
 
   /////////////////////////////////////////////////////////////////
@@ -44,9 +44,9 @@ class StorageViewExtension extends ExtensionBase {
   async load() {
 
     this.control = ViewerToolkit.createButton(
-      'toolbar-a360-view',
-      'adsk-button-icon a360-icon',
-      'A360 View', ()=>{
+      'toolbar-storage',
+      'adsk-button-icon storage-icon',
+      'Autodesk Storage', ()=>{
 
         this.panel.toggleVisibility()
       })
@@ -54,7 +54,7 @@ class StorageViewExtension extends ExtensionBase {
     this._options.parentControl.addControl(
       this.control)
 
-    this.panel = new A360Panel(
+    this.panel = new StoragePanel(
       this,
       this._viewer.container,
       this.control.container)
@@ -62,7 +62,7 @@ class StorageViewExtension extends ExtensionBase {
     this.panel.setVisible(
       this._options.showPanel)
 
-    console.log('Viewing.Extension.StorageView loaded')
+    console.log('Viewing.Extension.Storage loaded')
 
     return true
   }
@@ -76,7 +76,7 @@ class StorageViewExtension extends ExtensionBase {
     this._options.parentControl.removeControl(
       this.control);
 
-    console.log('Viewing.Extension.StorageView unloaded');
+    console.log('Viewing.Extension.Storage unloaded');
 
     return true;
   }

@@ -3,8 +3,8 @@
 // by Philippe Leefsma, Feb 2016
 //
 /////////////////////////////////////////////////////////////////////
+import ToolPanelBase from 'ToolPanelBase/ToolPanelBase'
 import './Viewing.Extension.SceneManager.css'
-import ToolPanelBase from 'ToolPanelBase'
 import 'dragula/dist/dragula.min.css'
 import dragula from 'dragula'
 

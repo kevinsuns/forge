@@ -2,7 +2,8 @@
 // Create dropwdown menu
 //
 /////////////////////////////////////////////////////////////
-import CustomWebComponent from 'CustomWebComponent';
+import CustomWebComponent from 'CustomWebComponent'
+import './Dropdown.css'
 
 export default class Dropdown extends CustomWebComponent {
   
@@ -54,23 +55,23 @@ export default class Dropdown extends CustomWebComponent {
       <ul id="${this.listId}" class="dropdown-menu scrollable-menu">
       </ul>
       </div>
-    `;
+    `
 
-    $(opts.container).append(html);
+    $(opts.container).append(html)
 
-    $('#' + this.dropdownId).css(opts.pos);
+    $('#' + this.dropdownId).css(opts.pos)
 
-    opts.menuItems = opts.menuItems || [];
+    opts.menuItems = opts.menuItems || []
 
     var text = opts.prompt || this.title + ': ' +
-     opts.menuItems[opts.selectedItemIdx || 0].name;
+     opts.menuItems[opts.selectedItemIdx || 0].name
 
-    $('#' + this.labelId).text(text);
+    $('#' + this.labelId).text(text)
 
     opts.menuItems.forEach((item)=> {
 
-      this.addItem(item);
-    });
+      this.addItem(item)
+    })
   }
 
   /////////////////////////////////////////////////////////////
@@ -79,43 +80,45 @@ export default class Dropdown extends CustomWebComponent {
   /////////////////////////////////////////////////////////////
   addItem(item, setActive = false) {
 
-    $('#' + this.buttonId).prop('disabled', false);
+    $('#' + this.buttonId).prop('disabled', false)
 
-    var itemId = item.id || guid();
+    var itemId = item.id || guid()
 
     var itemHtml = `
       <li id="${itemId}">
         <a href="">${item.name}</a>
-      </li>`;
+      </li>`
 
-    $('#' + this.listId).append(itemHtml);
+    $('#' + this.listId).append(itemHtml)
 
     var onClick = (event)=> {
 
       if(event){
 
-        event.preventDefault();
+        event.preventDefault()
       }
 
       this.currentItem = item
 
       var eventResult = this.emit(
         'item.selected',
-        item);
+        item)
 
-      if(item.handler)
-        item.handler();
+      if(item.handler) {
+
+        item.handler()
+      }
 
       $('#' + this.labelId).text(
-        this.title + ': ' + item.name);
-    };
+        this.title + ': ' + item.name)
+    }
 
     $('#' + itemId).click((e)=>{
-      onClick(e);
-    });
+      onClick(e)
+    })
 
     if(setActive){
-      onClick();
+      onClick()
     }
   }
 
@@ -128,7 +131,7 @@ export default class Dropdown extends CustomWebComponent {
     this.currentItem = item
 
     $('#' + this.labelId).text(
-      this.title + ': ' + item.name);
+      this.title + ': ' + item.name)
   }
 
   /////////////////////////////////////////////////////////////
@@ -137,17 +140,17 @@ export default class Dropdown extends CustomWebComponent {
   /////////////////////////////////////////////////////////////
   setItems(items, selectedItemIdx = 0) {
 
-    $(`#${this.listId} li`).remove();
+    $(`#${this.listId} li`).remove()
 
     var text = this.title + ': ' +
-      items[selectedItemIdx].name;
+      items[selectedItemIdx].name
 
-    $('#' + this.labelId).text(text);
+    $('#' + this.labelId).text(text)
 
     items.forEach((item)=>{
 
-      this.addItem(item);
-    });
+      this.addItem(item)
+    })
   }
 
   /////////////////////////////////////////////////////////////
@@ -202,7 +205,7 @@ export default class Dropdown extends CustomWebComponent {
     
     $('#' + this.dropdownId).css({
       display: show ? 'block' : 'none'
-    });
+    })
   }
 
   /////////////////////////////////////////////////////////////
@@ -211,7 +214,7 @@ export default class Dropdown extends CustomWebComponent {
   /////////////////////////////////////////////////////////////
   setPosition(pos) {
 
-    $('#' + this.dropdownId).css(opts.pos);
+    $('#' + this.dropdownId).css(opts.pos)
   }
 
   /////////////////////////////////////////////////////////////
@@ -220,8 +223,8 @@ export default class Dropdown extends CustomWebComponent {
   /////////////////////////////////////////////////////////////
   open() {
 
-    $('#' + this.dropdownId).addClass('open');
-    $('#' + this.dropdownId).trigger('click.bs.dropdown');
+    $('#' + this.dropdownId).addClass('open')
+    $('#' + this.dropdownId).trigger('click.bs.dropdown')
   }
 
   /////////////////////////////////////////////////////////////
@@ -244,51 +247,15 @@ export default class Dropdown extends CustomWebComponent {
 /////////////////////////////////////////////////////////////
 function guid(format='xxxxxxxx') {
 
-  var d = new Date().getTime();
+  var d = new Date().getTime()
 
   var guid = format.replace(
     /[xy]/g,
     function (c) {
-      var r = (d + Math.random() * 16) % 16 | 0;
-      d = Math.floor(d / 16);
-      return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
-    });
+      var r = (d + Math.random() * 16) % 16 | 0
+      d = Math.floor(d / 16)
+      return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16)
+    })
 
-  return guid;
+  return guid
 }
-
-/////////////////////////////////////////////////////////////
-//
-//
-/////////////////////////////////////////////////////////////
-var css = `
-
-  .lmv-dropdown .btn {
-     background-color: #3C3F40;
-     height: 13px;
-     line-height: 0;
-     vertical-align: top;
-  }
-
-  .lmv-dropdown .label {
-    font: normal 14px Times New Roman;
-  }
-  
-  .scrollable-menu {
-    height: auto;
-    max-height: 250px;
-    overflow-x: hidden;
-    overflow-y: scroll;
-  }
-
-  .lmv-dropdown .label-container{
-    width: 100%;
-    overflow: hidden;
-  }
-
-  .lmv-dropdown .caret{
-    border-top:4px solid white;
-  }
-`;
-
-$('<style type="text/css">' + css + '</style>').appendTo('head');
