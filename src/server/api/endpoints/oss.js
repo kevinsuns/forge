@@ -31,6 +31,7 @@ module.exports = function() {
       var response = await ossSvc.getBuckets(
         token.access_token)
 
+      console.log('res:')
       console.log(response)
 
       res.json(response)

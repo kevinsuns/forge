@@ -81,9 +81,9 @@ export default class OssSvc extends BaseSvc {
   /////////////////////////////////////////////////////////////////
   getBuckets (token) {
 
-    console.log('getBuckets (token)')
-
     var url = this._config.endPoints.buckets
+
+    console.log('getBuckets URL: ' + url)
 
     return requestAsync({
       token: token,
