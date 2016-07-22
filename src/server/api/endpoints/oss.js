@@ -26,8 +26,12 @@ module.exports = function() {
 
       var ossSvc = ServiceManager.getService('OssSvc')
 
+      console.log('getbuckets')
+
       var response = await ossSvc.getBuckets(
         token.access_token)
+
+      console.log(response)
 
       res.json(response)
 
