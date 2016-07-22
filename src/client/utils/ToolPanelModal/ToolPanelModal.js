@@ -4,7 +4,7 @@
 //
 /////////////////////////////////////////////////////////////////////
 import ToolPanelBase from 'ToolPanelBase/ToolPanelBase'
-import './ToolPanelmodal.css'
+import './ToolPanelModal.css'
 
 export default class ToolPanelModal extends ToolPanelBase {
 
