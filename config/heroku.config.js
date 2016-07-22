@@ -6,7 +6,7 @@
 var FORGE_BASE_URL = 'https://developer.api.autodesk.com'
 var FORGE_DERIVATIVE_VERSION = 'v2'
 var FORGE_OAUTH_VERSION = 'v1'
-var FORGE_OSS_VERSION = 'v1'
+var FORGE_OSS_VERSION = 'v2'
 var FORGE_DM_VERSION = 'v1'
 
 module.exports = {
@@ -32,8 +32,9 @@ module.exports = {
 
       oauth: {
 
+        authenticationUri: '/authentication/' + FORGE_OAUTH_VERSION + '/authenticate',
         refreshTokenUri: '/authentication/' + FORGE_OAUTH_VERSION + '/refreshtoken',
-        authenticationUri: '/authentication/' + FORGE_OAUTH_VERSION + '/authorize',
+        authorizationUri: '/authentication/' + FORGE_OAUTH_VERSION + '/authorize',
         accessTokenUri:  '/authentication/' + FORGE_OAUTH_VERSION + '/gettoken',
         redirectUri: 'https://forge.autodesk.io/api/forge/oauth/callback',
         clientSecret: process.env.FORGE_HEROKU_CLIENTSECRET,

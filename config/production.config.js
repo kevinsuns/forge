@@ -6,7 +6,7 @@
 var FORGE_BASE_URL = 'https://developer.api.autodesk.com'
 var FORGE_DERIVATIVE_VERSION = 'v2'
 var FORGE_OAUTH_VERSION = 'v1'
-var FORGE_OSS_VERSION = 'v1'
+var FORGE_OSS_VERSION = 'v2'
 var FORGE_DM_VERSION = 'v1'
 
 module.exports = {

@@ -22,17 +22,10 @@ module.exports = function() {
 
       var token = await forgeSvc.getToken('2legged')
 
-      console.log(token)
-
       var ossSvc = ServiceManager.getService('OssSvc')
-
-      console.log('getbuckets')
 
       var response = await ossSvc.getBuckets(
         token.access_token)
-
-      console.log('res:')
-      console.log(response)
 
       res.json(response)
 
