@@ -130,7 +130,7 @@ var server = app.listen(app.get('port'), function() {
           config.forge, {
               storageFile: path.resolve(
                 __dirname,
-                `../../oss/${config.forge.oauth.clientId}.json`)
+                `../../settings/oss.${config.forge.oauth.clientId}.json`)
           })
     })
 
