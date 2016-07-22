@@ -16,6 +16,8 @@ export default class OssSvc extends BaseSvc {
     super(opts)
 
     //this.loadBucketSettings()
+
+    console.log('OSS')
   }
 
   /////////////////////////////////////////////////////////////////
