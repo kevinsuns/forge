@@ -32,6 +32,7 @@ module.exports = {
 
       oauth: {
 
+        authenticationUri: '/authentication/' + FORGE_OAUTH_VERSION + '/authenticate',
         refreshTokenUri: '/authentication/' + FORGE_OAUTH_VERSION + '/refreshtoken',
         authorizationUri: '/authentication/' + FORGE_OAUTH_VERSION + '/authorize',
         accessTokenUri:  '/authentication/' + FORGE_OAUTH_VERSION + '/gettoken',

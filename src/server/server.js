@@ -134,8 +134,6 @@ var server = app.listen(app.get('port'), function() {
           })
     })
 
-    console.log(ossSvc)
-
     var dmSvc = new DMSvc({
         config: config.forge
     })
