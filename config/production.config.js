@@ -51,8 +51,6 @@ module.exports = {
 
       endPoints: {
 
-        authenticate:     FORGE_BASE_URL + '/authentication/' + FORGE_OAUTH_VERSION + '/authenticate',
-
         bucketDetails:    FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/details',
         objectDetails:    FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/objects/%s/details',
         buckets:          FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets',
@@ -72,7 +70,8 @@ module.exports = {
         project:         FORGE_BASE_URL + '/project/'        + FORGE_DM_VERSION + '/hubs/%s/projects/%s',
         storage:         FORGE_BASE_URL + '/data/'           + FORGE_DM_VERSION + '/projects/%s/storage',
         folderContent:   FORGE_BASE_URL + '/data/'           + FORGE_DM_VERSION + '/projects/%s/folders/%s/contents',
-        versions:        FORGE_BASE_URL + '/data/'           + FORGE_DM_VERSION + '/projects/%s/items/%s/versions',
+        itemVersions:    FORGE_BASE_URL + '/data/'           + FORGE_DM_VERSION + '/projects/%s/items/%s/versions',
+        versions:        FORGE_BASE_URL + '/data/'           + FORGE_DM_VERSION + '/projects/%s/versions',
         items:           FORGE_BASE_URL + '/data/'           + FORGE_DM_VERSION + '/projects/%s/items',
 
         job:             FORGE_BASE_URL + '/modelderivative/' + FORGE_DERIVATIVE_VERSION + '/designdata/job',

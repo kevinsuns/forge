@@ -140,7 +140,7 @@ export default class StoragePanel extends ToolPanelBase {
         }
       })
     })
-    
+
     this.contextMenu.on('context.oss.object.delete', async(data) => {
 
       console.log('Deleting object: ' + data.node.objectKey)
