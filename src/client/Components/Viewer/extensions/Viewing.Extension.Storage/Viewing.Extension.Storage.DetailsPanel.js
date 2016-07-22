@@ -26,6 +26,15 @@ export default class StorageDetailsPanel extends ToolPanelBase {
     })
 
     $(`#${this.container.id}-jsonview`).JSONView(details)
+
+    $(`#${this.container.id}-btn-tab`).click(() => {
+
+      var data = encodeURIComponent(JSON.stringify(details))
+
+      window.open(`/api/app/details/${data}`, '_blank');
+
+      tab.focus()
+    })
   }
 
   /////////////////////////////////////////////////////////////
@@ -35,8 +44,17 @@ export default class StorageDetailsPanel extends ToolPanelBase {
   htmlContent(id) {
 
     return `
-
-      <div id="${id}-jsonview">
-      </div>`
+      <div class="container">
+        <div id="${id}-jsonview">
+        </div>
+        <div>
+         <button id="${id}-btn-tab" class="btn btn-display-tab ">
+              <span class="glyphicon glyphicon-share-alt">
+              </span>
+              Display in New Tab
+            </button>
+        </div>
+      </div>
+      `
   }
 }

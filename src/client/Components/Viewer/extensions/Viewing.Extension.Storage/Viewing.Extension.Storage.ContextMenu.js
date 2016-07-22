@@ -23,6 +23,19 @@ export default class StorageContextMenu extends
 
     switch(node.type) {
 
+      case 'hubs':
+
+        menu.push({
+          title: 'Show hub details',
+          target: () => {
+            this.emit('context.details', {
+              event, node, title: 'Hub Details'
+            })
+          }
+        })
+
+        break
+
       case 'projects':
 
         menu.push({

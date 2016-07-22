@@ -53,10 +53,12 @@ module.exports = {
 
         authenticate:     FORGE_BASE_URL + '/authentication/' + FORGE_OAUTH_VERSION + '/authenticate',
 
-        getBucket:        FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/details',
-        createBucket:     FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets',
-        upload:           FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/objects/%s',
-        resumableUpload:  FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/objects/%s/resumable',
+        bucketDetails:    FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/details',
+        objectDetails:    FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/objects/%s/details',
+        buckets:          FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets',
+        bucket:           FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s',
+        objects:          FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/objects',
+        object:           FORGE_BASE_URL + '/oss/' + FORGE_OSS_VERSION + '/buckets/%s/objects/%s',
 
         supported:        FORGE_BASE_URL + '/viewingservice/' + FORGE_OSS_VERSION + '/supported',
         register:         FORGE_BASE_URL + '/viewingservice/' + FORGE_OSS_VERSION + '/register',
@@ -68,10 +70,13 @@ module.exports = {
         hubs:            FORGE_BASE_URL + '/project/'        + FORGE_DM_VERSION + '/hubs',
         projects:        FORGE_BASE_URL + '/project/'        + FORGE_DM_VERSION + '/hubs/%s/projects',
         project:         FORGE_BASE_URL + '/project/'        + FORGE_DM_VERSION + '/hubs/%s/projects/%s',
+        storage:         FORGE_BASE_URL + '/data/'           + FORGE_DM_VERSION + '/projects/%s/storage',
         folderContent:   FORGE_BASE_URL + '/data/'           + FORGE_DM_VERSION + '/projects/%s/folders/%s/contents',
-        itemVersions:    FORGE_BASE_URL + '/data/'           + FORGE_DM_VERSION + '/projects/%s/items/%s/versions',
+        versions:        FORGE_BASE_URL + '/data/'           + FORGE_DM_VERSION + '/projects/%s/items/%s/versions',
+        items:           FORGE_BASE_URL + '/data/'           + FORGE_DM_VERSION + '/projects/%s/items',
 
         job:             FORGE_BASE_URL + '/modelderivative/' + FORGE_DERIVATIVE_VERSION + '/designdata/job',
+        formats:         FORGE_BASE_URL + '/modelderivative/' + FORGE_DERIVATIVE_VERSION + '/designdata/formats',
         manifest:        FORGE_BASE_URL + '/modelderivative/' + FORGE_DERIVATIVE_VERSION + '/designdata/%s/manifest',
         download:        FORGE_BASE_URL + '/modelderivative/' + FORGE_DERIVATIVE_VERSION + '/designdata/%s/manifest/%s',
         metadata:        FORGE_BASE_URL + '/modelderivative/' + FORGE_DERIVATIVE_VERSION + '/designdata/%s/metadata',

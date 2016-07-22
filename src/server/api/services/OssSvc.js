@@ -28,7 +28,7 @@ export default class OssSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Read some override on the bucket from a file saved on server
   //
   /////////////////////////////////////////////////////////////////
   loadBucketSettings () {
@@ -48,7 +48,7 @@ export default class OssSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Returns bucket settings
   //
   /////////////////////////////////////////////////////////////////
   get bucketSettings () {
@@ -57,7 +57,7 @@ export default class OssSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Hides a bucket so it doesn't appear in the UI by default
   //
   /////////////////////////////////////////////////////////////////
   hideBucket (bucketKey, hide) {
@@ -76,7 +76,7 @@ export default class OssSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Returns bucket list
   //
   /////////////////////////////////////////////////////////////////
   getBuckets (token) {
@@ -91,7 +91,7 @@ export default class OssSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Returns bucket details
   //
   /////////////////////////////////////////////////////////////////
   getBucketDetails (token, bucketKey) {
@@ -108,7 +108,7 @@ export default class OssSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Returns object list in specific bucket
   //
   /////////////////////////////////////////////////////////////////
   getObjects (token, bucketKey) {
@@ -125,7 +125,7 @@ export default class OssSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Returns object details
   //
   /////////////////////////////////////////////////////////////////
   getObjectDetails (token, bucketKey, objectKey) {
@@ -142,7 +142,7 @@ export default class OssSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // parse objectId into { bucketKey, objectKey }
   //
   /////////////////////////////////////////////////////////////////
   parseObjectId (objectId) {
@@ -160,7 +160,7 @@ export default class OssSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Creates a new bucket
   //
   /////////////////////////////////////////////////////////////////
   createBucket (token, bucketCreationData) {
@@ -198,7 +198,7 @@ export default class OssSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Uploads object to bucket
   //
   /////////////////////////////////////////////////////////////////
   putObject (token, bucketKey, objectKey, file) {
@@ -240,7 +240,7 @@ export default class OssSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Download object from bucket
   //
   /////////////////////////////////////////////////////////////////
   getObject (token, bucketKey, objectKey) {
@@ -270,7 +270,7 @@ export default class OssSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Deletes object from bucket
   //
   /////////////////////////////////////////////////////////////////
   deleteObject (token, bucketKey, objectKey) {
@@ -289,7 +289,7 @@ export default class OssSvc extends BaseSvc {
 }
 
 /////////////////////////////////////////////////////////////////
-// Utils
+// REST request wrapper
 //
 /////////////////////////////////////////////////////////////////
 function requestAsync(params) {
@@ -297,6 +297,7 @@ function requestAsync(params) {
   return new Promise( function(resolve, reject) {
 
     request({
+
       url: params.url,
       method: params.method || 'GET',
       headers: params.headers || {
@@ -304,6 +305,7 @@ function requestAsync(params) {
       },
       json: params.json,
       body: params.body
+
     }, function (err, response, body) {
 
       try {
@@ -344,32 +346,7 @@ function requestAsync(params) {
 }
 
 /////////////////////////////////////////////////////////////////
-// Get mime type
-//
-/////////////////////////////////////////////////////////////////
-function getMimeType (file) {
-
-  var extension = file.originalname.split('.').pop()
-
-  var types = {
-
-    png: 'application/image',
-    jpg: 'application/image',
-    txt: 'application/txt',
-    ipt: 'application/vnd.autodesk.inventor.part',
-    iam: 'application/vnd.autodesk.inventor.assembly',
-    dwf: 'application/vnd.autodesk.autocad.dwf',
-    dwg: 'application/vnd.autodesk.autocad.dwg',
-    f3d: 'application/vnd.autodesk.fusion360',
-    f2d: 'application/vnd.autodesk.fusiondoc',
-    rvt: 'application/vnd.autodesk.revit'
-  }
-
-  return types[extension] || file.mimetype
-}
-
-/////////////////////////////////////////////////////////////////
-//
+// Validates bucketKey
 //
 /////////////////////////////////////////////////////////////////
 function validateBucketKey (bucketKey) {
@@ -381,7 +358,7 @@ function validateBucketKey (bucketKey) {
 }
 
 /////////////////////////////////////////////////////////////////
-//
+// Validates policyKey
 //
 /////////////////////////////////////////////////////////////////
 function validatePolicyKey (policyKey) {
@@ -393,7 +370,7 @@ function validatePolicyKey (policyKey) {
       'temporary',
       'persistent'
     ].indexOf(policyKey) < 0) {
-    
+
     return 'transient'
   }
 

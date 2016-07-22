@@ -7,7 +7,7 @@ import util from 'util'
 export default class DMSvc extends BaseSvc {
 
   /////////////////////////////////////////////////////////////////
-  //
+  // DataManagement Service
   //
   /////////////////////////////////////////////////////////////////
   constructor(opts) {
@@ -25,7 +25,7 @@ export default class DMSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Returns current user profile
   //
   /////////////////////////////////////////////////////////////////
   getUser (token) {
@@ -40,7 +40,7 @@ export default class DMSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Returns list of Hubs
   //
   /////////////////////////////////////////////////////////////////
   getHubs (token) {
@@ -55,7 +55,7 @@ export default class DMSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Returns list of Projects for specific Hub
   //
   /////////////////////////////////////////////////////////////////
   getProjects (token, hubId) {
@@ -72,7 +72,7 @@ export default class DMSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Returns Project content
   //
   /////////////////////////////////////////////////////////////////
   getProject (token, hubId, projectId) {
@@ -89,7 +89,7 @@ export default class DMSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Returns Folder content
   //
   /////////////////////////////////////////////////////////////////
   getFolderContent (token, projectId, folderId) {
@@ -106,13 +106,13 @@ export default class DMSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Returns Versions for specific Item
   //
   /////////////////////////////////////////////////////////////////
   getVersions (token, projectId, itemId) {
 
     var url = util.format(
-      this._config.endPoints.versions,
+      this._config.endPoints.itemVersions,
       projectId, itemId)
 
     return requestAsync({
@@ -123,7 +123,7 @@ export default class DMSvc extends BaseSvc {
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Creates new Storage location on OSS for DM
   //
   /////////////////////////////////////////////////////////////////
   createStorage (token, projectId, folderId, filename) {
@@ -139,18 +139,18 @@ export default class DMSvc extends BaseSvc {
         'Accept': 'application/vnd.api+json',
         'Authorization': 'Bearer ' + token
       },
-      body: createStorageSpec(folderId, filename),
+      body: createStoragePayload(folderId, filename),
       json: true,
       url: url
     })
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Creates new Item
   //
   /////////////////////////////////////////////////////////////////
-  createVersion (
-    token, projectId, folderId, objectId, versionId, filename) {
+  createItem (
+    token, projectId, folderId, objectId, filename, displayName = null) {
 
     var url = util.format(
       this._config.endPoints.items,
@@ -163,18 +163,43 @@ export default class DMSvc extends BaseSvc {
         'Accept': 'application/vnd.api+json',
         'Authorization': 'Bearer ' + token
       },
-      body: createVersionSpec (
-        folderId, objectId, versionId, filename),
+      body: createItemPayload(
+        folderId, objectId, filename),
       json: true,
       url: url
     })
   }
 
   /////////////////////////////////////////////////////////////////
-  //
+  // Creates new Version
   //
   /////////////////////////////////////////////////////////////////
-  uploadFile (token, projectId, folderId, file) {
+  createVersion (
+    token, projectId, itemId, objectId, filename) {
+
+    var url = util.format(
+      this._config.endPoints.versions,
+      projectId)
+
+    return requestAsync({
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/vnd.api+json',
+        'Accept': 'application/vnd.api+json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: createVersionPayload(
+        itemId, objectId, filename),
+      json: true,
+      url: url
+    })
+  }
+
+  /////////////////////////////////////////////////////////////////
+  // Upload file to create new item or new version
+  //
+  /////////////////////////////////////////////////////////////////
+  upload (token, projectId, folderId, file, displayName = null) {
 
     return new Promise(async(resolve, reject) => {
 
@@ -189,29 +214,124 @@ export default class DMSvc extends BaseSvc {
 
         var objectId = ossSvc.parseObjectId(storage.id)
 
-        var upload = await ossSvc.upload(
+        var object = await ossSvc.putObject(
           token,
           objectId.bucketKey,
           objectId.objectKey,
           file)
 
-        var versionId = '1'
-
-        var item = await this.createVersion(
+        // look for items with the same displayName
+        var items = await this.findItemsWithAttributes(
           token,
           projectId,
-          folderId,
-          storage.id,
-          versionId,
-          filename)
+          folderId, {
+            displayName: filename
+          })
 
-        var response = {
-          storage,
-          upload,
-          item
+        if(items.length > 0) {
+
+          var item = items[0]
+
+          var version = await this.createVersion(
+            token,
+            projectId,
+            item.id,
+            storage.id,
+            filename)
+
+          var response = {
+            version,
+            storage,
+            object,
+            item
+          }
+
+          resolve(response)
+
+        } else {
+
+          var item = await this.createItem(
+            token,
+            projectId,
+            folderId,
+            storage.id,
+            filename,
+            displayName)
+
+          var response = {
+            storage,
+            object,
+            item
+          }
+
+          resolve(response)
         }
 
-        resolve(response)
+      } catch (ex) {
+
+        reject(ex)
+      }
+    })
+  }
+
+  /////////////////////////////////////////////////////////////////
+  // Returns Items matching search criteria
+  //
+  /////////////////////////////////////////////////////////////////
+  findItemsWithAttributes (
+    token, projectId, folderId, attributes, recursive = false) {
+
+    return new Promise(async(resolve, reject) => {
+
+      try {
+
+        var folderItems = await this.getFolderContent(
+          token, projectId, folderId)
+
+        var tasks = folderItems.map((folderItem) => {
+
+          if(folderItem.type === 'items') {
+
+            var match = true
+
+            for (var key in attributes) {
+
+              if(attributes[key] !== folderItem.attributes[key]){
+
+                match = false
+              }
+            }
+
+            if(match) {
+
+              return Promise.resolve(folderItem)
+
+            } else {
+
+              return Promise.resolve(null)
+            }
+
+          } else if (folderItem.type === 'folders' && recursive) {
+
+            return findItemsWithAttributes (
+              token,
+              projectId,
+              folderItem.id,
+              recursive)
+
+          } else {
+
+            return Promise.resolve(null)
+          }
+        })
+
+        var items = await Promise.all(tasks)
+
+        items = items.filter((item) => {
+          return item !== null
+        })
+
+        resolve(items)
 
       } catch (ex) {
 
@@ -230,6 +350,7 @@ function requestAsync(params) {
   return new Promise( function(resolve, reject) {
 
     request({
+
       url: params.url,
       method: params.method || 'GET',
       headers: params.headers || {
@@ -237,6 +358,7 @@ function requestAsync(params) {
       },
       json: params.json,
       body: params.body
+
     }, function (err, response, body) {
 
       try {
@@ -254,7 +376,11 @@ function requestAsync(params) {
           console.log('body error: ' + params.url)
           console.log(body.errors)
 
-          return reject(body.errors)
+          var error = Array.isArray(body.errors) ?
+            body.errors[0] :
+            body.errors
+
+          return reject(error)
         }
 
         if (response && [200, 201, 202].indexOf(
@@ -280,7 +406,7 @@ function requestAsync(params) {
 // Creates storage payload
 //
 /////////////////////////////////////////////////////////////////
-function createStorageSpec (folderId, filename) {
+function createStoragePayload (folderId, filename) {
 
   return {
     data: {
@@ -301,11 +427,11 @@ function createStorageSpec (folderId, filename) {
 }
 
 /////////////////////////////////////////////////////////////////
-// Creates version payload
+// Creates item payload
 //
 /////////////////////////////////////////////////////////////////
-function createVersionSpec (
-  folderId, objectId, versionId, filename) {
+function createItemPayload (
+  folderId, objectId, filename, displayName = null) {
   
   return {
   
@@ -326,7 +452,7 @@ function createVersionSpec (
           tip: {
             data: {
               type: 'versions',
-              id: versionId
+              id: '1'
             }
           },
           parent: {
@@ -340,9 +466,9 @@ function createVersionSpec (
     ],
     included: [ {
         type: 'versions',
-        id: versionId,
+        id: '1',
         attributes: {
-          name: filename
+          name: displayName || filename
         },
         relationships: {
           storage: {
@@ -354,5 +480,44 @@ function createVersionSpec (
         }
       }
     ]
+  }
+}
+
+/////////////////////////////////////////////////////////////////
+// Creates version payload
+//
+/////////////////////////////////////////////////////////////////
+function createVersionPayload (
+  itemId, objectId, filename) {
+
+  return {
+
+    jsonapi: {
+      version: '1.0'
+    },
+    data: {
+      type: 'versions',
+      attributes: {
+        name: filename,
+        extension: {
+          type: 'versions:autodesk.core:File',
+          version: '1.0'
+        }
+      },
+      relationships: {
+        item: {
+          data: {
+            type: 'items',
+            id: itemId
+          }
+        },
+        storage: {
+          data: {
+            type: 'objects',
+            id: objectId
+          }
+        }
+      }
+    }
   }
 }

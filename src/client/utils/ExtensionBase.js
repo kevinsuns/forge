@@ -3,7 +3,6 @@
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
-AutodeskNamespace("Viewing.Extension");
 
 export default class ExtensionBase extends Autodesk.Viewing.Extension {
 
@@ -13,13 +12,13 @@ export default class ExtensionBase extends Autodesk.Viewing.Extension {
   /////////////////////////////////////////////////////////////////
   constructor(viewer, options) {
 
-    super(viewer, options);
+    super(viewer, options)
 
-    this._viewer = viewer;
+    this._viewer = viewer
 
-    this._options = options;
+    this._options = options
 
-    this._events = {};
+    this._events = {}
   }
 
   /////////////////////////////////////////////////////////////////
@@ -28,7 +27,7 @@ export default class ExtensionBase extends Autodesk.Viewing.Extension {
   /////////////////////////////////////////////////////////////////
   static get ExtensionId() {
 
-    return 'Viewing.Extension.Base';
+    return 'Viewing.Extension.Base'
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -37,17 +36,17 @@ export default class ExtensionBase extends Autodesk.Viewing.Extension {
   ///////////////////////////////////////////////////////////////////
   static guid(format = 'xxxxxxxxxx') {
 
-    var d = new Date().getTime();
+    var d = new Date().getTime()
 
     var guid = format.replace(
       /[xy]/g,
       function (c) {
-        var r = (d + Math.random() * 16) % 16 | 0;
-        d = Math.floor(d / 16);
-        return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
-      });
+        var r = (d + Math.random() * 16) % 16 | 0
+        d = Math.floor(d / 16)
+        return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16)
+      })
 
-    return guid;
+    return guid
   }
 
   /////////////////////////////////////////////////////////////////
@@ -56,7 +55,7 @@ export default class ExtensionBase extends Autodesk.Viewing.Extension {
   /////////////////////////////////////////////////////////////////
   load() {
 
-    return true;
+    return true
   }
 
   /////////////////////////////////////////////////////////////////
@@ -65,7 +64,7 @@ export default class ExtensionBase extends Autodesk.Viewing.Extension {
   /////////////////////////////////////////////////////////////////
   unload() {
 
-    return true;
+    return true
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -74,9 +73,9 @@ export default class ExtensionBase extends Autodesk.Viewing.Extension {
   ///////////////////////////////////////////////////////////////////
   on(event, fct) {
 
-    this._events[event] = this._events[event]	|| [];
-    this._events[event].push(fct);
-    return fct;
+    this._events[event] = this._events[event]	|| []
+    this._events[event].push(fct)
+    return fct
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -86,10 +85,10 @@ export default class ExtensionBase extends Autodesk.Viewing.Extension {
   off(event, fct) {
 
     if(event in this._events === false)
-      return;
+      return
 
     this._events[event].splice(
-      this._events[event].indexOf(fct), 1);
+      this._events[event].indexOf(fct), 1)
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -99,19 +98,19 @@ export default class ExtensionBase extends Autodesk.Viewing.Extension {
   emit(event /* , args... */) {
 
     if(this._events[event] === undefined)
-      return;
+      return
 
-    var tmpArray = this._events[event].slice();
+    var tmpArray = this._events[event].slice()
 
     for(var i = 0; i < tmpArray.length; ++i) {
       var result = tmpArray[i].apply(this,
-        Array.prototype.slice.call(arguments, 1));
+        Array.prototype.slice.call(arguments, 1))
 
       if(result !== undefined )
-        return result;
+        return result
     }
 
-    return undefined;
+    return undefined
   }
 }
 

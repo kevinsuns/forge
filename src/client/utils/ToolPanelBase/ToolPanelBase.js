@@ -91,9 +91,9 @@ export default class ToolPanelBase extends
   /////////////////////////////////////////////////////////////
   setVisible(show = false) {
 
-    if(show !== this._isVisible){
+    if (show !== this._isVisible) {
 
-      if(typeof this._events !== 'undefined') {
+      if( typeof this._events !== 'undefined') {
 
         this.emit((show ? 'open' : 'close'), {
           result: this._dialogResult
@@ -103,9 +103,9 @@ export default class ToolPanelBase extends
 
     this._isVisible = show
 
-    if(this._btnElement) {
+    if (this._btnElement) {
 
-      if(show) {
+      if (show) {
 
         this._btnElement.classList.add('active')
 

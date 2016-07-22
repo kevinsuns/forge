@@ -62,7 +62,7 @@ module.exports = function() {
 
       var dmSvc = ServiceManager.getService('DMSvc')
 
-      var response = await dmSvc.uploadFile(
+      var response = await dmSvc.upload(
         token.access_token,
         projectId,
         folderId,
@@ -74,7 +74,7 @@ module.exports = function() {
 
       console.log(ex)
 
-      res.status(ex.statusCode || 500)
+      res.status(ex.status || 500)
       res.json(ex)
     }
   })
@@ -110,9 +110,7 @@ module.exports = function() {
     }
     catch (ex) {
 
-      console.log(ex)
-
-      res.status(ex.statusCode || 500)
+      res.status(ex.status || 500)
       res.json(ex)
     }
   })

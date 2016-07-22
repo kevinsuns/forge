@@ -18,5 +18,23 @@ module.exports = function() {
     res.json('success')
   })
 
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////////////////////
+  router.get('/details/:data', function (req, res) {
+
+    try {
+
+      var data = JSON.parse(req.params.data)
+
+      res.json(data)
+
+    } catch (ex) {
+
+      res.json(ex)
+    }
+  })
+
   return router
 }

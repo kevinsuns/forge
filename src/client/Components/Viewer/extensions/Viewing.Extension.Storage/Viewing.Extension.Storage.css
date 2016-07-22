@@ -110,6 +110,11 @@
     margin: 6px;
 }
 
+.storage.details .btn-display-tab {
+    width: calc(100% - 38px);
+    margin-left: 6px;
+}
+
 .storage .cloud-upload,
 .storage .cloud-download {
     margin-right: 4px;

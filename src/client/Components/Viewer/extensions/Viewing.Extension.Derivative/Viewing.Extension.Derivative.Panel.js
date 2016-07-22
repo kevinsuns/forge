@@ -115,7 +115,7 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
   /////////////////////////////////////////////////////////////
   async onTreeNodeDoubleClick (tree, node, event) {
 
-    clearTimeout(this.clickTimeout)
+    window.clearTimeout(this.clickTimeout)
 
     switch(node.type) {
 
@@ -260,7 +260,7 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
   /////////////////////////////////////////////////////////////
   onTreeNodeIconClick (tree, node, event) {
 
-    clearTimeout(this.clickTimeout)
+    window.clearTimeout(this.clickTimeout)
 
     this.clickTimeout = setTimeout(() => {
 
@@ -275,7 +275,7 @@ class DerivativesTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
   /////////////////////////////////////////////////////////////
   onTreeNodeClick (tree, node, event) {
 
-    clearTimeout(this.clickTimeout)
+    window.clearTimeout(this.clickTimeout)
 
     this.clickTimeout = setTimeout(() => {
 

@@ -7,6 +7,7 @@ import CreateBucketPanel from './OSS/Viewing.Extension.OSS.CreateBucket.Panel'
 import DetailsPanel from './Viewing.Extension.Storage.DetailsPanel'
 import ContextMenu from './Viewing.Extension.Storage.ContextMenu'
 import ToolPanelBase from 'ToolPanelBase/ToolPanelBase'
+import { EventsEmitterComposer } from 'EventsEmitter'
 import TabManager from 'TabManager/TabManager'
 import './Viewing.Extension.Storage.css'
 import Dropzone from 'dropzone'
@@ -112,7 +113,7 @@ export default class StoragePanel extends ToolPanelBase {
 
           var bucketCreationData = {
             policyKey: modal.PolicyKey,
-            bucketKey: policyKey.BucketKey
+            bucketKey: modal.BucketKey
             //allow:[{
             //  authId: 'AYVir4YpIiobKbt7peqr0Y85uGuFdUj7',
             //  access: 'full'
@@ -133,8 +134,22 @@ export default class StoragePanel extends ToolPanelBase {
           }
 
           data.node.addChild(bucketNode)
+
+          bucketNode.details = await this.extension.ossAPI.getBucketDetails(
+            response.bucketKey)
         }
       })
+    })
+    
+    this.contextMenu.on('context.oss.object.delete', async(data) => {
+
+      console.log('Deleting object: ' + data.node.objectKey)
+
+      var response = await this.extension.ossAPI.deleteObject(
+        data.node.bucketKey,
+        data.node.objectKey)
+
+      console.log(response)
     })
   }
 
@@ -159,20 +174,20 @@ export default class StoragePanel extends ToolPanelBase {
   /////////////////////////////////////////////////////////////
   async loadData() {
 
-    //const hubs = await this.extension.a360API.getHubs()
-    //
-    //hubs.forEach((hub) => {
-    //
-    //  var treeContainerId = ToolPanelBase.guid()
-    //
-    //  this.TabManager.addTab({
-    //    name: 'Hub: ' + hub.attributes.name,
-    //    active: true,
-    //    html: `<div id=${treeContainerId} class="tree-container"> </div>`
-    //  })
-    //
-    //  this.loadHub(treeContainerId, hub)
-    //})
+    const hubs = await this.extension.a360API.getHubs()
+
+    hubs.forEach((hub) => {
+
+      var treeContainerId = ToolPanelBase.guid()
+
+      this.TabManager.addTab({
+        name: 'Hub: ' + hub.attributes.name,
+        active: true,
+        html: `<div id=${treeContainerId} class="tree-container"> </div>`
+      })
+
+      this.loadHub(treeContainerId, hub)
+    })
 
     this.loadOSS()
   }
@@ -193,15 +208,52 @@ export default class StoragePanel extends ToolPanelBase {
     var rootNode = {
       name: hub.attributes.name,
       type: hub.type,
+      hubId: hub.id,
+      details: hub,
       group: true,
       id: hub.id
     }
 
-    new Autodesk.Viewing.UI.Tree(
+    var tree = new Autodesk.Viewing.UI.Tree(
       delegate, rootNode, treeContainer, {
         excludeRoot: false,
         localize: true
       })
+
+    delegate.on('createItemNode', (data) => {
+
+      var { parent, item, version } = data
+
+      var node = tree.nodeIdToNode[item.id]
+
+      if (!node) {
+
+        node = {
+          name: item.attributes.displayName,
+          projectId: parent.projectId,
+          hubId: parent.hubId,
+          folderId: item.id,
+          type: item.type,
+          details: item,
+          id: item.id,
+          group: true
+        }
+
+        this.extension.a360API.getVersions(
+          node.projectId, node.id).then((versions) => {
+
+            node.versions = versions
+
+            node.tooltip = true
+
+            parent.addChild(node)
+          })
+
+      } else {
+
+        node.versions.push(versions)
+      }
+    })
   }
 
   /////////////////////////////////////////////////////////////
@@ -303,7 +355,8 @@ export default class StoragePanel extends ToolPanelBase {
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
-class BaseTreeDelegate extends Autodesk.Viewing.UI.TreeDelegate {
+class BaseTreeDelegate extends
+  EventsEmitterComposer (Autodesk.Viewing.UI.TreeDelegate) {
 
   /////////////////////////////////////////////////////////////
   //
@@ -558,7 +611,10 @@ class A360TreeDelegate extends BaseTreeDelegate {
 
           console.log(response)
 
-          this.createItemNode(node, response.item)
+          this.createItemNode(
+            node,
+            response.item,
+            response.version)
         }
       })
 
@@ -575,7 +631,7 @@ class A360TreeDelegate extends BaseTreeDelegate {
           // creates download button
           var downloadId = ToolPanelBase.guid()
 
-          $(parent).append(`
+          $(`#${labelId}`).before(`
             <div class="cloud-download">
                 <button" id="${downloadId}" class="btn c${parent.id}"
                   data-placement="right"
@@ -729,28 +785,13 @@ class A360TreeDelegate extends BaseTreeDelegate {
   //
   //
   /////////////////////////////////////////////////////////////
-  createItemNode (parent, item) {
+  createItemNode (parent, item, version) {
 
-    var node = {
-      name: item.attributes.displayName,
-      projectId: parent.projectId,
-      hubId: parent.hubId,
-      folderId: item.id,
-      type: item.type,
-      details: item,
-      id: item.id,
-      group: true
-    }
-
-    this.extension.a360API.getVersions(
-      node.projectId, node.id).then((versions) => {
-
-        node.versions = versions
-
-        node.tooltip = true
-
-        parent.addChild(node)
-      })
+    this.emit('createItemNode', {
+      version,
+      parent,
+      item
+    })
   }
 }
 
@@ -891,7 +932,7 @@ class OSSTreeDelegate extends BaseTreeDelegate {
 
       var downloadId = ToolPanelBase.guid()
 
-      $(parent).append(`
+      $(`#${labelId}`).before(`
         <div class="cloud-download">
             <button" id="${downloadId}" class="btn c${parent.id}"
               data-placement="right"
