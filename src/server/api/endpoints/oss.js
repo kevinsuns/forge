@@ -22,6 +22,8 @@ module.exports = function() {
 
       var token = await forgeSvc.getToken('2legged')
 
+      console.log(token)
+
       var ossSvc = ServiceManager.getService('OssSvc')
 
       var response = await ossSvc.getBuckets(
@@ -30,6 +32,8 @@ module.exports = function() {
       res.json(response)
 
     } catch (ex) {
+
+      console.log(ex)
 
       res.status(ex.statusCode || 500)
       res.json(ex)
