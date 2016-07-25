@@ -29,11 +29,12 @@ export default class StorageDetailsPanel extends ToolPanelBase {
 
     $(`#${this.container.id}-btn-tab`).click(() => {
 
-      var data = encodeURIComponent(JSON.stringify(details))
+      var data = encodeURIComponent(
+        JSON.stringify(details))
 
-      window.open(`/api/app/details/${data}`, '_blank');
-
-      tab.focus()
+      window.open(
+        `/api/app/details/${data}`,
+        '_blank');
     })
   }
 
