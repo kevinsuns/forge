@@ -165,35 +165,20 @@ export default class OssSvc extends BaseSvc {
   /////////////////////////////////////////////////////////////////
   createBucket (token, bucketCreationData) {
 
-    return new Promise(async(resolve, reject) => {
+    var url = this._config.endPoints.buckets
 
-      try {
+    bucketCreationData.bucketKey = validateBucketKey(
+      bucketCreationData.bucketKey)
 
-        var url = this._config.endPoints.buckets
+    bucketCreationData.policyKey = validatePolicyKey(
+      bucketCreationData.policyKey)
 
-        bucketCreationData.bucketKey = validateBucketKey(
-          bucketCreationData.bucketKey)
-
-        bucketCreationData.policyKey = validatePolicyKey(
-          bucketCreationData.policyKey)
-
-        var response = await requestAsync({
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-          },
-          body: bucketCreationData,
-          method: 'POST',
-          json: true,
-          url: url
-        })
-
-        resolve(response)
-
-      } catch(ex) {
-
-        reject (ex)
-      }
+    return requestAsync({
+      body: bucketCreationData,
+      method: 'POST',
+      token: token,
+      json: true,
+      url: url
     })
   }
 

@@ -23,6 +23,7 @@ import Session from 'express-session'
 import bodyParser from 'body-parser'
 import favicon from 'serve-favicon'
 import express from 'express'
+import helmet from 'helmet'
 import path from 'path'
 
 //Webpack hot reloading stuff
@@ -88,6 +89,7 @@ var session = Session({
     store: store
 })
 
+app.use(helmet())
 app.use(session)
 
 /////////////////////////////////////////////////////////////////////

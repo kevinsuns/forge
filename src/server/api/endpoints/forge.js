@@ -213,5 +213,25 @@ module.exports = function() {
     }
   })
 
+  router.get('/test', async(req, res) => {
+
+    try {
+
+      var forgeSvc = ServiceManager.getService(
+        'ForgeSvc')
+
+      var token = await forgeSvc.getToken('2legged')
+
+      res.json(token)
+    }
+    catch (error) {
+
+      console.log(error)
+
+      res.status(error.statusCode || 404)
+      res.json(error)
+    }
+  })
+
   return router
 }
