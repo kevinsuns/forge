@@ -222,6 +222,8 @@ module.exports = function() {
 
       var token = await forgeSvc.getToken('2legged')
 
+      token.expiry = forgeSvc.getExpiry(token)
+
       res.json(token)
     }
     catch (error) {
