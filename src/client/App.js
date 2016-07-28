@@ -22,6 +22,7 @@ import velocity from 'velocity-animate'
 import ioClient from 'socket.io-client'
 import 'bootstrap-webpack'
 import './styles/app.css'
+import 'font-awesome-webpack'
 
 export default class App {
 
