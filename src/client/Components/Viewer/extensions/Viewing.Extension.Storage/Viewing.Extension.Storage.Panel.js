@@ -9,6 +9,7 @@ import ContextMenu from './Viewing.Extension.Storage.ContextMenu'
 import ToolPanelBase from 'ToolPanelBase/ToolPanelBase'
 import { EventsEmitterComposer } from 'EventsEmitter'
 import TabManager from 'TabManager/TabManager'
+import EventsEmitter from 'EventsEmitter'
 import './Viewing.Extension.Storage.css'
 import Dropzone from 'dropzone'
 
@@ -205,14 +206,20 @@ export default class StoragePanel extends ToolPanelBase {
       this.extension,
       this.contextMenu)
 
-    var rootNode = {
+    var rootNode = new TreeNode({
       name: hub.attributes.name,
       type: hub.type,
       hubId: hub.id,
       details: hub,
       group: true,
       id: hub.id
-    }
+    })
+
+    rootNode.on('childrenLoaded', (childrens) => {
+
+      console.log('childrenLoaded')
+      console.log(childrens)
+    })
 
     var tree = new Autodesk.Viewing.UI.Tree(
       delegate, rootNode, treeContainer, {
@@ -348,6 +355,24 @@ export default class StoragePanel extends ToolPanelBase {
     })
 
     this.setTitle(error)
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//
+///////////////////////////////////////////////////////////////////////////////
+class TreeNode extends EventsEmitter {
+
+  /////////////////////////////////////////////////////////////
+  //
+  //
+  /////////////////////////////////////////////////////////////
+  constructor (properties) {
+
+    super()
+
+    Object.assign(this, properties)
   }
 }
 
@@ -537,20 +562,22 @@ class A360TreeDelegate extends BaseTreeDelegate {
           .tooltip('fixTitle')
           .tooltip('setContent')
       }
-    }
-    else {
 
-      var label = `<label class="${node.type}" id="${labelId}"
+    } else {
+
+      var label = `
+        <label class="${node.type}" id="${labelId}"
           ${options && options.localize?"data-i18n=" + text : ''}>
           ${text}
-        </label>`
+        </label>
+      `
 
       $(parent).append(label)
     }
 
-    if (node.type === 'projects' || node.type === 'folders') {
+    if (['projects', 'folders'].indexOf(node.type) > -1) {
 
-      $(parent).append(`
+      $(parent).find('icon').before(`
         <div class="cloud-upload">
           <button" class="btn c${parent.id}"
               data-placement="right"
@@ -631,7 +658,7 @@ class A360TreeDelegate extends BaseTreeDelegate {
           // creates download button
           var downloadId = ToolPanelBase.guid()
 
-          $(`#${labelId}`).before(`
+          $(parent).find('icon').before(`
             <div class="cloud-download">
                 <button" id="${downloadId}" class="btn c${parent.id}"
                   data-placement="right"
@@ -663,6 +690,25 @@ class A360TreeDelegate extends BaseTreeDelegate {
       $(parent).parent().addClass('collapsed')
     }
 
+    var loadDivId = ToolPanelBase.guid()
+
+    node.showLoader = (show) => {
+
+      if(!$('#' + loadDivId).length) {
+
+        $('#' + labelId).after(`
+          <div id=${loadDivId} class="label-loader"
+            style="display:none;">
+            <img> </img>
+          </div>
+        `)
+      }
+
+      $('#' + loadDivId).css(
+        'display',
+        show ? 'block' : 'none')
+    }
+
     this.extension.emit('node.added', node)
   }
 
@@ -686,22 +732,34 @@ class A360TreeDelegate extends BaseTreeDelegate {
         this.extension.a360API.getProjects(
           node.id).then((projects) => {
 
-            projects.forEach( (project) => {
+            let projectTasks = projects.map((project) => {
 
-              var rootId = project.relationships.rootFolder.data.id
+              return new Promise((resolve, reject) => {
 
-              var child = {
-                name: project.attributes.name,
-                projectId: project.id,
-                type: project.type,
-                details: project,
-                folderId: rootId,
-                hubId: node.id,
-                id: project.id,
-                group: true
-              }
+                var rootId = project.relationships.rootFolder.data.id
 
-              addChildCallback(child)
+                var child = new TreeNode({
+                  name: project.attributes.name,
+                  projectId: project.id,
+                  type: project.type,
+                  details: project,
+                  folderId: rootId,
+                  hubId: node.id,
+                  id: project.id,
+                  group: true
+                })
+
+                addChildCallback(child)
+
+                //child.showLoader(true)
+
+                resolve(child)
+              })
+            })
+
+            Promise.all(projectTasks).then((children) => {
+
+              node.emit('childrenLoaded', children)
             })
         })
 
@@ -727,7 +785,7 @@ class A360TreeDelegate extends BaseTreeDelegate {
                   }
                   else {
 
-                    var child = {
+                    var child = new TreeNode({
                       name: folderItem.attributes.displayName,
                       folderId: folderItem.id,
                       type: folderItem.type,
@@ -736,9 +794,11 @@ class A360TreeDelegate extends BaseTreeDelegate {
                       hubId: node.hubId,
                       id: folderItem.id,
                       group: true
-                    }
+                    })
 
                     addChildCallback(child)
+
+                    //child.showLoader(true)
                   }
                 })
             })
@@ -761,7 +821,7 @@ class A360TreeDelegate extends BaseTreeDelegate {
               }
               else {
 
-                var child = {
+                var child = new TreeNode({
                   name: folderItem.attributes.displayName,
                   projectId: node.projectId,
                   folderId: folderItem.id,
@@ -770,9 +830,11 @@ class A360TreeDelegate extends BaseTreeDelegate {
                   hubId: node.hubId,
                   id: folderItem.id,
                   group: true
-                }
+                })
 
                 addChildCallback(child)
+
+                //child.showLoader(true)
               }
             })
           })
@@ -840,7 +902,7 @@ class OSSTreeDelegate extends BaseTreeDelegate {
 
     if (node.type === 'oss.bucket') {
 
-      $(parent).append(`
+      $(parent).find('icon').before(`
         <div class="cloud-upload">
             <button" class="btn c${parent.id}"
               data-placement="right"
@@ -932,7 +994,7 @@ class OSSTreeDelegate extends BaseTreeDelegate {
 
       var downloadId = ToolPanelBase.guid()
 
-      $(`#${labelId}`).before(`
+      $(parent).find('icon').before(`
         <div class="cloud-download">
             <button" id="${downloadId}" class="btn c${parent.id}"
               data-placement="right"

@@ -6,7 +6,10 @@ var path = require('path')
 module.exports = {
 
   entry: {
-    bundle: './src/client/index.js'
+    bundle: [
+      'babel-polyfill',
+      './src/client/index.js'
+      ]
   },
 
   output: {

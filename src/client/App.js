@@ -15,7 +15,6 @@
 // DOES NOT WARRANT THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 /////////////////////////////////////////////////////////////////////
-import 'babel-polyfill'
 import Background from 'AnimatedBackground/AnimatedBackground'
 import ViewerManager from 'Viewer/ViewerManager'
 import {clientConfig as config} from 'c0nfig'
@@ -30,7 +29,7 @@ export default class App {
   // register app with socket service
   //
   //////////////////////////////////////////////////////////////////////////
-  register () {
+  register (socketId) {
 
     return new Promise((resolve, reject) => {
 
@@ -40,7 +39,7 @@ export default class App {
         contentType: 'application/json',
         dataType: 'json',
         data: JSON.stringify({
-          socketId: this.socket.id
+          socketId: socketId
         }),
         success: (response) => {
 
@@ -60,8 +59,6 @@ export default class App {
   //
   //////////////////////////////////////////////////////////////////////////
   async login() {
-
-    await this.register()
 
     $.ajax({
       url: '/api/forge/login',
@@ -231,7 +228,10 @@ export default class App {
 
     this.socket.on('connection.data', (data)=> {
 
-      this.socket.id = data.socketId
+      this.register(data.socketId).then(() => {
+
+        $('#loginItem').css('display', 'block')
+      })
     })
 
     this.socket.on('callback', (msg)=> {

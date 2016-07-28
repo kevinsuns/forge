@@ -13,6 +13,8 @@ module.exports = function() {
   /////////////////////////////////////////////////////////////////////////////
   router.post('/register', function (req, res) {
 
+    console.log('Registering socket: ' + req.body.socketId)
+
     req.session.socketId = req.body.socketId
 
     res.json('success')

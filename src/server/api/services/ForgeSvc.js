@@ -87,17 +87,24 @@ export default class ForgeSvc extends BaseSvc {
 
     return new Promise(async(resolve, reject) => {
 
-      var token = this.tokenStore[sessionId].masterToken
+      try {
 
-      if(this.getExpiry(token) < 60) {
+        var token = this.tokenStore[sessionId].masterToken
 
-        token = await this.refreshToken (
-          token, this._config.oauth.scope)
+        if(this.getExpiry(token) < 60) {
 
-        this.setToken(sessionId, token)
+          token = await this.refreshToken (
+            token, this._config.oauth.scope)
+
+          this.setToken(sessionId, token)
+        }
+
+        resolve(token)
+
+      } catch (ex){
+
+        reject(ex)
       }
-
-      resolve(token)
     })
   }
 
@@ -127,17 +134,24 @@ export default class ForgeSvc extends BaseSvc {
 
     return new Promise(async(resolve, reject) => {
 
-      var token = this.tokenStore[sessionId].clientToken
+      try {
 
-      if(this.getExpiry(token) < 60) {
+        var token = this.tokenStore[sessionId].clientToken
 
-        token = await this.refreshToken (
-          token, 'data:read')
+        if(this.getExpiry(token) < 60) {
 
-        this.setClientToken(sessionId, token)
+          token = await this.refreshToken (
+            token, 'data:read')
+
+          this.setClientToken(sessionId, token)
+        }
+
+        resolve(token)
+
+      } catch (ex){
+
+        reject(ex)
       }
-
-      resolve(token)
     })
   }
 

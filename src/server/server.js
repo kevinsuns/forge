@@ -105,41 +105,75 @@ app.use('/api/oss', OssAPI())
 app.use('/api/dm', DMAPI())
 
 /////////////////////////////////////////////////////////////////////
-// server setup
+//
 //
 /////////////////////////////////////////////////////////////////////
-app.set('port', process.env.PORT || config.port || 3000)
+function runServer() {
 
-var server = app.listen(app.get('port'), function() {
+    try {
 
-    var socketSvc = new SocketSvc({
-        config: {
-            server,
-            session
-        }
-    })
+        process.on('exit', () => {
 
-    var derivativeSvc = new DerivativeSvc({
-        config: config.forge
-    })
+        })
 
-    var forgeSvc = new ForgeSvc({
-        config: config.forge
-    })
+        process.on('uncaughtException', (err) => {
 
-    var ossSvc = new OssSvc({
-        config: Object.assign(
-          config.forge, {
-              storageFile: path.resolve(
-                __dirname,
-                `../../settings/oss.${config.forge.oauth.clientId}.json`)
+            console.log('uncaughtException')
+            console.log(err)
+            console.error(err.stack)
+        })
+
+        process.on('unhandledRejection', (reason, p) => {
+
+            console.log('Unhandled Rejection at: Promise ', p,
+              ' reason: ', reason)
+        })
+
+        var server = app.listen(
+          process.env.PORT || config.port || 3000, () => {
+
+              var socketSvc = new SocketSvc({
+                  config: {
+                      server,
+                      session
+                  }
+              })
+
+              var derivativeSvc = new DerivativeSvc({
+                  config: config.forge
+              })
+
+              var forgeSvc = new ForgeSvc({
+                  config: config.forge
+              })
+
+              var ossSvc = new OssSvc({
+                  config: Object.assign(
+                    config.forge, {
+                        storageFile: path.resolve(
+                          __dirname,
+                          `../../settings/oss.${config.forge.oauth.clientId}.json`)
+                    })
+              })
+
+              var dmSvc = new DMSvc({
+                  config: config.forge
+              })
+
+              console.log('Server listening on: ')
+              console.log(server.address())
+              console.log('ENV: ' + process.env.NODE_ENV)
           })
-    })
 
-    var dmSvc = new DMSvc({
-        config: config.forge
-    })
+    } catch (ex) {
 
-    console.log('Server listening on: ')
-    console.log(server.address())
-})
+        console.log('Failed to run server... ')
+        console.log(ex)
+    }
+}
+
+/////////////////////////////////////////////////////////////////////
+//
+//
+/////////////////////////////////////////////////////////////////////
+runServer()

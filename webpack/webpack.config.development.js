@@ -10,6 +10,7 @@ module.exports = {
   entry: {
 
     bundle: [
+      'babel-polyfill',
       'webpack-hot-middleware/client',
       './src/client/index.js'
     ]
