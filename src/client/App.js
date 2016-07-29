@@ -26,6 +26,10 @@ import 'font-awesome-webpack'
 
 export default class App {
 
+  constructor() {
+
+  }
+
   //////////////////////////////////////////////////////////////////////////
   // register app with socket service
   //
@@ -227,12 +231,11 @@ export default class App {
       console.log('client socket connected')
     })
 
-    this.socket.on('connection.data', (data)=> {
+    this.socket.on('connection.data', async(data)=> {
 
-      this.register(data.socketId).then(() => {
+      await this.register(data.socketId)
 
-        $('#loginItem').css('display', 'block')
-      })
+      $('#loginItem').css('display', 'block')
     })
 
     this.socket.on('callback', (msg)=> {
@@ -250,7 +253,7 @@ export default class App {
 
           var username = user.firstName + ' ' + user.lastName
 
-          $('#loginText').text(username)
+          $('#loginText').text(' ' + username)
           $('#loginItem').addClass('active')
         })
 
@@ -258,11 +261,14 @@ export default class App {
           document.getElementById('viewer')
 
         this.viewerManager = new ViewerManager(
-          viewerContainer, config.forge)
+          viewerContainer,
+          config.forge)
 
-        this.background.stop()
+        this.viewerManager.initialize().then(() => {
 
-        this.viewerManager.initialize().then((viewer) => {
+          this.viewerManager.createViewer()
+
+          this.background.stop()
 
           this.background.hide()
         })

@@ -43,7 +43,7 @@ export default class StoragePanel extends ToolPanelBase {
 
     this.titleId = ToolPanelBase.guid()
 
-    var dragHandler = (e) => {
+    let dragHandler = (e) => {
 
       if($(e.target).parents('.storage').length) {
 
@@ -78,7 +78,7 @@ export default class StoragePanel extends ToolPanelBase {
 
       if(data.node.details) {
 
-        var panel = new DetailsPanel(
+        let panel = new DetailsPanel(
           extension._viewer.container,
           data.title, {
             left: data.event.clientX + 50
@@ -92,7 +92,7 @@ export default class StoragePanel extends ToolPanelBase {
 
       if(data.node.versions) {
 
-        var panel = new DetailsPanel(
+        let panel = new DetailsPanel(
           extension._viewer.container,
           data.title, {
             left: data.event.clientX + 50
@@ -104,7 +104,7 @@ export default class StoragePanel extends ToolPanelBase {
 
     this.contextMenu.on('context.oss.createBucket', (data) => {
 
-      var modal = new CreateBucketPanel(container)
+      let modal = new CreateBucketPanel(container)
 
       modal.setVisible(true)
 
@@ -112,7 +112,7 @@ export default class StoragePanel extends ToolPanelBase {
 
         if (event.result === 'OK') {
 
-          var bucketCreationData = {
+          let bucketCreationData = {
             policyKey: modal.PolicyKey,
             bucketKey: modal.BucketKey
             //allow:[{
@@ -121,12 +121,12 @@ export default class StoragePanel extends ToolPanelBase {
             //}]
           }
 
-          var response = await this.extension.ossAPI.createBucket(
+          let response = await this.extension.ossAPI.createBucket(
             bucketCreationData)
 
           console.log(response)
 
-          var bucketNode = {
+          let bucketNode = {
             bucketKey: response.bucketKey,
             name: response.bucketKey,
             id: response.bucketKey,
@@ -146,7 +146,7 @@ export default class StoragePanel extends ToolPanelBase {
 
       console.log('Deleting object: ' + data.node.objectKey)
 
-      var response = await this.extension.ossAPI.deleteObject(
+      let response = await this.extension.ossAPI.deleteObject(
         data.node.bucketKey,
         data.node.objectKey)
 
@@ -179,7 +179,7 @@ export default class StoragePanel extends ToolPanelBase {
 
     hubs.forEach((hub) => {
 
-      var treeContainerId = ToolPanelBase.guid()
+      let treeContainerId = ToolPanelBase.guid()
 
       this.TabManager.addTab({
         name: 'Hub: ' + hub.attributes.name,
@@ -199,14 +199,14 @@ export default class StoragePanel extends ToolPanelBase {
   /////////////////////////////////////////////////////////////
   loadHub (containerId, hub) {
 
-    var treeContainer = $(`#${containerId}`)[0]
+    let treeContainer = $(`#${containerId}`)[0]
 
-    var delegate = new A360TreeDelegate(
+    let delegate = new A360TreeDelegate(
       this.container,
       this.extension,
       this.contextMenu)
 
-    var rootNode = new TreeNode({
+    let rootNode = new TreeNode({
       name: hub.attributes.name,
       type: hub.type,
       hubId: hub.id,
@@ -217,11 +217,10 @@ export default class StoragePanel extends ToolPanelBase {
 
     rootNode.on('childrenLoaded', (childrens) => {
 
-      console.log('childrenLoaded')
-      console.log(childrens)
+      console.log('Hub Loaded: ' + rootNode.name)
     })
 
-    var tree = new Autodesk.Viewing.UI.Tree(
+    let tree = new Autodesk.Viewing.UI.Tree(
       delegate, rootNode, treeContainer, {
         excludeRoot: false,
         localize: true
@@ -229,13 +228,13 @@ export default class StoragePanel extends ToolPanelBase {
 
     delegate.on('createItemNode', (data) => {
 
-      var { parent, item, version } = data
+      let { parent, item, version } = data
 
-      var node = tree.nodeIdToNode[item.id]
+      let node = tree.nodeIdToNode[item.id]
 
       if (!node) {
 
-        node = {
+        node = new TreeNode({
           name: item.attributes.displayName,
           projectId: parent.projectId,
           hubId: parent.hubId,
@@ -244,7 +243,7 @@ export default class StoragePanel extends ToolPanelBase {
           details: item,
           id: item.id,
           group: true
-        }
+        })
 
         this.extension.a360API.getVersions(
           node.projectId, node.id).then((versions) => {
@@ -260,6 +259,8 @@ export default class StoragePanel extends ToolPanelBase {
 
         node.versions.push(versions)
       }
+
+      return node
     })
   }
 
@@ -269,7 +270,7 @@ export default class StoragePanel extends ToolPanelBase {
   /////////////////////////////////////////////////////////////
   loadOSS () {
 
-    var treeContainerId = ToolPanelBase.guid()
+    let treeContainerId = ToolPanelBase.guid()
 
     this.TabManager.addTab({
       name: 'OSS',
@@ -277,14 +278,14 @@ export default class StoragePanel extends ToolPanelBase {
       html: `<div id=${treeContainerId} class="tree-container"> </div>`
     })
 
-    var treeContainer = $(`#${treeContainerId}`)[0]
+    let treeContainer = $(`#${treeContainerId}`)[0]
 
-    var delegate = new OSSTreeDelegate(
+    let delegate = new OSSTreeDelegate(
       this.container,
       this.extension,
       this.contextMenu)
 
-    var rootNode = {
+    let rootNode = {
       id: ToolPanelBase.guid(),
       name: 'OSS Root Storage',
       type: 'oss.root',
@@ -306,7 +307,7 @@ export default class StoragePanel extends ToolPanelBase {
 
     this.setTitle(title)
 
-    var angle = 0
+    let angle = 0
 
     if(!this.loadIntervalId){
 
@@ -525,18 +526,18 @@ class A360TreeDelegate extends BaseTreeDelegate {
 
     parent.classList.add(node.type)
 
-    var text = this.getTreeNodeLabel(node)
+    let text = this.getTreeNodeLabel(node)
 
     if (options && options.localize) {
 
       text = Autodesk.Viewing.i18n.translate(text)
     }
 
-    var labelId = ToolPanelBase.guid()
+    let labelId = ToolPanelBase.guid()
 
     if (node.tooltip) {
 
-      var html = `
+      let html = `
         <label class="${node.type}" id="${labelId}"
           ${options && options.localize?"data-i18n=" + text : ''}
             data-placement="right"
@@ -565,7 +566,7 @@ class A360TreeDelegate extends BaseTreeDelegate {
 
     } else {
 
-      var label = `
+      let label = `
         <label class="${node.type}" id="${labelId}"
           ${options && options.localize?"data-i18n=" + text : ''}>
           ${text}
@@ -594,7 +595,7 @@ class A360TreeDelegate extends BaseTreeDelegate {
         'pointer-events': 'none'
       })
 
-      var container = this.container
+      let container = this.container
 
       $(parent).dropzone({
         url: `/api/upload/dm/${node.projectId}/${node.folderId}`,
@@ -605,7 +606,7 @@ class A360TreeDelegate extends BaseTreeDelegate {
         autoQueue: true,
         init: function() {
 
-          var dropzone = this
+          let dropzone = this
 
           dropzone.on('dragenter', () => {
             $(parent).addClass('drop-target')
@@ -650,13 +651,13 @@ class A360TreeDelegate extends BaseTreeDelegate {
       if(node.versions) {
 
         // access latest item version by default
-        var version = node.versions[ node.versions.length - 1 ]
+        let version = node.versions[ node.versions.length - 1 ]
 
         // checks if storage available
         if (version.relationships.storage) {
 
           // creates download button
-          var downloadId = ToolPanelBase.guid()
+          let downloadId = ToolPanelBase.guid()
 
           $(parent).find('icon').before(`
             <div class="cloud-download">
@@ -690,7 +691,7 @@ class A360TreeDelegate extends BaseTreeDelegate {
       $(parent).parent().addClass('collapsed')
     }
 
-    var loadDivId = ToolPanelBase.guid()
+    let loadDivId = ToolPanelBase.guid()
 
     node.showLoader = (show) => {
 
@@ -736,9 +737,9 @@ class A360TreeDelegate extends BaseTreeDelegate {
 
               return new Promise((resolve, reject) => {
 
-                var rootId = project.relationships.rootFolder.data.id
+                let rootId = project.relationships.rootFolder.data.id
 
-                var child = new TreeNode({
+                let child = new TreeNode({
                   name: project.attributes.name,
                   projectId: project.id,
                   type: project.type,
@@ -748,12 +749,17 @@ class A360TreeDelegate extends BaseTreeDelegate {
                   id: project.id,
                   group: true
                 })
+                
+                child.on('childrenLoaded', (children) => {
+
+                  child.showLoader(false)
+
+                  resolve(child)
+                })
 
                 addChildCallback(child)
 
-                //child.showLoader(true)
-
-                resolve(child)
+                child.showLoader(true)
               })
             })
 
@@ -761,6 +767,10 @@ class A360TreeDelegate extends BaseTreeDelegate {
 
               node.emit('childrenLoaded', children)
             })
+
+        }, (error) => {
+
+            node.emit('childrenLoaded', null)
         })
 
         break
@@ -770,38 +780,65 @@ class A360TreeDelegate extends BaseTreeDelegate {
         this.extension.a360API.getProject(
           node.hubId, node.id).then((project) => {
 
-            var rootId = project.relationships.rootFolder.data.id
+            let rootId = project.relationships.rootFolder.data.id
 
             this.extension.a360API.getFolderContent(
               node.id, rootId).then((folderItems) => {
 
-                folderItems.forEach((folderItem) => {
+                let folderItemTasks = folderItems.map((folderItem) => {
 
-                  if(folderItem.type === 'items') {
+                  return new Promise((resolve, reject) => {
 
-                    this.createItemNode (
-                      node,
-                      folderItem)
-                  }
-                  else {
+                    if (folderItem.type === 'items') {
 
-                    var child = new TreeNode({
-                      name: folderItem.attributes.displayName,
-                      folderId: folderItem.id,
-                      type: folderItem.type,
-                      details: folderItem,
-                      projectId: node.id,
-                      hubId: node.hubId,
-                      id: folderItem.id,
-                      group: true
-                    })
+                      var itemNode = this.createItemNode(
+                        node,
+                        folderItem)
 
-                    addChildCallback(child)
+                      resolve(itemNode)
+                    }
+                    else {
 
-                    //child.showLoader(true)
-                  }
+                      let child = new TreeNode({
+                        name: folderItem.attributes.displayName,
+                        folderId: folderItem.id,
+                        type: folderItem.type,
+                        details: folderItem,
+                        projectId: node.id,
+                        hubId: node.hubId,
+                        id: folderItem.id,
+                        group: true
+                      })
+
+                      child.on('childrenLoaded', (children) => {
+
+                        child.showLoader(false)
+
+                        resolve(child)
+                      })
+
+                      addChildCallback(child)
+
+                      child.showLoader(true)
+                    }
+                  })
                 })
+
+                Promise.all(folderItemTasks).then((children) => {
+
+                  node.emit('childrenLoaded', children)
+                })
+
+            }, (error) => {
+
+                node.emit('childrenLoaded', null)
+
             })
+
+          }, (error) => {
+
+            node.emit('childrenLoaded', null)
+
           })
 
         break
@@ -811,32 +848,54 @@ class A360TreeDelegate extends BaseTreeDelegate {
         this.extension.a360API.getFolderContent(
           node.projectId, node.id).then((folderItems) => {
 
-            folderItems.forEach((folderItem) => {
+            let folderItemTasks = folderItems.map((folderItem) => {
 
-              if(folderItem.type === 'items') {
+              return new Promise((resolve, reject) => {
 
-                this.createItemNode (
-                  node,
-                  folderItem)
-              }
-              else {
+                if (folderItem.type === 'items') {
 
-                var child = new TreeNode({
-                  name: folderItem.attributes.displayName,
-                  projectId: node.projectId,
-                  folderId: folderItem.id,
-                  type: folderItem.type,
-                  details: folderItem,
-                  hubId: node.hubId,
-                  id: folderItem.id,
-                  group: true
-                })
+                  var itemNode = this.createItemNode(
+                    node,
+                    folderItem)
 
-                addChildCallback(child)
+                  resolve(itemNode)
+                }
+                else {
 
-                //child.showLoader(true)
-              }
+                  let child = new TreeNode({
+                    name: folderItem.attributes.displayName,
+                    projectId: node.projectId,
+                    folderId: folderItem.id,
+                    type: folderItem.type,
+                    details: folderItem,
+                    hubId: node.hubId,
+                    id: folderItem.id,
+                    group: true
+                  })
+
+                  child.on('childrenLoaded', (children) => {
+
+                    child.showLoader(false)
+
+                    resolve(child)
+                  })
+
+                  addChildCallback(child)
+
+                  child.showLoader(true)
+                }
+              })
             })
+
+            Promise.all(folderItemTasks).then((children) => {
+
+              node.emit('childrenLoaded', children)
+            })
+
+          }, (error) => {
+
+            node.emit('childrenLoaded', null)
+
           })
 
         break
@@ -849,7 +908,7 @@ class A360TreeDelegate extends BaseTreeDelegate {
   /////////////////////////////////////////////////////////////
   createItemNode (parent, item, version) {
 
-    this.emit('createItemNode', {
+    return this.emit('createItemNode', {
       version,
       parent,
       item
@@ -884,16 +943,16 @@ class OSSTreeDelegate extends BaseTreeDelegate {
 
     parent.classList.add(node.type)
 
-    var text = this.getTreeNodeLabel(node)
+    let text = this.getTreeNodeLabel(node)
 
     if (options && options.localize) {
 
       text = Autodesk.Viewing.i18n.translate(text)
     }
 
-    var labelId = ToolPanelBase.guid()
+    let labelId = ToolPanelBase.guid()
 
-    var label = `<label class="${node.type}" id="${labelId}"
+    let label = `<label class="${node.type}" id="${labelId}"
         ${options && options.localize?"data-i18n=" + text : ''}>
         ${text}
       </label>`
@@ -919,7 +978,7 @@ class OSSTreeDelegate extends BaseTreeDelegate {
         'pointer-events': 'none'
       })
 
-      var container = this.container
+      let container = this.container
 
       $(parent).dropzone({
         clickable: `.btn.c${parent.id}`,
@@ -930,7 +989,7 @@ class OSSTreeDelegate extends BaseTreeDelegate {
         autoQueue: true,
         init: function() {
 
-          var dropzone = this
+          let dropzone = this
 
           dropzone.on('dragenter', () => {
             $(parent).addClass('drop-target')
@@ -963,11 +1022,11 @@ class OSSTreeDelegate extends BaseTreeDelegate {
 
           console.log(response)
 
-          var id = response.bucketKey + '-' + response.objectKey
+          let id = response.bucketKey + '-' + response.objectKey
 
           if(!$(container).find(`leaf[lmv-nodeid='${id}']`).length) {
 
-            var objectNode = {
+            let objectNode = {
               objectId: response.objectId,
               bucketKey: node.bucketKey,
               objectKey: file.name,
@@ -992,7 +1051,7 @@ class OSSTreeDelegate extends BaseTreeDelegate {
 
     } else if (node.type === 'oss.object') {
 
-      var downloadId = ToolPanelBase.guid()
+      let downloadId = ToolPanelBase.guid()
 
       $(parent).find('icon').before(`
         <div class="cloud-download">
@@ -1047,7 +1106,7 @@ class OSSTreeDelegate extends BaseTreeDelegate {
             this.extension.ossAPI.getBucketDetails(
               bucketDetails.bucketKey).then((bucketDetails) => {
 
-                var bucketNode = {
+                let bucketNode = {
                   bucketKey: bucketDetails.bucketKey,
                   name: bucketDetails.bucketKey,
                   id: bucketDetails.bucketKey,
@@ -1074,7 +1133,7 @@ class OSSTreeDelegate extends BaseTreeDelegate {
             this.extension.ossAPI.getObjectDetails(
               node.bucketKey, objectDetails.objectKey).then((objectDetails) => {
 
-                var objectNode = {
+                let objectNode = {
                   id: node.bucketKey + '-' + objectDetails.objectKey,
                   objectKey: objectDetails.objectKey,
                   name: objectDetails.objectKey,

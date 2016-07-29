@@ -17,8 +17,8 @@
 //////////////////////////////////////////////////////////////////////////
 import 'Viewing.Extension.ModelTransformer/Viewing.Extension.ModelTransformer'
 import 'Viewing.Extension.SceneManager/Viewing.Extension.SceneManager'
-import 'Viewing.Extension.Storage/Viewing.Extension.Storage'
 import 'Viewing.Extension.Derivative/Viewing.Extension.Derivative'
+import 'Viewing.Extension.Storage/Viewing.Extension.Storage'
 import ViewerToolkit from 'ViewerToolkit'
 
 export default class ViewerManager {
@@ -29,11 +29,11 @@ export default class ViewerManager {
   //////////////////////////////////////////////////////////////////////////
   constructor (container, config) {
 
+    this._tokenUrl = config.token3LeggedUrl
+
     this._domContainer = container
 
     this._config = config
-
-    this._tokenUrl = this._config.token3LeggedUrl
 
     this.onNodeAddedHandler = (node) => {
 
@@ -42,40 +42,51 @@ export default class ViewerManager {
   }
 
   //////////////////////////////////////////////////////////////////////////
-  // Initialize viewer
+  // Initialize
   //
   //////////////////////////////////////////////////////////////////////////
   initialize () {
 
-    return new Promise((resolve, reject) => {
+    var options = {
 
-      var options = {
+      env: this._config.viewerEnv,
 
-        env: this._config.viewerEnv,
+      getAccessToken: (callback) => {
 
-        getAccessToken: (callback) => {
+        $.get(this._tokenUrl, (tokenResponse) => {
 
-          $.get(this._tokenUrl, (tokenResponse) => {
-
-            callback(tokenResponse.access_token, tokenResponse.expires_in)
-          })
-        }
+          callback(tokenResponse.access_token, tokenResponse.expires_in)
+        })
       }
+    }
+
+    return new Promise((resolve, reject) => {
 
       Autodesk.Viewing.Initializer(options, () => {
 
-        this.viewer = new Autodesk.Viewing.Private.GuiViewer3D(
-          this._domContainer)
+        resolve()
 
-        this.viewer.initialize()
+      }, (error) => {
 
-        this.initializeUI()
-
-        this.loadExtensions()
-
-        resolve(this.viewer)
+        reject(error)
       })
     })
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+  // Initialize new viewer
+  //
+  //////////////////////////////////////////////////////////////////////////
+  createViewer () {
+
+    this.viewer = new Autodesk.Viewing.Private.GuiViewer3D(
+      this._domContainer)
+
+    this.viewer.initialize()
+
+    this.initializeUI()
+
+    this.loadExtensions()
   }
 
   //////////////////////////////////////////////////////////////////////////
@@ -737,8 +748,6 @@ export default class ViewerManager {
   destroy () {
 
     this.viewer.finish()
-
-    $(this.viewer.container).remove()
   }
 }
 

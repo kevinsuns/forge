@@ -136,6 +136,8 @@ class ModelTransformerExtension extends ExtensionBase {
     this._options.parentControl.addControl(
       this.control)
 
+    this.control.added = true
+
     if(this._options.autoLoad) {
 
       var model = e.target.model
@@ -166,7 +168,7 @@ class ModelTransformerExtension extends ExtensionBase {
       Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED_EVENT,
       this.onAggregateSelectionChangedHandler)
 
-    if (this.control) {
+    if (this.control && this.control.added) {
 
       this._options.parentControl.removeControl(
         this.control)
