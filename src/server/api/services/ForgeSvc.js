@@ -57,20 +57,20 @@ export default class ForgeSvc extends BaseSvc {
   // for client token, so we can refresh later
   //
   /////////////////////////////////////////////////////////////////
-  setToken (sessionId, token) {
+  setToken (tokenId, token) {
 
     //store current time
     token.time_stamp = moment().format()
 
-    if(!this.tokenStore[sessionId]) {
+    if(!this.tokenStore[tokenId]) {
 
-      this.tokenStore[sessionId] = {
+      this.tokenStore[tokenId] = {
         masterToken: {},
         clientToken: {}
       }
     }
 
-    var entry = this.tokenStore[sessionId]
+    var entry = this.tokenStore[tokenId]
 
     entry.clientToken.refresh_token =
       token.refresh_token
@@ -83,20 +83,28 @@ export default class ForgeSvc extends BaseSvc {
   // refresh automatically if expired
   //
   /////////////////////////////////////////////////////////////////
-  getToken (sessionId) {
+  getToken (tokenId) {
 
     return new Promise(async(resolve, reject) => {
 
       try {
 
-        var token = this.tokenStore[sessionId].masterToken
+        var token = this.tokenStore[tokenId].masterToken
 
         if(this.getExpiry(token) < 60) {
 
-          token = await this.refreshToken (
-            token, this._config.oauth.scope)
+          if(token.refresh_token) {
 
-          this.setToken(sessionId, token)
+            token = await this.refreshToken (
+              token, this._config.oauth.scope)
+            
+          } else {
+
+            token = await this.requestToken(
+              this._config.oauth.scope)
+          }
+          
+          this.setToken(tokenId, token)
         }
 
         resolve(token)
@@ -113,12 +121,12 @@ export default class ForgeSvc extends BaseSvc {
   // for client token, so we can refresh later
   //
   /////////////////////////////////////////////////////////////////
-  setClientToken (sessionId, token) {
+  setClientToken (tokenId, token) {
 
     //store current time
     token.time_stamp = moment().format()
 
-    var entry = this.tokenStore[sessionId]
+    var entry = this.tokenStore[tokenId]
 
     entry.masterToken.refresh_token =
       token.refresh_token
@@ -130,20 +138,20 @@ export default class ForgeSvc extends BaseSvc {
   // Returns client token, refresh automatically if expired
   //
   /////////////////////////////////////////////////////////////////
-  getClientToken (sessionId) {
+  getClientToken (tokenId) {
 
     return new Promise(async(resolve, reject) => {
 
       try {
 
-        var token = this.tokenStore[sessionId].clientToken
+        var token = this.tokenStore[tokenId].clientToken
 
         if(this.getExpiry(token) < 60) {
 
           token = await this.refreshToken (
             token, 'data:read')
 
-          this.setClientToken(sessionId, token)
+          this.setClientToken(tokenId, token)
         }
 
         resolve(token)
@@ -282,11 +290,11 @@ export default class ForgeSvc extends BaseSvc {
   // Delete token entry
   //
   /////////////////////////////////////////////////////////////////
-  deleteToken (sessionId) {
+  deleteToken (tokenId) {
 
-    if (this.tokenStore[sessionId]) {
+    if (this.tokenStore[tokenId]) {
 
-      delete this.tokenStore[sessionId]
+      delete this.tokenStore[tokenId]
     }
   }
 }

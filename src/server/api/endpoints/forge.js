@@ -213,45 +213,5 @@ module.exports = function() {
     }
   })
 
-  router.get('/test', async(req, res) => {
-
-    try {
-
-      var forgeSvc = ServiceManager.getService(
-        'ForgeSvc')
-
-      var token = await forgeSvc.getToken('2legged')
-
-      token.expiry = forgeSvc.getExpiry(token)
-
-      res.json(token)
-    }
-    catch (error) {
-
-      console.log(error)
-
-      res.status(error.statusCode || 404)
-      res.json(error)
-    }
-  })
-
-  router.get('/store', async(req, res) => {
-
-    try {
-
-      var forgeSvc = ServiceManager.getService(
-        'ForgeSvc')
-      
-      res.json(forgeSvc.tokenStore)
-    }
-    catch (error) {
-
-      console.log(error)
-
-      res.status(error.statusCode || 404)
-      res.json(error)
-    }
-  })
-
   return router
 }
