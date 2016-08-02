@@ -14,21 +14,13 @@ export default class DerivativeAPI extends ClientAPI {
   ///////////////////////////////////////////////////////////////////
   postJob (payload) {
 
-    return new Promise(async(resolve, reject) => {
+    const url = `${this.apiUrl}/job`
 
-      try {
+    const data = {
+      payload: JSON.stringify(payload)
+    }
 
-        var url = `${this.apiUrl}/job`
-
-        var response = await post(url, payload)
-
-        return resolve(response)
-      }
-      catch(ex) {
-
-        return reject(ex)
-      }
-    })
+    return this.ajax(url, 'POST', data)
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -37,22 +29,9 @@ export default class DerivativeAPI extends ClientAPI {
   ///////////////////////////////////////////////////////////////////
   getFormats () {
 
-    return new Promise(async(resolve, reject) => {
+    const url = `${this.apiUrl}/formats`
 
-      try {
-
-        var url = `${this.apiUrl}/formats`
-
-        $.get(url, (response)=> {
-
-          return resolve(response.formats)
-        })
-      }
-      catch(ex) {
-
-        return reject(ex)
-      }
-    })
+    return this.ajax(url)
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -61,22 +40,9 @@ export default class DerivativeAPI extends ClientAPI {
   ///////////////////////////////////////////////////////////////////
   getMetadata (urn) {
 
-    return new Promise(async(resolve, reject) => {
+    const url = `${this.apiUrl}/metadata/${urn}`
 
-      try {
-
-        var url = `${this.apiUrl}/metadata/${urn}`
-
-        $.get(url, (res)=> {
-
-          return resolve(res)
-        })
-      }
-      catch(ex) {
-
-        return reject(ex)
-      }
-    })
+    return this.ajax(url)
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -85,19 +51,9 @@ export default class DerivativeAPI extends ClientAPI {
   ///////////////////////////////////////////////////////////////////
   getManifest (urn) {
 
-    return new Promise(async(resolve, reject) => {
+    const url = `${this.apiUrl}/manifest/${urn}`
 
-      var url = `${this.apiUrl}/manifest/${urn}`
-
-      $.get(url).success((res)=> {
-
-        return resolve(res)
-
-      }).error((jqXHR, textStatus, error) => {
-
-        return reject(error)
-      })
-    })
+    return this.ajax(url)
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -106,19 +62,9 @@ export default class DerivativeAPI extends ClientAPI {
   ///////////////////////////////////////////////////////////////////
   getProperties (urn, guid) {
 
-    return new Promise(async(resolve, reject) => {
+    const url = `${this.apiUrl}/properties/${urn}/${guid}`
 
-      var url = `${this.apiUrl}/properties/${urn}/${guid}`
-
-      $.get(url).success((res)=> {
-
-        return resolve(res)
-
-      }).error((jqXHR, textStatus, error) => {
-
-        return reject(error)
-      })
-    })
+    return this.ajax(url)
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -127,19 +73,9 @@ export default class DerivativeAPI extends ClientAPI {
   ///////////////////////////////////////////////////////////////////
   getHierarchy (urn, guid) {
 
-    return new Promise(async(resolve, reject) => {
+    const url = `${this.apiUrl}/hierarchy/${urn}/${guid}`
 
-      var url = `${this.apiUrl}/hierarchy/${urn}/${guid}`
-
-      $.get(url).success((res)=> {
-
-        return resolve(res)
-
-      }).error((jqXHR, textStatus, error) => {
-
-        return reject(error)
-      })
-    })
+    return this.ajax(url)
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -148,24 +84,11 @@ export default class DerivativeAPI extends ClientAPI {
   ///////////////////////////////////////////////////////////////////
   getThumbnail(urn, options = { width:100, height:100 }) {
 
-    return new Promise(async(resolve, reject) => {
+    const query = `width=${options.width}&height=${options.height}`
 
-      try {
+    const url = `${this.apiUrl}/thumbnails/${urn}?${query}`
 
-        var query = `width=${options.width}&height=${options.height}`
-
-        var url = `${this.apiUrl}/thumbnails/${urn}?${query}`
-
-        $.get(url, (res)=> {
-
-          return resolve(res)
-        })
-      }
-      catch(ex) {
-
-        return reject(ex)
-      }
-    })
+    return this.ajax(url)
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -218,30 +141,9 @@ export default class DerivativeAPI extends ClientAPI {
   ///////////////////////////////////////////////////////////////////
   deleteManifest (urn) {
 
-    return new Promise(async(resolve, reject) => {
+    const url = `${this.apiUrl}/manifest/${urn}`
 
-      try {
-
-        var url = `${this.apiUrl}/manifest/${urn}`
-
-        $.ajax({
-          url: url,
-          type: 'DELETE',
-          success: (response) => {
-
-            return resolve(response)
-          },
-          error: (err) => {
-
-            return reject(err)
-          }
-        })
-      }
-      catch(ex) {
-
-        return reject(ex)
-      }
-    })
+    return this.ajax(url, 'DELETE')
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -380,8 +282,8 @@ export default class DerivativeAPI extends ClientAPI {
 
           await sleep(1000)
         }
-      }
-      catch(ex) {
+
+      } catch(ex) {
 
         return reject(ex)
       }
@@ -392,7 +294,7 @@ export default class DerivativeAPI extends ClientAPI {
   //
   //
   ///////////////////////////////////////////////////////////////////
-  getDownloadURI(urn, derivativeUrn, filename) {
+  getDownloadURI (urn, derivativeUrn, filename) {
 
     return `${this.apiUrl}/download?` +
       `urn=${urn}&` +
@@ -404,7 +306,7 @@ export default class DerivativeAPI extends ClientAPI {
   // Download util
   //
   /////////////////////////////////////////////////////////////////
-  downloadURI(uri, name) {
+  downloadURI (uri, name) {
 
     var link = document.createElement("a")
     link.download = name
@@ -417,38 +319,11 @@ export default class DerivativeAPI extends ClientAPI {
 //
 //
 ///////////////////////////////////////////////////////////////
-async function sleep(ms) {
+async function sleep (ms) {
 
-  return new Promise((resolve, reject)=> {
-
+  return new Promise((resolve)=> {
       setTimeout( ()=>{
         resolve()
       }, ms)
   })
-}
-
-///////////////////////////////////////////////////////////////
-//
-//
-///////////////////////////////////////////////////////////////
-function post(url, payload = null) {
-
-  return new Promise((resolve, reject)=> {
-
-    $.ajax({
-      url: url,
-      type: 'POST',
-      data: {
-        payload: JSON.stringify(payload)
-      },
-      success: (response)=> {
-
-        return resolve(response);
-      },
-      error: function (error) {
-
-        return reject(error);
-      }
-    });
-  });
 }

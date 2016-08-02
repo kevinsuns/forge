@@ -96,13 +96,6 @@ export default class App {
   //////////////////////////////////////////////////////////////////////////
   logout() {
 
-    this.viewerManager.destroy()
-
-    this.background.start()
-
-    $('#loginText').text('Sign In')
-    $('#loginItem').removeClass('active')
-
     $.ajax({
       url: '/api/forge/logout',
       type: 'POST',
@@ -111,7 +104,7 @@ export default class App {
       data: null,
       success: (res) => {
 
-        this.loggedIn = false
+        window.location.reload()
       },
       error: (err) => {
 

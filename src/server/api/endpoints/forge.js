@@ -235,5 +235,23 @@ module.exports = function() {
     }
   })
 
+  router.get('/store', async(req, res) => {
+
+    try {
+
+      var forgeSvc = ServiceManager.getService(
+        'ForgeSvc')
+      
+      res.json(forgeSvc.tokenStore)
+    }
+    catch (error) {
+
+      console.log(error)
+
+      res.status(error.statusCode || 404)
+      res.json(error)
+    }
+  })
+
   return router
 }
