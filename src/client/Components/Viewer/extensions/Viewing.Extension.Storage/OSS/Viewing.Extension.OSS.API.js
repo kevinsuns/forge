@@ -20,7 +20,7 @@ export default class OSSAPI extends ClientAPI {
 
     var url = `${this.apiUrl}/buckets`
 
-    return this.fetch(url)
+    return this.ajax(url)
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -31,7 +31,7 @@ export default class OSSAPI extends ClientAPI {
 
     var url = `${this.apiUrl}/buckets/${bucketKey}/objects`
 
-    return this.fetch(url)
+    return this.ajax(url)
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -42,7 +42,7 @@ export default class OSSAPI extends ClientAPI {
 
     var url = `${this.apiUrl}/buckets/${bucketKey}/details`
 
-    return this.fetch(url)
+    return this.ajax(url)
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -55,7 +55,7 @@ export default class OSSAPI extends ClientAPI {
       `${bucketKey}/objects/` +
       `${objectKey}/details`
 
-    return this.fetch(url)
+    return this.ajax(url)
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -68,7 +68,7 @@ export default class OSSAPI extends ClientAPI {
       `${bucketKey}/objects/` +
       `${objectKey}`
 
-    return this.fetch(url)
+    return this.ajax(url)
   }
 
   ///////////////////////////////////////////////////////////////////
