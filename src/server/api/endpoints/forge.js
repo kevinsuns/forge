@@ -25,18 +25,6 @@ module.exports = function() {
   var router = express.Router()
 
   /////////////////////////////////////////////////////////////////////////////
-  // Initialize OAuth library
-  //
-  /////////////////////////////////////////////////////////////////////////////
-  var oauth2 = new OAuth2(
-    config.forge.oauth.clientId,
-    config.forge.oauth.clientSecret,
-    config.forge.oauth.baseUri,
-    config.forge.oauth.authorizationUri,
-    config.forge.oauth.accessTokenUri,
-    null)
-
-  /////////////////////////////////////////////////////////////////////////////
   // Wait for Forge Service to get initialized and set 2-legged token
   //
   /////////////////////////////////////////////////////////////////////////////
@@ -48,6 +36,18 @@ module.exports = function() {
 
     forgeSvc.setToken('2legged', token)
   })
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Initialize OAuth library
+  //
+  /////////////////////////////////////////////////////////////////////////////
+  var oauth2 = new OAuth2(
+    config.forge.oauth.clientId,
+    config.forge.oauth.clientSecret,
+    config.forge.oauth.baseUri,
+    config.forge.oauth.authorizationUri,
+    config.forge.oauth.accessTokenUri,
+    null)
 
   /////////////////////////////////////////////////////////////////////////////
   // login endpoint
@@ -75,7 +75,7 @@ module.exports = function() {
   //  }
   //
   /////////////////////////////////////////////////////////////////////////////
-  router.get('/oauth/callback', (req, res) => {
+  router.get('/callback/oauth', (req, res) => {
 
     var socketSvc = ServiceManager.getService(
       'SocketSvc')

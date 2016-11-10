@@ -24,21 +24,9 @@ class DerivativeExtension extends ExtensionBase {
       apiUrl: '/api/derivatives'
     })
 
-    this.api.getFormats().then((formats) => {
+    this.api.getFormats().then((res) => {
 
-      //TEMP workaround till API gets fixed
-      formats.obj = [
-        "ipt",
-        "f3d",
-        "cam360",
-        "wire",
-        "iam",
-        "fbx",
-        "dwf",
-        "dwfx"
-      ]
-
-      this._formats = formats
+      this._formats = res.formats
     })
   }
 

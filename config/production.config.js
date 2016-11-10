@@ -36,7 +36,7 @@ module.exports = {
         refreshTokenUri: '/authentication/' + FORGE_OAUTH_VERSION + '/refreshtoken',
         authorizationUri: '/authentication/' + FORGE_OAUTH_VERSION + '/authorize',
         accessTokenUri:  '/authentication/' + FORGE_OAUTH_VERSION + '/gettoken',
-        redirectUri: 'https://forge.autodesk.io/api/forge/oauth/callback',
+        redirectUri: 'https://forge.autodesk.io/api/forge/callback/oauth',
         clientSecret: process.env.FORGE_CLIENTSECRET,
         clientId: process.env.FORGE_CLIENTID,
         baseUri: FORGE_BASE_URL,

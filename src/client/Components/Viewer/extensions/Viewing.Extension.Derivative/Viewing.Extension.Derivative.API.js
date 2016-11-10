@@ -20,7 +20,11 @@ export default class DerivativeAPI extends ClientAPI {
       payload: JSON.stringify(payload)
     }
 
-    return this.ajax(url, 'POST', data)
+    return this.ajax({
+      type: 'POST',
+      data,
+      url
+    })
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -143,7 +147,10 @@ export default class DerivativeAPI extends ClientAPI {
 
     const url = `${this.apiUrl}/manifest/${urn}`
 
-    return this.ajax(url, 'DELETE')
+    return this.ajax({
+      type: 'DELETE',
+      url
+    })
   }
 
   ///////////////////////////////////////////////////////////////////
@@ -319,8 +326,7 @@ export default class DerivativeAPI extends ClientAPI {
 //
 //
 ///////////////////////////////////////////////////////////////
-async function sleep (ms) {
-
+function sleep (ms) {
   return new Promise((resolve)=> {
       setTimeout( ()=>{
         resolve()

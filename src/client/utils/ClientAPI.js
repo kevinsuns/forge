@@ -29,12 +29,22 @@ export default class ClientAPI {
   // $.ajax wrapper
   //
   /////////////////////////////////////////////////////////////
-  ajax(url, type = 'GET', data = null) {
+  ajax(paramsOrUrl) {
+
+    var params = {
+      url: paramsOrUrl,
+      type: 'GET',
+      data: null
+    }
+
+    if (typeof paramsOrUrl === 'object') {
+
+      Object.assign(params, paramsOrUrl)
+    }
 
     return new Promise((resolve, reject) => {
 
-      $.ajax({ url, type, data,
-
+      Object.assign(params, {
         success: (response)=> {
 
           resolve(response)
@@ -44,6 +54,8 @@ export default class ClientAPI {
           reject(error)
         }
       })
+
+      $.ajax(params)
     })
   }
 }

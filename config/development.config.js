@@ -19,8 +19,8 @@ module.exports = {
             viewerEnv: 'AutodeskProduction'
         },
 
+        host: 'http://localhost',
         env: 'development',
-        host: 'local.dev.com',
         port: 3000
     },
 
@@ -36,9 +36,9 @@ module.exports = {
                 refreshTokenUri: '/authentication/' + FORGE_OAUTH_VERSION + '/refreshtoken',
                 authorizationUri: '/authentication/' + FORGE_OAUTH_VERSION + '/authorize',
                 accessTokenUri:  '/authentication/' + FORGE_OAUTH_VERSION + '/gettoken',
-                redirectUri: 'http://local.dev.com:3000/api/forge/oauth/callback',
-                clientSecret: process.env.FORGE_DEV_CLIENTSECRET,
-                clientId: process.env.FORGE_DEV_CLIENTID,
+                redirectUri: 'http://localhost:3000/api/forge/callback/oauth',
+                clientSecret: process.env.FORGE_DEV_CLIENT_SECRET,
+                clientId: process.env.FORGE_DEV_CLIENT_ID,
                 baseUri: FORGE_BASE_URL,
                 
                 scope: [

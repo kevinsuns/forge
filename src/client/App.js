@@ -20,9 +20,9 @@ import ViewerManager from 'Viewer/ViewerManager'
 import {clientConfig as config} from 'c0nfig'
 import velocity from 'velocity-animate'
 import ioClient from 'socket.io-client'
+import 'font-awesome-webpack'
 import 'bootstrap-webpack'
 import './styles/app.css'
-import 'font-awesome-webpack'
 
 export default class App {
 
